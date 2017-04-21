@@ -3,60 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Returning User</title>
+    <title>Home</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.js"></script>
-    <link rel="stylesheet" href="../skeleton_css/card_grid.css">
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout">
+<div class="mdl-layout mdl-js-layout
+            mdl-layout--fixed-header">
     <header class="mdl-layout__header">
-        <div class="mdl-layout-icon"></div>
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout__title">Returning User</span>
             <div class="mdl-layout-spacer"></div>
-            <nav class="mdl-navigation">
-
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
                   mdl-textfield--floating-label mdl-textfield--align-right">
                 <label class="mdl-button mdl-js-button mdl-button--icon"
-                       for="waterfall-exp">
+                       for="fixed-header-drawer-exp">
                     <i class="material-icons">search</i>
                 </label>
                 <div class="mdl-textfield__expandable-holder">
                     <input class="mdl-textfield__input" type="text" name="sample"
-                           id="waterfall-exp">
+                           id="fixed-header-drawer-exp">
                 </div>
             </div>
-            </nav>
         </div>
     </header>
 
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout__title">(USER)</span>
+        <span class="mdl-layout__title">(Placeholder)</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="#">Home</a>
+            <a class="mdl-navigation__link" href="returning_user.html">Home</a>
             <a class="mdl-navigation__link" href="#">My Shelf</a>
-            <a class="mdl-navigation__link" href="#">Settings</a>
+            <a class="mdl-navigation__link" href="profile_settings.html">Settings</a>
         </nav>
     </div>
-
-
-
     <main class="mdl-layout__content">
         <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--8-col">
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary">
-                <i class="material-icons">search</i>
-                </button>
-            </div>
-
-            <div class="mdl-cell mdl-cell--4-col">
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-            <i class="material-icons">create</i>
-        </button>
-            </div>
+            <ul class="demo-list-three mdl-list mdl-cell mdl-cell--center">
+                <li class="mdl-list__item mdl-list__item--three-line">
+        <span class="mdl-list__item-primary-content">
+          <i class="material-icons mdl-list__item-avatar">functions</i>
+          <span>Math</span>
+          <span class="mdl-list__item-text-body">
+            See your decks
+          </span>
+        </span>
+                    <span class="mdl-list__item-secondary-content">
+          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">visibility</i></a>
+        </span>
+                </li>
+                <li class="mdl-list__item mdl-list__item--three-line">
+        <span class="mdl-list__item-primary-content">
+          <i class="material-icons  mdl-list__item-avatar">functions</i>
+          <span>Biology</span>
+          <span class="mdl-list__item-text-body">
+            See your biology decks
+          </span>
+        </span>
+                    <span class="mdl-list__item-secondary-content">
+          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">visibility</i></a>
+        </span>
+                </li>
+                <li class="mdl-list__item mdl-list__item--three-line">
+        <span class="mdl-list__item-primary-content">
+          <i class="material-icons  mdl-list__item-avatar">functions</i>
+          <span>History</span>
+          <span class="mdl-list__item-text-body">
+           See your history decks
+          </span>
+        </span>
+                    <span class="mdl-list__item-secondary-content">
+          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">visibility</i></a>
+        </span>
+                </li>
+            </ul>
+        </div>
+        <div class="mdl-grid">
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-cell--10-offset mdl-cell--bottom" onclick="window.location='create_deck.html';">
+                <i class="material-icons">create</i>
+            </button>
         </div>
     </main>
 </div>
