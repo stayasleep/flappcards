@@ -13,7 +13,7 @@
     <header class="mdl-layout__header">
         <div class="mdl-layout-icon"></div>
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout__title">Results</span>
+            <span class="mdl-layout__title">Create Flashcard Stack</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation">
             </nav>
@@ -31,12 +31,13 @@
 
     </header>
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout__title">(Placeholder)</span>
+        <span class="mdl-layout__title">Menu</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="returning_user.html">Home</a>
             <a class="mdl-navigation__link" href="profile_settings.html">Profile</a>
             <a class="mdl-navigation__link" href="#">My Shelf</a>
             <a class="mdl-navigation__link" href="search_page.html">Search</a>
+            <a class="mdl-navigation__link" href="create_deck.html">Create Cards</a>
             <a class="mdl-navigation__link" href="login.html">Logout</a>
         </nav>
     </div>
@@ -48,20 +49,14 @@
             <!-- Numeric Textfield with Floating Label -->
             <form action="#">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" placeholder="Subject Name">
+                    <input class="mdl-textfield__input" type="text" placeholder="Course Category">
                     <!--Subject -->
                     <input class="mdl-textfield__input" type="text" placeholder="Subject" pattern="-?[0-9]*(\.[0-9]+)?" id="sample6">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-
                     <!--Question-->
                     <input class="mdl-textfield__input" type="text" placeholder="Question" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-
                     <!--Answer-->
                     <input class="mdl-textfield__input" type="text" placeholder="Answer" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
                 </div>
             </form>
             <!-- Colored FAB button with ripple -->
@@ -76,20 +71,10 @@
             <!-- Numeric Textfield with Floating Label -->
             <form action="#">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <!--Subject -->
-                    <input class="mdl-textfield__input" type="text" placeholder="Subject" pattern="-?[0-9]*(\.[0-9]+)?" id="sample6">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-
                     <!--Question-->
                     <input class="mdl-textfield__input" type="text" placeholder="Question" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-
                     <!--Answer-->
                     <input class="mdl-textfield__input" type="text" placeholder="Answer" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
                 </div>
             </form>
             <!-- Colored FAB button with ripple -->
@@ -98,37 +83,16 @@
                     <i class="material-icons">add</i>
                 </button>
             </div>
-        </div>
-        <div class="mdl-cell mdl-cell--8-col" >
-            <!-- Textfield with Floating Label -->
-            <!-- Numeric Textfield with Floating Label -->
-            <form action="#">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <!--Subject -->
-                    <input class="mdl-textfield__input" type="text" placeholder="Subject" pattern="-?[0-9]*(\.[0-9]+)?" id="sample6">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-
-                    <!--Question-->
-                    <input class="mdl-textfield__input" type="text" placeholder="Question" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-
-                    <!--Answer-->
-                    <input class="mdl-textfield__input" type="text" placeholder="Answer" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5">
-                    <!--<label class="mdl-textfield__label" for="sample4">Number...</label>-->
-                    <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
-                </div>
-            </form>
-            <!-- Colored FAB button with ripple -->
             <div class="mdl-grid">
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-cell mdl-cell--4-col">
-                    <i class="material-icons">add</i>
-                </button>
+                <div class="mdl-cell mdl-cell--8-col">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="window.location='sample_card.html';">
+                        Submit Stack
+                    </button>
+                </div>
             </div>
         </div>
     </main>
     </div>
-
+</div>
 </body>
 </html>
