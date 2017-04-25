@@ -4,7 +4,16 @@
 //login screen
 let credentials = {
     username: 'user1',
-    password: 'pass123'
+    password: 'pass123',
+
+};
+// Registration
+let registerInfo = {
+    fullName: "Brian Bernstein",
+    userName: "stayasleep",
+    user_pw: "Password1",
+    user_email: "email@Server.com",
+    birthday: "01/01/1900"
 };
 //will take object and send to node --> db, respond success: true
 
@@ -12,11 +21,15 @@ let credentials = {
 let userRecent = {
     item1: {
         subject: 'Math',
-        subSubHeader: 'Calc 1'
+        subSubHeader: 'Calc 1',
+        created: "02/01/1978",
+        rating: "4/5"
     },
     item2:{
         subject: 'Biology',
-        subSubHeader:'Human Biology'
+        subSubHeader:'Human Biology',
+        created: "02/01/1978",
+        rating: "4/5"
     }
 };
 let getAllSample={
@@ -84,3 +97,7 @@ let userSearch= {
     }
 };
 
+let singleStack = {
+    stackID: 1,
+
+}
