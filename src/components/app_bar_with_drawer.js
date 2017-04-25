@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Drawer, AppBar, MenuItem} from 'material-ui'
+import { Drawer, AppBar, MenuItem} from '../../node_modules/material-ui'
 
 
 export default class FlashCardsAppBar extends Component {
