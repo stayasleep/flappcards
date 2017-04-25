@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-
+const webpack = require('webpack');
 module.exports = {
     entry: [ './index.js' ],
     output: {
@@ -17,13 +17,22 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [ 'style-loader', 'css-loader?modules', 'postcss-loader']
+
+                loader: 'style-loader!css-loader'
             },
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
-                use: [ 'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+                use: [ 'file-loader?hash=sha512&digest=hex&name=imgs/[hash].[ext]',
                     'image-webpack-loader?bypassOnDebug' ]
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+    ]
 };
