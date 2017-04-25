@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../node_modules/material-ui/Card';
 
 
 
