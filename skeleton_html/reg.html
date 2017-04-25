@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <title>Register</title>
+    <style>
+    body{
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Registration</span>
+        </div>
+    </header>
+    <div class="mdl-layout__content">
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer"></div>
+                <div class="mdl-cell mdl-cell--6-col">
+                    <form>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="regID">
+                            <label class="mdl-textfield__label" for="regID">Enter Username</label>
+                        </div>
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="password" id="regPW">
+                            <label class="mdl-textfield__label" for="regPW">Enter A Password</label>
+                        </div>
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="password" id="regEmail">
+                            <label class="mdl-textfield__label" for="regEmail">Enter Email</label>
+                        </div>
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="password" id="regLoc">
+                            <label class="mdl-textfield__label" for="regLoc">Set User Location</label>
+                        </div>
+
+                    </form>
+                </div>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer"></div>
+            <div class="mdl-cell mdl-cell--6-col">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location='returning_user.html';">
+                    Sign Up
+                </button>
+            </div>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+        <div class="mdl-grid">
+            <div class="mdl-layout-spacer"></div>
+            <div class="mdl-cell mdl-cell--6-col">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location='login.html';">
+                    Oops, I'm already a member!
+                </button>
+            </div>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

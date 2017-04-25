@@ -1,6 +1,5 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
-
 module.exports = {
     entry: [ './index.js' ],
     output: {
@@ -18,6 +17,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
+
                 loader: 'style-loader!css-loader'
             },
             {
