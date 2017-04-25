@@ -1,16 +1,16 @@
 import React from 'react';
-import FlashCardsAppBar from './app_bar_with_drawer';
-import ExampleCard from './single_card';
-import LoginForm from './login_form';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-const App = () => (
-    <div>
-        <FlashCardsAppBar/>
-        <ExampleCard/>
-        <LoginForm/>
-    </div>
+import Registration from './registration';
+
+const App = (props) => (
+    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+        <Registration/>
+    </MuiThemeProvider>
 );
 
 export default App;
