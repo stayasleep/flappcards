@@ -1,85 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preview Cards in Deck</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <title>Page 9</title>
     <style>
-        .container {
-            width: 100vw;
-            height: 90vh;
-            box-shadow: 2px;
+        #study_mode{
+            background-color:deepskyblue;
+            border: 1px solid black;
+            height: 30px;
         }
-        .mdl-card {
-            width: 100%;
-            height: 100%;
-            transition: transform 5s;
-            transform-style: preserve-3d;
-            -webkit-transform-origin: 50% 50%;
+        #click_to_flip{
+            background-color:deepskyblue;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 120px;
+            height: 60px;
+            position: relative;
+            border: 1px solid black;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
         }
-        .mdl-card div {
-            display: block;
-            height: 100%;
-            width: 100%;
-            line-height: 1000%;
-            color: white;
+        #term_to_answer{
+            background-color:deepskyblue;
+            border: 1px solid black;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 120px;
+            height: 60px;
+            position: relative;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #right{
+            background-color: lightgreen;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            border: 1px solid black;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #wrong{
+            background-color: red;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            border: 1px solid black;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #info p{
+            font-size: 20px;
+        }
+        #setting_icon img{
+            width: 50px;
+        }
+        #card{
+            background-color: #fffabe;
+            margin-top:50vh;
             text-align: center;
-            font-weight: bold;
-            font-size: 4em;
-            position: absolute;
-            backface-visibility: hidden;
-        }
-        .mdl-card__title.front {
-            background: lightskyblue;
-        }
-        .mdl-card__title.back {
-            background: lightskyblue;
-            transform: rotateY( 180deg );
-        }
-        .mdl-card.flipped {
-            transform: rotateY( 180deg );
-        }
-        @media screen and (orientation: landscape) {
-            .mdl-card div {
-                line-height: 500%;
-            }
         }
     </style>
-    <script defer src="https://code.getmdl.io/1.3.0/material.js"></script>
-    <script>
-//        let cardClass = document.getElementsByClassName('mdl-card');
-//        let flashCardFlip = Array.from(cardClass).forEach( (card)=> {
-//            card.addEventListener('click',flip);
-//        });
-        document.getElementById('front').addEventListener('click',flip);
-        function flip() {
-            console.log("I'm a flash card!");
-//            document.getElementsByClassName('mdl-card').classList.toggle('flipped');
-//            $('.mdl-card').toggleClass('flipped');
-        }
-    </script>
-
 </head>
-<body>
-<section class="mdl-card">
-        <div class="mdl-card__title" id="front">
-            <h2 class="mdl-card__title-text">Question</h2>
+<body class="col-xs-offset-2 col-xs-8">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Study</span>
         </div>
-        <div class="mdl-card__title back" onclick="flip()">
-            <h2 class="mdl-card__title-text">Answer</h2>
-        </div>
+    </header>
+</div>
+<div id="card">
+    <button id = "click_to_flip">CLICK TO FLIP</button>
+    <div id = "term_to_answer" class="col-xs-offset-3 col-xs-4">TERM/ANSWER</div>
+    <button id = "right" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">RIGHT</button>
+    <button id = "wrong" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">WRONG</button>
+    <div id = "info" class="col-xs-offset-1">
     </div>
-</section>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Right</button>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Wrong</button>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Next Card</button>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="window.location='sample_card.html';">Return</button>
-
+</div>
 </body>
 </html>

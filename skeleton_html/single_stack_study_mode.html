@@ -1,49 +1,63 @@
-<!doctype html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Material Design Lite -->
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <title>Single Stack Study Mode</title>
+    <style>
+        .mdl-card.mdl-shadow--2dp {
+            width: 100%;
+            height: 100%;
+            transition: transform 5s;
+            transform-style: preserve-3d;
+            -webkit-transform-origin: 50% 50%;
+        }
+        .mdl-card > .mdl-card__title {
+            color: #fff;
+            height: 176px;
+            background: #2962FF;
+        }
+        body {
+            padding: 20px;
+            background: #fafafa;
+            position: relative;
+        }
+
+        #questionCard {
+            display: block;
+
+        }
+
+        #answerCard {
+            display: none
+        }
+    </style>
+    <script src="../stack_card_overview.js"></script>
 </head>
 <body>
-
-<!-- Wide card with share menu button -->
-<style>
-    .demo-card-wide.mdl-card {
-        width: 512px;
-    }
-    .demo-card-wide > .mdl-card__title {
-        color: #fff;
-        height: 176px;
-        background: blue;
-    }
-    .demo-card-wide > .mdl-card__menu {
-        color: #fff;
-    }
-</style>
-
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-    <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Welcome</h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Mauris sagittis pellentesque lacus eleifend lacinia...
+<!-- Question card that fills the screen -->
+<div class="mdl-card mdl-shadow--2dp" id="questionCard">
+    <div class="mdl-card__title" id="title">
+        <h2 class="mdl-card__title-text">
+            How do I do taxes?
+        </h2>
     </div>
     <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            Get Started
-        </a>
     </div>
     <div class="mdl-card__menu">
-        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-            <i class="material-icons">share</i>
-        </button>
+    </div>
+</div>
+<!-- Question card that fills the screen -->
+<div class="mdl-card mdl-shadow--2dp" id="answerCard">
+    <div class="mdl-card__title" id="title">
+        <h2 class="mdl-card__title-text">
+            Worry not, for the mitochondria is the powerhouse of the cell.
+        </h2>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+    </div>
+    <div class="mdl-card__menu">
     </div>
 </div>
 
