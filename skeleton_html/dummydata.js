@@ -101,3 +101,176 @@ let singleStack = {
     stackID: 1,
 
 }
+
+let singleCardJSONObject = {
+    subject: null,
+    subSection: null,
+    question: "Question goes here",
+    answer: "Answer goes here"
+};
+
+// The format for single cards will look something like this, so we're looking for you to come up with a question and an answer
+
+
+
+// For login page
+const testUser = {
+    username: "user1",
+    password: "password1"
+};
+
+// For user dashboard
+
+const userDash = {
+    recent: [
+        {
+            subject: 'Calc 2',
+            category: 'Math',
+            totalCards: 5,
+            createdBy: 'user1',
+            createdOn: '2017-04-25',
+            stackRating: 0.80
+        },
+        {
+            subject: 'Cellular',
+            category: 'Biology',
+            totalCards: 5,
+            createdBy: 'user1',
+            createdOn: '2017-04-25',
+            stackRating: 0.70
+        }],
+    aggregated: [
+        {
+            subject: 'Cellular',
+            category: 'Biology',
+            totalCards: 5,
+            createdBy: 'user2',
+            createdOn: '2017-04-25',
+            stackRating: 0.70
+        },
+        {
+            subject: 'Cellular',
+            category: 'Biology',
+            totalCards: 5,
+            createdBy: 'user2',
+            createdOn: '2017-04-25',
+            stackRating: 0.70
+        }
+    ]
+};
+
+
+// For Dashboard page
+const singleStack = {
+    subject: 'Cellular',
+    category: 'Biology',
+    totalCards: 5,
+    cards: [card1, card2, card3, card4, card5],
+    createdBy: 'user2',
+    createdOn: '2017-04-25',
+    stackRating: 0.70
+};
+
+const biologyCard1 = {
+    question: "What is the powerhouse of the cell?",
+    answer: "Mitochondria"
+};
+const biologyCard2 = {
+    question: "How do plants make food?",
+    answer: "Photosynthesis"
+};
+const biologyCard3 = {
+    question: "What does DNA stand for?",
+    answer: "Deoxyribose nucleic acid"
+};
+
+const biologyCard4 = {
+    question: "Question 4",
+    answer: "Answer 4"
+};
+
+const biologyCard5 = {
+    question: "Question 5",
+    answer: "Answer 5"
+};
+
+
+// For "My Shelf"
+
+const userShelf = [
+    {
+        subject: 'Calc 1',
+        category: 'Math',
+        totalCards: 5,
+        createdBy: 'user2',
+        createdOn: '2017-04-25',
+        stackRating: 0.70
+    },
+    { subject: 'Calc 2',
+        category: 'Math',
+        totalCards: 5,
+        createdBy: 'user2',
+        createdOn: '2017-04-25',
+        stackRating: 0.70},
+    {
+        subject: 'Cellular',
+        category: 'Biology',
+        totalCards: 5,
+        createdBy: 'user2',
+        createdOn: '2017-04-25',
+        stackRating: 0.70
+    }
+];
+
+// For biology page after clicking the view in the my shelf page
+
+const biologyCardView= {
+    subject: 'Cellular',
+    category: 'Biology',
+    cards: [biologyCard1, biologyCard2, biologyCard3, biologyCard4, biologyCard5],
+    totalCards: 5,
+    createdBy: 'user2',
+    createdOn: '2017-04-25',
+    stackRating: 0.70
+};
+
+
+const mathCardView = {
+    subject: 'Calc I',
+    category: 'Math',
+    cards: [mathCard1, mathCard2, mathCard3, mathCard4, mathCard5],
+    totalCards: 5,
+    createdBy: 'user2',
+    createdOn: '2017-04-25',
+    stackRating: 0.70
+};
+
+
+const mathCard1 = {
+    question: "What is the Pythagorean Card?",
+    answer: "???"
+};
+const mathCard2 = {
+    question: "What is the Pythagorean Card?",
+    answer: "???"
+};
+const mathCard3 = {
+    question: "What is the Pythagorean Card?",
+    answer: "???"
+};
+const mathCard4 = {
+    question: "What is the Pythagorean Card?",
+    answer: "???"
+};
+const mathCard5 = {
+    question: "What is the Pythagorean Card?",
+    answer: "???"
+};
+
+
+// Taken from front end create deck page
+const sampleCreateDeck = {
+    subject: null, // Input fields
+    category: null, // Input fields
+    cards: null, // Input fields; an array of objects styled as follows- {question: ..., answer:...}
+};
