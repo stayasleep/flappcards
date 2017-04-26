@@ -3,10 +3,11 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MyShelf from './my_shelf';
 import CreateCards from './create_cards';
+import Search from './search_page'
 
 const App = (props) => (
     <div>
-        <CreateCards/>
+        <Search/>
         {props.children}
     </div>
 );
