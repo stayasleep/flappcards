@@ -37,13 +37,28 @@ function makeCards(cardObject) {
     let card = document.createElement('div'); // Create div that will be the card
     card.className = 'mdl-card mdl-shadow--2dp'; // Add the Material Design card attribute: <div class="mdl-card mdl-shadow--2dp">
     let cardTitleDiv = document.createElement('div');
-    cardTitleDiv.className = 'mdl-card__title'; // <div class="mdl-card__title">
+    cardTitleDiv.className = 'mdl-card__title mdl-card--expand'; // <div class="mdl-card__title">
     let cardTitleHeader = document.createElement('h2');
     cardTitleHeader.className = 'mdl-card__title-text'; // <h2 class="mdl-card__title-text">
     let questionText = document.createTextNode(cardObject.question); // Make text node for question text
     cardTitleHeader.appendChild(questionText); // text -> h2
     cardTitleDiv.appendChild(cardTitleHeader); // h2 -> div
     card.appendChild(cardTitleDiv); // ((text-> h2) -> div) -> div
+
+    let studyCardDiv = document.createElement('div');
+    studyCardDiv.className = 'mdl-card__actions mdl-card--border';
+    let studyButton = document.createElement('button');
+    studyButton.className = 'mdl-button';
+    let studyButtonLink = document.createElement('a');
+    let studyButtonText = document.createTextNode('Study');
+    studyButtonLink.className = 'mdl button mdl-button--colored mdl-js-button mdl-js-ripple-effect';
+    studyButtonLink.appendChild(studyButtonText);
+    studyButton.appendChild(studyButtonLink)
+    studyCardDiv.appendChild(studyButton);
+
+    card.appendChild(studyCardDiv);
+
+
     componentHandler.upgradeElement(card);
     document.getElementById('content').appendChild(card);
 }
