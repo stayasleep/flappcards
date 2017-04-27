@@ -12,9 +12,17 @@ import rootReducer from './reducers/index';
 
 const createStoreWithMiddleware = applyMiddleware(reduxPromise)(createStore);
 
-const MaterializedApp = () => (
+import Home from './components/home';
+import Profile from './components/profile';
+import MyShelf from './components/my_shelf';
+import Search from './components/search_page';
+import CreateCards from './components/create_cards';
+import LogIn from './components/log_in';
+
+const MaterializedApp = (props) => (
     <MuiThemeProvider>
         <App/>
+        {props.children}
     </MuiThemeProvider>
 );
 
@@ -22,8 +30,14 @@ const MaterializedApp = () => (
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(rootReducer)}>
         <Router history={browserHistory}>
-            <Route path="/" component={MaterializedApp}>
-
+            <Route path="/" component={App}>
+                <IndexRoute component={Home}/>
+                <Route path="home" component={Home}/>
+                <Route path="profile" component={Profile}/>
+                <Route path="myShelf" component={MyShelf}/>
+                <Route path="Search" component={Search}/>
+                <Route path="createCards" component={CreateCards}/>
+                <Route path="logIn" component={LogIn}/>
             </Route>
         </Router>
     </Provider>,

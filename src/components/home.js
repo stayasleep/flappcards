@@ -3,6 +3,7 @@ import FlashCardsAppBar from './app_bar_with_drawer';
 
 class Home extends Component {
     render(){
+        console.log('hello')
         return(
             <div>
                 <FlashCardsAppBar/>
@@ -110,7 +111,7 @@ class Home extends Component {
                     </ul>
                 </div>
                 <div className="mdl-grid">
-                    <button className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-cell--10-offset mdl-cell--middle" onclick="window.location='create_deck.html';">
+                    <button className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-cell--10-offset mdl-cell--middle">
                         <i className="material-icons">create</i>
                     </button>
                 </div>

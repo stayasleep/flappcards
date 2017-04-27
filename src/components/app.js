@@ -7,12 +7,12 @@ import Search from './search_page'
 import LogIn from './log_in'
 import Home from './home'
 import Stacks from './stack_overview'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const App = (props) => (
-    <div>
-        <Home/>
+    <MuiThemeProvider>
         {props.children}
-    </div>
+    </MuiThemeProvider>
 );
 
 export default App;
