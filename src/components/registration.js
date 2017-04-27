@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Link} from 'react-router'
+
 
 class Registration extends Component {
 
@@ -42,6 +44,7 @@ class Registration extends Component {
                         <RaisedButton label="Submit"/>
                     </div>
                 </form>
+                <Link to="/Login" name="Log In"><button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Return</button></Link>
             </div>
         )
     }
