@@ -28,6 +28,7 @@ export default class FlashCardsAppBar extends Component {
                     <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/myShelf" name="My Shelf"/></MenuItem>
                     <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/Search" name="Search"/></MenuItem>
                     <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/createCards" name="Create Cards"/></MenuItem>
+                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/LogIn" name="Logout"/></MenuItem>
                 </Drawer>
 
                 <AppBar
