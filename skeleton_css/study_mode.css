@@ -1,0 +1,33 @@
+.mdl-card.mdl-shadow--2dp {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+
+}
+.mdl-card > .mdl-card__title {
+    color: #fff;
+    height: 176px;
+    background: #2962FF;
+}
+body {
+    padding: 20px;
+    background: #fafafa;
+    position: relative;
+}
+
+#questionCard {
+    display: block;
+    backface-visibility: visible;
+
+}
+
+#answerCard {
+    display: none;
+}
+
+.flippedCard {
+    transform: rotateY(180deg);
+}
+
