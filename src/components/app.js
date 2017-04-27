@@ -10,7 +10,7 @@ import Stacks from './stack_overview'
 
 const App = (props) => (
     <div>
-        <Stacks/>
+        <Home/>
         {props.children}
     </div>
 );
