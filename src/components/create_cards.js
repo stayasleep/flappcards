@@ -45,7 +45,7 @@ class CreateCards extends Component {
                     </div>
                     <div className="mdl-grid">
                         <div className="mdl-cell mdl-cell--8-col">
-                            <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onClick="window.location='sample_card.html';">
+                            <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
                                 Submit Stack
                             </button>
                         </div>
