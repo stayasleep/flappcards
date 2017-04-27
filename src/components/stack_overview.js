@@ -32,7 +32,7 @@ class Stacks extends Component {
                     <div className="mdl-grid">
                         <div className="mdl-layout-spacer"/>
                         <div className="mdl-cell mdl-cell--2-col">
-                            <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="window.location='page09.html';">
+                            <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                                 Study
                             </button>
                         </div>
