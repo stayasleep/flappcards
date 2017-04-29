@@ -37,7 +37,7 @@ ReactDOM.render(
                 <Route path="myShelf" component={MyShelf}/>
                 <Route path="Search" component={Search}/>
                 <Route path="createCards" component={CreateCards}/>
-                <IndexRoute path="logIn" component={LogIn}/>
+                <Route path="logIn" component={LogIn}/>
                 <Route path="Registration" component={Registration}/>
             </Route>
         </Router>

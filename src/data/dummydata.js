@@ -58,7 +58,7 @@ let getAllSample={
         rating: '4/5'
     }
 };
-let userSeatch={
+let userSearch={
     search: 'Physics'
 };
 
