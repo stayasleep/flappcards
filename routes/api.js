@@ -32,7 +32,8 @@ router.post('/login',function(request,response){
         console.log('password db', checkMate);
         if(checkMate === upw){
             console.log('the passwords match');
-            response.redirect('/../skeleton_html/home.html');
+
+            response.redirect('/home');
         }else{
             response.statusCode = 404;
             response.write("404 Sorry Not Found");

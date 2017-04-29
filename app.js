@@ -18,8 +18,8 @@ app.use(cookieParser());
 
 
 //handles when you head to home route and the other other pages
-// const routes = require('./skeleton_html/login.html')
-// app.use('/',routes);
+const routes = require('./routes/index');
+app.use('/',routes);
 app.use('/api',api);
 
 //begin listening
