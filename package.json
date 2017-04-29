@@ -16,8 +16,10 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "material-ui": "^0.17.4",
+    "mysql": "^2.13.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
