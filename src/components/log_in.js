@@ -42,14 +42,16 @@ let LogIn = (props) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-            <Field name = "username" type="text" component={renderTextField} label="username" />
+                <Field name = "username" type="text" component={renderTextField} label="username" />
             </div>
+
             <div>
-            <Field name = "username" type="text" component={renderTextField} label="password" />
+                <Field name = "username" type="text" component={renderTextField} label="password" />
             </div>
+
             <div>
                 {/*<Link to="/Home"><RaisedButton type="submit" disabled={pristine || submitting}>Login</RaisedButton></Link>*/}
-                <RaisedButton type="submit" disabled={pristine || submitting}>Login</RaisedButton>
+                <RaisedButton type="submit"  disabled={pristine || submitting}>Login</RaisedButton>
                 <Link to="/Registration"><RaisedButton type ="button"  disabled={pristine || submitting} onClick={reset}>Register</RaisedButton></Link>
             </div>
         </form>
@@ -58,7 +60,7 @@ let LogIn = (props) => {
 
 LogIn = reduxForm({
     form: 'login',
-    validate: validate
+    validate
 })(LogIn);
 
 export default connect(null, {userLogin})(LogIn);
