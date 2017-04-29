@@ -8,22 +8,6 @@ let credentials = {
 
 };
 
-let users = {
-    user1: {
-        fullName: "Kevin Chalmers",
-        userName: "kchalm",
-        user_pw: "Password2",
-        user_email: "email2@Server.com",
-        birthday: "02/02/1901"
-    },
-    user2: {
-        fullName: "Brian Bernstein",
-        userName: "stayasleep",
-        user_pw: "Password1",
-        user_email: "email@Server.com",
-        birthday: "01/01/1900"
-    }
-};
 // Registration
 let registerInfo = {
     fullName: "Brian Bernstein",
