@@ -6,8 +6,6 @@ export default (props) => {
     const {name, ...rest} = props;
 
     return(
-        <li className="nav-item">
             <Link {...rest} className="nav-link">{name}</Link>
-        </li>
     );
 };
