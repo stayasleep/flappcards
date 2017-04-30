@@ -50,10 +50,11 @@ function makeCards(cardObject) {
     let studyButton = document.createElement('button');
     studyButton.className = 'mdl-button';
     let studyButtonLink = document.createElement('a');
+    studyButtonLink.href = 'single_card_study.html';
     let studyButtonText = document.createTextNode('Study');
     studyButtonLink.className = 'mdl button mdl-button--colored mdl-js-button mdl-js-ripple-effect';
     studyButtonLink.appendChild(studyButtonText);
-    studyButton.appendChild(studyButtonLink)
+    studyButton.appendChild(studyButtonLink);
     studyCardDiv.appendChild(studyButton);
 
     card.appendChild(studyCardDiv);

@@ -7,6 +7,7 @@ let credentials = {
     password: 'pass123',
 
 };
+
 // Registration
 let registerInfo = {
     fullName: "Brian Bernstein",
