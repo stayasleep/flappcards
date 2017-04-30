@@ -32,7 +32,10 @@ router.post('/login',function(request,response){
         console.log('password db', checkMate);
         if(checkMate === upw){
             console.log('the passwords match');
-
+            connection.query("SELECT stacks.subject, stacks.category, stacks.last_played, stacks.rating, users.username from stacks JOIN users on stacks.user_id = users.user_id WHERE users.username = ? ORDER BY stacks.last_played DESC LIMIT 1",[un],function(err,results){
+                if (err) throw err;
+                console.log(results);
+            } );
             response.redirect('/home');
         }else{
             response.statusCode = 404;
