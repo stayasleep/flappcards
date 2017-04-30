@@ -1,5 +1,7 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+const path = require("path");
+// const fs = require("fs");
 
 module.exports = {
     entry: [
@@ -8,6 +10,11 @@ module.exports = {
         //'webpack/hot/only-dev-server',
         './index.js'
     ],
+    node: {
+        fs: "empty",
+        tls: "empty",
+        net: "empty"
+    },
     output: {
         filename: 'bundle.js',
         path: resolve(__dirname, 'dist'),
