@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 //handles when you head to home route and the other other pages
-// const routes = require('./routes/index');
+const routes = require('./routes/index');
 // app.use('/',routes);
 app.use('/users',users);
 
@@ -37,3 +37,9 @@ app.get('/',(request,response)=>{
 app.listen(1337, function(){
     console.log('Listening to sw33t 1337 radio');
 });
+
+
+//routes folder?
+// app.get('*',(req,res)=>{
+//     res.sendFile((path.resolve(__dirname,'public','index.html')))
+// })
