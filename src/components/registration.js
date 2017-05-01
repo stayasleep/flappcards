@@ -11,11 +11,12 @@ class Registration extends Component {
         router: PropTypes.object
     };
 
-    renderInput({input, label, meta: {touched, error}}){
+    renderInput({input, label, type, meta: {touched, error}}){
         return (
             <TextField hintText={label}
                        floatingLabelText={label}
                        errorText={touched && error}
+                       type={type}
                        {...input}
             />
         )
@@ -34,10 +35,10 @@ class Registration extends Component {
                         <Field name="userName" component={this.renderInput} label="Username"/>
                     </div>
                     <div>
-                        <Field name="password" component={this.renderInput} label="Password"/>
+                        <Field name="password" component={this.renderInput} label="Password" type="password"/>
                     </div>
                     <div>
-                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password"/>
+                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password" type="password"/>
                     </div>
                     <div>
                         At least 1 lowercase letter, 1 uppercase letter, 1 #, and 1 special character and be between 8 and 15 characters long

@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {userLogin} from '../actions/index';
-
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Link} from 'react-router'
 
 
 class LogIn extends Component {
@@ -22,11 +24,11 @@ class LogIn extends Component {
 
     renderInput({input, label, type, meta: { touched, error } }) {
         return (
-            <div className={`form-group ${touched && error && 'has-danger'}`}>
-                <label className="form-control-label">{label}</label>
-                <input{...input} type={type} className={`form-control ${touched && error && 'form-control-danger'}`} placeholder={label} />
-                <span className="form-control-feedback">{(touched && error) ? `${error}`: ''}</span>
-            </div>
+            <TextField hintText={label}
+                       floatingLabelText={label}
+                       errorText={touched && error}
+                       {...input}
+            />
         )
     }
 
@@ -37,12 +39,14 @@ class LogIn extends Component {
                 <h2>Login</h2>
                 <form onSubmit ={handleSubmit((formValues) => { this.login(formValues)})}>
                     <div className="form-group">
-                        <Field name="username" component={this.renderInput} type="text" className="form-control" label="username"/>
+                        <Field name="username" component={this.renderInput} type="text" className="form-control" label="Username"/>
                     </div>
                     <div className="form-group">
-                        <Field name="password"  component={this.renderInput} type="password" className="form-control" label="password"/>
+                        <Field name="password"  component={this.renderInput} type="password" className="form-control" label="Password"/>
                     </div>
-                    <button className="btn btn-outline-success" onClick={(formValues) => this.login(formValues)}>Login</button>
+                    <br/>
+                    <RaisedButton onClick={(formValues) => this.login(formValues)}>Login</RaisedButton>
+                    <Link to="/Registration" name="Register"><button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Register</button></Link>
                 </form>
             </div>
         );
