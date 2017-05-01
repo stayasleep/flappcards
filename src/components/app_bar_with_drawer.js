@@ -23,12 +23,12 @@ export default class FlashCardsAppBar extends Component {
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({open})}
                 >
-                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/" name="Home"/></MenuItem>
-                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/profile" name="Profile"/></MenuItem>
-                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/myShelf" name="My Shelf"/></MenuItem>
-                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/Search" name="Search"/></MenuItem>
-                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/createCards" name="Create Cards"/></MenuItem>
-                    <MenuItem onTouchTap={this.handleClose.bind(this)}><NavLink to="/LogIn" name="Logout"/></MenuItem>
+                    <MenuItem primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Home"/>}/>
+                    <MenuItem primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                    <MenuItem primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
+                    <MenuItem primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <MenuItem primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    <MenuItem primaryText="Logout" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/LogIn" name="Logout"/>}/>
                 </Drawer>
 
                 <AppBar

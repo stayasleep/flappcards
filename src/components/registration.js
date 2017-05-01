@@ -11,7 +11,7 @@ class Registration extends Component {
         router: PropTypes.object
     };
 
-    renderInput({input, label, type, meta: {touched, error}}){
+    renderInput({input, label, meta: {touched, error}}){
         return (
             <TextField hintText={label}
                        floatingLabelText={label}
@@ -28,19 +28,25 @@ class Registration extends Component {
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <Field name="name" component={this.renderInput} type="text" label="First and Last Name"/>
+                        <Field name="name" component={this.renderInput} label="First and Last Name"/>
                     </div>
                     <div>
-                        <Field name="userName" component={this.renderInput} type="text" label="Username"/>
+                        <Field name="userName" component={this.renderInput} label="Username"/>
                     </div>
                     <div>
-                        <Field name="password" component={this.renderInput} type="text" label="Password"/>
+                        <Field name="password" component={this.renderInput} label="Password"/>
                     </div>
                     <div>
-                        <Field name="email" component={this.renderInput} type="text" label="Email"/>
+                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password"/>
                     </div>
                     <div>
-                        <Field name="birthday" component={this.renderInput} type="text" label="Birthday"/>
+                        At least 1 lowercase letter, 1 uppercase letter, 1 #, and 1 special character and be between 8 and 15 characters long
+                    </div>
+                    <div>
+                        <Field name="email" component={this.renderInput} label="Email"/>
+                    </div>
+                    <div>
+                        <Field name="birthday" component={this.renderInput} label="Birthday(MM/DD/YYYY)"/>
                     </div>
                     <div>
                         <RaisedButton label="Submit"/>
@@ -63,6 +69,9 @@ function validate(values) {
     });
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address'
+    }
+    if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})$/i.test(values.password)) {
+        errors.password = 'Invalid password'
     }
     return errors
 }
