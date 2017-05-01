@@ -24,8 +24,6 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 //handles when you head to home route and the other other pages
-const routes = require('./routes/index');
-// app.use('/',routes);
 app.use('/users',users);
 
 //index route
