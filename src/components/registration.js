@@ -54,7 +54,7 @@ class Registration extends Component {
                         <RaisedButton type="button" onClick={reset}>Clear Values</RaisedButton>
                     </div>
                 </form>
-                <Link to="/Login" name="Log In"><button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Return</button></Link>
+                <Link to="/" name="Log In"><button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Return</button></Link>
             </div>
         )
     }

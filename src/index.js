@@ -40,7 +40,7 @@ ReactDOM.render(
                 <Route path="myShelf" component={MyShelf}/>
                 <Route path="Search" component={Search}/>
                 <Route path="createCards" component={CreateCards}/>
-                <Route path="logIn" component={LogIn}/>
+                <IndexRoute component={LogIn}/>
                 <Route path="Registration" component={Registration}/>
             </Route>
         </Router>
