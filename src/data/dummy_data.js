@@ -7,6 +7,7 @@ let credentials = {
     password: 'pass123',
 
 };
+
 // Registration
 let registerInfo = {
     fullName: "Brian Bernstein",
@@ -58,7 +59,7 @@ let getAllSample={
         rating: '4/5'
     }
 };
-let userSeatch={
+let userSearch={
     search: 'Physics'
 };
 

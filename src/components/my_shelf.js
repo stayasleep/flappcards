@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import FlashCardsAppBar from './app_bar_with_drawer';
+import Stacks from './my_shelf_td'
 
 class MyShelf extends Component {
     render(){
@@ -18,31 +19,7 @@ class MyShelf extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td className="mdl-data-table__cell--non-numeric">Biology</td>
-                            <td>10</td>
-                            <td>(Calculated Value)</td>
-                            <td>
-                                <button className="mdl-button mdl-js-button mdl-button--primary">
-                                    <a href="sample_card.html"><i className="material-icons">visibility</i></a>
-                                </button>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <td className="mdl-data-table__cell--non-numeric">Chemistry</td>
-                            <td>10</td>
-                            <td>(Calculated Value)</td>
-                            <td><button className="mdl-button mdl-js-button mdl-button--primary"><i className="material-icons">visibility</i></button></td>
-                        </tr>
-                        <tr>
-                            <td className="mdl-data-table__cell--non-numeric">Math</td>
-                            <td>10</td>
-                            <td>(Calculated Value)</td>
-                            <td><button className="mdl-button mdl-js-button mdl-button--primary"><i className="material-icons">visibility</i></button></td>
-
-                        </tr>
+                        <Stacks/>
                         </tbody>
                     </table>
                 </div>
