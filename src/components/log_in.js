@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {userLogin} from '../actions/index';
@@ -63,7 +64,7 @@ function validate(values) {
 
 LogIn = reduxForm({
     form: 'loginForm',
-    validate: validate
+    validate
 })(LogIn);
 
 export default connect(null, {userLogin})(LogIn);

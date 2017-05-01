@@ -17,3 +17,5 @@ let users = {
         birthday: "01/01/1900"
     }
 };
+
+module.exports = users;

@@ -1,16 +1,11 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META} from './types';
-import {user} from '../data/user_data';
-import connection from '../data/config_data';
+const users = require('../data/user_data');
+
+
 export function userLogin(values) {
+    console.log(users);
     console.log("values:", values);
-    console.log("connection", connection);
-    let result = connection.query('SELECT * FROM `users`', (error,results,fields)=> {
-        if (error) {throw error};
-        console.log("Query results" , results[0]);
-    });
-    console.log("result", result);
-    return result;
 
 
 }
