@@ -37,6 +37,9 @@ class Registration extends Component {
                         <Field name="password" component={this.renderInput} label="Password"/>
                     </div>
                     <div>
+                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password"/>
+                    </div>
+                    <div>
                         At least 1 lowercase letter, 1 uppercase letter, 1 #, and 1 special character and be between 8 and 15 characters long
                     </div>
                     <div>
