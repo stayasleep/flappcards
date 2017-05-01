@@ -48,6 +48,19 @@ router.post('/login',function(request,response){
         }
     })
 });
+//clicking myShelf 
+router.get('/myshelf/:id',(request,response)=>{
+    console.log('id of logged on user is: ',request.params.id);
+    let uid = request.params.id;
+    connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
+        if (err) console.log(err);
+        //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
+        console.log('shelf overview',results);
+        response.json({success:true, msg: "User Shelf Retrieved"});
+    });
+});
+
+
 //
 //Register
 router.post('/register',(request,response,next)=>{
@@ -66,6 +79,7 @@ router.post('/register',(request,response,next)=>{
         response.JSON({success: true, msg: "User Registered"});
     })
 });
+//Future Considerations below...Authentication will likely handle the login check and provide a token
 //Authenticate
 router.post('/authenticate',(request,response,next)=>{
     response.send('AUTHENTICATE');
