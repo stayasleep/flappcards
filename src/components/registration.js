@@ -61,7 +61,7 @@ class Registration extends Component {
 
 function validate(values) {
     const errors = {};
-    const requiredFields = [ 'name', 'userName', 'password', 'email', 'birthday' ];
+    const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Required'
@@ -72,6 +72,9 @@ function validate(values) {
     }
     if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})$/i.test(values.password)) {
         errors.password = 'Invalid password'
+    }
+    if (values.password !== values.passwordConfirm) {
+        errors.passwordConfirm = 'Passwords must match'
     }
     return errors
 }
