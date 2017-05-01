@@ -1,17 +1,17 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META} from './types';
-export function userLogin() {
-    console.log("userLogin() called");
-    const request = axios.get('../data/user_data.js');
-    return {
-        type: LOGIN,
-        payload: request
-    }
+const users = require('../data/user_data');
+
+
+export function userLogin(values) {
+    console.log(users);
+    console.log("values:", values);
+    return users;
 }
 export function getStack() {
     const request = axios.get(`../data/dummydata.js`);
 
-    return{
+    return {
         type: FETCH_STACKS,
         payload: request
     }

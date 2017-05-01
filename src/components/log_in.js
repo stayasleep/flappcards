@@ -1,65 +1,69 @@
-import React, {Component} from 'react';
-import {Field, reduxForm } from 'redux-form'; // input fields through redux
-import {Link} from 'react-router'; // to be able to move from component to component
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
+import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import {userLogin} from '../actions/index'
-
-import TextField from 'material-ui/TextField'; // Material Design themed input fields
-import RaisedButton from 'material-ui/RaisedButton';
-
-const LoginButton = () => {
-    return (
-        <RaisedButton label="Login" primary={true} style={style} />
-    )
-};
-
-const RegisterButton = () => {
-    return (
-        <RaisedButton label="Register" secondary={true} style={style} />
-    )
-};
+import {userLogin} from '../actions/index';
 
 
-const validate = (values) => {
-    const errors = {}; // errors object; key values will be the field where the error occurred
-    const requiredFields = ['username', 'password'];
-    // requiredFields.forEach() instead of requiredFields.map() because why return a new array?
-    // TODO add regex input validation to fields consistent with valid username and password criteria (TBD)
-    requiredFields.forEach((field) => {
-        if (!values[field]) {
-            errors[field] = `${field} is required`; // Log the errors in the errors object
-        }
-    });
+
+class LogIn extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    };
+
+    login(values) {
+        console.log("login function triggered: here are the values", values);
+        this.props.userLogin(values).then(() => {
+            this.context.router.push('/Home');
+        });
+        console.log("this.props.userLogin(values)", this.props.userLogin(values));
+    }
+
+    renderInput({input, label, type, meta: { touched, error } }) {
+        return (
+            <div className={`form-group ${touched && error && 'has-danger'}`}>
+                <label className="form-control-label">{label}</label>
+                <input{...input} type={type} className={`form-control ${touched && error && 'form-control-danger'}`} placeholder={label} />
+                <span className="form-control-feedback">{(touched && error) ? `${error}`: ''}</span>
+            </div>
+        )
+    }
+
+    render() {
+        const { handleSubmit } = this.props; // equivalent to this.props.handleSubmit
+        return (
+            <div>
+                <h2>Login</h2>
+                <form onSubmit ={handleSubmit((formValues) => { this.login(formValues)})}>
+                    <div className="form-group">
+                        <Field name="username" component={this.renderInput} type="text" className="form-control" label="username"/>
+                    </div>
+                    <div className="form-group">
+                        <Field name="password"  component={this.renderInput} type="password" className="form-control" label="password"/>
+                    </div>
+                    <button className="btn btn-outline-success" onClick={(formValues) => this.login(formValues)}>Login</button>
+                </form>
+            </div>
+        );
+    }
+}
+
+function validate(values) {
+    const errors = {};
+
+    if (!values.username) {
+        errors.username = "Username required";
+    }
+    if (!values.password) {
+        errors.password = "Password required";
+    }
+
     return errors;
-};
-
-const renderTextField = (props) => {
-    return (<TextField hintText={props.label} floatingLabelText={props.label} errorText={props.touched && props.error}{...props}/>);
-};
-
-let LogIn = (props) => {
-    const {handleSubmit, pristine, reset, submitting} = props;
-    return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <Field name = "username" type="text" component={renderTextField} label="username" />
-            </div>
-
-            <div>
-                <Field name = "username" type="text" component={renderTextField} label="password" />
-            </div>
-
-            <div>
-                {/*<Link to="/Home"><RaisedButton type="submit" disabled={pristine || submitting}>Login</RaisedButton></Link>*/}
-                <RaisedButton type="submit"  disabled={pristine || submitting}>Login</RaisedButton>
-                <Link to="/Registration"><RaisedButton type ="button"  disabled={pristine || submitting} onClick={reset}>Register</RaisedButton></Link>
-            </div>
-        </form>
-    )
-};
+}
 
 LogIn = reduxForm({
-    form: 'login',
+    form: 'loginForm',
     validate
 })(LogIn);
 
