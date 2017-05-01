@@ -6,8 +6,7 @@ const users = require('../data/user_data');
 export function userLogin(values) {
     console.log(users);
     console.log("values:", values);
-
-
+    return users;
 }
 export function getStack() {
     const request = axios.get(`../data/dummydata.js`);
