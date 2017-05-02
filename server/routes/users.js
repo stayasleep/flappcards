@@ -48,20 +48,6 @@ router.post('/login',function(request,response){
         }
     })
 });
-//clicking myShelf
-router.get('/myshelf/:id',(request,response)=>{
-    console.log('id of logged on user is: ',request.params.id);
-    let uid = request.params.id;
-    connection.query("SELECT s.subject as Subject, s.category as Category, s.created as Created, s.rating as Rating, u.username as User, COUNT(*) as Total FROM stacks s INNER JOIN cards c ON s.stack_id=c.stack_id INNER JOIN users u ON s.user_id=u.user_id WHERE u.user_id = ? GROUP BY c.stack_id ORDER BY s.subject",[uid],(err,results)=>{
-    // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
-        if (err) console.log(err);
-        //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
-        console.log('shelf overview',results);
-        response.json({success:true, msg: "User Shelf Retrieved"});
-    });
-});
-
-
 //
 //Register
 router.post('/register',(request,response,next)=>{
@@ -107,7 +93,34 @@ router.put('/stack/:id',(request,response)=>{
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
+//create stack by clicking any create button
+router.post('/stack/:user_id',(request,response)=>{
+    // connection.query({
+    //     sql:"BEGIN;
+    //         INSERT INTO stacks(user_id, subject, category)
+    //         VALUES (?,?,?)
+    //         INSERT INTO cards(stack_id,question,answer,orig_source_stack)
+    //         VALUES(LAST_INSERT_ID(),?, ?,?);
+    //         COMMIT;",
+    //     values:['1']
+    // },(err,results)=>{
+    //     console.log(err);
+    // });
+});
 
+
+//clicking myShelf
+router.get('/myshelf/:id',(request,response)=>{
+    console.log('id of logged on user is: ',request.params.id);
+    let uid = request.params.id;
+    connection.query("SELECT s.subject as Subject, s.category as Category, s.created as Created, s.rating as Rating, u.username as User, COUNT(*) as Total FROM stacks s INNER JOIN cards c ON s.stack_id=c.stack_id INNER JOIN users u ON s.user_id=u.user_id WHERE u.user_id = ? GROUP BY c.stack_id ORDER BY s.subject",[uid],(err,results)=>{
+        // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
+        if (err) console.log(err);
+        //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
+        console.log('shelf overview',results);
+        response.json({success:true, msg: "User Shelf Retrieved"});
+    });
+});
 
 
 
