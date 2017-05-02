@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import async from './middleware/async';
-import reduxPromise from 'redux-promise'; // Does not like objects?
+
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 

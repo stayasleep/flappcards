@@ -12,9 +12,9 @@ class LogIn extends Component {
         router: PropTypes.object
     };
     handleLogin(values) {
-        console.log('values', values);
+        console.log('values from handleLogin function', values);
         this.props.userLogin(values).then(() => {
-            this.context.router.push('/Home');
+            this.context.router.push('/home');
         });
     }
 
@@ -37,7 +37,7 @@ class LogIn extends Component {
                     <div>
                         <Field name="userName" component={this.renderInput} label="Username"/>
                     </div>
-                        <Field name="password" component={this.renderInput} label="Password"/>
+                        <Field name="password" component={this.renderInput} label="Password" type="password"/>
                     <div>
                         <RaisedButton type="submit" label="Login"/>
                         <Link to="/Registration" name="Register"><RaisedButton label="Register"/></Link>
