@@ -7,24 +7,9 @@ const morgan = require('morgan');
 const CORS = require('cors'); // For first principles, we'll allows CORS
 const bodyParser = require('body-parser');
 
-const users = {
-    kchalm: {
-        fullName: "Kevin Chalmers",
-        user_name: "kchalm",
-        user_pw: "Password2",
-        user_email: "email2@Server.com",
-        birthday: "02/02/1901"
-    },
-    stayasleep: {
-        fullName: "Brian Bernstein",
-        user_name: "stayasleep",
-        user_pw: "Password1",
-        user_email: "email@Server.com",
-        birthday: "01/01/1900"
-    }
-};
 
-//require('./user_data'); // import the test users from our test data; it's an object with keys of username.
+const users = require('./user_data');
+// grab the test users from our test data; it's an object with keys of username.
 // A property of a user is userName: "bleepBloop" which will be used later to check if the user can login
 // userName: "kchalm", user_pw: "Password2"
 app.use(bodyParser.json()); // Parse body of requests as JSON
