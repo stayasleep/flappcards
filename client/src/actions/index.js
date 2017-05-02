@@ -1,17 +1,23 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
-const users = require('../data/user_data');
 import {browserHistory} from 'react-router';
-const BASE_URL = 'http://localhost:8081/';
+
 
 export function userLogin(values) {
-    let usersString = JSON.stringify(values);
-    console.log("userLogin function");
-    let response = axios.post(`${BASE_URL}`, values);
-    console.log("response.data", response.data);
-    return {
-        type: LOGIN,
-        payload: response.data
+    const BASE_URL = 'http://localhost:8081/'; // For test purposes, listening on 8081 and listening on port 8081
+    return function (dispatch) {
+        axios.post(`${BASE_URL}`, values).then((response) => {
+            // I set response.data to true for the test
+            if (response.data) {
+                dispatch({type: AUTH_USER});
+                browserHistory.push('/home')
+            }
+        }).catch(err => {
+            dispatch({
+                type: AUTH_ERROR,
+                error: err.response.data.error
+            });
+        })
     }
 }
 export function getStack() {
@@ -50,7 +56,7 @@ export function register({email, password}) {
             localStorage.setItem('token', resp.data.token);
 
             browserHistory.push('/home')
-        }).catch(err =>{
+        }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response.data.error
