@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 const users = require('../data/user_data');
+import {browserHistory} from 'react-router';
 const BASE_URL = 'http://localhost:8081/';
+
 export function userLogin(values) {
     let usersString = JSON.stringify(values);
     console.log("userLogin function");
@@ -45,13 +47,13 @@ export function getUserData() {
 export function register({email, password}) {
     const base_url = "http://scottbowlerdev.com/api";
     return function (dispatch) {
-        axios.post(`${base_url}/signup`, {email, password}).then((resp) => {
+        axios.post(`${base_url}/register`, {email, password}).then((resp) => {
 
             dispatch({type: AUTH_USER});
 
             localStorage.setItem('token', resp.data.token);
 
-            browserHistory.push('/feature')
+            browserHistory.push('/home')
         }).catch(err =>{
             dispatch({
                 type: AUTH_ERROR,

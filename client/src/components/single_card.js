@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../node_modules/material-ui/Card';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../node_modules/material-ui/Card';
 
 
 
-class ExampleCard extends Component {
+class SingleCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -75,5 +75,5 @@ class ExampleCard extends Component {
         );
     }
 }
-export default ExampleCard;
+export default SingleCard;
 
