@@ -38,7 +38,7 @@ ReactDOM.render(
         <Router history={browserHistory}>
             <Route path="/" component={App}>
                 <Route component={Home}/>
-                <Route path="home" component={Home}/>
+                <Route path="home" component={requireAuth(Home)}/>
                 <Route path="profile" component={Profile}/>
                 <Route path="myShelf" component={MyShelf}/>
                 <Route path="Search" component={Search}/>

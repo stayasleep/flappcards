@@ -23,7 +23,11 @@ app.post('/', function (req, res) {
    console.log("req.body", req.body);
    console.log("req.body.userName", req.body.userName);
    console.log("req.body.password", req.body.password);
-    res.send('Response to axios POST request');
+    let username = req.body.userName;
+    let pass = req.body.password;
+
+
+    res.send(true); // Green lighting the request.
 });
 
 app.listen(PORT,console.log(`Listening on port ${PORT}`));
