@@ -5,12 +5,16 @@ const BASE_URL = 'http://localhost:8081/';
 export function userLogin(values) {
     let usersString = JSON.stringify(values);
     console.log("userLogin function");
-    let response = axios.post(`${BASE_URL}`, values);
-    console.log("response.data", response.data);
-    return {
-        type: LOGIN,
-        payload: response.data
-    }
+    axios.post(`${BASE_URL}`, values)
+        .then((response) => {
+        console.log("response.data", response.data);
+        console.log("response.status", response.status);
+        return {
+            type: LOGIN,
+            payload: response.data
+        }
+    });
+
 }
 export function getStack() {
     const request = axios.get(`../data/dummydata.js`);

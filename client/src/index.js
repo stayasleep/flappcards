@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
-import async from './middleware/async';
+import thunk from 'redux-thunk';
 
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -11,7 +11,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import rootReducer from './reducers/index';
 
-const createStoreWithMiddleware = applyMiddleware(async)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 import App from './components/app';
 import Home from './components/home';
