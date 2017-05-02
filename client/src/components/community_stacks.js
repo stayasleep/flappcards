@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
 import {getStack} from '../actions/index'
 
 class Community extends Component{
@@ -22,7 +23,7 @@ class Community extends Component{
           </span>
         </span>
                 <span className="mdl-list__item-secondary-content">
-          <a className="mdl-list__item-secondary-action" href="#"><i className="material-icons">visibility</i></a>
+                    <Link to="/stackOverview" name="Stacks"><i className="material-icons">visibility</i></Link>
         </span>
             </li>
         );
