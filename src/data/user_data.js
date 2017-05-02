@@ -1,7 +1,7 @@
 // File containing user info
 // Presumably, transmitting a response containing *all* users to a request from a *single* user is probably considered
 // poor form, but this is a dry run
-let users = {
+const users = {
     user1: {
         fullName: "Kevin Chalmers",
         userName: "kchalm",
