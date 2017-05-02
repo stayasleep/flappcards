@@ -52,7 +52,8 @@ router.post('/login',function(request,response){
 router.get('/myshelf/:id',(request,response)=>{
     console.log('id of logged on user is: ',request.params.id);
     let uid = request.params.id;
-    connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
+    connection.query("SELECT s.subject as Subject, s.category as Category, s.created as Created, s.rating as Rating, u.username as User, COUNT(*) as Total FROM stacks s INNER JOIN cards c ON s.stack_id=c.stack_id INNER JOIN users u ON s.user_id=u.user_id WHERE u.user_id = ? GROUP BY c.stack_id ORDER BY s.subject",[uid],(err,results)=>{
+    // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
         if (err) console.log(err);
         //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
         console.log('shelf overview',results);
@@ -79,6 +80,37 @@ router.post('/register',(request,response,next)=>{
         response.JSON({success: true, msg: "User Registered"});
     })
 });
+//delete overall stack from account
+// router.delete('/stack')
+
+
+
+//delete an individual card from your stack overview
+router.delete('/stack/:id',(request,response)=>{
+    let singleID = request.params.id;
+    console.log('single id coming from card',singleID);
+    connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{
+        if (err) throw err;
+        response.json({success:true, msg:"Single Card deleted"});
+        console.log('rows deleted: ', result.affectedRows);
+    });
+});
+//update an individual card from your stack overview
+router.put('/stack/:id',(request,response)=>{
+    let singleID = request.params.id;
+    //get changed information
+    let newQ = request.body.cardQuestion;
+    let newA = request.body.cardAnswer;
+    connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
+        if (err) throw err;
+        console.log('updated',results.affectedRows);
+        response.json({success:true, msg: "Single Card Updated"});
+    });
+});
+
+
+
+
 //Future Considerations below...Authentication will likely handle the login check and provide a token
 //Authenticate
 router.post('/authenticate',(request,response,next)=>{
