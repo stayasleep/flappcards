@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getStack} from '../actions/index'
+import {Link} from 'react-router'
 
 class Recent extends Component{
     componentWillMount(){
@@ -21,7 +22,7 @@ class Recent extends Component{
           </span>
         </span>
                 <span className="mdl-list__item-secondary-content">
-          <a className="mdl-list__item-secondary-action" href="sample_card.html"><i className="material-icons">visibility</i></a>
+                    <Link to="/stackOverview" name="Stacks"><i className="material-icons">visibility</i></Link>
         </span>
             </li>
         );

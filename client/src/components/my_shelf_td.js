@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getStack} from '../actions/index'
+import {Link} from 'react-router'
 
 class Stacks extends Component{
     componentWillMount(){
@@ -14,9 +15,9 @@ class Stacks extends Component{
                 <td>10</td>
                 <td>(Calculated Value)</td>
                 <td>
-                    <button className="mdl-button mdl-js-button mdl-button--primary">
+                    <Link to="/single_card" name="SingleCard"><button className="mdl-button mdl-js-button mdl-button--primary">
                         <i className="material-icons">visibility</i>
-                    </button>
+                    </button></Link>
                 </td>
             </tr>
         );
