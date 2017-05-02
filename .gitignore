@@ -1,8 +1,0 @@
-.idea
-.DS_Store
-node_modules
-dist
-!dist/index.html
-
-/skeleton_server/webserver.js
-/src/data/config_data.js
