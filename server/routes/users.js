@@ -48,6 +48,11 @@ router.post('/login',function(request,response){
         }
     })
 });
+//click on a stack in home page and it gets copied into your account
+
+
+
+
 //
 //Register
 router.post('/register',(request,response,next)=>{
@@ -72,8 +77,8 @@ router.post('/register',(request,response,next)=>{
 
 
 //delete an individual card from your stack overview
-router.delete('/stack/:id',(request,response)=>{
-    let singleID = request.params.id;
+router.delete('/stack/:cId',(request,response)=>{
+    let singleID = request.params.cId;
     console.log('single id coming from card',singleID);
     connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{
         if (err) throw err;
@@ -82,8 +87,8 @@ router.delete('/stack/:id',(request,response)=>{
     });
 });
 //update an individual card from your stack overview
-router.put('/stack/:id',(request,response)=>{
-    let singleID = request.params.id;
+router.put('/stack/:cId',(request,response)=>{
+    let singleID = request.params.cId;
     //get changed information
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
@@ -110,9 +115,9 @@ router.post('/stack/:user_id',(request,response)=>{
 
 
 //clicking myShelf
-router.get('/myshelf/:id',(request,response)=>{
-    console.log('id of logged on user is: ',request.params.id);
-    let uid = request.params.id;
+router.get('/myshelf/:uId',(request,response)=>{
+    console.log('id of logged on user is: ',request.params.uId);
+    let uid = request.params.uId;
     connection.query("SELECT s.subject as Subject, s.category as Category, s.created as Created, s.rating as Rating, u.username as User, COUNT(*) as Total FROM stacks s INNER JOIN cards c ON s.stack_id=c.stack_id INNER JOIN users u ON s.user_id=u.user_id WHERE u.user_id = ? GROUP BY c.stack_id ORDER BY s.subject",[uid],(err,results)=>{
         // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
         if (err) console.log(err);
