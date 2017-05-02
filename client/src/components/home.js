@@ -5,7 +5,7 @@ import Community from './community_stacks'
 
 class Home extends Component {
     render(){
-        console.log('hello')
+        console.log('Home Component');
         return(
             <div>
                 <FlashCardsAppBar/>

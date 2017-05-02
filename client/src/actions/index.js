@@ -1,14 +1,21 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 const users = require('../data/user_data');
+<<<<<<< HEAD
 import {browserHistory} from 'react-router';
 
 
+=======
+const BASE_URL = 'http://localhost:8081/';
+>>>>>>> 9d244d05431fe38e1a1bea6c62f3cbfc1ec9a7b9
 export function userLogin(values) {
-    console.log(users);
+    let usersString = JSON.stringify(values);
+    console.log("userLogin function");
+    let response = axios.post(`${BASE_URL}`, values);
+    console.log("response.data", response.data);
     return {
         type: LOGIN,
-        payload: users
+        payload: response.data
     }
 }
 export function getStack() {
