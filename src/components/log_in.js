@@ -32,13 +32,13 @@ class LogIn extends Component {
         return (
             <div>
                 <h1>Login</h1>
-                <form onSubmit={handleSubmit((formValues) => {this.handleLogin(formValues)})}>
+                <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div>
                         <Field name="userName" component={this.renderInput} label="Username"/>
                     </div>
                         <Field name="password" component={this.renderInput} label="Password"/>
                     <div>
-                        <RaisedButton type="submit" onClick={(formValues) => this.login(formValues)}>Login</RaisedButton>
+                        <RaisedButton type="submit" label="Login"/>
                         <Link to="/Registration" name="Register"><RaisedButton label="Register"/></Link>
                     </div>
 
