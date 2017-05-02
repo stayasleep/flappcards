@@ -10,12 +10,15 @@ class Registration extends Component {
     static contextTypes = {
         router: PropTypes.object
     };
-
-    renderInput({input, label, meta: {touched, error}}){
+    handleSignup(vals){
+        console.log(vals)
+    }
+    renderInput({input, label, type, meta: {touched, error}}){
         return (
             <TextField hintText={label}
                        floatingLabelText={label}
                        errorText={touched && error}
+                       type={type}
                        {...input}
             />
         )
@@ -26,7 +29,7 @@ class Registration extends Component {
         return (
             <div>
                 <h1>Register</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div>
                         <Field name="name" component={this.renderInput} label="First and Last Name"/>
                     </div>
@@ -34,10 +37,10 @@ class Registration extends Component {
                         <Field name="userName" component={this.renderInput} label="Username"/>
                     </div>
                     <div>
-                        <Field name="password" component={this.renderInput} label="Password"/>
+                        <Field name="password" component={this.renderInput} label="Password" type="password"/>
                     </div>
                     <div>
-                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password"/>
+                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password" type="password"/>
                     </div>
                     <div>
                         At least 1 lowercase letter, 1 uppercase letter, 1 #, and 1 special character and be between 8 and 15 characters long
@@ -49,11 +52,11 @@ class Registration extends Component {
                         <Field name="birthday" component={this.renderInput} label="Birthday(MM/DD/YYYY)"/>
                     </div>
                     <div>
-                        <RaisedButton label="Submit"/>
-                        <RaisedButton type="button" onClick={reset}>Clear Values</RaisedButton>
+                        <RaisedButton primary={true} type="submit" label="Submit"/>
+                        <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>
                 </form>
-                <Link to="/Login" name="Log In"><button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Return</button></Link>
+                <Link to="/" name="Log In"><RaisedButton label="Return"/></Link>
             </div>
         )
     }
@@ -61,17 +64,20 @@ class Registration extends Component {
 
 function validate(values) {
     const errors = {};
-    const requiredFields = [ 'name', 'userName', 'password', 'email', 'birthday' ];
+    const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Required'
         }
     });
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
-    if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})$/i.test(values.password)) {
+    if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
         errors.password = 'Invalid password'
+    }
+    if (values.password !== values.passwordConfirm) {
+        errors.passwordConfirm = 'Passwords must match'
     }
     return errors
 }

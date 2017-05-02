@@ -1,70 +1,70 @@
-import React, { Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {userLogin} from '../actions/index';
-
-
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Link} from 'react-router'
 
 class LogIn extends Component {
-
     static contextTypes = {
         router: PropTypes.object
     };
-
-    login(values) {
-        console.log("login function triggered: here are the values", values);
+    handleLogin(values) {
+        console.log('values', values);
         this.props.userLogin(values).then(() => {
             this.context.router.push('/Home');
         });
-        console.log("this.props.userLogin(values)", this.props.userLogin(values));
     }
 
-    renderInput({input, label, type, meta: { touched, error } }) {
+    renderInput({input, label, meta: {touched, error}}){
         return (
-            <div className={`form-group ${touched && error && 'has-danger'}`}>
-                <label className="form-control-label">{label}</label>
-                <input{...input} type={type} className={`form-control ${touched && error && 'form-control-danger'}`} placeholder={label} />
-                <span className="form-control-feedback">{(touched && error) ? `${error}`: ''}</span>
-            </div>
+            <TextField hintText={label}
+                       floatingLabelText={label}
+                       errorText={touched && error}
+                       {...input}
+            />
         )
     }
 
-    render() {
-        const { handleSubmit } = this.props; // equivalent to this.props.handleSubmit
+    render (){
+        const { handleSubmit } = this.props;
         return (
             <div>
-                <h2>Login</h2>
-                <form onSubmit ={handleSubmit((formValues) => { this.login(formValues)})}>
-                    <div className="form-group">
-                        <Field name="username" component={this.renderInput} type="text" className="form-control" label="username"/>
+                <h1>Login</h1>
+                <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
+                    <div>
+                        <Field name="userName" component={this.renderInput} label="Username"/>
                     </div>
-                    <div className="form-group">
-                        <Field name="password"  component={this.renderInput} type="password" className="form-control" label="password"/>
+                        <Field name="password" component={this.renderInput} label="Password"/>
+                    <div>
+                        <RaisedButton type="submit" label="Login"/>
+                        <Link to="/Registration" name="Register"><RaisedButton label="Register"/></Link>
                     </div>
-                    <button className="btn btn-outline-success" onClick={(formValues) => this.login(formValues)}>Login</button>
+
                 </form>
             </div>
-        );
+        )
     }
 }
 
 function validate(values) {
     const errors = {};
-
-    if (!values.username) {
-        errors.username = "Username required";
-    }
-    if (!values.password) {
-        errors.password = "Password required";
-    }
-
-    return errors;
+    const requiredFields = [ 'userName', 'password'];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[field] = `Required`
+        }
+    });
+    
+    return errors
 }
 
 LogIn = reduxForm({
-    form: 'loginForm',
+    form: 'login',
     validate
 })(LogIn);
+
 
 export default connect(null, {userLogin})(LogIn);
