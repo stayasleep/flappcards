@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router'
+import {register} from '../../actions/index'
 
 class Registration extends Component {
 
@@ -11,7 +12,7 @@ class Registration extends Component {
         router: PropTypes.object
     };
     handleSignup(vals){
-        console.log(vals)
+        this.props.register(vals);
     }
     renderInput({input, label, type, meta: {touched, error}}){
         return (
@@ -87,4 +88,4 @@ Registration = reduxForm({
     validate
 })(Registration);
 
-export default connect(null, {})(Registration)
+export default connect(null, {register})(Registration)

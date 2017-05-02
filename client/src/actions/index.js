@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META} from './types';
+import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 const users = require('../data/user_data');
 
 
@@ -36,7 +36,7 @@ export function getUserData() {
     }
 }
 
-export function signup({email, password}) {
+export function register({email, password}) {
     const base_url = "http://scottbowlerdev.com/api";
     return function (dispatch) {
         axios.post(`${base_url}/signup`, {email, password}).then((resp) => {
