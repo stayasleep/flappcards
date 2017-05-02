@@ -1,11 +1,10 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
-const users = require('../data/user_data');
 import {browserHistory} from 'react-router';
 
 
 export function userLogin(values) {
-    const BASE_URL = 'http://localhost:8081/';
+    const BASE_URL = 'http://localhost:8081/'; // For test purposes, listening on 8081 and listening on port 8081
     return function (dispatch) {
         axios.post(`${BASE_URL}`, values).then((response) => {
             // I set response.data to true for the test
