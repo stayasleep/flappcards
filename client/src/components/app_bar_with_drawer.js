@@ -1,5 +1,5 @@
-import React, {Component} from '../../node_modules/react';
-import { Drawer, AppBar, MenuItem} from '../../node_modules/material-ui'
+import React, {Component} from '../../../node_modules/react';
+import { Drawer, AppBar, MenuItem} from '../../../node_modules/material-ui'
 
 import NavLink from './header_nav_links'
 
