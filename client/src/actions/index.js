@@ -6,7 +6,7 @@ export function userLogin(values) {
     let usersString = JSON.stringify(values);
     console.log("userLogin function");
     let response = axios.post(`${BASE_URL}`, values);
-    console.log("response.data", );
+    console.log("response.data", response.data);
     return {
         type: LOGIN,
         payload: response.data
