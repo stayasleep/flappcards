@@ -1,5 +1,5 @@
-import React, {Component} from '../../node_modules/react';
-import { Drawer, AppBar, MenuItem} from '../../node_modules/material-ui'
+import React, {Component} from '../../../node_modules/react';
+import { Drawer, AppBar, MenuItem} from '../../../node_modules/material-ui'
 
 import NavLink from './header_nav_links'
 
@@ -23,7 +23,7 @@ export default class FlashCardsAppBar extends Component {
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({open})}
                 >
-                    <MenuItem primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Home"/>}/>
+                    <MenuItem primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
                     <MenuItem primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                     <MenuItem primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
                     <MenuItem primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
