@@ -15,7 +15,7 @@ export function userLogin(values) {
     }
 }
 export function getStack() {
-    const request = axios.get(`../data/dummydata.js`);
+    const request = axios.get(`../data/dummydata`);
 
     return {
         type: FETCH_STACKS,
@@ -40,10 +40,10 @@ export function getUserData() {
     }
 }
 
-export function register({email, password}) {
+export function register({name, userName, password, email, birthday}) {
     const base_url = "http://scottbowlerdev.com/api";
     return function (dispatch) {
-        axios.post(`${base_url}/register`, {email, password}).then((resp) => {
+        axios.post(`${base_url}/register`, {name, userName, password, email, birthday}).then((resp) => {
 
             dispatch({type: AUTH_USER});
 

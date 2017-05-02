@@ -45,9 +45,6 @@ class Stacks extends Component {
                         <div className="mdl-cell mdl-cell--2-col">
                             <span className="mdl-badge" data-badge="10">#items</span>
                         </div>
-                        <div className="mdl-cell mdl-cell--2-col">
-                            <span>Last Edit: 2017/04/23</span>
-                        </div>
                         <div className="mdl-layout-spacer"/>
                     </div>
 

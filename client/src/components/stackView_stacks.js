@@ -12,20 +12,22 @@ class StackViewStacks extends Component{
         return (
                 <div className="mdl-card mdl-shadow--2dp demo-card-square">
                     <div className="mdl-card__title mdl-card--expand">
-                        <div className="mdl-card__title-text">What is the power house of the cell?</div>
+                        <div className="mdl-card__title-text">question</div>
                     </div>
                     <div className="mdl-card__supporting-text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenan convallis.
                     </div>
                     <div className="mdl-card__actions mdl-card--border">
-                        <a href="page09.html" className="mdl-button mdl-js-button mdl-js-ripple-effect">
+                        <Link to="/single_card" name="SingleCard">
                             Study
-                        </a>
+                        </Link>
                     </div>
                     <div className="mdl-card__menu">
+                        <Link to="/stackOverview" name="Stacks">
                         <button className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
                             <i className="material-icons">delete_forever</i>
                         </button>
+                        </Link>
                     </div>
                 </div>
         );
