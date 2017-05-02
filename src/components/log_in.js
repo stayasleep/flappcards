@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import {userLogin} from '../actions/index';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {userLogin} from '../actions/index';
-
+import {Link} from 'react-router'
 
 class LogIn extends Component {
     static contextTypes = {
@@ -12,8 +12,9 @@ class LogIn extends Component {
     };
     handleLogin(values) {
         console.log('values', values);
-        // this.props.userLogin(values).then(() => {
-        //     this.context.router.push('/');
+        this.props.userLogin(values).then(() => {
+            this.context.router.push('/Home');
+        });
     }
 
     renderInput({input, label, meta: {touched, error}}){
@@ -37,8 +38,10 @@ class LogIn extends Component {
                     </div>
                         <Field name="password" component={this.renderInput} label="Password"/>
                     <div>
-                        <RaisedButton label="Login"/>
+                        <RaisedButton type="submit" onClick={(formValues) => this.login(formValues)}>Login</RaisedButton>
+                        <Link to="/Registration" name="Register"><RaisedButton label="Register"/></Link>
                     </div>
+
                 </form>
             </div>
         )
