@@ -14,7 +14,7 @@ class LogIn extends Component {
     handleLogin(values) {
         console.log('values', values);
         this.props.userLogin(values).then(() => {
-            this.context.router.push('/Home');
+            this.context.router.push('/home');
         });
     }
 

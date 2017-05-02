@@ -1,13 +1,13 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META} from './types';
 const users = require('../data/user_data');
-
-
+const BASE_URL = 'http://localhost:8081/';
 export function userLogin(values) {
-    console.log(users);
+    let usersString = JSON.stringify(users);
+    let response = axios.post(BASE_URL, usersString);
     return {
         type: LOGIN,
-        payload: users
+        payload: response.data
     }
 }
 export function getStack() {
