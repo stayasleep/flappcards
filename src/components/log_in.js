@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {userLogin} from '../actions/index';
@@ -66,4 +67,4 @@ LogIn = reduxForm({
 })(LogIn);
 
 
-export default connect(null, {})(LogIn);
+export default connect(null, {userLogin})(LogIn);
