@@ -4,8 +4,9 @@
   "description": "Starting setup for react redux project",
   "main": "index.js",
   "scripts": {
-    "start": "node dev_server.js",
+    "start": "node client/dev_server.js",
     "bundle": "node_modules/.bin/webpack --config webpack.deploy.config.js --progress --colors",
+    "server": "nodemon ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Scott Bowler",

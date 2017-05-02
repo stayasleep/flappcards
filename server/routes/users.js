@@ -49,6 +49,9 @@ router.post('/login',function(request,response){
     })
 });
 //click on a stack in home page and it gets copied into your account
+router.post('/stack',(request,response)=>{
+
+});
 
 
 

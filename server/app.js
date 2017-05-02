@@ -11,6 +11,9 @@ const cors = require('cors');
 //routes
 const users = require('./routes/users');
 
+//HTTP Request for Dev
+app.use(morgan('dev'));
+
 //bodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
