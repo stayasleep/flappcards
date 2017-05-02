@@ -44,13 +44,15 @@ app.post('/', function (req, res) {
     let sentPassword = req.body.password;
     if (users[sentUsername] === undefined) {
         return res.send(false);
-    }
-    //TODO better error handling than just returning false if undefined
-    if (users[sentUsername][sentPassword] !== users[sentUsername].user_pw) {
-       return res.send(true);
     } else {
-        return res.send(false);
+        //TODO better error handling than just returning false if undefined
+        if (sentPassword === users[sentUsername].user_pw) {
+            return res.send(true);
+        } else {
+            return res.send(false);
+        }
     }
+
 });
 
 app.listen(PORT,console.log(`Listening on port ${PORT}`));
