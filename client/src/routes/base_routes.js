@@ -7,8 +7,8 @@ import Profile from '../components/profile';
 import MyShelf from '../components/my_shelf';
 import Search from '../components/search_page';
 import CreateCards from '../components/create_cards';
-import LogIn from '../components/log_in';
-import Registration from '../components/registration';
+import LogIn from '../components/auth/log_in';
+import Registration from '../components/auth/registration';
 
 const routes = () => {
     return (
