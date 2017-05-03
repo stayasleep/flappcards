@@ -38,4 +38,6 @@ const stack2={
         stackRating: 0.7,
         totalCards: 10
     }
-}
+};
+
+export default stack2;
