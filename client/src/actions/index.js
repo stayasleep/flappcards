@@ -27,12 +27,12 @@ export function userLogin(values) {
 export function getStack() {
     return function (dispatch) {
         axios.get(`${BASE_URL}/home`).then((response) => {
-            console.log(response.data);
-            dispatch({type: FETCH_STACKS, payload: response});
+            console.log("actions index", response.data);
+            dispatch({type: FETCH_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: null,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }

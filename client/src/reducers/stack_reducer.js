@@ -1,4 +1,4 @@
-import {FETCH_STACKS, FETCH_CARD} from '../actions/types'
+import {FETCH_STACKS, FETCH_CARD} from '../actions/types';
 
 const default_state ={
     all: [],
@@ -9,10 +9,20 @@ const default_state ={
     single: []
 };
 
+
 export default function (state = default_state, action) {
+    console.log("stack_reducer", action);
     switch (action.type){
+
         case(FETCH_STACKS):
-            return{...state, all: action.payload.overview.cards, subj: action.payload.overview.subject, course: action.payload.overview.category, creator: action.payload.overview.createdBy, number: action.payload.overview.totalCards};
+
+            return{...state,
+
+                all: action.payload.cards,
+                subj: action.payload.subject,
+                course: action.payload.category,
+                creator: action.payload.createdBy,
+                number: action.payload.totalCards};
         case(FETCH_CARD):
             return{...state, single: action.payload.overview.cards}
     }
