@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../user_data');
+const dashboard = require('../dashboard');
 
 router.post('/login', (req,res) => {
     let sentUsername = req.body.userName;
@@ -15,6 +16,11 @@ router.post('/login', (req,res) => {
             return res.send(false);
         }
     }
+});
+
+router.get('/home',(req,res) => {
+    console.log("req.body", req.body);
+    res.send(dashboard.overview);
 });
 
 module.exports = router;

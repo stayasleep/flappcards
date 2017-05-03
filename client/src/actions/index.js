@@ -24,10 +24,16 @@ export function userLogin(values) {
     }
 }
 export function getStack() {
-    const request = stack2;
-    return {
-        type: FETCH_STACKS,
-        payload: request
+    return function (dispatch) {
+        axios.get(`${BASE_URL}/home`).then((response) => {
+            console.log(response.data);
+            dispatch({type: FETCH_STACKS, payload: response});
+        }).catch(err => {
+            dispatch({
+                type: null,
+                error: err.response.data.error
+            });
+        })
     }
 }
 
