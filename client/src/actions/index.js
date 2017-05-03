@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {LOGIN, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 import {browserHistory} from 'react-router';
 import stack2 from '../data/stackoverviewCB3'
 
@@ -29,11 +29,11 @@ export function getStack() {
     }
 }
 
-export function getStackMeta() {
-    const request = axios.get(`../data/dummydata.js`);
+export function getCard() {
+    const request = stack2;
 
     return{
-        type: FETCH_STACK_META,
+        type: FETCH_CARD,
         payload: request
     }
 }

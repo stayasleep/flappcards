@@ -9,7 +9,6 @@ class StackViewStacks extends Component{
     }
 
     render() {
-        console.log(this.props);
         const stackList = this.props.stacks.map((item, index) => {
             return (
             <div className="mdl-card mdl-shadow--2dp demo-card-square">
@@ -33,7 +32,7 @@ class StackViewStacks extends Component{
                 </div>
             </div>
             )
-        })
+        });
 
         return (
                 <div>
