@@ -5,6 +5,7 @@ const path = require('path');
 
 //temporary, for now leave the db and connections on the same page
 const connection = mysql.createConnection({
+    multipleStatements: true,
     host: 'localhost',
     port: 3306,
     user:'root',
@@ -17,7 +18,7 @@ connection.connect();
 //test login comparison
 router.post('/login',function(request,response){
     console.log(request.body);
-    let un = request.body.username;
+    let un = request.body.userName;
     let upw = request.body.password;
     console.log(un,upw);
     //call db
@@ -34,24 +35,25 @@ router.post('/login',function(request,response){
                 if (err) throw err;
                 //console log to see if the metadata from your account is retrieved before redirect
                 console.log('my results',results);
+                response.send(true);
             } );
-            connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
-                if (err) throw err;
-                //console log to see if the metadata from the community is retrieved before redirect
-                console.log('comm results',results);
-            });
+            // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
+            //     if (err) throw err;
+            //     //console log to see if the metadata from the community is retrieved before redirect
+            //     console.log('comm results',results);
+            // });
             // response.redirect('/home');
         }else{
-            response.statusCode = 404;
-            response.write("404 Sorry Not Found");
+            // response.statusCode = 404;
+            // response.write("404 Sorry Not Found");
             response.end();
         }
     })
 });
 //click on a stack in home page and it gets copied into your account
-router.post('/stack',(request,response)=>{
-
-});
+// router.post('/stack',(request,response)=>{
+//
+// });
 
 
 
@@ -112,14 +114,18 @@ router.post('/stack/:user_id',(request,response)=>{
     let whoMadeMe = "user1";
 
     connection.query(
-        "BEGIN " +
-        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?)" +
-        "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?);"+
-        "COMMIT",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
+        "BEGIN; " +
+        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
+        "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?); "+
+        "COMMIT;",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
         if(err) throw err;
         console.log(userID+" Made A Stack w 1 q and a");
         response.json({success:true, msg:"Stack was just created"});
     });
+    // connection.query("BEGIN; INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?);INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?);COMMIT",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
+    //     if(err) throw err;
+    //     response.json({success: true, msg:"stack created"})
+    // });
     // connection.query({
     //     sql:"BEGIN;
     //         INSERT INTO stacks(user_id, subject, category)
@@ -133,7 +139,6 @@ router.post('/stack/:user_id',(request,response)=>{
     // });
 });
 
-
 //clicking myShelf
 router.get('/myshelf/:uId',(request,response)=>{
     console.log('id of logged on user is: ',request.params.uId);
@@ -146,6 +151,11 @@ router.get('/myshelf/:uId',(request,response)=>{
         response.json({success:true, msg: "User Shelf Retrieved"});
     });
 });
+//clicking myshelf and deletinf a whole stack
+router.delete('/myshelf/:uId',(request,response)=>{
+    let dID = request.params.dID;
+    connection.query("DELETE ")
+});
 
 
 
@@ -155,7 +165,7 @@ router.post('/authenticate',(request,response,next)=>{
     response.send('AUTHENTICATE');
 });
 //Profile
-router.get('/profile',(request,response,next)=>{
+router.post('/profile',(request,response,next)=>{
     response.send('PROFILE');
 });
 

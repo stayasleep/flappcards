@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+
 import {browserHistory} from 'react-router';
 
 const BASE_URL = 'http://localhost:8081/test'; // For test purposes, listening on 8081 and listening on port 8081
@@ -37,11 +38,11 @@ export function getStack() {
     }
 }
 
-export function getStackMeta() {
-    const request = axios.get(`../data/dummydata.js`);
+export function getCard() {
+    const request = stack2;
 
     return{
-        type: FETCH_STACK_META,
+        type: FETCH_CARD,
         payload: request
     }
 }
