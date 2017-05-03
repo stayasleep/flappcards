@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../user_data');
-const dashboard = require('../dashboard');
+const stackoverviewCB = require('../stackoverviewCB');
 
 router.post('/login', (req,res) => {
     let sentUsername = req.body.userName;
@@ -20,7 +20,7 @@ router.post('/login', (req,res) => {
 
 router.get('/home',(req,res) => {
     console.log("req.body", req.body);
-    res.send(dashboard.overview);
+    res.send(stackoverviewCB);
 });
 
 module.exports = router;
