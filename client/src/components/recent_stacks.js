@@ -5,7 +5,7 @@ import {Link} from 'react-router'
 
 class Recent extends Component{
     componentWillMount(){
-        this.props.getStack();
+        this.props.getStackOverview();
     }
 
     render() {
@@ -36,4 +36,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getStack})(Recent);
+export default connect(mapStateToProps, {getStackOverview})(Recent);
