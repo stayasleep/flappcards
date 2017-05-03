@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getStack} from '../actions/index'
+import {getStackOverview} from '../actions/index'
 import {Link} from 'react-router'
 
 class Recent extends Component{
