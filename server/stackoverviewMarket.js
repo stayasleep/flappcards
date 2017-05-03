@@ -1,5 +1,4 @@
 const stackoverview = {
-    overview:{
         cards: [{
             answer: "A security is a financial instrument that represents an ownership position in a publicly-traded corporation (stock), a creditor relationship with governmental body or a corporation (bond), or rights to ownership as represented by an option",
             question: "What is a financial security?"
@@ -37,7 +36,6 @@ const stackoverview = {
         // createdOn: "2017-04-30",
         stackRating: 0.7,
         totalCards: 10
-    }
 };
 
 module.exports = stackoverview;

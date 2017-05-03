@@ -1,79 +1,46 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../node_modules/material-ui/Card';
-
-
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
+import {getCard} from '../actions/index'
 
 class SingleCard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            expanded: false,
-        };
+    static contextTypes ={
+        router: PropTypes.object
+    };
+
+    componentWillMount(){
+        this.props.getCard(this.props.params.id);
     }
 
-    handleExpandChange = (expanded) => {
-        this.setState({expanded: expanded});
-    };
-    handleExpand = () => {
-        this.setState({expanded: true});
-    };
-    handleReduce = () => {
-        this.setState({expanded: false});
-    };
-
     render() {
+        const card = this.props.cards["0"];
+        console.log(card);
+        if(!card){
+            return <h3>Loading...</h3>
+        }
         return (
             <div>
-                <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-                    <CardHeader
-                        title="Biology"
-                        subtitle="Cell organelles"
-
-                    />
-                    <CardTitle
-                        title="What is the powerhouse of the cell?"
-                        actAsExpander={true}
-                    />
-
-                    <CardText expandable={true}>
-                        Mitochondria
-                    </CardText>
-                </Card>
-                <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-                    <CardHeader
-                        title="Biology"
-                        subtitle="Cell organelles"
-
-                    />
-                    <CardTitle
-                        title="What is the powerhouse of the cell?"
-                        actAsExpander={true}
-                    />
-
-                    <CardText expandable={true}>
-                        Mitochondria
-                    </CardText>
-                </Card>
-                <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-                    <CardHeader
-                        title="Biology"
-                        subtitle="Cell organelles"
-
-                    />
-                    <CardTitle
-                        title="What is the powerhouse of the cell?"
-                        actAsExpander={true}
-                    />
-
-                    <CardText expandable={true}>
-                        Mitochondria
-                    </CardText>
-                </Card>
+                <div className="mdl-card mdl-shadow--2dp " id="questionCard">
+                    <h2 className="mdl-card__title-text " id="question">
+                        {card.question}
+                    </h2>
+                    <h2 className="mdl-card__title-text " id="answer">
+                        {card.answer}
+                    </h2>
+                <div className="mdl-card__menu">
+                </div>
             </div>
-
-
+            </div>
         );
     }
 }
-export default SingleCard;
+
+function mapStateToProps(state) {
+    return {
+        cards: state.stack.single
+    }
+}
+
+export default connect(mapStateToProps, {getCard})(SingleCard);
 
