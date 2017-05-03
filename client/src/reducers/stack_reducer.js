@@ -11,7 +11,6 @@ const default_state ={
 
 
 export default function (state = default_state, action) {
-    console.log("stack_reducer", action);
     switch (action.type){
 
         case(FETCH_STACKS):
@@ -22,7 +21,7 @@ export default function (state = default_state, action) {
                 creator: action.payload.createdBy,
                 number: action.payload.totalCards};
         case(FETCH_CARD):
-            return{...state, single: action.payload.overview.cards};
+            return{...state, single: action.payload.cards};
 
         case(FETCH_STACK_OVERVIEW):
             return{...state}
