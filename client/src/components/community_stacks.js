@@ -4,9 +4,9 @@ import {Link} from 'react-router'
 import {getStack} from '../actions/index'
 
 class Community extends Component{
-    componentWillMount(){
-        this.props.getStack();
-    }
+    // componentWillMount(){
+    //     this.props.getStack();
+    // }
 
     render() {
         return (

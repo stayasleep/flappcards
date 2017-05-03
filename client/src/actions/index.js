@@ -1,13 +1,16 @@
 import axios from 'axios';
-import {LOGIN, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
-import {browserHistory} from 'react-router';
-import stack2 from '../data/stackoverviewCB3'
+import {FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 
+import {browserHistory} from 'react-router';
+
+const BASE_URL = 'http://localhost:8081/test'; // For test purposes, listening on 8081 and listening on port 8081
+
+import stack2 from '../data/stackoverviewCB3';
 
 export function userLogin(values) {
-    const BASE_URL = 'http://localhost:8081/'; // For test purposes, listening on 8081 and listening on port 8081
+
     return function (dispatch) {
-        axios.post(`${BASE_URL}`, values).then((response) => {
+        axios.post(`${BASE_URL}/login`, values).then((response) => {
             // I set response.data to true for the test
             if (response.data) {
                 dispatch({type: AUTH_USER});
@@ -22,10 +25,16 @@ export function userLogin(values) {
     }
 }
 export function getStack() {
-    const request = stack2;
-    return {
-        type: FETCH_STACKS,
-        payload: request
+    return function (dispatch) {
+        axios.get(`${BASE_URL}/home`).then((response) => {
+            console.log(response.data);
+            dispatch({type: FETCH_STACKS, payload: response});
+        }).catch(err => {
+            dispatch({
+                type: null,
+                error: err.response.data.error
+            });
+        })
     }
 }
 
