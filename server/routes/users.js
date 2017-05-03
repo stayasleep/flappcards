@@ -35,6 +35,7 @@ router.post('/login',function(request,response){
                 if (err) throw err;
                 //console log to see if the metadata from your account is retrieved before redirect
                 console.log('my results',results);
+                response.send(true);
             } );
             connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
                 if (err) throw err;
