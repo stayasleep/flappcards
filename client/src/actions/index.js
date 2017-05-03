@@ -32,7 +32,7 @@ export function getStack() {
         }).catch(err => {
             dispatch({
                 type: null,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }
