@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 import {browserHistory} from 'react-router';
+import stack2 from '../data/stackoverviewCB3'
 
 
 export function userLogin(values) {
@@ -21,8 +22,7 @@ export function userLogin(values) {
     }
 }
 export function getStack() {
-    const request = axios.get(`../data/dummydata`);
-
+    const request = stack2;
     return {
         type: FETCH_STACKS,
         payload: request
