@@ -18,7 +18,7 @@ export function userLogin(values) {
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }
