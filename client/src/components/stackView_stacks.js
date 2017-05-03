@@ -9,10 +9,10 @@ class StackViewStacks extends Component{
     }
 
     render() {
-        console.log(this.props)
-        const stackList = this.props.stacks.map((item, index) => {
+    console.log(this.props);
+        const stackList = this.props.cards.map((item, index) => {
             return (
-            <div className="mdl-card mdl-shadow--2dp demo-card-square">
+            <div key={index} className="mdl-card mdl-shadow--2dp demo-card-square">
                 <div className="mdl-card__title mdl-card--expand">
                     <div className="mdl-card__title-text">{item.question}</div>
                 </div>
@@ -84,7 +84,7 @@ class StackViewStacks extends Component{
 }
 function mapStateToProps(state) {
     return {
-        stacks: state.stack.all,
+        cards: state.stack.all,
         subject: state.stack.subj,
         course: state.stack.course,
         creator: state.stack.creator,

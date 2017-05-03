@@ -151,10 +151,12 @@ router.get('/myshelf/:uId',(request,response)=>{
         response.json({success:true, msg: "User Shelf Retrieved"});
     });
 });
-//clicking myshelf and deletinf a whole stack
+//clicking myshelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:uId',(request,response)=>{
-    let dID = request.params.dID;
-    connection.query("DELETE ")
+    let stackID = request.body.sID;
+    connection.query("DELETE FROM stacks WHERE stack_id = ?",[stackID],(err,results)=>{
+        response.json({success:true, msg:"whole stack deleted"});
+    })
 });
 
 

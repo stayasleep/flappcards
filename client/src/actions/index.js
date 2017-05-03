@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:8081/test'; // For test purposes, listening on 8081 and listening on port 8081
+const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
 
 import stack2 from '../data/stackoverviewCB3';
 
@@ -19,7 +19,7 @@ export function userLogin(values) {
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }
@@ -27,8 +27,8 @@ export function userLogin(values) {
 export function getStack() {
     return function (dispatch) {
         axios.get(`${BASE_URL}/home`).then((response) => {
-            console.log(response.data);
-            dispatch({type: FETCH_STACKS, payload: response});
+            console.log("actions index", response.data);
+            dispatch({type: FETCH_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: null,
@@ -68,6 +68,19 @@ export function register({name, userName, password, email, birthday}) {
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
+                error: err.response.data.error
+            });
+        })
+    }
+}
+
+export function getStackOverview() {
+    return function (dispatch) {
+        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
+            dispatch({type: FETCH_STACK_OVERVIEW, payload: response});
+        }).catch(err => {
+            dispatch({
+                type: FETCH_STACK_OVERVIEW,
                 error: err.response.data.error
             });
         })
