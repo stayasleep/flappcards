@@ -18,7 +18,7 @@ connection.connect();
 //test login comparison
 router.post('/login',function(request,response){
     console.log(request.body);
-    let un = request.body.username;
+    let un = request.body.userName;
     let upw = request.body.password;
     console.log(un,upw);
     //call db
@@ -37,15 +37,15 @@ router.post('/login',function(request,response){
                 console.log('my results',results);
                 response.send(true);
             } );
-            connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
-                if (err) throw err;
-                //console log to see if the metadata from the community is retrieved before redirect
-                console.log('comm results',results);
-            });
+            // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
+            //     if (err) throw err;
+            //     //console log to see if the metadata from the community is retrieved before redirect
+            //     console.log('comm results',results);
+            // });
             // response.redirect('/home');
         }else{
-            response.statusCode = 404;
-            response.write("404 Sorry Not Found");
+            // response.statusCode = 404;
+            // response.write("404 Sorry Not Found");
             response.end();
         }
     })
