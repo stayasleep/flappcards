@@ -26,24 +26,6 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(CORS()); // Invoke the CORS method to test requests fronm the app
 
-app.use('/test',test);
-
-// app.post('/', function (req, res) {
-//     // console.log("POST method request", req);
-//     // Request body accessible through bodyParserPaP{
-//     let sentUsername = req.body.userName;
-//     let sentPassword = req.body.password;
-//     if (users[sentUsername] === undefined) {
-//         return res.send(false);
-//     } else {
-//         //TODO better error handling than just returning false if undefined
-//         if (sentPassword === users[sentUsername].user_pw) {
-//             return res.send(true);
-//         } else {
-//             return res.send(false);
-//         }
-//     }
-//
-// });
+app.use('/test',test); // Test
 
 app.listen(PORT,console.log(`Listening on port ${PORT}`));

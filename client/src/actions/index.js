@@ -1,7 +1,11 @@
 import axios from 'axios';
-import {LOGIN, FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_STACKS, FETCH_STACK_META, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 import {browserHistory} from 'react-router';
+
 const BASE_URL = 'http://localhost:8081/test'; // For test purposes, listening on 8081 and listening on port 8081
+
+import stack2 from '../data/stackoverviewCB3';
+
 export function userLogin(values) {
 
     return function (dispatch) {
@@ -20,8 +24,7 @@ export function userLogin(values) {
     }
 }
 export function getStack() {
-    const request = axios.get(`../data/dummydata.js`);
-
+    const request = stack2;
     return {
         type: FETCH_STACKS,
         payload: request
@@ -45,10 +48,10 @@ export function getUserData() {
     }
 }
 
-export function register({email, password}) {
+export function register({name, userName, password, email, birthday}) {
     const base_url = "http://scottbowlerdev.com/api";
     return function (dispatch) {
-        axios.post(`${base_url}/register`, {email, password}).then((resp) => {
+        axios.post(`${base_url}/register`, {name, userName, password, email, birthday}).then((resp) => {
 
             dispatch({type: AUTH_USER});
 
