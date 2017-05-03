@@ -39,22 +39,27 @@ class SingleCard extends Component {
 
     render() {
         const cardStyle = {
-                width: '100%',
-                height: '100%',
-                transition: 'transform 1s',
-                display: "block"
-        };
+            width: '100vw',
+            height: '100vh',
+            transition: 'transform 1s',
+            textAlign: "center",
+            transformStyle: "preserve-3d",
+            transformOrigin: "50% 50%",
+            display: "block",
+            backfaceVisibility: "visible"
 
+        };
         const answerCard = {
             display: "none"
         };
 
         const flippedCard ={
-            transform: "rotateY(180deg)"
+            transform: "rotateY(180deg)",
         };
 
         const answer ={
             display: "none",
+            transform: "scale(1)",
         };
 
         const question ={
