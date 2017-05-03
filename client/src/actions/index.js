@@ -3,7 +3,7 @@ import {FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from '
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:8081/test'; // For test purposes, listening on 8081 and listening on port 8081
+const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
 
 import stack2 from '../data/stackoverviewCB3';
 
@@ -32,7 +32,7 @@ export function getStack() {
         }).catch(err => {
             dispatch({
                 type: null,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }
