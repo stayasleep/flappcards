@@ -20,6 +20,8 @@ class Community extends Component{
             <span># items</span>
           <span className="mdl-list__item-text-body">
             See Calc 2 deck
+              Rating:
+              Created On:
           </span>
         </span>
                 <span className="mdl-list__item-secondary-content">

@@ -19,6 +19,8 @@ class Recent extends Component{
             <span>user: brian</span>
           <span className="mdl-list__item-text-body">
             See your deck
+              Rating:
+              Created On:
           </span>
         </span>
                 <span className="mdl-list__item-secondary-content">

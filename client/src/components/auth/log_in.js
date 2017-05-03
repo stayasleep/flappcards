@@ -16,11 +16,12 @@ class LogIn extends Component {
        this.props.userLogin(values);
     }
 
-    renderInput({input, label, meta: {touched, error}}){
+    renderInput({input, label, type, meta: {touched, error}}){
         return (
             <TextField hintText={label}
                        floatingLabelText={label}
                        errorText={touched && error}
+                       type={type}
                        {...input}
             />
         )
