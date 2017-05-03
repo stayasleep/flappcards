@@ -41,8 +41,7 @@ export function getStack() {
 export function getCard() {
     return function (dispatch) {
         axios.get(`${BASE_URL}/home`).then((response) => {
-            console.log("actions index", response.data);
-            dispatch({type: FETCH_STACKS, payload: response.data});
+            dispatch({type: FETCH_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: null,

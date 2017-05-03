@@ -6,13 +6,13 @@ const default_state ={
     course: "",
     creator: "",
     number: "",
-    single: []
+    single: [],
+    stacks: []
 };
 
 
 export default function (state = default_state, action) {
     switch (action.type){
-
         case(FETCH_STACKS):
             return{...state,
                 all: action.payload.cards,
@@ -24,7 +24,8 @@ export default function (state = default_state, action) {
             return{...state, single: action.payload.cards};
 
         case(FETCH_STACK_OVERVIEW):
-            return{...state}
+            console.log(action.payload);
+            return{...state, stacks: action.payload}
     }
     return state;
 }

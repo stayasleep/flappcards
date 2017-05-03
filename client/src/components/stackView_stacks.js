@@ -9,7 +9,6 @@ class StackViewStacks extends Component{
     }
 
     render() {
-    console.log(this.props);
         const stackList = this.props.cards.map((item, index) => {
             return (
             <div key={index} className="mdl-card mdl-shadow--2dp demo-card-square">

@@ -3,10 +3,11 @@ import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../node_
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getCard} from '../actions/index'
+import RaisedButton from 'material-ui/RaisedButton';
 
 class SingleCard extends Component {
     static contextTypes ={
-        router: PropTypes.object
+        router: PropTypes.object,
     };
 
     componentWillMount(){
@@ -14,8 +15,7 @@ class SingleCard extends Component {
     }
 
     render() {
-        const card = this.props.cards["0"];
-        console.log(card);
+        const card = this.props.cards[0];
         if(!card){
             return <h3>Loading...</h3>
         }
@@ -27,6 +27,7 @@ class SingleCard extends Component {
                     </h2>
                     <h2 className="mdl-card__title-text " id="answer">
                         {card.answer}
+                        <RaisedButton>Next</RaisedButton>
                     </h2>
                 <div className="mdl-card__menu">
                 </div>
