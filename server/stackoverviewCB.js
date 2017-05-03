@@ -1,5 +1,4 @@
 const stack2={
-    overview:{
         cards: [{
             answer: "AV Setting",
             question: "What sets the camera as aperature priority? "
@@ -37,7 +36,6 @@ const stack2={
         // createdOn: "2017-05-01",
         stackRating: 0.7,
         totalCards: 10
-    }
 };
 
 module.exports=stack2;
