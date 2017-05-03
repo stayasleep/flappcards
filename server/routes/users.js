@@ -101,8 +101,25 @@ router.put('/stack/:cId',(request,response)=>{
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
-//create stack by clicking any create button
+//create stack by clicking any create button, [userID is from logged in user and so is
 router.post('/stack/:user_id',(request,response)=>{
+    let userID = request.params.user_id;
+    let newSub = request.body.subject;
+    let newCat = request.body.category;
+    let newQ = request.body.question;
+    let newA = request.body.answer;
+    //get username of logged in user
+    let whoMadeMe = "user1";
+
+    connection.query(
+        "BEGIN " +
+        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?)" +
+        "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?);"+
+        "COMMIT",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
+        if(err) throw err;
+        console.log(userID+" Made A Stack w 1 q and a");
+        response.json({success:true, msg:"Stack was just created"});
+    });
     // connection.query({
     //     sql:"BEGIN;
     //         INSERT INTO stacks(user_id, subject, category)
