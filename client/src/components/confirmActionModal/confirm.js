@@ -28,7 +28,6 @@ export default class Confirm extends React.Component {
             <FlatButton
                 label="Submit"
                 primary={true}
-                disabled={true}
                 onTouchTap={this.handleClose}
             />,
         ];
@@ -37,12 +36,11 @@ export default class Confirm extends React.Component {
             <div>
                 <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Dialog With Actions"
+                    title="Are You Sure?"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
-                    Only actions can close this dialog.
                 </Dialog>
             </div>
         );
