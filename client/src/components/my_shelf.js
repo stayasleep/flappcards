@@ -18,9 +18,7 @@ class MyShelf extends Component {
 
                         </tr>
                         </thead>
-                        <tbody>
                         <Stacks/>
-                        </tbody>
                     </table>
                 </div>
             </div>

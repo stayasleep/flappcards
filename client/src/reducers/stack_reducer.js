@@ -1,4 +1,4 @@
-import {FETCH_STACKS, FETCH_CARD, FETCH_STACK_OVERVIEW} from '../actions/types';
+import {FETCH_STACKS, FETCH_CARD, FETCH_MY_STACK_OVERVIEW} from '../actions/types';
 
 const default_state ={
     all: [],
@@ -23,8 +23,7 @@ export default function (state = default_state, action) {
         case(FETCH_CARD):
             return{...state, single: action.payload.cards};
 
-        case(FETCH_STACK_OVERVIEW):
-            console.log(action.payload);
+        case(FETCH_MY_STACK_OVERVIEW):
             return{...state, stacks: action.payload}
     }
     return state;
