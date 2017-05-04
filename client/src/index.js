@@ -4,14 +4,20 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import thunk from 'redux-thunk';
+import {AUTH_USER} from './actions/types'
 
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
-import rootReducer from './reducers/index';
+import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
+const token = localStorage.getItem("token");
+if(token){
+    store.dispatch({type: AUTH_USER})
+}
 
 import App from './components/app';
 import Home from './components/home';
@@ -32,9 +38,8 @@ const MaterializedApp = (props) => (
     </MuiThemeProvider>
 );
 
-
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(rootReducer)}>
+    <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
                 <Route component={Home}/>
