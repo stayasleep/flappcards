@@ -15,9 +15,6 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
-
-
-
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
@@ -64,8 +61,13 @@ router.post('/login',function(request,response){
                     //console log to see if the metadata from your account is retrieved before redirect
                     console.log('my results',results);
                     //do stuff with jwt here
-                    // response.send(true);
                 } );
+                //returns the stack id, which should be used as an attribute and not on the page
+                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
+                    if (err) throw err;
+                    //console log to see if the metadata from the community is retrieved before redirect
+                    console.log('comm results',results);
+                });
                 response.json({success: true, msg: "User matches"});
 
             }else{
