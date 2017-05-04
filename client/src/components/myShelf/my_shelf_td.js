@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getMyStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
+import RaisedButton from 'material-ui/RaisedButton'
 import {
     Table,
     TableBody,
@@ -28,9 +29,9 @@ class Stacks extends Component{
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.stackRating}</TableRowColumn>
                     <TableRowColumn>
-                        <Link to="/stackOverview" name="stackOverview"><button className="mdl-button mdl-js-button mdl-button--primary">
-                            <i className="material-icons">visibility</i>
-                        </button></Link>
+                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                            View
+                        </RaisedButton></Link>
                     </TableRowColumn>
                     <TableRowColumn>
                             <DeleteStackConfirm/>
