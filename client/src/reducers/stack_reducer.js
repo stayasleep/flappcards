@@ -1,4 +1,4 @@
-import {FETCH_STACKS, FETCH_CARD, FETCH_STACK_OVERVIEW} from '../actions/types';
+import {FETCH_STACKS, FETCH_CARD, FETCH_MY_STACK_OVERVIEW, FETCH_MY_RECENT_STACKS} from '../actions/types';
 
 const default_state ={
     all: [],
@@ -23,9 +23,13 @@ export default function (state = default_state, action) {
         case(FETCH_CARD):
             return{...state, single: action.payload.cards};
 
-        case(FETCH_STACK_OVERVIEW):
-            console.log(action.payload);
-            return{...state, stacks: action.payload}
+        case(FETCH_MY_STACK_OVERVIEW):
+            return{...state, stacks: action.payload};
+
+        case (FETCH_MY_RECENT_STACKS):
+            return {...state, recentStacks: action.payload};
     }
     return state;
 }
+
+// Added recentStacks to the props of the React app

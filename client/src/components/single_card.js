@@ -9,13 +9,17 @@ class SingleCard extends Component {
     constructor(props) {
         super(props);
         this.nextCard = this.nextCard.bind(this);
+        this.prevCard = this.prevCard.bind(this);
         this.state = {
             card: 0
         }
     }
 
     nextCard() {
-        this.setState({ card: this.state.card + 1 })
+        this.setState({card: this.state.card + 1})
+    }
+    prevCard() {
+        this.setState({ card: this.state.card - 1 })
     }
 
     static contextTypes ={
@@ -50,6 +54,9 @@ class SingleCard extends Component {
     }
 
     render() {
+        const centered = {
+            textAlign: "center"
+        };
         const cardStyle = {
             width: '100vw',
             height: '100vh',
@@ -78,7 +85,6 @@ class SingleCard extends Component {
             display: "block"
         };
 
-        const onSubmit = this.props;
         const card = this.props.cards[this.state.card];
         if(!card){
             return <h3>Loading...</h3>
@@ -91,8 +97,12 @@ class SingleCard extends Component {
                     </h2>
                     <h2 style={answer} id="answer">
                         {card.answer}
-                        <RaisedButton onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
                     </h2>
+                </div>
+                <div  style={centered}>
+                    <RaisedButton style={centered} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
+                    <RaisedButton style={centered} id="return" containerElement={<Link to="/stackOverview" name="back"/>}>Return</RaisedButton>
+                    <RaisedButton style={centered} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
                 </div>
             </div>
         );

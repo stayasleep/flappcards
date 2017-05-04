@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_MY_RECENT_STACKS} from './types';
 
 import {browserHistory} from 'react-router';
 
@@ -26,7 +27,7 @@ export function userLogin(values) {
 }
 export function getStack() {
     return function (dispatch) {
-        axios.get(`${BASE_URL}/home`).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
             console.log("actions index", response.data);
             dispatch({type: FETCH_STACKS, payload: response.data});
         }).catch(err => {
@@ -40,7 +41,7 @@ export function getStack() {
 
 export function getCard() {
     return function (dispatch) {
-        axios.get(`${BASE_URL}/home`).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
             dispatch({type: FETCH_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -78,6 +79,22 @@ export function register({name, userName, password, email, birthday}) {
     }
 }
 
+export function getMyStackOverview() {
+    // console.log("getMyStackOverview() called");
+    return function (dispatch) {
+        axios.post(`${BASE_URL}/myShelf`).then((response) => {
+            console.log('myShelf call response:', response);
+            dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
+        }).catch(err => {
+            console.log('ERROR:', err);
+            dispatch({
+                type: FETCH_MY_STACK_OVERVIEW,
+                error: err.response
+            });
+        })
+    }
+}
+
 export function getStackOverview() {
     return function (dispatch) {
         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
@@ -90,3 +107,18 @@ export function getStackOverview() {
         })
     }
 }
+
+export function getMyRecentStacksOverview() {
+    return function(dispatch) {
+        axios.post(`${BASE_URL}/home`).then((response) => {
+            console.log("recentStacks", response.data);
+            dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: FETCH_MY_RECENT_STACKS,
+                error: err.response
+            });
+        })
+    }
+}
+

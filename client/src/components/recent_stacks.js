@@ -1,39 +1,46 @@
 import React, {Component} from 'react';
+import {List, ListItem} from 'material-ui/List';
 import {connect} from 'react-redux';
-import {getStackOverview} from '../actions/index'
+import {getMyRecentStacksOverview} from '../actions/index'
 import {Link} from 'react-router'
 
-class Recent extends Component{
-    componentWillMount(){
-        this.props.getStackOverview();
+class Recent extends Component {
+    componentWillMount() {
+        this.props.getMyRecentStacksOverview();
     }
 
     render() {
+        if (!this.props.recentStacks) {
+            return <div>Loading</div>
+        }
+        const recentStacksList = this.props.recentStacks.map((item, index) => {
+            return (
+                <li key={index}>
+                    {item.subject}
+                    {item.category}
+                    {item.totalCards}
+                    {item.createdBy}
+                    {item.createdOn}
+                    {item.stackRating}
+                </li>
+            )
+        });
         return (
-            <li className="mdl-list__item mdl-list__item--three-line">
-        <span className="mdl-list__item-primary-content">
-          <i className="material-icons mdl-list__item-avatar">functions</i>
-          <span>Math</span>
-            <span>Calc 1</span>
-            <span># of cards</span>
-            <span>user: brian</span>
-          <span className="mdl-list__item-text-body">
-            See your deck
-              Rating:
-              Created On:
-          </span>
-        </span>
-                <span className="mdl-list__item-secondary-content">
-                    <Link to="/stackOverview" name="Stacks"><i className="material-icons">visibility</i></Link>
-        </span>
-            </li>
+            <div>
+            <ul>
+            {recentStacksList}
+            </ul>
+                <Link to="/stackOverview" name="SingleCard"><button className="mdl-button mdl-js-button mdl-button--primary">
+                    <i className="material-icons">visibility</i>
+                </button></Link>
+            </div>
         );
     }
 }
 function mapStateToProps(state) {
     return {
-        stacks: state
+        recentStacks: state.stack.recentStacks
     }
 }
 
-export default connect(mapStateToProps, {getStackOverview})(Recent);
+export default connect(mapStateToProps, {getMyRecentStacksOverview})(Recent);
