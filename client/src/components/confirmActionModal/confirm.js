@@ -26,7 +26,7 @@ export default class Confirm extends React.Component {
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
-                label="Submit"
+                label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
             />,

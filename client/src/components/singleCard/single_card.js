@@ -57,6 +57,13 @@ class SingleCard extends Component {
         const centered = {
             textAlign: "center"
         };
+        const right = {
+            textAlign: "center"
+        };
+        const wrong = {
+            textAlign: "center",
+            backgroundColor: "red"
+        };
         const cardStyle = {
             width: '100vw',
             height: '100vh',
@@ -100,9 +107,11 @@ class SingleCard extends Component {
                     </h2>
                 </div>
                 <div  style={centered}>
-                    <RaisedButton style={centered} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
+                    <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>
+                    <RaisedButton primary={true} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
                     <RaisedButton style={centered} id="return" containerElement={<Link to="/stackOverview" name="back"/>}>Return</RaisedButton>
-                    <RaisedButton style={centered} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
+                    <RaisedButton primary={true} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
+                    <RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>
                 </div>
             </div>
         );
