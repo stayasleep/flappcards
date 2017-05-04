@@ -40,11 +40,11 @@ router.post('/login',function(request,response){
                 response.send(true);
             } );
             //returns the stack id, which should be used as an attribute and not on the page
-            // connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
-            //     if (err) throw err;
-            //     //console log to see if the metadata from the community is retrieved before redirect
-            //     console.log('comm results',results);
-            // });
+            connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
+                if (err) throw err;
+                //console log to see if the metadata from the community is retrieved before redirect
+                console.log('comm results',results);
+            });
             // response.redirect('/home');
         }else{
             // response.statusCode = 404;
@@ -59,6 +59,7 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    let sid=request.params.sID;
    let commSubj =request.body.subject;
    let commCat = request.body.category;
+   var idCopiedStack=null;
    connection.query(
        "BEGIN; " +
        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
@@ -69,15 +70,16 @@ router.post('/stack/:uID/:sID',(request,response)=>{
            let str=JSON.stringify(results);
            let strJ=JSON.parse(str);
            //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
-           var idCopiedStack = strJ[1];
+           idCopiedStack = strJ[1];
            console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
-           response.json({success:true, msg:"Stack was just copied"});
+           // response.json({success:true, msg:"Stack was just copied"});
        }
    );
-   connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",idCop,(err,results)=>{
+   //the idCOpiedStack doesnt work....this query depends on the one above
+   connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
        if (err) throw err;
        console.log("Ha, the last inserted ID produced these cards", results);
-
+       response.json({success:true, msg:"Stack showing"});
    })
 });
 
