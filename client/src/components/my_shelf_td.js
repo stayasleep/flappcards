@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getStackOverview} from '../actions/index'
+import {getMyStackOverview} from '../actions/index'
 import {Link} from 'react-router'
 
 class Stacks extends Component{
     componentWillMount(){
-        this.props.getStackOverview();
+        this.props.getMyStackOverview();
     }
 
     render() {
         const stacksList = this.props.stacks.map((item, index) => {
             return (
                 <tr key={index}>
-                    <td className="mdl-data-table__cell--non-numeric">{item.subject}: {item.course}</td>
+                    <td className="mdl-data-table__cell--non-numeric">{item.subject}: {item.category}</td>
                     <td>{item.number}</td>
-                    <td>{item.rating}</td>
+                    <td>{item.stackRating}</td>
                     <td>
                         <Link to="/single_card" name="SingleCard"><button className="mdl-button mdl-js-button mdl-button--primary">
                             <i className="material-icons">visibility</i>
@@ -24,20 +24,14 @@ class Stacks extends Component{
             )
         });
         return (
-            <div>
-                {stacksList}
-            </div>
+            <tbody>{stacksList}</tbody>
         );
     }
 }
 function mapStateToProps(state) {
     return {
-        stacks: state.stacks,
-        subject: state.stack.subj,
-        course: state.stack.course,
-        rating: state.stack.creator,
-        number: state.stack.number
+        stacks: state.stack.stacks
     }
 }
 
-export default connect(mapStateToProps, {getStackOverview})(Stacks);
+export default connect(mapStateToProps, {getMyStackOverview})(Stacks);

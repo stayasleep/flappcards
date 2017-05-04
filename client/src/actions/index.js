@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
 
 import {browserHistory} from 'react-router';
 
@@ -73,6 +73,21 @@ export function register({name, userName, password, email, birthday}) {
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response.data.error
+            });
+        })
+    }
+}
+
+export function getMyStackOverview() {
+    console.log("getMyStackOverview() called");
+    return function (dispatch) {
+        axios.post(`${BASE_URL}/myShelf`,"blam").then((response) => {
+            console.log(response.data);
+            dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: FETCH_MY_STACK_OVERVIEW,
+                error: err.response
             });
         })
     }
