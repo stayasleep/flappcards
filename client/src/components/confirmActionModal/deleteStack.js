@@ -6,10 +6,15 @@ import {deleteStack} from '../../actions/index';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
-export default class Confirm extends React.Component {
+class DeleteStackConfirm extends React.Component {
+
     state = {
         open: false,
     };
+
+    handleDelete(id){
+        this.props.deleteStack(id)
+    }
 
     handleOpen = () => {
         this.setState({open: true});
@@ -30,6 +35,7 @@ export default class Confirm extends React.Component {
                 label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
+                onClick={() => {this.handleDelete(this.props.stacks._id)}}
             />,
         ];
 
@@ -47,3 +53,5 @@ export default class Confirm extends React.Component {
         );
     }
 }
+
+export default connect(null, {deleteStack})(DeleteStackConfirm);

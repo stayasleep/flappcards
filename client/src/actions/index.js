@@ -133,7 +133,7 @@ export function getMyRecentStacksOverview() {
 
 export function deleteStack() {
     return function(dispatch) {
-        axios.post(`${BASE_URL}/home`).then((response) => {
+        axios.delete(`${BASE_URL}/myShelf`).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -146,7 +146,7 @@ export function deleteStack() {
 
 export function deleteCard() {
     return function(dispatch) {
-        axios.post(`${BASE_URL}/home`).then((response) => {
+        axios.delete(`${BASE_URL}/stackOverview`).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({

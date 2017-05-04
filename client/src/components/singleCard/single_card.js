@@ -66,7 +66,7 @@ class SingleCard extends Component {
         };
         const cardStyle = {
             width: '100vw',
-            height: '100vh',
+            height: '80vh',
             transition: 'transform 1s',
             textAlign: "center",
             transformStyle: "preserve-3d",
@@ -98,7 +98,7 @@ class SingleCard extends Component {
         }
         return (
             <div>
-                <div style={cardStyle} className="mdl-card mdl-shadow--2dp " id="questionCard">
+                <div style={cardStyle} id="questionCard">
                     <h2 style={question} id="question">
                         {card.question}
                     </h2>
