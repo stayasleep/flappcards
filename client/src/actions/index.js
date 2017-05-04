@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD} from './types';
 import {FETCH_MY_RECENT_STACKS} from './types';
 
 import {browserHistory} from 'react-router';
@@ -94,7 +94,6 @@ export function getMyStackOverview() {
     // console.log("getMyStackOverview() called");
     return function (dispatch) {
         axios.post(`${BASE_URL}/myShelf`).then((response) => {
-            console.log('myShelf call response:', response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('ERROR:', err);
@@ -122,7 +121,6 @@ export function getStackOverview() {
 export function getMyRecentStacksOverview() {
     return function(dispatch) {
         axios.post(`${BASE_URL}/home`).then((response) => {
-            console.log("recentStacks", response.data);
             dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -133,3 +131,28 @@ export function getMyRecentStacksOverview() {
     }
 }
 
+export function deleteStack() {
+    return function(dispatch) {
+        axios.post(`${BASE_URL}/home`).then((response) => {
+            dispatch({type: DELETE_STACK, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: DELETE_STACK,
+                error: err.response
+            });
+        })
+    }
+}
+
+export function deleteCard() {
+    return function(dispatch) {
+        axios.post(`${BASE_URL}/home`).then((response) => {
+            dispatch({type: DELETE_CARD, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: DELETE_CARD,
+                error: err.response
+            });
+        })
+    }
+}

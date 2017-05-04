@@ -2,8 +2,9 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-
-
+import {deleteCard} from '../../actions/index';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
 export default class Confirm extends React.Component {
     state = {

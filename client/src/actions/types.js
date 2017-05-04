@@ -7,4 +7,6 @@ export const UNAUTH_USER = 'unauth_user';
 export const FETCH_MY_STACK_OVERVIEW = 'fetch_my_stack_overview';
 export const FETCH_STACK_OVERVIEW = 'fetch_stack_overview';
 export const FETCH_MY_RECENT_STACKS = 'fetch_my_recent_stacks';
+export const DELETE_STACK = 'delete_stack';
+export const DELETE_CARD = 'delete_card';
 
