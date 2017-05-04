@@ -31,5 +31,9 @@ router.post('/myShelf', (req,res) => {
 router.post('/stackOverview', (req,res) => {
     res.send(stackoverviewCB)
 });
+//
+// router.post('/singleCardView',(req,res) => {
+//     res.send(stackoverviewCB)
+// });
 
 module.exports = router;
