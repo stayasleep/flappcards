@@ -8,19 +8,7 @@ class MyShelf extends Component {
             <div>
                 <FlashCardsAppBar/>
                 <div>
-                    <table className="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
-                        <thead>
-                        <tr>
-                            <th className="mdl-data-table__cell--non-numeric">Subjects</th>
-                            <th>Number of Cards</th>
-                            <th>Rating</th>
-                            <th>View</th>
-                            <th>Delete</th>
-
-                        </tr>
-                        </thead>
-                        <Stacks/>
-                    </table>
+                    <Stacks/>
                 </div>
             </div>
         )

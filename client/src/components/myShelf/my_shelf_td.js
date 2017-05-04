@@ -2,7 +2,16 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getMyStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
-import Confirm from '../confirmActionModal/confirm'
+import DeleteStackConfirm from '../confirmActionModal/deleteStack'
+import RaisedButton from 'material-ui/RaisedButton'
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+} from 'material-ui/Table';
 
 class Stacks extends Component{
     componentWillMount(){
@@ -15,25 +24,36 @@ class Stacks extends Component{
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <tr key={index}>
-                    <td className="mdl-data-table__cell--non-numeric">{item.subject}: {item.category}</td>
-                    <td>{item.totalCards}</td>
-                    <td>{item.stackRating}</td>
-                    <td>
-                        <Link to="/stackOverview" name="stackOverview"><button className="mdl-button mdl-js-button mdl-button--primary">
-                            <i className="material-icons">visibility</i>
-                        </button></Link>
-                    </td>
-                    <td>
-                        <button className="mdl-button mdl-js-button mdl-button--primary">
-                            <Confirm/>
-                        </button>
-                    </td>
-                </tr>
+                <TableRow key={index}>
+                    <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
+                    <TableRowColumn>{item.totalCards}</TableRowColumn>
+                    <TableRowColumn>{item.stackRating}</TableRowColumn>
+                    <TableRowColumn>
+                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                            View
+                        </RaisedButton></Link>
+                    </TableRowColumn>
+                    <TableRowColumn>
+                            <DeleteStackConfirm/>
+                    </TableRowColumn>
+                </TableRow>
             )
         });
         return (
-            <tbody>{stacksList}</tbody>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderColumn>Subjects</TableHeaderColumn>
+                        <TableHeaderColumn>Number of Cards</TableHeaderColumn>
+                        <TableHeaderColumn>Rating</TableHeaderColumn>
+                        <TableHeaderColumn>View</TableHeaderColumn>
+                        <TableHeaderColumn>Delete</TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {stacksList}
+                </TableBody>
+            </Table>
         );
     }
 }
