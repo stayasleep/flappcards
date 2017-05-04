@@ -9,7 +9,7 @@ class SingleCard extends Component {
     constructor(props) {
         super(props);
         this.nextCard = this.nextCard.bind(this);
-        this.prevCard = this.nextCard.bind(this);
+        this.prevCard = this.prevCard.bind(this);
         this.state = {
             card: 0
         }
@@ -54,6 +54,9 @@ class SingleCard extends Component {
     }
 
     render() {
+        const centered = {
+            textAlign: "center"
+        };
         const cardStyle = {
             width: '100vw',
             height: '100vh',
@@ -96,7 +99,11 @@ class SingleCard extends Component {
                         {card.answer}
                     </h2>
                 </div>
-                <RaisedButton id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
+                <div  style={centered}>
+                    <RaisedButton style={centered} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
+                    <RaisedButton style={centered} id="return" containerElement={<Link to="/stackOverview" name="back"/>}>Return</RaisedButton>
+                    <RaisedButton style={centered} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
+                </div>
             </div>
         );
     }

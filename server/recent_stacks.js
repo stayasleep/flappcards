@@ -1,5 +1,5 @@
-const dashboard={
-    overview: {
+const recentStacks=[
+    {
         subject: "Markets",
         category: "Finance",
         totalCards: 10,
@@ -7,6 +7,6 @@ const dashboard={
         createdOn: "2017-04-30",
         stackRating: 0.7
     }
-};
+];
 
-module.exports = dashboard;
+module.exports = recentStacks;

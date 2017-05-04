@@ -15,6 +15,7 @@ class MyShelf extends Component {
                             <th>Number of Cards</th>
                             <th>Rating</th>
                             <th>View</th>
+                            <th>Delete</th>
 
                         </tr>
                         </thead>

@@ -3,6 +3,7 @@ const router = express.Router();
 const users = require('../user_data');
 const stackoverviewCB = require('../stackoverviewCB');
 const myShelf = require('../myShelf');
+const recentStacks = require('../recent_stacks');
 
 router.post('/login', (req,res) => {
     let sentUsername = req.body.userName;
@@ -19,14 +20,16 @@ router.post('/login', (req,res) => {
     }
 });
 
-router.get('/home',(req,res) => {
-    console.log("req.body", req.body);
-    res.send(stackoverviewCB);
+router.post('/home',(req,res) => {
+    res.send(recentStacks);
 });
 
 router.post('/myShelf', (req,res) => {
-    console.log("myShelf request", req.body);
     res.send(myShelf);
+});
+
+router.post('/stackOverview', (req,res) => {
+    res.send(stackoverviewCB)
 });
 
 module.exports = router;
