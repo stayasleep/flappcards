@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getStack} from '../actions/index'
+import Confirm from '../components/confirmActionModal/confirm'
 
 class StackViewStacks extends Component{
     componentWillMount(){
@@ -9,9 +10,16 @@ class StackViewStacks extends Component{
     }
 
     render() {
+        const header = {
+            textAlign: "center"
+        };
+        const cardDisplay = {
+            display: "inline-block",
+            textAlign: "center"
+        }
         const stackList = this.props.cards.map((item, index) => {
             return (
-            <div key={index} className="mdl-card mdl-shadow--2dp demo-card-square">
+            <div style={cardDisplay} key={index} className="mdl-card mdl-shadow--2dp demo-card-square">
                 <div className="mdl-card__title mdl-card--expand">
                     <div className="mdl-card__title-text">{item.question}</div>
                 </div>
@@ -19,16 +27,12 @@ class StackViewStacks extends Component{
                     {item.answer}
                 </div>
                 <div className="mdl-card__actions mdl-card--border">
-                    <Link to="/single_card" name="SingleCard">
                         Edit
+                    <Link to="/stackOverview" name="Stacks">
+                        <Confirm/>
                     </Link>
                 </div>
                 <div className="mdl-card__menu">
-                    <Link to="/stackOverview" name="Stacks">
-                        <button className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-                            <i className="material-icons">delete_forever</i>
-                        </button>
-                    </Link>
                 </div>
             </div>
             )
@@ -36,23 +40,21 @@ class StackViewStacks extends Component{
 
         return (
                 <div>
-                    <div className="mdl-grid">
-                        <div className="mdl-layout-spacer"/>
+                    <div style={header} className="mdl-grid">
+
                         <div className="mdl-cell mdl-cell--6-col">
                             <span>{this.props.subject}</span>
                         </div>
-                        <div className="mdl-layout-spacer"/>
+
                     </div>
                     <div className="mdl-grid">
-                        <div className="mdl-layout-spacer">
-                            <div className="mdl-cell mdl-cell--6-col">
+                            <div className="mdl-cell mdl-cell--3-col">
                                 <span>{this.props.course}</span>
                             </div>
-                            <div className="mdl-layout-spacer"/>
-                        </div>
+
                         <div className="mdl-grid">
                             <div className="mdl-layout-spacer"/>
-                            <div className="mdl-cell mdl-cell--6-col">
+                            <div className="mdl-cell mdl-cell--3-col">
                                 <span>Made by {this.props.creator}</span>
                             </div>
                             <div className="mdl-layout-spacer"/>
@@ -60,15 +62,19 @@ class StackViewStacks extends Component{
 
                         <div className="mdl-grid">
                             <div className="mdl-layout-spacer"/>
-                            <div className="mdl-cell mdl-cell--2-col">
+                            <div className="mdl-cell mdl-cell--3-col">
+                                <Link to="/single_card" name="SingleCard">
                                 <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                                     Study
                                 </button>
+                                </Link>
                             </div>
                             <div className="mdl-cell mdl-cell--2-col">
+                                <Link to="/createCards" name="Add">
                                 <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                                     Add Cards
                                 </button>
+                            </Link>
                             </div>
                             <div className="mdl-cell mdl-cell--2-col">
                                 <span className="mdl-badge" data-badge={this.props.number}>Number of Cards: </span>

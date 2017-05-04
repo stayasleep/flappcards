@@ -10,7 +10,7 @@ const test = require('./routes/test'); // Contains routing for the testApi
 
 const stackoverview=require('./stackoverviewMarket');
 const stack2 = require('./stackoverviewCB');
-const myShelf = require('./myShelf');
+
 const profile = require('./profile');
 const studyMarket = require('./studyMode');
 const studyCB = require('./studyMode2');
