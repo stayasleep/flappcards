@@ -19,16 +19,21 @@ class Recent extends Component {
                     {item.subject}
                     {item.category}
                     {item.totalCards}
-                    {item.creator}
-                    {item.created}
-                    {item.rating}
+                    {item.createdBy}
+                    {item.createdOn}
+                    {item.stackRating}
                 </li>
             )
         });
         return (
+            <div>
             <ul>
             {recentStacksList}
             </ul>
+                <Link to="/stackOverview" name="SingleCard"><button className="mdl-button mdl-js-button mdl-button--primary">
+                    <i className="material-icons">visibility</i>
+                </button></Link>
+            </div>
         );
     }
 }
