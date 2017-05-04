@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER} from './types';
 import {FETCH_MY_RECENT_STACKS} from './types';
 
 import {browserHistory} from 'react-router';
@@ -15,6 +15,9 @@ export function userLogin(values) {
             // I set response.data to true for the test
             if (response.data) {
                 dispatch({type: AUTH_USER});
+
+                localStorage.setItem('token', response.data.token);
+
                 browserHistory.push('/home')
             }
         }).catch(err => {
@@ -76,6 +79,14 @@ export function register({name, userName, password, email, birthday}) {
                 error: err.response.data.error
             });
         })
+    }
+}
+
+export function logout() {
+    localStorage.removeItem('token');
+
+    return{
+        type: UNAUTH_USER
     }
 }
 

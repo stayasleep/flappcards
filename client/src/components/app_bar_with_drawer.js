@@ -1,9 +1,10 @@
 import React, {Component} from '../../../node_modules/react';
 import { Drawer, AppBar, MenuItem} from '../../../node_modules/material-ui'
+import {logout} from '../actions/index';
+import NavLink from './header_nav_links';
+import {connect} from 'react-redux'
 
-import NavLink from './header_nav_links'
-
-export default class FlashCardsAppBar extends Component {
+class FlashCardsAppBar extends Component {
 
     constructor(props){
         super(props);
@@ -31,7 +32,7 @@ export default class FlashCardsAppBar extends Component {
                     <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
                     <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
-                    <MenuItem style={style} primaryText="Logout" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                    <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
                 </Drawer>
 
                 <AppBar
@@ -42,3 +43,11 @@ export default class FlashCardsAppBar extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        auth: state.auth.authenticated
+    }
+}
+
+export default connect(mapStateToProps, {logout})(FlashCardsAppBar)
