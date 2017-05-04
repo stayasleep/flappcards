@@ -30,7 +30,9 @@ router.post('/login',function(request,response){
         let checkMate = strJ[0].user_pw;
         console.log('password db', checkMate);
         if(checkMate === upw){
+            //check if pw match, if they do, should send them a token with their user id and username from login
             console.log('the passwords match');
+            //return the stack id and store it somewhere, maybe as an attribute
             connection.query("SELECT stacks.subject, stacks.category, stacks.last_played, stacks.rating, users.username from stacks JOIN users on stacks.user_id = users.user_id WHERE users.username = ? ORDER BY stacks.last_played DESC LIMIT 1",[un],(err,results)=>{
                 if (err) throw err;
                 //console log to see if the metadata from your account is retrieved before redirect
@@ -59,7 +61,7 @@ router.post('/login',function(request,response){
 
 
 //
-//Register
+//Register, token is sent and when return from server...it sbould include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
     let newUser = {
@@ -76,12 +78,10 @@ router.post('/register',(request,response,next)=>{
         response.JSON({success: true, msg: "User Registered"});
     })
 });
-//delete overall stack from account
-// router.delete('/stack')
 
 
 
-//delete an individual card from your stack overview
+//delete an individual card from your stack overview , requires card id from the stackov page
 router.delete('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     console.log('single id coming from card',singleID);
@@ -91,7 +91,7 @@ router.delete('/stack/:cId',(request,response)=>{
         console.log('rows deleted: ', result.affectedRows);
     });
 });
-//update an individual card from your stack overview
+//update an individual card from your stack overview, requires card id from the stack overview page
 router.put('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     //get changed information
@@ -103,7 +103,7 @@ router.put('/stack/:cId',(request,response)=>{
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
-//create stack by clicking any create button, [userID is from logged in user and so is
+//create stack by clicking any create button, [userID is from logged in user and so is username] only creates 1 card atm
 router.post('/stack/:user_id',(request,response)=>{
     let userID = request.params.user_id;
     let newSub = request.body.subject;
@@ -122,36 +122,20 @@ router.post('/stack/:user_id',(request,response)=>{
         console.log(userID+" Made A Stack w 1 q and a");
         response.json({success:true, msg:"Stack was just created"});
     });
-    // connection.query("BEGIN; INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?);INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?);COMMIT",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
-    //     if(err) throw err;
-    //     response.json({success: true, msg:"stack created"})
-    // });
-    // connection.query({
-    //     sql:"BEGIN;
-    //         INSERT INTO stacks(user_id, subject, category)
-    //         VALUES (?,?,?)
-    //         INSERT INTO cards(stack_id,question,answer,orig_source_stack)
-    //         VALUES(LAST_INSERT_ID(),?, ?,?);
-    //         COMMIT;",
-    //     values:['1']
-    // },(err,results)=>{
-    //     console.log(err);
-    // });
 });
 
-//clicking myShelf
+//clicking myShelf and getting your overview, requires logged on user id
 router.get('/myshelf/:uId',(request,response)=>{
     console.log('id of logged on user is: ',request.params.uId);
     let uid = request.params.uId;
     connection.query("SELECT s.subject as Subject, s.category as Category, s.created as Created, s.rating as Rating, u.username as User, COUNT(*) as Total FROM stacks s INNER JOIN cards c ON s.stack_id=c.stack_id INNER JOIN users u ON s.user_id=u.user_id WHERE u.user_id = ? GROUP BY c.stack_id ORDER BY s.subject",[uid],(err,results)=>{
-        // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ?",[uid],(err,results)=>{
         if (err) console.log(err);
         //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
         console.log('shelf overview',results);
         response.json({success:true, msg: "User Shelf Retrieved"});
     });
 });
-//clicking myshelf and deleting a whole stack, requires stack id from the front end
+//clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:uId',(request,response)=>{
     let stackID = request.body.sID;
     connection.query("DELETE FROM stacks WHERE stack_id = ?",[stackID],(err,results)=>{
