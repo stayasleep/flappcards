@@ -69,12 +69,12 @@ router.post('/stack/:uID/:sID',(request,response)=>{
            let str=JSON.stringify(results);
            let strJ=JSON.parse(str);
            //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
-           let idCopiedStack = strJ[1];
+           var idCopiedStack = strJ[1];
            console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
            response.json({success:true, msg:"Stack was just copied"});
        }
    );
-   connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = LAST_INSERT_ID()",(err,results)=>{
+   connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",idCop,(err,results)=>{
        if (err) throw err;
        console.log("Ha, the last inserted ID produced these cards", results);
 
