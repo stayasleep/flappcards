@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <title>Page 9</title>
+    <style>
+        #study_mode{
+            background-color:deepskyblue;
+            border: 1px solid black;
+            height: 30px;
+        }
+        #click_to_flip{
+            background-color:deepskyblue;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 120px;
+            height: 60px;
+            position: relative;
+            border: 1px solid black;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #term_to_answer{
+            background-color:deepskyblue;
+            border: 1px solid black;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 120px;
+            height: 60px;
+            position: relative;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #right{
+            background-color: lightgreen;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            border: 1px solid black;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #wrong{
+            background-color: red;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            border: 1px solid black;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font: normal 100%/normal Arial, Helvetica, sans-serif;
+            -o-text-overflow: clip;
+            text-overflow: clip;
+        }
+        #info p{
+            font-size: 20px;
+        }
+        #setting_icon img{
+            width: 50px;
+        }
+        #card{
+            background-color: #fffabe;
+            margin-top:50vh;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="col-xs-offset-2 col-xs-8">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Study</span>
+        </div>
+    </header>
+</div>
+<div id="card">
+    <button id = "click_to_flip">CLICK TO FLIP</button>
+    <div id = "term_to_answer" class="col-xs-offset-3 col-xs-4">TERM/ANSWER</div>
+    <button id = "right" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">RIGHT</button>
+    <button id = "wrong" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">WRONG</button>
+    <div id = "info" class="col-xs-offset-1">
+    </div>
+</div>
+</body>
+</html>
