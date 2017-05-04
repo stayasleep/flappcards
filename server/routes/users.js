@@ -34,6 +34,7 @@ router.post('/register',(request,response,next)=>{
             connection.query("INSERT INTO `users` SET ?", newUser,(err,results)=>{
                 if(err) throw err;
                 console.log('ID of the inserted user row', results.insertId);
+                //do stuff with jwt here
                 response.json({success: true, msg: "User Registered"});
             })
         });
@@ -62,6 +63,7 @@ router.post('/login',function(request,response){
                     if (err) throw err;
                     //console log to see if the metadata from your account is retrieved before redirect
                     console.log('my results',results);
+                    //do stuff with jwt here
                     // response.send(true);
                 } );
                 response.json({success: true, msg: "User matches"});
