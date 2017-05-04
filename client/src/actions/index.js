@@ -64,9 +64,8 @@ export function getUserData() {
 }
 
 export function register({name, userName, password, email, birthday}) {
-    const base_url = "http://scottbowlerdev.com/api";
     return function (dispatch) {
-        axios.post(`${base_url}/register`, {name, userName, password, email, birthday}).then((resp) => {
+        axios.post(`${BASE_URL}/register`, {name, userName, password, email, birthday}).then((resp) => {
 
             dispatch({type: AUTH_USER});
 
