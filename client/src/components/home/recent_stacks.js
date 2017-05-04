@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {List, ListItem} from 'material-ui/List';
 import {connect} from 'react-redux';
-import {getMyRecentStacksOverview} from '../actions/index'
+import {getMyRecentStacksOverview} from '../../actions/index'
 import {Link} from 'react-router'
 
 class Recent extends Component {

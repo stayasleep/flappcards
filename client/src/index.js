@@ -4,26 +4,32 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import thunk from 'redux-thunk';
+import {AUTH_USER} from './actions/types'
 
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
-import rootReducer from './reducers/index';
+import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
+const token = localStorage.getItem("token");
+if(token){
+    store.dispatch({type: AUTH_USER})
+}
 
 import App from './components/app';
-import Home from './components/home';
-import Profile from './components/profile';
-import MyShelf from './components/my_shelf';
-import Search from './components/search_page';
-import CreateCards from './components/create_cards';
+import Home from './components/home/home';
+import Profile from './components/profile/profile';
+import MyShelf from './components/myShelf/my_shelf';
+import Search from './components/search/search_page';
+import CreateCards from './components/cardCreation/create_cards';
 import LogIn from './components/auth/log_in';
 import Registration from './components/auth/registration';
 import requireAuth from './components/auth/require_auth';
-import Stacks from './components/stack_overview';
-import SingleCard from './components/single_card'
+import Stacks from './components/stackOverview/stack_overview';
+import SingleCard from './components/singleCard/single_card'
 
 const MaterializedApp = (props) => (
     <MuiThemeProvider>
@@ -32,9 +38,8 @@ const MaterializedApp = (props) => (
     </MuiThemeProvider>
 );
 
-
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(rootReducer)}>
+    <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
                 <Route component={Home}/>

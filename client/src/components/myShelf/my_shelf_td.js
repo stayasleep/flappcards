@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getMyStackOverview} from '../actions/index'
+import {getMyStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
-import Confirm from '../components/confirmActionModal/confirm'
+import Confirm from '../confirmActionModal/confirm'
 
 class Stacks extends Component{
     componentWillMount(){

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import FlashCardsAppBar from './app_bar_with_drawer';
+import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import Recent from './recent_stacks'
 import Community from './community_stacks'
 import {Link} from 'react-router'
