@@ -53,16 +53,32 @@ router.post('/login',function(request,response){
         }
     })
 });
-//click on a stack in home page and it gets copied into your account
-// router.post('/stack',(request,response)=>{
+//click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
+router.post('/stack/:uID/:sID',(request,response)=>{
+   let uid =request.params.uID;
+   let sid=request.params.sID;
+   let commSubj =request.body.subject;
+   let commCat = request.body.category;
+   connection.query(
+       "BEGIN; " +
+       "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
+       "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
+       "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
+       "COMMIT;",[uid,commSubj,commCat,sid],(err,results)=>{
+           if (err) throw err;
+           let str=JSON.stringify(results);
+           let strJ=JSON.parse(str);
+           //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
+           let idCopiedStack = strJ[1];
+           console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack);
+           response.json({success:true, msg:"Stack was just copied"});
+       }
+   )
+});
+
+
 //
-// });
-
-
-
-
-//
-//Register, token is sent and when return from server...it sbould include the user_id # inside and the username
+//Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
     let newUser = {
@@ -120,12 +136,12 @@ router.post('/stack/:user_id',(request,response)=>{
         "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?); "+
         "COMMIT;",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
         if(err) throw err;
-        console.log(userID+" Made A Stack w 1 q and a");
+        console.log(userID+" Made A Stack with 1 q and a");
         response.json({success:true, msg:"Stack was just created"});
     });
 });
 
-//clicking myShelf and getting your overview, requires logged on user id
+//clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attrib
 router.get('/myshelf/:uId',(request,response)=>{
     console.log('id of logged on user is: ',request.params.uId);
     let uid = request.params.uId;
