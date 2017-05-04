@@ -16,7 +16,7 @@ class StackViewStacks extends Component{
         const cardDisplay = {
             display: "inline-block",
             textAlign: "center"
-        }
+        };
         const stackList = this.props.cards.map((item, index) => {
             return (
             <div style={cardDisplay} key={index} className="mdl-card mdl-shadow--2dp demo-card-square">

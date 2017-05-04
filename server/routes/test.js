@@ -21,13 +21,15 @@ router.post('/login', (req,res) => {
 });
 
 router.post('/home',(req,res) => {
-    console.log("home request", req.body);
     res.send(recentStacks);
 });
 
 router.post('/myShelf', (req,res) => {
-    console.log("myShelf request", req.body);
     res.send(myShelf);
+});
+
+router.post('/stackOverview', (req,res) => {
+    res.send(stackoverviewCB)
 });
 
 module.exports = router;

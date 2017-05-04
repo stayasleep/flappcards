@@ -27,7 +27,7 @@ export function userLogin(values) {
 }
 export function getStack() {
     return function (dispatch) {
-        axios.get(`${BASE_URL}/home`).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
             console.log("actions index", response.data);
             dispatch({type: FETCH_STACKS, payload: response.data});
         }).catch(err => {
