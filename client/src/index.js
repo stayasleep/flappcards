@@ -20,16 +20,16 @@ if(token){
 }
 
 import App from './components/app';
-import Home from './components/home';
-import Profile from './components/profile';
-import MyShelf from './components/my_shelf';
-import Search from './components/search_page';
-import CreateCards from './components/create_cards';
+import Home from './components/home/home';
+import Profile from './components/profile/profile';
+import MyShelf from './components/myShelf/my_shelf';
+import Search from './components/search/search_page';
+import CreateCards from './components/cardCreation/create_cards';
 import LogIn from './components/auth/log_in';
 import Registration from './components/auth/registration';
 import requireAuth from './components/auth/require_auth';
-import Stacks from './components/stack_overview';
-import SingleCard from './components/single_card'
+import Stacks from './components/stackOverview/stack_overview';
+import SingleCard from './components/singleCard/single_card'
 
 const MaterializedApp = (props) => (
     <MuiThemeProvider>

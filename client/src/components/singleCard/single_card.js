@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../node_modules/material-ui/Card';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../../node_modules/material-ui/Card';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCard} from '../actions/index'
+import {getCard} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
 
 class SingleCard extends Component {

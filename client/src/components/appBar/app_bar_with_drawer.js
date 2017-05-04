@@ -1,6 +1,6 @@
-import React, {Component} from '../../../node_modules/react';
-import { Drawer, AppBar, MenuItem} from '../../../node_modules/material-ui'
-import {logout} from '../actions/index';
+import React, {Component} from '../../../../node_modules/react';
+import { Drawer, AppBar, MenuItem} from '../../../../node_modules/material-ui'
+import {logout} from '../../actions/index';
 import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
 
