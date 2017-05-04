@@ -79,12 +79,13 @@ export function register({name, userName, password, email, birthday}) {
 }
 
 export function getMyStackOverview() {
-    console.log("getMyStackOverview() called");
+    // console.log("getMyStackOverview() called");
     return function (dispatch) {
-        axios.post(`${BASE_URL}/myShelf`,"blam").then((response) => {
-            console.log(response.data);
+        axios.post(`${BASE_URL}/myShelf`).then((response) => {
+            console.log('myShelf call response:', response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
+            console.log('ERROR:', err);
             dispatch({
                 type: FETCH_MY_STACK_OVERVIEW,
                 error: err.response

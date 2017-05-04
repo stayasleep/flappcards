@@ -9,6 +9,10 @@ class Stacks extends Component{
     }
 
     render() {
+        console.log("myshelf: ",this.props);
+        if(!this.props.stacks){
+            return <div>Loading...</div>
+        }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
                 <tr key={index}>

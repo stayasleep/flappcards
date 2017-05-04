@@ -24,6 +24,7 @@ export default function (state = default_state, action) {
             return{...state, single: action.payload.cards};
 
         case(FETCH_MY_STACK_OVERVIEW):
+            console.log('Action - FETCH_MY_STACK_OVERVIEW', action.payload);
             return{...state, stacks: action.payload}
     }
     return state;
