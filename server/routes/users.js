@@ -32,14 +32,15 @@ router.post('/login',function(request,response){
         if(checkMate === upw){
             //check if pw match, if they do, should send them a token with their user id and username from login
             console.log('the passwords match');
-            //return the stack id and store it somewhere, maybe as an attribute
-            connection.query("SELECT stacks.subject, stacks.category, stacks.last_played, stacks.rating, users.username from stacks JOIN users on stacks.user_id = users.user_id WHERE users.username = ? ORDER BY stacks.last_played DESC LIMIT 1",[un],(err,results)=>{
+            //return the stack id and store it somewhere, maybe as an attribute but dont display it onto the dashboard
+            connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? ORDER BY stacks.last_played DESC LIMIT 1",[un],(err,results)=>{
                 if (err) throw err;
                 //console log to see if the metadata from your account is retrieved before redirect
                 console.log('my results',results);
                 response.send(true);
             } );
-            // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
+            //returns the stack id, which should be used as an attribute and not on the page
+            // connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
             //     if (err) throw err;
             //     //console log to see if the metadata from the community is retrieved before redirect
             //     console.log('comm results',results);
@@ -128,7 +129,7 @@ router.post('/stack/:user_id',(request,response)=>{
 router.get('/myshelf/:uId',(request,response)=>{
     console.log('id of logged on user is: ',request.params.uId);
     let uid = request.params.uId;
-    connection.query("SELECT s.subject as Subject, s.category as Category, s.created as Created, s.rating as Rating, u.username as User, COUNT(*) as Total FROM stacks s INNER JOIN cards c ON s.stack_id=c.stack_id INNER JOIN users u ON s.user_id=u.user_id WHERE u.user_id = ? GROUP BY c.stack_id ORDER BY s.subject",[uid],(err,results)=>{
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*)as Total from stacks JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? GROUP BY stacks.subject" ,[uid],(err,results)=>{
         if (err) console.log(err);
         //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
         console.log('shelf overview',results);
