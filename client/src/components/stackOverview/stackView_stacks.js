@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getStack} from '../../actions/index'
+import {getStackOverview} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
+import Edit from '../editCard/edit'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton'
 
 class StackViewStacks extends Component{
     componentWillMount(){
-        this.props.getStack();
+        this.props.getStackOverview();
     }
 
     render() {
+        if (!this.props.stackCards) {
+            return <div>Loading...</div>
+        }
         const header = {
             textAlign: "center"
         };
@@ -19,7 +23,7 @@ class StackViewStacks extends Component{
             display: "inline-block",
             textAlign: "center"
         };
-        const stackList = this.props.cards.map((item, index) => {
+        const cardStackList = this.props.stackCards.map((item, index) => {
             return (
             <Card style={cardDisplay} key={index}>
                 <CardTitle>
@@ -29,7 +33,7 @@ class StackViewStacks extends Component{
                     {item.answer}
                 </CardText>
                 <CardActions>
-                    <RaisedButton>Edit</RaisedButton>
+                    <Edit/>
                     <DeleteCardConfirm/>
                 </CardActions>
             </Card>
@@ -41,13 +45,16 @@ class StackViewStacks extends Component{
                     <div style={header} className="mdl-grid">
 
                         <div className="mdl-cell mdl-cell--6-col">
-                            <span>{this.props.subject}</span>
+                            {/* The subject and category are referenced once in this component, so we just pull off the category from the first card
+                            (this.props.stackCards[0]) since it applies to all cards in this view.
+                            */}
+                            <span>{this.props.stackCards[0].subject}</span>
                         </div>
 
                     </div>
                     <div className="mdl-grid">
                             <div className="mdl-cell mdl-cell--3-col">
-                                <span>{this.props.course}</span>
+                                <span>{this.props.stackCards[0].category}</span>
                             </div>
 
                         <div className="mdl-grid">
@@ -73,11 +80,12 @@ class StackViewStacks extends Component{
                             </Link>
                             </div>
                             <div className="mdl-cell mdl-cell--2-col">
-                                <span className="mdl-badge" data-badge={this.props.number}>Number of Cards: </span>
+                                {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
+                                <span className="mdl-badge" data-badge={this.props.stackCards.length}>Number of Cards: </span>
                             </div>
                         </div>
                     </div>
-                    {stackList}
+                    {cardStackList}
                 </div>
         );
     }
@@ -88,8 +96,9 @@ function mapStateToProps(state) {
         subject: state.stack.subj,
         course: state.stack.course,
         creator: state.stack.creator,
-        number: state.stack.number
+        number: state.stack.number,
+        stackCards: state.stack.stackCards
     }
 }
 
-export default connect(mapStateToProps, {getStack})(StackViewStacks);
+export default connect(mapStateToProps, {getStackOverview})(StackViewStacks);

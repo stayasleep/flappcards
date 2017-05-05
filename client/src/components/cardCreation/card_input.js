@@ -19,21 +19,23 @@ class CardCreation extends Component {
             />
         )
     }
-    createNewCard(){
-        var number = document.getElementById("number").value;
+    createNewCard(style){
+        var number = document.body.children.root.firstElementChild.lastChild.children["0"].childNodes["0"].childNodes["0"].childNodes[2].value;
         var container = document.getElementById("fields");
         while (container.hasChildNodes()) {
             container.removeChild(container.lastChild);
         }
         for (var i=0;i<number;i++){
-            container.appendChild(document.createTextNode("Question " + (i+1)));
-            var input = document.createElement("input");
-            input.type = "text";
+            var input = React.createElement('input', {
+                type: 'text',
+                placeholder: 'Question'
+            });
             container.appendChild(input);
             container.appendChild(document.createElement("br"));
             container.appendChild(document.createTextNode("Answer " + (i+1)));
             var input2 = document.createElement("input");
             input2.type = "text";
+            input2.component = {style};
             container.appendChild(input2);
             container.appendChild(document.createElement("br"));
         }
@@ -44,8 +46,8 @@ class CardCreation extends Component {
             <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input id="number" name="Number" label="Number"/>
-                    <RaisedButton type="button" onClick={() => {this.createNewCard()}} className="addCard" label="Add Card"/>
+                    <Field component={this.renderInput} id="number" name="Number" label="Number"/>
+                    <RaisedButton type="button" onClick={() => {this.createNewCard(this.renderInput)}} className="addCard" label="Add Card"/>
                 </div>
                 <div id="fields">
 

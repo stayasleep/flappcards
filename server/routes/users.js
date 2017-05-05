@@ -4,7 +4,6 @@ const router = express.Router();
 const path = require('path');
 const connection = require('../config/config'); // So connection credentials can be ignored
 const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in confic js]]
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 //temporary, for now leave the db and connections on the same page
@@ -51,15 +50,19 @@ router.post('/login',function(request,response){
     let un = request.body.userName;
     let upw = request.body.password;
     //call db
-    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result){
-        if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
-        let str=JSON.stringify(result); // Result of query
-        console.log("JSON.stringify(result)", str);
-        let strJ=JSON.parse(str);
-        console.log("JSON.parse(str)", strJ);
-        let hash = strJ[0].user_pw;
-        console.log('password db', hash);
-        bcrypt.compare(upw, hash, function(err, res) {
+    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+        // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
+        if (err) {
+            response.send(false);
+        }
+        else {
+            let str = JSON.stringify(result); // Result of query
+            console.log("JSON.stringify(result)", str);
+            let strJ = JSON.parse(str);
+            console.log("JSON.parse(str)", strJ);
+            let hash = strJ[0].user_pw;
+            console.log('password db', hash);
+            bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
                 console.log('the passwords match');
@@ -72,15 +75,13 @@ router.post('/login',function(request,response){
                     message: result,
                     token: token
                 });
-                // response.send(true);
-                // response.json({success: true, msg: "User matches"});
+                } else {
+                    console.log(err);
+                    response.json({success: false, msg: "wrong pw"});
+                }
 
-            }else{
-                console.log(err);
-                response.json({success: false, msg:"wrong pw"});
-            }
-
-        });
+            });
+        }
     })
 });
 
@@ -110,6 +111,24 @@ router.post('/home', (request,response)=> {
     });
 });
 
+// Associated Axios call: getStack;
+// Made after clicking on view from my shelf
+//TODO implement /stackOverview/:uID/:sID version?
+router.post('/stackOverview/:sID',(request,response) => {
+    let uid = request.body.uID;
+    let sid = request.params.sID;
+    console.log(request.body);
+    connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+    "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+    "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+        if (err) {
+            response.send("Error on stack request");
+        } else {
+
+            response.send(results);
+        }
+    });
+});
 
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 router.post('/stack/:uID/:sID',(request,response)=>{

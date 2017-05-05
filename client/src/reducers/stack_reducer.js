@@ -1,4 +1,4 @@
-import {FETCH_STACKS, FETCH_CARD, FETCH_MY_STACK_OVERVIEW, FETCH_MY_RECENT_STACKS} from '../actions/types';
+import {FETCH_STACKS, FETCH_CARD, FETCH_MY_STACK_OVERVIEW, FETCH_MY_RECENT_STACKS, FETCH_STACK_OVERVIEW} from '../actions/types';
 
 const default_state ={
     all: [],
@@ -28,6 +28,10 @@ export default function (state = default_state, action) {
 
         case (FETCH_MY_RECENT_STACKS):
             return {...state, recentStacks: action.payload};
+
+        case (FETCH_STACK_OVERVIEW):
+            return {...state, stackCards: action.payload};
+
     }
     return state;
 }
