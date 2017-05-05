@@ -12,9 +12,11 @@ class LogIn extends Component {
         router: PropTypes.object
     };
     handleLogin(values) {
-        console.log('values from handleLogin function', values);
+        // Action creator userLogin sends an axios call to the server
        this.props.userLogin(values);
     }
+
+    //TODO move renderInput into a separate common utilities folder?
 
     renderInput({input, label, type, meta: {touched, error}}){
         return (
