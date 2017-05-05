@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'; // Updated PropTypes import statement
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
