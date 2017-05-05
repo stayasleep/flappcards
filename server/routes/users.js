@@ -3,8 +3,8 @@ const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
 const connection = require('../config'); // So connection credentials can be ignored
-
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 //temporary, for now leave the db and connections on the same page
 
 connection.connect((error) => {
