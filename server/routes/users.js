@@ -163,7 +163,6 @@ router.post('/stack/:user_id',(request,response)=>{
     let newA = request.body.answer;
     //get username of logged in user
     let whoMadeMe = "user1";
-
     connection.query(
         "BEGIN; " +
         "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
@@ -193,10 +192,23 @@ router.delete('/myshelf/:uId',(request,response)=>{
         response.json({success:true, msg:"whole stack deleted"});
     })
 });
-router.get('/search/:id',(request,response)=>{
-    let uid = request.params.uid;
-    let fromSearch = request
-})
+//Search, need the logged on user_id and the search parameter.....should give you a stack overview. Doesn't work, ask why result is empty..but it works on mysql
+router.get('/search/:id/:searchid',(request,response)=>{
+    let uid = request.params.id;
+    let fromSearch = request.params.searchid;
+   connection.query(
+       "SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total " +
+       "FROM stacks JOIN cards on stacks.stack_id=cards.stack_id " +
+       "JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject OR stacks.category LIKE '%'?) " +
+       "GROUP BY cards.stack_id ORDER BY stacks.created DESC;",[uid,fromSearch],(err,results)=>{
+       if (err) throw err;
+       console.log("youre searching for ",fromSearch);
+       console.log("response",response);
+       console.log("searched results ",results);
+       response.json({success:true, msg: "Youre Searching"});
+       }
+   )
+});
 
 
 
