@@ -41,26 +41,31 @@ router.post('/login',function(request,response){
     let un = request.body.userName;
     let upw = request.body.password;
     //call db
-    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result){
-        if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
-        let str=JSON.stringify(result); // Result of query
-        console.log("JSON.stringify(result)", str);
-        let strJ=JSON.parse(str);
-        console.log("JSON.parse(str)", strJ);
-        let hash = strJ[0].user_pw;
-        console.log('password db', hash);
-        bcrypt.compare(upw, hash, function(err, res) {
+    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+        // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
+        if (err) {
+            response.send(false);
+        }
+        else {
+            let str = JSON.stringify(result); // Result of query
+            console.log("JSON.stringify(result)", str);
+            let strJ = JSON.parse(str);
+            console.log("JSON.parse(str)", strJ);
+            let hash = strJ[0].user_pw;
+            console.log('password db', hash);
+            bcrypt.compare(upw, hash, function (err, res) {
             // res === true
-            if (res){
-                response.send(true);
-                // response.json({success: true, msg: "User matches"});
+                if (res) {
+                    response.send(true);
+                    // response.json({success: true, msg: "User matches"});
 
-            }else{
-                console.log(err);
-                response.json({success: false, msg:"wrong pw"});
-            }
+                } else {
+                    console.log(err);
+                    response.json({success: false, msg: "wrong pw"});
+                }
 
-        });
+            });
+        }
     })
 });
 
