@@ -35,6 +35,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {})(Profile);
-
-export default Profile;
+export default Profile
