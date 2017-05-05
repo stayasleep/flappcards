@@ -4,8 +4,8 @@ import StackViewStacks from './stackView_stacks'
 import {GridList, GridTile} from 'material-ui/GridList';
 
 class Stacks extends Component {
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <FlashCardsAppBar/>
                 <div>
@@ -13,7 +13,7 @@ class Stacks extends Component {
                 </div>
             </div>
         )
-}
+    }
 }
 
 export default Stacks;
