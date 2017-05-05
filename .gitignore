@@ -2,4 +2,5 @@
 
 /skeleton_server/
 /server/c217_fc.sql
-/server/config.js
+
+/server/config/config.js
