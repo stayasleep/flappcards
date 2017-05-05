@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../node_modules/material-ui/Card';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../../node_modules/material-ui/Card';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCard} from '../actions/index'
+import {getCard} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
 
 class SingleCard extends Component {
@@ -57,9 +57,16 @@ class SingleCard extends Component {
         const centered = {
             textAlign: "center"
         };
+        const right = {
+            textAlign: "center"
+        };
+        const wrong = {
+            textAlign: "center",
+            backgroundColor: "red"
+        };
         const cardStyle = {
             width: '100vw',
-            height: '100vh',
+            height: '80vh',
             transition: 'transform 1s',
             textAlign: "center",
             transformStyle: "preserve-3d",
@@ -91,7 +98,7 @@ class SingleCard extends Component {
         }
         return (
             <div>
-                <div style={cardStyle} className="mdl-card mdl-shadow--2dp " id="questionCard">
+                <div style={cardStyle} id="questionCard">
                     <h2 style={question} id="question">
                         {card.question}
                     </h2>
@@ -100,9 +107,11 @@ class SingleCard extends Component {
                     </h2>
                 </div>
                 <div  style={centered}>
-                    <RaisedButton style={centered} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
+                    <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>
+                    <RaisedButton primary={true} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
                     <RaisedButton style={centered} id="return" containerElement={<Link to="/stackOverview" name="back"/>}>Return</RaisedButton>
-                    <RaisedButton style={centered} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
+                    <RaisedButton primary={true} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
+                    <RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>
                 </div>
             </div>
         );

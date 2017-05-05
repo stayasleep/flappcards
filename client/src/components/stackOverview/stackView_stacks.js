@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getStack} from '../actions/index'
-import Confirm from '../components/confirmActionModal/confirm'
+import {getStack} from '../../actions/index'
+import DeleteCardConfirm from '../confirmActionModal/deleteCard'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton'
 
 class StackViewStacks extends Component{
     componentWillMount(){
@@ -19,22 +21,18 @@ class StackViewStacks extends Component{
         };
         const stackList = this.props.cards.map((item, index) => {
             return (
-            <div style={cardDisplay} key={index} className="mdl-card mdl-shadow--2dp demo-card-square">
-                <div className="mdl-card__title mdl-card--expand">
-                    <div className="mdl-card__title-text">{item.question}</div>
-                </div>
-                <div className="mdl-card__supporting-text">
+            <Card style={cardDisplay} key={index}>
+                <CardTitle>
+                    {item.question}
+                </CardTitle>
+                <CardText>
                     {item.answer}
-                </div>
-                <div className="mdl-card__actions mdl-card--border">
-                        Edit
-                    <Link to="/stackOverview" name="Stacks">
-                        <Confirm/>
-                    </Link>
-                </div>
-                <div className="mdl-card__menu">
-                </div>
-            </div>
+                </CardText>
+                <CardActions>
+                    <RaisedButton>Edit</RaisedButton>
+                    <DeleteCardConfirm/>
+                </CardActions>
+            </Card>
             )
         });
 
@@ -57,11 +55,9 @@ class StackViewStacks extends Component{
                             <div className="mdl-cell mdl-cell--3-col">
                                 <span>Made by {this.props.creator}</span>
                             </div>
-                            <div className="mdl-layout-spacer"/>
                         </div>
 
                         <div className="mdl-grid">
-                            <div className="mdl-layout-spacer"/>
                             <div className="mdl-cell mdl-cell--3-col">
                                 <Link to="/single_card" name="SingleCard">
                                 <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
@@ -79,7 +75,6 @@ class StackViewStacks extends Component{
                             <div className="mdl-cell mdl-cell--2-col">
                                 <span className="mdl-badge" data-badge={this.props.number}>Number of Cards: </span>
                             </div>
-                            <div className="mdl-layout-spacer"/>
                         </div>
                     </div>
                     {stackList}
