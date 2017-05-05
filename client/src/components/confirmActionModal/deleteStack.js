@@ -12,8 +12,9 @@ class DeleteStackConfirm extends React.Component {
         open: false,
     };
 
-    handleDelete(id){
-        this.props.deleteStack(id)
+    handleDelete(stack_id){
+        console.log("Stack to be deleted: ", stack_id);
+        this.props.deleteStack(stack_id)
     }
 
     handleOpen = () => {
@@ -35,7 +36,7 @@ class DeleteStackConfirm extends React.Component {
                 label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
-                onClick={() => {this.handleDelete(this.props.stacks._id)}}
+                onClick={() => {this.handleDelete(this.props.stackID)}}
             />,
         ];
 

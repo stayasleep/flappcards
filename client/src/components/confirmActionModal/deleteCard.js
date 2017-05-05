@@ -34,7 +34,7 @@ class DeleteCardConfirm extends React.Component {
                 label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
-                onClick={() => {this.handleDelete(this.props.card._id)}}
+                onClick={() => {this.handleDelete(this.props.cardID)}}
             />,
         ];
 

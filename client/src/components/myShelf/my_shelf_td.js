@@ -34,7 +34,7 @@ class Stacks extends Component{
                         </RaisedButton></Link>
                     </TableRowColumn>
                     <TableRowColumn>
-                            <DeleteStackConfirm/>
+                            <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </TableRowColumn>
                 </TableRow>
             )

@@ -13,6 +13,7 @@ export function userLogin(values) {
     return function (dispatch) {
         axios.post(`${BASE_URL}/login`, values).then((response) => {
             // I set response.data to true for the test
+
             if (response.data) {
                 dispatch({type: AUTH_USER});
 
@@ -28,9 +29,12 @@ export function userLogin(values) {
         })
     }
 }
+
+// Returns the data necessary for viewing the cards within a single stack
 export function getStack() {
     return function (dispatch) {
-        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
+        let stackID = 3; // Need to add this to the button to send the stackID with the request
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
             console.log("actions index", response.data);
             dispatch({type: FETCH_STACKS, payload: response.data});
         }).catch(err => {
@@ -89,10 +93,16 @@ export function logout() {
     }
 }
 
-export function getMyStackOverview() {
-    // console.log("getMyStackOverview() called");
+
+// Accessed by clicking on the 'My Shelf' link of the app drawer
+// stack_reducer.js
+export function getMyStackOverview(userID) {
+    console.log("getMyStackOverview() called");
+    // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
-        axios.post(`${BASE_URL}/myShelf`).then((response) => {
+        let userID = 2;
+        axios.get(`${BASE_URL}/myshelf/${userID}`).then((response) => {
+            console.log("response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('ERROR:', err);
@@ -103,11 +113,14 @@ export function getMyStackOverview() {
         })
     }
 }
-
-export function getStackOverview() {
+// Triggered after hitting view button on list
+// Meant to return the cards available after clicking view
+export function getStackOverview(stackID) {
     return function (dispatch) {
-        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-            dispatch({type: FETCH_STACK_OVERVIEW, payload: response});
+        let stackID = 3;
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
+            console.log("getStackOverview", response.data);
+            dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
@@ -117,7 +130,11 @@ export function getStackOverview() {
     }
 }
 
-export function getMyRecentStacksOverview() {
+
+// Loads the recent stacks for when you get to the home page
+// Associated reducer is in stack_reducer.js
+//TODO check what the getMyRecentStacksOverview query logic requires
+export function getMyRecentStacksOverview(userName) {
     return function(dispatch) {
         axios.post(`${BASE_URL}/home`,{userName: 'kchalm'}).then((response) => {
             console.log("getMyRecentStacksOverview response", response);
