@@ -6,7 +6,7 @@ import Home from '../components/home/home';
 import Profile from '../components/profile/profile';
 import MyShelf from '../components/myShelf/my_shelf';
 import Search from '../components/search/search_page';
-import CreateCards from '../components/create_cards';
+import CreateCards from '../components/cardCreation/create_cards';
 import LogIn from '../components/auth/log_in';
 import Registration from '../components/auth/registration';
 
