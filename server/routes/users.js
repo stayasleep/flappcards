@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
 const connection = require('../config/config'); // So connection credentials can be ignored
+const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in confic js]]
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 //temporary, for now leave the db and connections on the same page
@@ -29,7 +30,16 @@ router.post('/register',(request,response,next)=>{
                 if(err) throw err;
                 console.log('ID of the inserted user row', results.insertId);
                 //do stuff with jwt here
-                response.json({success: true, msg: "User Registered"});
+                let token = jwt.sign({UserName: newUser.username,UserID:results.insertId},config.secret,{
+                    expiresIn: 604800 //1 week in seconds
+                });
+                response.json({
+                    success: true,
+                    message: "User registered",
+                    msg: results,
+                    token: token
+                });
+                // response.json({success: true, msg: "User Registered"});
             })
         });
     });
@@ -54,10 +64,17 @@ router.post('/login',function(request,response){
             console.log('password db', hash);
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
-                if (res) {
-                    response.send(true);
-                    // response.json({success: true, msg: "User matches"});
-
+            if (res){
+                console.log('the passwords match');
+                console.log(res);
+                let token = jwt.sign({UserID: un},config.secret,{
+                    expiresIn: 604800 //1 week in seconds
+                });
+                response.json({
+                    success: true,
+                    message: result,
+                    token: token
+                });
                 } else {
                     console.log(err);
                     response.json({success: false, msg: "wrong pw"});
