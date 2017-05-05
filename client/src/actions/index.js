@@ -4,7 +4,7 @@ import {FETCH_MY_RECENT_STACKS} from './types';
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:8081/test'; // For test purposes, listening on 8081 and listening on port 8081
+const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
 
 import stack2 from '../data/stackoverviewCB3';
 
@@ -119,7 +119,8 @@ export function getStackOverview() {
 
 export function getMyRecentStacksOverview() {
     return function(dispatch) {
-        axios.post(`${BASE_URL}/home`).then((response) => {
+        axios.post(`${BASE_URL}/home`,{userName: 'kchalm'}).then((response) => {
+            console.log("getMyRecentStacksOverview response", response);
             dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -155,3 +156,5 @@ export function deleteCard() {
         })
     }
 }
+
+// JSON is the default expected response type for axios calls

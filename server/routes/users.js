@@ -2,17 +2,13 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
-
+const connection = require('../config');
 //temporary, for now leave the db and connections on the same page
-const connection = mysql.createConnection({
-    multipleStatements: true,
-    host: 'localhost',
-    port: 3306,
-    user:'root',
-    password: 'root',
-    database:'c217_fc'
+
+connection.connect((error) => {
+    (error) ? (console.error('error connection: ' + error.stack)) : '';
+    return;
 });
-connection.connect();
 
 
 //test login comparison
@@ -20,29 +16,14 @@ router.post('/login',function(request,response){
     console.log(request.body);
     let un = request.body.userName;
     let upw = request.body.password;
-    console.log(un,upw);
     //call db
     connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result){
         if (err) throw err;
-        console.log(result);
         let str=JSON.stringify(result);
         let strJ=JSON.parse(str);
         let checkMate = strJ[0].user_pw;
-        console.log('password db', checkMate);
         if(checkMate === upw){
-            console.log('the passwords match');
-            connection.query("SELECT stacks.subject, stacks.category, stacks.last_played, stacks.rating, users.username from stacks JOIN users on stacks.user_id = users.user_id WHERE users.username = ? ORDER BY stacks.last_played DESC LIMIT 1",[un],(err,results)=>{
-                if (err) throw err;
-                //console log to see if the metadata from your account is retrieved before redirect
-                console.log('my results',results);
-                response.send(true);
-            } );
-            // connection.query("SELECT stacks.subject, stacks.category, stacks.created, stacks.rating, users.username FROM stacks JOIN users ON stacks.user_id = users.user_id WHERE NOT users.username = ? ORDER BY stacks.last_played DESC LIMIT 2",[un],(err,results)=>{
-            //     if (err) throw err;
-            //     //console log to see if the metadata from the community is retrieved before redirect
-            //     console.log('comm results',results);
-            // });
-            // response.redirect('/home');
+            response.send(true);
         }else{
             // response.statusCode = 404;
             // response.write("404 Sorry Not Found");
@@ -50,10 +31,18 @@ router.post('/login',function(request,response){
         }
     })
 });
-//click on a stack in home page and it gets copied into your account
-// router.post('/stack',(request,response)=>{
-//
-// });
+
+router.post('/home', (request,response)=> {
+
+    let un = request.body.userName; // had to intentionally send a kchalm username. In the process of upgrading to tokens
+
+    connection.query("SELECT stacks.subject, stacks.category, stacks.last_played, stacks.rating, users.username from stacks JOIN users on stacks.user_id = users.user_id WHERE users.username = ? ORDER BY stacks.last_played DESC LIMIT 1",[un],(err,results)=>{
+            if (err) throw err;
+            //console log to see if the metadata from your account is retrieved before redirect
+            response.send(results);
+        });
+});
+
 
 
 
