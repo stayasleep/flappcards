@@ -51,8 +51,6 @@ router.post('/login',function(request,response){
         bcrypt.compare(upw, hash, function(err, res) {
             // res === true
             if (res){
-                console.log('the passwords match');
-                console.log(res);
                 response.send(true);
                 // response.json({success: true, msg: "User matches"});
 
@@ -91,6 +89,24 @@ router.post('/home', (request,response)=> {
     });
 });
 
+// Associated Axios call: getStack;
+// Made after clicking on view from my shelf
+//TODO implement /stackOverview/:uID/:sID version?
+router.post('/stackOverview/:sID',(request,response) => {
+    let uid = request.body.uID;
+    let sid = request.params.sID;
+    console.log(request.body);
+    connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+    "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+    "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+        if (err) {
+            response.send("Error on stack request");
+        } else {
+
+            response.send(results);
+        }
+    });
+});
 
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 router.post('/stack/:uID/:sID',(request,response)=>{
