@@ -17,6 +17,7 @@ class CardCreation extends Component {
     render() {
         const {handleSubmit, previousPage} = this.props;
         return (
+            <div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <Field name="Question" component={this.renderInput} label="Question"/>
@@ -32,6 +33,7 @@ class CardCreation extends Component {
                     <RaisedButton type="submit" className="next">Next</RaisedButton>
                 </div>
             </form>
+            </div>
         )
     }
 }
