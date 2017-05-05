@@ -3,10 +3,6 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackCreation from './create_stack'
 import CardCreation from './card_input'
 import StackSubmission from './stack_submit'
-<<<<<<< HEAD:client/src/components/cardCreation/create_cards.js
-
-=======
->>>>>>> b2e5e2e5ddbe757284060a25b159d3d56f7d1fa1:client/src/components/cardCreation/create_cards.js
 class CreateCards extends Component {
     constructor(props) {
         super(props);
