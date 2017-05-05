@@ -1,56 +1,35 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
+import StackCreation from './create_stack'
+import CardCreation from './card_input'
+import StackSubmission from './stack_submit'
 
 class CreateCards extends Component {
+    constructor(props) {
+        super(props);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
+        this.state = {
+            page: 1
+        }
+    }
+    nextPage() {
+        this.setState({ page: this.state.page + 1 })
+    }
+
+    previousPage() {
+        this.setState({ page: this.state.page - 1 })
+    }
+
     render (){
+        const { onSubmit } = this.props;
+        const { page } = this.state;
         return (
             <div>
                 <FlashCardsAppBar/>
-                <div className="mdl-cell mdl-cell--8-col" >
-
-                    <form action="#">
-                        <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input className="mdl-textfield__input" type="text" placeholder="Subject Name"/>
-                                <input className="mdl-textfield__input" type="text" placeholder="Course Category"/>
-
-                                    <input className="mdl-textfield__input" type="text" placeholder="Subject" pattern="-?[0-9]*(\.[0-9]+)?" id="sample6"/>
-
-                                        <input className="mdl-textfield__input" type="text" placeholder="Question" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4"/>
-
-                                            <input className="mdl-textfield__input" type="text" placeholder="Answer" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5"/>
-                        </div>
-                    </form>
-
-                    <div className="mdl-grid">
-                        <button className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-cell mdl-cell--4-col">
-                            <i className="material-icons">add</i>
-                        </button>
-                    </div>
-                </div>
-                <div className="mdl-cell mdl-cell--8-col" >
-
-                    <form action="#">
-                        <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-
-                            <input className="mdl-textfield__input" type="text" placeholder="Question" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4"/>
-
-                                <input className="mdl-textfield__input" type="text" placeholder="Answer" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5"/>
-                        </div>
-                    </form>
-
-                    <div className="mdl-grid">
-                        <button className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-cell mdl-cell--4-col">
-                            <i className="material-icons">add</i>
-                        </button>
-                    </div>
-                    <div className="mdl-grid">
-                        <div className="mdl-cell mdl-cell--8-col">
-                            <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-                                Submit Stack
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {page === 1 && <StackCreation onSubmit={this.nextPage}/>}
+                {page === 2 && <CardCreation previousPage={this.previousPage} onSubmit={this.nextPage}/>}
+                {page === 3 && <StackSubmission previousPage={this.previousPage} onSubmit={onSubmit}/>}
             </div>
         )
     }

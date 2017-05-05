@@ -44,14 +44,14 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <Route component={Home}/>
                 <Route path="home" component={requireAuth(Home)}/>
-                <Route path="profile" component={Profile}/>
-                <Route path="myShelf" component={MyShelf}/>
-                <Route path="Search" component={Search}/>
-                <Route path="createCards" component={CreateCards}/>
+                <Route path="profile" component={requireAuth(Profile)}/>
+                <Route path="myShelf" component={requireAuth(MyShelf)}/>
+                <Route path="Search" component={requireAuth(Search)}/>
+                <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <IndexRoute component={LogIn}/>
-                <Route path="Registration" component={Registration}/>
-                <Route path="stackOverview" component={Stacks}/>
-                <Route path="single_card" component={SingleCard}/>
+                <Route path="Registration" component={requireAuth(Registration)}/>
+                <Route path="stackOverview" component={requireAuth(Stacks)}/>
+                <Route path="single_card" component={requireAuth(SingleCard)}/>
             </Route>
         </Router>
     </Provider>,
