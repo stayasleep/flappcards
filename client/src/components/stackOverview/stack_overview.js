@@ -8,11 +8,8 @@ class Stacks extends Component {
         return(
             <div>
                 <FlashCardsAppBar/>
-                <div className="mdl-layout__content">
-
-                    <div className="mdl-grid">
-                        <StackViewStacks/>
-                    </div>
+                <div>
+                    <StackViewStacks/>
                 </div>
             </div>
         )

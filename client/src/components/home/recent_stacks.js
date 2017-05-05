@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {List, ListItem} from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton'
 import {connect} from 'react-redux';
 import {getMyRecentStacksOverview} from '../../actions/index'
 import {Link} from 'react-router'
+import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 class Recent extends Component {
     componentWillMount() {
@@ -15,24 +17,28 @@ class Recent extends Component {
         }
         const recentStacksList = this.props.recentStacks.map((item, index) => {
             return (
-                <li key={index}>
-                    {item.subject}
-                    {item.category}
-                    {item.totalCards}
-                    {item.createdBy}
-                    {item.createdOn}
-                    {item.stackRating}
-                </li>
+                <Card key={index}>
+                    <CardHeader
+                        title={item.subject}
+                        subtitle={item.category}
+                    />
+                    <CardText>
+                        {item.totalCards}
+                        {item.createdBy}
+                        item.createdOn}
+                        item.stackRating}
+                    </CardText>
+                    <CardActions>
+                        <Link to="/stackOverview" name="SingleCard"><RaisedButton>
+                            <i className="material-icons">visibility</i>
+                        </RaisedButton></Link>
+                    </CardActions>
+                </Card>
             )
         });
         return (
             <div>
-            <ul>
-            {recentStacksList}
-            </ul>
-                <Link to="/stackOverview" name="SingleCard"><button className="mdl-button mdl-js-button mdl-button--primary">
-                    <i className="material-icons">visibility</i>
-                </button></Link>
+                {recentStacksList}
             </div>
         );
     }
