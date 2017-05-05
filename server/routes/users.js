@@ -193,6 +193,10 @@ router.delete('/myshelf/:uId',(request,response)=>{
         response.json({success:true, msg:"whole stack deleted"});
     })
 });
+router.get('/search/:id',(request,response)=>{
+    let uid = request.params.uid;
+    let fromSearch = request
+})
 
 
 
