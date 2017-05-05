@@ -89,10 +89,16 @@ export function logout() {
     }
 }
 
+
+// Accessed by clicking on the 'My Shelf' link of the app drawer
+// stack_reducer.js
 export function getMyStackOverview() {
-    // console.log("getMyStackOverview() called");
+    console.log("getMyStackOverview() called");
+
     return function (dispatch) {
-        axios.post(`${BASE_URL}/myShelf`).then((response) => {
+        let userID = '2';
+        axios.get(`${BASE_URL}/myshelf/${userID}`).then((response) => {
+            console.log("response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('ERROR:', err);
@@ -117,6 +123,9 @@ export function getStackOverview() {
     }
 }
 
+
+// Loads the recent stacks for when you get to the home page
+// Associated reducer is in stack_reducer.js
 export function getMyRecentStacksOverview() {
     return function(dispatch) {
         axios.post(`${BASE_URL}/home`,{userName: 'kchalm'}).then((response) => {

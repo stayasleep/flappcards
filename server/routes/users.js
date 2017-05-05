@@ -2,7 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
-const connection = require('../config'); // So connection credentials can be ignored
+const connection = require('../config/config'); // So connection credentials can be ignored
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 //temporary, for now leave the db and connections on the same page
@@ -41,9 +42,11 @@ router.post('/login',function(request,response){
     let upw = request.body.password;
     //call db
     connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result){
-        if (err) throw err;
-        let str=JSON.stringify(result);
+        if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
+        let str=JSON.stringify(result); // Result of query
+        console.log("JSON.stringify(result)", str);
         let strJ=JSON.parse(str);
+        console.log("JSON.parse(str)", strJ);
         let hash = strJ[0].user_pw;
         console.log('password db', hash);
         bcrypt.compare(upw, hash, function(err, res) {
@@ -51,7 +54,8 @@ router.post('/login',function(request,response){
             if (res){
                 console.log('the passwords match');
                 console.log(res);
-                response.json({success: true, msg: "User matches"});
+                response.send(true);
+                // response.json({success: true, msg: "User matches"});
 
             }else{
                 console.log(err);
@@ -62,7 +66,7 @@ router.post('/login',function(request,response){
     })
 });
 
-router.post('/community', (request,respone) => {
+router.post('/community', (request,response) => {
     //Community query
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
         if (err) throw err;
@@ -72,6 +76,8 @@ router.post('/community', (request,respone) => {
     });
 });
 
+
+// Recent stacks query; This gets called for the home page...
 router.post('/home', (request,response)=> {
 
     let un = request.body.userName; // had to intentionally send a kchalm username. In the process of upgrading to tokens
@@ -81,8 +87,9 @@ router.post('/home', (request,response)=> {
         if (err) throw err;
         //console log to see if the metadata from your account is retrieved before redirect
         console.log('my results',results);
-        //do stuff with jwt here
-    } );
+        //do stuff with jwt here;
+        response.send(results);
+    });
 });
 
 
@@ -160,16 +167,33 @@ router.post('/stack/:user_id',(request,response)=>{
     });
 });
 
-//clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attrib
+//clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attributes
+// Tied to the getMyStackOverview action creator
 router.get('/myshelf/:uId',(request,response)=>{
     console.log('id of logged on user is: ',request.params.uId);
     let uid = request.params.uId;
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*)as Total from stacks JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? GROUP BY stacks.subject" ,[uid],(err,results)=>{
-        if (err) console.log(err);
+    // Select all the cards from a deck where
+    // connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*)as Total from stacks JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? GROUP BY stacks.subject" ,[uid],(err,results)=>{
+        //if (err) console.log(err); // This needs to be changed to something like:
+        // if (results.length === 0) {response.send("Error")} else{ the rest of the results
         //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
-        console.log('shelf overview',results);
-        response.json({success:true, msg: "User Shelf Retrieved"});
-    });
+        // console.log('shelf overview',results);
+        // response.json({success:true, msg: "User Shelf Retrieved"}); The default response type for Axios is JSON, so specifying it here may not be necessary
+        // response.send(results);
+    // });
+    // Added AS statements to match what front end is expecting
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
+        "cards.orig_source_stack, " +
+        "COUNT(*) AS 'totalCards' FROM stacks " +
+        "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
+        "GROUP BY stacks.subject",[uid], (err,results) => {
+        if (err){
+            console.log(err);
+            response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
+        } else {
+            response.send(results);
+        }
+    })
 });
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:uId',(request,response)=>{
