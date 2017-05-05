@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
 const connection = require('../config/config'); // So connection credentials can be ignored
+const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in confic js]]
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -30,7 +31,16 @@ router.post('/register',(request,response,next)=>{
                 if(err) throw err;
                 console.log('ID of the inserted user row', results.insertId);
                 //do stuff with jwt here
-                response.json({success: true, msg: "User Registered"});
+                let token = jwt.sign({UserName: newUser.username,UserID:results.insertId},config.secret,{
+                    expiresIn: 604800 //1 week in seconds
+                });
+                response.json({
+                    success: true,
+                    message: "User registered",
+                    msg: results,
+                    token: token
+                });
+                // response.json({success: true, msg: "User Registered"});
             })
         });
     });
@@ -54,7 +64,15 @@ router.post('/login',function(request,response){
             if (res){
                 console.log('the passwords match');
                 console.log(res);
-                response.send(true);
+                let token = jwt.sign({UserID: un},config.secret,{
+                    expiresIn: 604800 //1 week in seconds
+                });
+                response.json({
+                    success: true,
+                    message: result,
+                    token: token
+                });
+                // response.send(true);
                 // response.json({success: true, msg: "User matches"});
 
             }else{
