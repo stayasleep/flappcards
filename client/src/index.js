@@ -49,7 +49,7 @@ ReactDOM.render(
                 <Route path="Search" component={requireAuth(Search)}/>
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <IndexRoute component={LogIn}/>
-                <Route path="Registration" component={requireAuth(Registration)}/>
+                <Route path="Registration" component={Registration}/>
                 <Route path="stackOverview" component={requireAuth(Stacks)}/>
                 <Route path="single_card" component={requireAuth(SingleCard)}/>
             </Route>
