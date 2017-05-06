@@ -27,8 +27,13 @@ class Registration extends Component {
 
     render (){
         const {handleSubmit, reset} = this.props;
+        const regStyle = {
+            float: "right",
+            textAlign: "center",
+            paddingRight: "10%"
+        };
         return (
-            <div>
+            <div style={regStyle}>
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div>
@@ -44,7 +49,6 @@ class Registration extends Component {
                         <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password" type="password"/>
                     </div>
                     <div>
-                        At least 1 lowercase letter, 1 uppercase letter, 1 #, and 1 special character and be between 8 and 15 characters long
                     </div>
                     <div>
                         <Field name="email" component={this.renderInput} label="Email"/>
