@@ -12,7 +12,6 @@ connection.connect((error) => {
     (error) ? (console.error('error connection: ' + error.stack)) : '';
     return;
 });
-
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
@@ -87,7 +86,32 @@ router.post('/login',function(request,response){
         }
     })
 });
-
+//test
+router.use((request, response, next)=> {
+    // check header or url parameters or post parameters for token
+    const token = request.body.token || request.query.token || request.headers['x-access-token'];
+    // decode token
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, config.secret,(err, decoded)=> {
+            if (err) {
+                return response.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                request.decoded = decoded;
+                //response wil be sent by the next function...
+                next();
+            }
+        });
+    } else {
+        // if there is no token
+        return response.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+});
+//test
 router.post('/community', (request,response) => {
 
     //Community query
@@ -106,39 +130,45 @@ router.post('/home', (request,response)=> {
     // console.log("jwt.decode", jwt.decode(request.body.token));
     let un = jwt.decode(request.body.token).UserName; // needed to pull off username
     let token = request.body.token;
-    if(token){
-        // actual verification happens here
-        jwt.verify(token,config.secret,function (err,decoded) {
-            if (err){
-                return response.json({success: false, message: "Failed to authenticate token."});
-            }else{
-                request.decoded = decoded;
-                console.log('token verified, ', request.decoded); //dont delete andres
-                let un = request.decoded.UserName;
-                console.log("un", un);
-                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
-                    "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
-                    "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-                    console.log("results", results);
-                    if (err) {
-                        response.send("Uh oh");
-                    } else if (results.length > 0) {
-                        //console log to see if the metadata from your account is retrieved before redirect
-                        console.log('my results', results);
-                        //do stuff with jwt here;
-                        response.send(results);
-                    } else {
-                        response.send("Get some stacks");
-                    }
-                });
-            }
-        })
-    } else {
-        return response.status(403).send({
-            success: false,
-            message: "No token provided"
-        })
-    }
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
+        "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
+        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ", [un], (err, results) => {
+        console.log("results", results);
+        response.json({success: true, message:"hah!"});
+        // if(token){
+        //     // actual verification happens here
+        //     jwt.verify(token,config.secret,function (err,decoded) {
+        //         if (err){
+        //             return response.json({success: false, message: "Failed to authenticate token."});
+        //         }else{
+        //             request.decoded = decoded;
+        //             console.log('token verified, ', request.decoded); //dont delete andres
+        //             let un = request.decoded.UserName;
+        //             console.log("un", un);
+        //             connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
+        //                 "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
+        //                 "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
+        //                 console.log("results", results);
+        //                 if (err) {
+        //                     response.send("Uh oh");
+        //                 } else if (results.length > 0) {
+        //                     //console log to see if the metadata from your account is retrieved before redirect
+        //                     console.log('my results', results);
+        //                     //do stuff with jwt here;
+        //                     response.send(results);
+        //                 } else {
+        //                     response.send("Get some stacks");
+        //                 }
+        //             });
+        //         }
+        //     })
+        // } else {
+        //     return response.status(403).send({
+        //         success: false,
+        //         message: "No token provided"
+        //     })
+        // }
+    });
 });
 
 // Associated Axios call: getStack;
@@ -298,10 +328,13 @@ router.get('/search/:id/:searchid',(request,response)=>{
 
 router.post('/logout',(request,response)=>{
     let token = request.body.token;
+    console.log('token ',token);
     let un =request.decoded.UserName;
+    console.log('un ',un);
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
         if (err) throw err;
         console.log('updated user log out', result);
+        response.json({success:true, message:"updated log out"});
     })
 });
 
@@ -318,22 +351,22 @@ router.post('/profile',(request,response,next)=>{
 module.exports = router;
 
 //trying t0 make a function to call instead of listing it everywhere
-function verifyToken(token){
-    let un ;// had to intentionally send a kchalm username. In the process of upgrading to tokens, request.decoded.UserName
-    if(token){
-        jwt.verify(token,config.secret,function (err,decoded) {
-            if (err){
-                return response.json({success: false, message: "Failed to authenticate token."});
-            }else{
-                request.decoded = decoded;
-                console.log('token verified, ', request.decoded); //dont delete andres
-                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-                    if (err) throw err;
-                    //console log to see if the metadata from your account is retrieved before redirect
-                    console.log('my results',results);
-                    //do stuff with jwt here;
-                    response.send(results);
-                });
-            }
-        })
-}}
+// function verifyToken(token){
+//     let un ;// had to intentionally send a kchalm username. In the process of upgrading to tokens, request.decoded.UserName
+//     if(token){
+//         jwt.verify(token,config.secret,function (err,decoded) {
+//             if (err){
+//                 return response.json({success: false, message: "Failed to authenticate token."});
+//             }else{
+//                 request.decoded = decoded;
+//                 console.log('token verified, ', request.decoded); //dont delete andres
+//                 connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
+//                     if (err) throw err;
+//                     //console log to see if the metadata from your account is retrieved before redirect
+//                     console.log('my results',results);
+//                     //do stuff with jwt here;
+//                     response.send(results);
+//                 });
+//             }
+//         })
+// }}
