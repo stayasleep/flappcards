@@ -55,7 +55,7 @@ class Registration extends Component {
                         <Field name="email" component={this.renderInput} label="Email"/>
                     </div>
                     <div>
-                        <Field name="birthday" component={this.renderInput} label="Birthday(MM/DD/YYYY)"/>
+                        <Field name="birthday" component={this.renderInput} label="Birthday(YYYYMMDD)"/>
                     </div>
                     <div>
                         <RaisedButton primary={true} type="submit" label="Submit"/>
@@ -69,6 +69,7 @@ class Registration extends Component {
 }
 
 function validate(values) {
+    var min_age = 13;
     const errors = {};
     const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
@@ -76,6 +77,12 @@ function validate(values) {
             errors[ field ] = 'Required'
         }
     });
+    if(values.userName && !/^[a-zA-Z0-9]{6,20}/i.test(values.userName)){
+        errors.userName = "Username must be 6 to 20 characters long"
+    }
+    if(values.userName && !/^\w+/i.test(values.userName)){
+        errors.userName = "Please only use letters, numbers and _"
+    }
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
@@ -84,6 +91,25 @@ function validate(values) {
     }
     if (values.password !== values.passwordConfirm) {
         errors.passwordConfirm = 'Passwords must match'
+    }
+    if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(values.birthday)){
+        errors.birthday = 'Enter a Correct Date (YYYY/MM/DD)'
+    }
+    if(values.birthday) {
+        var year = parseInt(values.birthday.slice(0, 4));
+        var month = parseInt(values.birthday.slice(4, 6));
+        var day = parseInt(values.birthday.slice(6, 8));
+    if(month < 10){
+        month = parseInt("0" + month)
+    }
+        if(day < 10){
+            day = parseInt("0" + day)
+        }
+        var theirDate = new Date((year + min_age), month, day);
+        var today = new Date;
+        if ((today.getTime() - theirDate.getTime()) < 0) {
+            errors.birthday = 'You must be over 13 to use'
+        }
     }
     return errors
 }
