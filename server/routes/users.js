@@ -237,31 +237,40 @@ router.post('/stack/:user_id',(request,response)=>{
 
 //clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attributes
 // Tied to the getMyStackOverview action creator
-router.get('/myshelf/:uId',(request,response)=>{
-    console.log('id of logged on user is: ',request.params.uId);
-    let uid = request.params.uId;
-    // Select all the cards from a deck where
-    // connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*)as Total from stacks JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? GROUP BY stacks.subject" ,[uid],(err,results)=>{
-        //if (err) console.log(err); // This needs to be changed to something like:
-        // if (results.length === 0) {response.send("Error")} else{ the rest of the results
-        //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
-        // console.log('shelf overview',results);
-        // response.json({success:true, msg: "User Shelf Retrieved"}); The default response type for Axios is JSON, so specifying it here may not be necessary
-        // response.send(results);
-    // });
-    // Added AS statements to match what front end is expecting
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
-        "cards.orig_source_stack, " +
-        "COUNT(*) AS 'totalCards' FROM stacks " +
-        "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
-        "GROUP BY stacks.subject",[uid], (err,results) => {
-        if (err){
-            console.log(err);
-            response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
-        } else {
-            response.send(results);
-        }
-    })
+router.post('/myshelf',(request,response)=>{
+    console.log("request.body.token", request.body.token);
+    let uid = jwt.decode(request.body.token).UserID; // pull off the userID for the query
+    console.log(uid);
+    let token = request.body.token;
+    if (token) {
+        jwt.verify(token, config.secret, function (err, decoded) {
+            if (err) {
+                return response.json({success: false, message: "Nope"});
+            } else {
+                request.decoded = decoded;
+                let uid = request.decoded.UserID;
+                console.log("uid", uid);
+                // Added AS statements to match what front end is expecting
+                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
+                    "cards.orig_source_stack, " +
+                    "COUNT(*) AS 'totalCards' FROM stacks " +
+                    "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
+                    "GROUP BY stacks.subject", [uid], (err, results) => {
+                    if (err) {
+                        console.log(err);
+                        response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
+                    } else {
+                        response.send(results);
+                    }
+                });
+            }
+        })
+    } else {
+        return response.status(403).send({
+            success: false,
+            message: "No token provided"
+        })
+    }
 });
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:uId',(request,response)=>{
