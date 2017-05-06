@@ -6,11 +6,14 @@ import {Link} from 'react-router'
 import {getCard} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
 
+
 class SingleCard extends Component {
     constructor(props) {
         super(props);
+        console.log("single card", props);
         this.nextCard = this.nextCard.bind(this);
         this.prevCard = this.prevCard.bind(this);
+        // Refers to index in array
         this.state = {
             card: 0
         }
@@ -29,7 +32,9 @@ class SingleCard extends Component {
 
 
     componentWillMount(){
-        this.props.getCard(this.props.params.id);
+        // this.props.getCard(this.props.params.id); //Don't need server call
+        console.log("single_card, this.props", this.props);
+        console.log("single_card, state", this.state);
     }
     componentDidUpdate(){
         var flip = true;
@@ -92,8 +97,9 @@ class SingleCard extends Component {
         const question ={
             display: "block"
         };
-
-        const card = this.props.cards[this.state.card];
+        // this.state.card is the index for the next and previous
+        const card = this.props.stackCards[this.state.card];
+        console.log("single_card", card);
         if(!card){
             return <h3>Loading...</h3>
         }
@@ -106,6 +112,7 @@ class SingleCard extends Component {
                     <h2 style={answer} id="answer">
                         {card.answer}
                     </h2>
+
                 </div>
                 <div  style={centered}>
                     <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>
@@ -121,7 +128,9 @@ class SingleCard extends Component {
 
 function mapStateToProps(state) {
     return {
-        cards: state.stack.single
+        cards: state.stack.stackCards,
+        stackCards: state.stack.stackCards
+
     }
 }
 

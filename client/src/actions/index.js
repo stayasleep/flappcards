@@ -105,7 +105,7 @@ export function getMyStackOverview() {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myshelf/`,{'token':token}).then((response) => {
-            console.log("response", response);
+            console.log("getMyStackOverview response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('ERROR:', err);
@@ -121,13 +121,13 @@ export function getMyStackOverview() {
 export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token}).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token, "stackID": stackID}).then((response) => {
             console.log("getStackOverview", response.data);
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }
