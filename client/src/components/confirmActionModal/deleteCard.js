@@ -12,6 +12,7 @@ class DeleteCardConfirm extends React.Component {
     };
 
     handleDelete(id){
+        console.log("hello ", id);
         this.props.deleteCard(id)
     }
 
