@@ -12,10 +12,10 @@ connection.connect((error) => {
     (error) ? (console.error('error connection: ' + error.stack)) : '';
     return;
 });
-
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
+    console.log("Register request", request.body);
     let newUser = {
         fullname: request.body.name,
         username: request.body.userName,
@@ -23,6 +23,7 @@ router.post('/register',(request,response,next)=>{
         user_email:request.body.email,
         user_bday: request.body.birthday,
     };
+    console.log('pw is ', newUser.user_pw);
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(newUser.user_pw, salt, function(err, hash) {
             newUser.user_pw = hash;
@@ -50,24 +51,25 @@ router.post('/login',function(request,response){
     let un = request.body.userName;
     let upw = request.body.password;
     //call db
-    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+    connection.query("SELECT `user_id`, `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
         // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
         if (err) {
             response.send(false);
         }
         else {
+            console.log('res',result);
             let str = JSON.stringify(result); // Result of query
-            console.log("JSON.stringify(result)", str);
             let strJ = JSON.parse(str);
+            let usersid= strJ[0].user_id;
             console.log("JSON.parse(str)", strJ);
+
             let hash = strJ[0].user_pw;
-            console.log('password db', hash);
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
                 console.log('the passwords match');
                 console.log(res);
-                let token = jwt.sign({UserID: un},config.secret,{
+                let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
                     expiresIn: 604800 //1 week in seconds
                 });
                 response.json({
@@ -84,11 +86,39 @@ router.post('/login',function(request,response){
         }
     })
 });
-
+//test
+router.use((request, response, next)=> {
+    // check header or url parameters or post parameters for token
+    const token = request.body.token || request.query.token || request.headers['x-access-token'];
+    // decode token
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, config.secret,(err, decoded)=> {
+            if (err) {
+                return response.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                request.decoded = decoded;
+                console.log("decoded", decoded);
+                console.log("request.decoded", request.decoded);
+                //response wil be sent by the next function...
+                next();
+            }
+        });
+    } else {
+        // if there is no token
+        return response.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+});
+//test
 router.post('/community', (request,response) => {
+
     //Community query
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
-        if (err) throw err;
+        if (err) throw err; //TODO error handling
         //console log to see if the metadata from the community is retrieved before redirect
         console.log('comm results',results);
         response.send(results);
@@ -98,18 +128,21 @@ router.post('/community', (request,response) => {
 
 // Recent stacks query; This gets called for the home page...
 router.post('/home', (request,response)=> {
-
-    let un = request.body.userName; // had to intentionally send a kchalm username. In the process of upgrading to tokens
-
-    // Recent query
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-        if (err) throw err;
-        //console log to see if the metadata from your account is retrieved before redirect
-        console.log('my results',results);
-        //do stuff with jwt here;
-        response.send(results);
-    });
+    let un = request.decoded.UserName;
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
+        "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
+        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ", [un], (err, results) => {
+        if (err) {
+            response.send("Uh oh");
+        } else if (results.length > 0) {
+            response.send(results);
+        } else {
+            response.send("Get some stacks!");
+        }
+    })
 });
+
+
 
 // Associated Axios call: getStack;
 // Made after clicking on view from my shelf
@@ -121,10 +154,10 @@ router.post('/stackOverview/:sID',(request,response) => {
     connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
     "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
     "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+        console.log("results from navigating to stackOverview", results);
         if (err) {
             response.send("Error on stack request");
         } else {
-
             response.send(results);
         }
     });
@@ -160,6 +193,19 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    })
 });
 
+router.post('/stackOverview/', (request,response) => {
+    console.log("getCard request", request.body);
+    connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=> {
+        if (err) {
+            response.send("Error");
+        }
+        else {
+            console.log("Ha, the last inserted ID produced these cards", results);
+            response.json({success: true, msg: "Stack showing"});
+        }
+    })
+});
+
 
 //
 //delete an individual card from your stack overview , requires card id from the stackov page
@@ -173,6 +219,7 @@ router.delete('/stack/:cId',(request,response)=>{
     });
 });
 //update an individual card from your stack overview, requires card id from the stack overview page
+// For overview
 router.put('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     //get changed information
@@ -206,32 +253,23 @@ router.post('/stack/:user_id',(request,response)=>{
 
 //clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attributes
 // Tied to the getMyStackOverview action creator
-router.get('/myshelf/:uId',(request,response)=>{
-    console.log('id of logged on user is: ',request.params.uId);
-    let uid = request.params.uId;
-    // Select all the cards from a deck where
-    // connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*)as Total from stacks JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? GROUP BY stacks.subject" ,[uid],(err,results)=>{
-        //if (err) console.log(err); // This needs to be changed to something like:
-        // if (results.length === 0) {response.send("Error")} else{ the rest of the results
-        //console log overview of logged-on user's acct...but they only show the username of the logged on user. not the source of stack creation.
-        // console.log('shelf overview',results);
-        // response.json({success:true, msg: "User Shelf Retrieved"}); The default response type for Axios is JSON, so specifying it here may not be necessary
-        // response.send(results);
-    // });
-    // Added AS statements to match what front end is expecting
+router.post('/myshelf',(request,response)=> {
+    console.log("request.body.token", request.body.token);
+    let uid = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
         "cards.orig_source_stack, " +
         "COUNT(*) AS 'totalCards' FROM stacks " +
         "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
-        "GROUP BY stacks.subject",[uid], (err,results) => {
-        if (err){
+        "GROUP BY stacks.subject", [uid], (err, results) => {
+        if (err) {
             console.log(err);
             response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
         } else {
             response.send(results);
         }
-    })
+    });
 });
+
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:uId',(request,response)=>{
     let stackID = request.body.sID;
@@ -257,7 +295,17 @@ router.get('/search/:id/:searchid',(request,response)=>{
    )
 });
 
-
+router.post('/logout',(request,response)=>{
+    let token = request.body.token;
+    console.log('token ',token);
+    let un =request.decoded.UserName;
+    console.log('un ',un);
+    connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
+        if (err) throw err;
+        console.log('updated user log out', result);
+        response.json({success:true, message:"updated log out"});
+    })
+});
 
 //Future Considerations below...Authentication will likely handle the login check and provide a token
 //Authenticate

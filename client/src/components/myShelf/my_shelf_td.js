@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getMyStackOverview} from '../../actions/index'
+import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -13,9 +13,15 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-class Stacks extends Component{
+class Stacks extends Component {
+
     componentWillMount(){
         this.props.getMyStackOverview();
+    }
+
+    viewStack(stackInfo) {
+        console.log("stackID", stackInfo.stack_id);
+        this.props.getStackOverview(stackInfo.stack_id);
     }
 
     render() {
@@ -24,14 +30,16 @@ class Stacks extends Component{
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <TableRow key={index}>
+                <TableRow selectable={false} key={index}>
                     <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.stackRating}</TableRowColumn>
                     <TableRowColumn>
-                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                        <RaisedButton
+                            containerElement={<Link to="/stackOverview" name="stackOverview"/>}
+                            onClick={() => {this.viewStack(this.props.stacks[index])}}>
                             View
-                        </RaisedButton></Link>
+                        </RaisedButton>
                     </TableRowColumn>
                     <TableRowColumn>
                             <DeleteStackConfirm stackID={this.props.stacks[index]}/>
@@ -41,7 +49,7 @@ class Stacks extends Component{
         });
         return (
             <Table>
-                <TableHeader>
+                <TableHeader displaySelectAll={false}>
                     <TableRow>
                         <TableHeaderColumn>Subjects</TableHeaderColumn>
                         <TableHeaderColumn>Number of Cards</TableHeaderColumn>
@@ -50,7 +58,7 @@ class Stacks extends Component{
                         <TableHeaderColumn>Delete</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody displayRowCheckbox={false}>
                     {stacksList}
                 </TableBody>
             </Table>
@@ -63,4 +71,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getMyStackOverview})(Stacks);
+export default connect(mapStateToProps, {getMyStackOverview, getStackOverview})(Stacks);

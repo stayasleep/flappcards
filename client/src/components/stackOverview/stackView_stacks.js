@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 class StackViewStacks extends Component{
     componentWillMount(){
         this.props.getStackOverview();
+
     }
 
     render() {
@@ -33,8 +34,8 @@ class StackViewStacks extends Component{
                     {item.answer}
                 </CardText>
                 <CardActions>
-                    <Edit/>
-                    <DeleteCardConfirm/>
+                    <Edit cardID={this.props.stackCards[index]}/>
+                    <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                 </CardActions>
             </Card>
             )
@@ -66,11 +67,11 @@ class StackViewStacks extends Component{
 
                         <div className="mdl-grid">
                             <div className="mdl-cell mdl-cell--3-col">
-                                <Link to="/single_card" name="SingleCard">
-                                <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                <RaisedButton
+                                    containerElement={<Link to="/single_card" name="SignelCard"/>}
+                                    onClick={() => {this.viewStack(this.props.stacks[index])}}>
                                     Study
-                                </button>
-                                </Link>
+                                </RaisedButton>
                             </div>
                             <div className="mdl-cell mdl-cell--2-col">
                                 <Link to="/createCards" name="Add">
