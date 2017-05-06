@@ -13,18 +13,15 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-class Stacks extends Component{
+class Stacks extends Component {
+
     componentWillMount(){
         this.props.getMyStackOverview();
     }
 
     viewStack(stackInfo) {
-
-        // Convert the table data for that row into JSON, so I can pull the stack ID key value
-        console.log("event.target.response", event.target.response);
-        console.log("stackID", stackID);
-        let stackID = this.props.stacks[index];
-        this.props.getStackOverView(stackID);
+        console.log("stackID", stackInfo.stack_id);
+        this.props.getStackOverview(stackInfo.stack_id);
     }
 
     render() {
@@ -38,7 +35,9 @@ class Stacks extends Component{
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.stackRating}</TableRowColumn>
                     <TableRowColumn>
-                        <RaisedButton onClick={this.viewStack(event.target)}>
+                        <RaisedButton
+                            containerElement={<Link to="/stackOverview" name="stackOverview"/>}
+                            onClick={() => {this.viewStack(this.props.stacks[index])}}>
                             View
                         </RaisedButton>
                     </TableRowColumn>
@@ -72,4 +71,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getMyStackOverview})(Stacks);
+export default connect(mapStateToProps, {getMyStackOverview, getStackOverview})(Stacks);

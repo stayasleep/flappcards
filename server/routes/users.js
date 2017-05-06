@@ -155,7 +155,6 @@ router.post('/stackOverview/:sID',(request,response) => {
         if (err) {
             response.send("Error on stack request");
         } else {
-
             response.send(results);
         }
     });

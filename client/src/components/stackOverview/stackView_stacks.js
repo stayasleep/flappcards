@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 class StackViewStacks extends Component{
     componentWillMount(){
         this.props.getStackOverview();
+
     }
 
     render() {
