@@ -23,10 +23,10 @@ class Recent extends Component {
                         subtitle={item.category}
                     />
                     <CardText>
-                        {item.totalCards}
-                        {item.createdBy}
-                        item.createdOn}
-                        item.stackRating}
+                        Created by: {item.createdBy}
+                        Total Cards: {item.totalCards}
+                        {item.createdOn}
+                        {item.stackRating}
                     </CardText>
                     <CardActions>
                         <Link to="/stackOverview" name="SingleCard"><RaisedButton>

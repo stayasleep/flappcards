@@ -13,8 +13,8 @@ export function userLogin(values) {
     return function (dispatch) {
         axios.post(`${BASE_URL}/login`, values).then((response) => {
             // I set response.data to true for the test
-
-            if (response.data) {
+            // response.data.success is set to send true if successful
+            if (response.data.success) {
                 dispatch({type: AUTH_USER});
 
                 localStorage.setItem('token', response.data.token);
@@ -96,12 +96,12 @@ export function logout() {
 
 // Accessed by clicking on the 'My Shelf' link of the app drawer
 // stack_reducer.js
-export function getMyStackOverview(userID) {
+export function getMyStackOverview() {
     console.log("getMyStackOverview() called");
     // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
-        let userID = 2;
-        axios.get(`${BASE_URL}/myshelf/${userID}`).then((response) => {
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/myshelf/`,{'token':token}).then((response) => {
             console.log("response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
@@ -134,9 +134,10 @@ export function getStackOverview(stackID) {
 // Loads the recent stacks for when you get to the home page
 // Associated reducer is in stack_reducer.js
 //TODO check what the getMyRecentStacksOverview query logic requires
-export function getMyRecentStacksOverview(userName) {
+export function getMyRecentStacksOverview() {
     return function(dispatch) {
-        axios.post(`${BASE_URL}/home`,{userName: 'kchalm'}).then((response) => {
+        let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
+        axios.post(`${BASE_URL}/home`,{'token':token}).then((response) => {
             console.log("getMyRecentStacksOverview response", response);
             dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
         }).catch(err => {
