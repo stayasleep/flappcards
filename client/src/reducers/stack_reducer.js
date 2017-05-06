@@ -30,6 +30,7 @@ export default function (state = default_state, action) {
             return {...state, recentStacks: action.payload};
 
         case (FETCH_STACK_OVERVIEW):
+            debugger;
             return {...state, stackCards: action.payload};
 
     }

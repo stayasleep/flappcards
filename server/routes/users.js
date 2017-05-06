@@ -61,7 +61,7 @@ router.post('/login',function(request,response){
             let str = JSON.stringify(result); // Result of query
             let strJ = JSON.parse(str);
             let usersid= strJ[0].user_id;
-            console.log("JSON.parse(str)", strJ);
+            // console.log("JSON.parse(str)", strJ);
 
             let hash = strJ[0].user_pw;
             bcrypt.compare(upw, hash, function (err, res) {
@@ -98,8 +98,8 @@ router.use((request, response, next)=> {
             } else {
                 // if everything is good, save to request for use in other routes
                 request.decoded = decoded;
-                console.log("decoded", decoded);
-                console.log("request.decoded", request.decoded);
+                // console.log("decoded", decoded);
+                // console.log("request.decoded", request.decoded);
                 //response wil be sent by the next function...
                 next();
             }
@@ -149,10 +149,10 @@ router.post('/home', (request,response)=> {
 router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.body.uID;
     let sid = request.params.sID;
-    console.log(request.body);
+    console.log("stackOverview", request.body);
     connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-    "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-    "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+        "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+        "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
         console.log("results from navigating to stackOverview", results);
         if (err) {
             response.send("Error on stack request");
@@ -253,8 +253,8 @@ router.post('/stack/:user_id',(request,response)=>{
 
 //clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attributes
 // Tied to the getMyStackOverview action creator
-router.post('/myshelf',(request,response)=> {
-    console.log("request.body.token", request.body.token);
+router.post('/myShelf',(request,response)=> {
+    console.log("request.body", request.body);
     let uid = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
         "cards.orig_source_stack, " +

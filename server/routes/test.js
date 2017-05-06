@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const users = require('../user_data');
+
 
 router.post('/login', (req,res) => {
     let sentUsername = req.body.userName;
