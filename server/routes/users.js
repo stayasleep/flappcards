@@ -24,6 +24,7 @@ router.post('/register',(request,response,next)=>{
         user_email:request.body.email,
         user_bday: request.body.birthday,
     };
+    console.log('pw is ', newUser.user_pw);
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(newUser.user_pw, salt, function(err, hash) {
             newUser.user_pw = hash;
@@ -51,21 +52,25 @@ router.post('/login',function(request,response){
     let un = request.body.userName;
     let upw = request.body.password;
     //call db
-    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+    connection.query("SELECT `user_id`, `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
         // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
         if (err) {
             response.send(false);
         }
         else {
+            console.log('res',result);
             let str = JSON.stringify(result); // Result of query
             let strJ = JSON.parse(str);
+            let usersid= strJ[0].user_id;
+            console.log("JSON.parse(str)", strJ);
+
             let hash = strJ[0].user_pw;
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
                 console.log('the passwords match');
                 console.log(res);
-                let token = jwt.sign({UserID: un},config.secret,{
+                let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
                     expiresIn: 604800 //1 week in seconds
                 });
                 response.json({
@@ -84,6 +89,7 @@ router.post('/login',function(request,response){
 });
 
 router.post('/community', (request,response) => {
+
     //Community query
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
         if (err) throw err; //TODO error handling
@@ -96,22 +102,38 @@ router.post('/community', (request,response) => {
 
 // Recent stacks query; This gets called for the home page...
 router.post('/home', (request,response)=> {
+
     console.log("request.body checking for token", request.body);
     console.log("jwt.decode", jwt.decode(request.body.token));
-    let un = jwt.decode(request.body.token).UserID;
-    // Recent query
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-        if (err) {
-            response.send("Uh oh");
-        } else if (results > 0) {
-            //console log to see if the metadata from your account is retrieved before redirect
-            console.log('my results', results);
-        //do stuff with jwt here;
-        response.send(results);
+    let un = jwt.decode(request.body.token).UserName;
+    let token = request.body.token;
+    if(token){
+        jwt.verify(token,config.secret,function (err,decoded) {
+            if (err){
+                return response.json({success: false, message: "Failed to authenticate token."});
+            }else{
+                request.decoded = decoded;
+                console.log('token verified, ', request.decoded); //dont delete andres
+                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
+                    if (err) {
+                        response.send("Uh oh");
+                    } else if (results > 0) {
+                        //console log to see if the metadata from your account is retrieved before redirect
+                        console.log('my results', results);
+                        //do stuff with jwt here;
+                        response.send(results);
+                    } else {
+                        response.send("Get some stacks");
+                    }
+                });
+            }
+        })
     } else {
-            response.send("Get some stacks");
-        }
-    });
+        return response.status(403).send({
+            success: false,
+            message: "No token provided"
+        })
+    }
 });
 
 // Associated Axios call: getStack;
