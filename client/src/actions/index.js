@@ -6,7 +6,6 @@ import {browserHistory} from 'react-router';
 
 const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
 
-import stack2 from '../data/stackoverviewCB3';
 
 export function userLogin(values) {
 
@@ -121,7 +120,8 @@ export function getMyStackOverview() {
 // Meant to return the cards available after clicking view
 export function getStackOverview(stackID) {
     return function (dispatch) {
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token}).then((response) => {
             console.log("getStackOverview", response.data);
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
