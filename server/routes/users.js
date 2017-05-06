@@ -104,20 +104,26 @@ router.post('/community', (request,response) => {
 router.post('/home', (request,response)=> {
 
     console.log("request.body checking for token", request.body);
-    console.log("jwt.decode", jwt.decode(request.body.token));
-    let un = jwt.decode(request.body.token).UserName;
+    // console.log("jwt.decode", jwt.decode(request.body.token));
+    let un = jwt.decode(request.body.token).UserName; // needed to pull off username
     let token = request.body.token;
     if(token){
+        // actual verification happens here
         jwt.verify(token,config.secret,function (err,decoded) {
             if (err){
                 return response.json({success: false, message: "Failed to authenticate token."});
             }else{
                 request.decoded = decoded;
                 console.log('token verified, ', request.decoded); //dont delete andres
-                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
+                let un = request.decoded.UserName;
+                console.log("un", un);
+                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
+                    "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
+                    "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
+                    console.log("results", results);
                     if (err) {
                         response.send("Uh oh");
-                    } else if (results > 0) {
+                    } else if (results.length > 0) {
                         //console log to see if the metadata from your account is retrieved before redirect
                         console.log('my results', results);
                         //do stuff with jwt here;
