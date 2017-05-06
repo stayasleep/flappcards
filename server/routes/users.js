@@ -148,9 +148,7 @@ router.post('/home', (request,response)=> {
 // Made after clicking on view from my shelf
 //TODO implement /stackOverview/:uID/:sID version?
 router.post('/stackOverview/:sID',(request,response) => {
-    let uid = request.body.uID;
-    let sid = request.params.sID;
-    console.log(request.body);
+    console.log("stackOverview request");
     connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
     "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
     "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
