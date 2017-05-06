@@ -99,6 +99,8 @@ router.use((request, response, next)=> {
             } else {
                 // if everything is good, save to request for use in other routes
                 request.decoded = decoded;
+                console.log("decoded", decoded);
+                console.log("request.decoded", request.decoded);
                 //response wil be sent by the next function...
                 next();
             }
@@ -126,50 +128,21 @@ router.post('/community', (request,response) => {
 
 // Recent stacks query; This gets called for the home page...
 router.post('/home', (request,response)=> {
-    console.log("request.body checking for token", request.body);
-    // console.log("jwt.decode", jwt.decode(request.body.token));
-    let un = jwt.decode(request.body.token).UserName; // needed to pull off username
-    let token = request.body.token;
+    let un = request.decoded.UserName;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
         "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
         "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ", [un], (err, results) => {
-        console.log("results", results);
-        response.json({success: true, message:"hah!"});
-        // if(token){
-        //     // actual verification happens here
-        //     jwt.verify(token,config.secret,function (err,decoded) {
-        //         if (err){
-        //             return response.json({success: false, message: "Failed to authenticate token."});
-        //         }else{
-        //             request.decoded = decoded;
-        //             console.log('token verified, ', request.decoded); //dont delete andres
-        //             let un = request.decoded.UserName;
-        //             console.log("un", un);
-        //             connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
-        //                 "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
-        //                 "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-        //                 console.log("results", results);
-        //                 if (err) {
-        //                     response.send("Uh oh");
-        //                 } else if (results.length > 0) {
-        //                     //console log to see if the metadata from your account is retrieved before redirect
-        //                     console.log('my results', results);
-        //                     //do stuff with jwt here;
-        //                     response.send(results);
-        //                 } else {
-        //                     response.send("Get some stacks");
-        //                 }
-        //             });
-        //         }
-        //     })
-        // } else {
-        //     return response.status(403).send({
-        //         success: false,
-        //         message: "No token provided"
-        //     })
-        // }
-    });
+        if (err) {
+            response.send("Uh oh");
+        } else if (results.length > 0) {
+            response.send(results);
+        } else {
+            response.send("Get some stacks!");
+        }
+    })
 });
+
+
 
 // Associated Axios call: getStack;
 // Made after clicking on view from my shelf
@@ -181,6 +154,7 @@ router.post('/stackOverview/:sID',(request,response) => {
     connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
     "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
     "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+        console.log("results from navigating to stackOverview", results);
         if (err) {
             response.send("Error on stack request");
         } else {
@@ -279,41 +253,23 @@ router.post('/stack/:user_id',(request,response)=>{
 
 //clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attributes
 // Tied to the getMyStackOverview action creator
-router.post('/myshelf',(request,response)=>{
+router.post('/myshelf',(request,response)=> {
     console.log("request.body.token", request.body.token);
-    let uid = jwt.decode(request.body.token).UserID; // pull off the userID for the query
-    console.log(uid);
-    let token = request.body.token;
-    if (token) {
-        jwt.verify(token, config.secret, function (err, decoded) {
-            if (err) {
-                return response.json({success: false, message: "Nope"});
-            } else {
-                request.decoded = decoded;
-                let uid = request.decoded.UserID;
-                console.log("uid", uid);
-                // Added AS statements to match what front end is expecting
-                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
-                    "cards.orig_source_stack, " +
-                    "COUNT(*) AS 'totalCards' FROM stacks " +
-                    "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
-                    "GROUP BY stacks.subject", [uid], (err, results) => {
-                    if (err) {
-                        console.log(err);
-                        response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
-                    } else {
-                        response.send(results);
-                    }
-                });
-            }
-        })
-    } else {
-        return response.status(403).send({
-            success: false,
-            message: "No token provided"
-        })
-    }
+    let uid = request.decoded.UserID;
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
+        "cards.orig_source_stack, " +
+        "COUNT(*) AS 'totalCards' FROM stacks " +
+        "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
+        "GROUP BY stacks.subject", [uid], (err, results) => {
+        if (err) {
+            console.log(err);
+            response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
+        } else {
+            response.send(results);
+        }
+    });
 });
+
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:uId',(request,response)=>{
     let stackID = request.body.sID;
@@ -362,24 +318,3 @@ router.post('/profile',(request,response,next)=>{
 });
 
 module.exports = router;
-
-//trying t0 make a function to call instead of listing it everywhere
-// function verifyToken(token){
-//     let un ;// had to intentionally send a kchalm username. In the process of upgrading to tokens, request.decoded.UserName
-//     if(token){
-//         jwt.verify(token,config.secret,function (err,decoded) {
-//             if (err){
-//                 return response.json({success: false, message: "Failed to authenticate token."});
-//             }else{
-//                 request.decoded = decoded;
-//                 console.log('token verified, ', request.decoded); //dont delete andres
-//                 connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-//                     if (err) throw err;
-//                     //console log to see if the metadata from your account is retrieved before redirect
-//                     console.log('my results',results);
-//                     //do stuff with jwt here;
-//                     response.send(results);
-//                 });
-//             }
-//         })
-// }}
