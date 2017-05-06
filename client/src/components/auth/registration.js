@@ -87,7 +87,19 @@ function validate(values) {
         errors.email = 'Invalid email address'
     }
     if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
-        errors.password = 'Invalid password'
+        errors.password = 'Must be between 8 and 15 characters long'
+    }
+    if(values.password && !/^(?=.*[a-z])/i.test(values.password)){
+        errors.password = 'Must have lowercase letter'
+    }
+    if(values.password && !/^(?=.*[A-Z])/i.test(values.password)){
+        errors.password = 'Must have uppercase letter'
+    }
+    if(values.password && !/^(?=.*[0-9])/i.test(values.password)){
+        errors.password = 'Must have number'
+    }
+    if(values.password && !/^(?=.*[!@#\$%\^&\*])/i.test(values.password)){
+        errors.password = 'Must have special character(!,@,#,$,%,\,^,&)'
     }
     if (values.password !== values.passwordConfirm) {
         errors.passwordConfirm = 'Passwords must match'
