@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom'
 import { Field, reduxForm } from 'redux-form'
 import TextField from 'material-ui/TextField';
 import validate from './validate'
@@ -26,16 +27,13 @@ class CardCreation extends Component {
             container.removeChild(container.lastChild);
         }
         for (var i=0;i<number;i++){
-            var input = React.createElement('input', {
-                type: 'text',
-                placeholder: 'Question'
-            });
+            container.appendChild(document.createTextNode("Question " + (i+1)));
+            var input = document.createElement("input");
             container.appendChild(input);
             container.appendChild(document.createElement("br"));
             container.appendChild(document.createTextNode("Answer " + (i+1)));
             var input2 = document.createElement("input");
             input2.type = "text";
-            input2.component = {style};
             container.appendChild(input2);
             container.appendChild(document.createElement("br"));
         }

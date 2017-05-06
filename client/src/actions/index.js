@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD} from './types';
 import {FETCH_MY_RECENT_STACKS} from './types';
 
 import {browserHistory} from 'react-router';
@@ -59,11 +59,15 @@ export function getCard() {
     }
 }
 export function getUserData() {
-    const request = axios.get(`../data/dummydata.js`);
-
-    return{
-        type: FETCH_USER_META,
-        payload: request
+    return function (dispatch) {
+        axios.post(`${BASE_URL}/profile`).then((response) => {
+            dispatch({type: FETCH_USER_META, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: null,
+                error: err.response
+            });
+        })
     }
 }
 
@@ -169,6 +173,21 @@ export function deleteCard() {
             dispatch({
                 type: DELETE_CARD,
                 error: err.response
+            });
+        })
+    }
+}
+
+export function cardEditor() {
+    return function (dispatch) {
+        let stackID = 3;
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
+            console.log("getStackOverview", response.data);
+            dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: FETCH_STACK_OVERVIEW,
+                error: err.response.data.error
             });
         })
     }

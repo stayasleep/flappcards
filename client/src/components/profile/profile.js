@@ -3,16 +3,24 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
+import {getUserData} from '../../actions/index'
+import AccountCircle from 'material-ui/svg-icons/action/account-circle'
 
 class Profile extends Component{
     componentWillMount(){
-        this.props;
+        this.props.getUserData();
     }
-
     render(){
+        const profileImg = {
+            height: "50vh",
+            width: "50vw"
+        };
         return (
             <div>
                 <FlashCardsAppBar/>
+                <div>
+                    <AccountCircle style={profileImg}/>
+                </div>
                 <div>
                     {this.props.username}
                 </div>
@@ -29,10 +37,10 @@ class Profile extends Component{
 
 function mapStateToProps(state) {
     return {
-        username: state,
-        email: state,
-        birthday: state
+        username: state.profile.userName,
+        email: state.profile.email,
+        birthday: state.profile.birthday
     }
 }
 
-export default Profile
+export default connect(mapStateToProps, {getUserData})(Profile);

@@ -33,8 +33,8 @@ class StackViewStacks extends Component{
                     {item.answer}
                 </CardText>
                 <CardActions>
-                    <Edit/>
-                    <DeleteCardConfirm/>
+                    <Edit cardID={this.props.stackCards[index]}/>
+                    <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                 </CardActions>
             </Card>
             )

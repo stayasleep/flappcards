@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-
+import cardEditor from '../../actions/index';
 
 class EditCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
@@ -63,10 +63,10 @@ class EditCard extends Component {
                 >
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <Field name="Question" component={this.renderInput} label="Question"/>
+                            <Field name="Question" value={this.props.cardID} component={this.renderInput} label="Question"/>
                         </div>
                         <div>
-                            <Field name="Answer" component={this.renderInput} label="Answer"/>
+                            <Field name="Answer" value={this.props.cardID} component={this.renderInput} label="Answer"/>
                         </div>
                         <div>
                             <RaisedButton type="submit" className="submit">Submit</RaisedButton>

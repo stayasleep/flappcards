@@ -29,7 +29,8 @@ import LogIn from './components/auth/log_in';
 import Registration from './components/auth/registration';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
-import SingleCard from './components/singleCard/single_card'
+import SingleCard from './components/singleCard/single_card';
+import landing from './components/auth/landing_page'
 
 const MaterializedApp = (props) => (
     <MuiThemeProvider>
@@ -52,6 +53,7 @@ ReactDOM.render(
                 <Route path="Registration" component={Registration}/>
                 <Route path="stackOverview" component={requireAuth(Stacks)}/>
                 <Route path="single_card" component={requireAuth(SingleCard)}/>
+                <Route path="landing" component={landing}/>
             </Route>
         </Router>
     </Provider>,
