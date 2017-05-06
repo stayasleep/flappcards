@@ -299,8 +299,11 @@ router.get('/search/:id/:searchid',(request,response)=>{
 router.post('/logout',(request,response)=>{
     let token = request.body.token;
     let un =request.decoded.UserName;
-    connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",)
-})
+    connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
+        if (err) throw err;
+        console.log('updated user log out', result);
+    })
+});
 
 //Future Considerations below...Authentication will likely handle the login check and provide a token
 //Authenticate
