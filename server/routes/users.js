@@ -51,15 +51,17 @@ router.post('/login',function(request,response){
     let un = request.body.userName;
     let upw = request.body.password;
     //call db
-    connection.query("SELECT `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+    connection.query("SELECT `user_id`, `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
         // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
         if (err) {
             response.send(false);
         }
         else {
+            console.log('res',result);
             let str = JSON.stringify(result); // Result of query
             console.log("JSON.stringify(result)", str);
             let strJ = JSON.parse(str);
+            let usersid= strJ[0].user_id;
             console.log("JSON.parse(str)", strJ);
             let hash = strJ[0].user_pw;
             console.log('password db', hash);
@@ -68,7 +70,7 @@ router.post('/login',function(request,response){
             if (res){
                 console.log('the passwords match');
                 console.log(res);
-                let token = jwt.sign({UserID: un},config.secret,{
+                let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
                     expiresIn: 604800 //1 week in seconds
                 });
                 response.json({
