@@ -16,6 +16,7 @@ connection.connect((error) => {
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
+    console.log("Register request", request.body);
     let newUser = {
         fullname: request.body.name,
         username: request.body.userName,
@@ -57,11 +58,8 @@ router.post('/login',function(request,response){
         }
         else {
             let str = JSON.stringify(result); // Result of query
-            console.log("JSON.stringify(result)", str);
             let strJ = JSON.parse(str);
-            console.log("JSON.parse(str)", strJ);
             let hash = strJ[0].user_pw;
-            console.log('password db', hash);
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
@@ -88,7 +86,7 @@ router.post('/login',function(request,response){
 router.post('/community', (request,response) => {
     //Community query
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
-        if (err) throw err;
+        if (err) throw err; //TODO error handling
         //console log to see if the metadata from the community is retrieved before redirect
         console.log('comm results',results);
         response.send(results);
@@ -98,16 +96,21 @@ router.post('/community', (request,response) => {
 
 // Recent stacks query; This gets called for the home page...
 router.post('/home', (request,response)=> {
-
-    let un = request.body.userName; // had to intentionally send a kchalm username. In the process of upgrading to tokens
-
+    console.log("request.body checking for token", request.body);
+    console.log("jwt.decode", jwt.decode(request.body.token));
+    let un = jwt.decode(request.body.token).UserID;
     // Recent query
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
-        if (err) throw err;
-        //console log to see if the metadata from your account is retrieved before redirect
-        console.log('my results',results);
+        if (err) {
+            response.send("Uh oh");
+        } else if (results > 0) {
+            //console log to see if the metadata from your account is retrieved before redirect
+            console.log('my results', results);
         //do stuff with jwt here;
         response.send(results);
+    } else {
+            response.send("Get some stacks");
+        }
     });
 });
 
