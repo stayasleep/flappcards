@@ -164,7 +164,7 @@ router.post('/stackOverview/:sID',(request,response) => {
 
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 router.post('/stack/:uID/:sID',(request,response)=>{
-    let uid = request.decoded.UserID; //TOKEN OR URL
+    //let uid = request.decoded.UserID; //TOKEN OR URL
    let uid =request.params.uID;
    let sid=request.params.sID;
    let commSubj =request.body.subject;
@@ -296,8 +296,6 @@ router.get('/search/:id/:searchid',(request,response)=>{
 });
 
 router.post('/logout',(request,response)=>{
-    let token = request.body.token;
-    console.log('token ',token);
     let un =request.decoded.UserName;
     console.log('un ',un);
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
