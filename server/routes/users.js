@@ -103,7 +103,7 @@ router.post('/community', (request,response) => {
 // Recent stacks query; This gets called for the home page...
 router.post('/home', (request,response)=> {
     let token = request.body.token;
-    let un = request.body.userName; // had to intentionally send a kchalm username. In the process of upgrading to tokens
+    let un = request.body.userName; // had to intentionally send a kchalm username. In the process of upgrading to tokens, request.decoded.UserName
     if(token){
         jwt.verify(token,config.secret,function (err,decoded) {
             if (err){
@@ -284,7 +284,11 @@ router.get('/search/:id/:searchid',(request,response)=>{
    )
 });
 
-
+router.post('/logout',(request,response)=>{
+    let token = request.body.token;
+    let un =request.decoded.UserName;
+    connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",)
+})
 
 //Future Considerations below...Authentication will likely handle the login check and provide a token
 //Authenticate
@@ -297,3 +301,24 @@ router.post('/profile',(request,response,next)=>{
 });
 
 module.exports = router;
+
+//trying t0 make a function to call instead of listing it everywhere
+function verifyToken(token){
+    let un ;// had to intentionally send a kchalm username. In the process of upgrading to tokens, request.decoded.UserName
+    if(token){
+        jwt.verify(token,config.secret,function (err,decoded) {
+            if (err){
+                return response.json({success: false, message: "Failed to authenticate token."});
+            }else{
+                request.decoded = decoded;
+                console.log('token verified, ', request.decoded); //dont delete andres
+                connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack,COUNT(*) as Total from stacks join cards ON stacks.stack_id=cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ",[un],(err,results)=>{
+                    if (err) throw err;
+                    //console log to see if the metadata from your account is retrieved before redirect
+                    console.log('my results',results);
+                    //do stuff with jwt here;
+                    response.send(results);
+                });
+            }
+        })
+}}
