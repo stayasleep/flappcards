@@ -190,6 +190,19 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    })
 });
 
+router.post('/stackOverview/', (request,response) => {
+    console.log("getCard request", request.body);
+    connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=> {
+        if (err) {
+            response.send("Error");
+        }
+        else {
+            console.log("Ha, the last inserted ID produced these cards", results);
+            response.json({success: true, msg: "Stack showing"});
+        }
+    })
+});
+
 
 //
 //delete an individual card from your stack overview , requires card id from the stackov page
@@ -203,6 +216,7 @@ router.delete('/stack/:cId',(request,response)=>{
     });
 });
 //update an individual card from your stack overview, requires card id from the stack overview page
+// For overview
 router.put('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     //get changed information

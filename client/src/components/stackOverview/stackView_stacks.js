@@ -72,6 +72,11 @@ class StackViewStacks extends Component{
                                     Study
                                 </button>
                                 </Link>
+                                <RaisedButton
+                                    containerElement={<Link to="/stackOverview" name="stackOverview"/>}
+                                    onClick={() => {this.viewStack(this.props.stacks[index])}}>
+                                    View
+                                </RaisedButton>
                             </div>
                             <div className="mdl-cell mdl-cell--2-col">
                                 <Link to="/createCards" name="Add">
