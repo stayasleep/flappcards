@@ -117,7 +117,6 @@ export function getMyStackOverview() {
 // Meant to return the cards available after clicking view
 export function getStackOverview(stackID) {
     return function (dispatch) {
-        let stackID = 3;
         axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
             console.log("getStackOverview", response.data);
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});

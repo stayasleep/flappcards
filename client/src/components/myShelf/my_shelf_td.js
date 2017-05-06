@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getMyStackOverview} from '../../actions/index'
+import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -18,20 +18,29 @@ class Stacks extends Component{
         this.props.getMyStackOverview();
     }
 
+    viewStack(stackInfo) {
+
+        // Convert the table data for that row into JSON, so I can pull the stack ID key value
+        console.log("event.target.response", event.target.response);
+        console.log("stackID", stackID);
+        let stackID = this.props.stacks[index];
+        this.props.getStackOverView(stackID);
+    }
+
     render() {
         if(!this.props.stacks){
             return <div>Loading...</div>
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <TableRow key={index}>
+                <TableRow selectable={false} key={index}>
                     <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.stackRating}</TableRowColumn>
                     <TableRowColumn>
-                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                        <RaisedButton onClick={this.viewStack(event.target)}>
                             View
-                        </RaisedButton></Link>
+                        </RaisedButton>
                     </TableRowColumn>
                     <TableRowColumn>
                             <DeleteStackConfirm stackID={this.props.stacks[index]}/>
@@ -41,7 +50,7 @@ class Stacks extends Component{
         });
         return (
             <Table>
-                <TableHeader>
+                <TableHeader displaySelectAll={false}>
                     <TableRow>
                         <TableHeaderColumn>Subjects</TableHeaderColumn>
                         <TableHeaderColumn>Number of Cards</TableHeaderColumn>
@@ -50,7 +59,7 @@ class Stacks extends Component{
                         <TableHeaderColumn>Delete</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody displayRowCheckbox={false}>
                     {stacksList}
                 </TableBody>
             </Table>
