@@ -19,7 +19,14 @@ class Recent extends Component {
 
     render() {
         if (!this.props.recentStacks) {
-            return <div>Loading</div>
+            return (
+                <div>
+                    <h1>Recent Stacks:</h1>
+                    <div>
+                        Oops! Looks like your shelf is empty. Create a stack or take a took at some community content below!
+                    </div>
+                </div>
+            )
         }
         const recentStacksList = this.props.recentStacks.map((item, index) => {
             return (
@@ -46,6 +53,7 @@ class Recent extends Component {
         });
         return (
             <div>
+                <h1>Recent Stacks:</h1>
                 {recentStacksList}
             </div>
         );
