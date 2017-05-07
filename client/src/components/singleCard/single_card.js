@@ -99,7 +99,6 @@ class SingleCard extends Component {
         };
         // this.state.card is the index for the next and previous
         const card = this.props.stackCards[this.state.card];
-        console.log("single_card", card);
         if(!card){
             return <h3>Loading...</h3>
         }
