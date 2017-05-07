@@ -165,9 +165,10 @@ export function deleteStack() {
     }
 }
 
-export function deleteCard() {
+export function deleteCard(cardObject) {
     return function(dispatch) {
-        axios.delete(`${BASE_URL}/stackOverview`).then((response) => {
+        let {cardID} = cardObject;
+        axios.delete(`${BASE_URL}/stack/${cardID}`,).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -178,13 +179,20 @@ export function deleteCard() {
     }
 }
 
+/**
+ *
+ * @param cardObject -> contains question, answer, and card ID
+ * @returns {Function}
+ */
 export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         console.log("cardEditor function called");
-        let card_id = cardObject.card_id;
-        // let {card_id, question, answer} = cardObject;
-        axios.put(`${BASE_URL}/stack/${card_id}`, {'token': token, 'cardQuestion':"Edited question", 'cardAnswer':"Edited answer"} ).then((response) => {
+        let {cardID, question, answer} = cardObject; // cardObject.card_id, cardObject.question, cardObject.answer
+        console.log("cardObject in cardEditor", cardObject);
+        console.log("question", question);
+        console.log("cardID", cardID);
+        axios.put(`${BASE_URL}/stack/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
             console.log("getStackOverview", response.data);
             dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {

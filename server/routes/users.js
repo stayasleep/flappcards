@@ -239,9 +239,12 @@ router.delete('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     console.log('single id coming from card',singleID);
     connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{
-        if (err) throw err;
-        response.json({success:true, msg:"Single Card deleted"});
+        // if error, notify the client that the card deletion failed
+        if (err) {
+            return response.json({success: false, msg: "Card deletion failed"})
+        }
         console.log('rows deleted: ', result.affectedRows);
+        response.json({success:true, msg:"Single Card deleted"});
     });
 });
 //update an individual card from your stack overview, requires card id from the stack overview page
@@ -252,6 +255,7 @@ router.put('/stack/:cId',(request,response)=>{
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
     connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
+        // If error, notify client that card edit failed
         if (err) {
             response.json({success:false, msg: "Failed to updated"});
         }
@@ -273,7 +277,9 @@ router.post('/stack/:user_id',(request,response)=>{
         "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
         "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?); "+
         "COMMIT;",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
-        if(err) throw err;
+        if (err) {
+            return response.json({success: false, msg: "Failed to create stack"})
+        }
         console.log(userID+" Made A Stack with 1 q and a");
         response.json({success:true, msg:"Stack was just created"});
     });
@@ -302,7 +308,10 @@ router.post('/myShelf',(request,response)=> {
 router.delete('/myshelf/:uId',(request,response)=>{
     let stackID = request.body.sID;
     connection.query("DELETE FROM stacks WHERE stack_id = ?",[stackID],(err,results)=>{
-        response.json({success:true, msg:"whole stack deleted"});
+        if (err) {
+            return response.json({success: false, msg: "Stack deletion failed"});
+        }
+        response.json({success:true, msg:"Stack deletion successful"});
     })
 });
 //Search, need the logged on user_id and the search parameter.....should give you a stack overview. Doesn't work, ask why result is empty..but it works on mysql

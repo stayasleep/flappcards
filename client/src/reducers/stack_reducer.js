@@ -31,7 +31,6 @@ export default function (state = default_state, action) {
         case (FETCH_MY_COMMUNITY_STACKS):
             return {...state, communityStacks: action.payload};
         case (FETCH_STACK_OVERVIEW):
-            debugger;
             return {...state, stackCards: action.payload};
 
     }

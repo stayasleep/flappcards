@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {userLogin} from '../../actions/index';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Link} from 'react-router'
-import {browserHistory} from 'react-router';
 
 class LogIn extends Component {
     static contextTypes = {
