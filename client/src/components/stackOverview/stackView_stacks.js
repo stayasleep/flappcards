@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getStackOverview} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
-import Edit from '../editCard/edit'
+import EditCard from '../editCard/edit'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -44,7 +44,7 @@ class StackViewStacks extends Component{
                         {item.answer}
                     </CardText>
                     <CardActions>
-                        <Edit cardID={this.props.stackCards[index]}/>
+                        <EditCard cardID={this.props.stackCards[index]}/>
                         <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                     </CardActions>
                 </Card>

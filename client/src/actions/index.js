@@ -178,15 +178,18 @@ export function deleteCard() {
     }
 }
 
-export function cardEditor() {
+export function cardEditor(cardObject) {
     return function (dispatch) {
-        let stackID = 3;
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
+        let token = localStorage.getItem('token');
+        console.log("cardEditor function called");
+        let card_id = cardObject.card_id;
+        // let {card_id, question, answer} = cardObject;
+        axios.put(`${BASE_URL}/stack/${card_id}`, {'token': token, 'cardQuestion':"Edited question", 'cardAnswer':"Edited answer"} ).then((response) => {
             console.log("getStackOverview", response.data);
-            dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
-                type: FETCH_STACK_OVERVIEW,
+                type: EDIT_CARD,
                 error: err.response.data.error
             });
         })
