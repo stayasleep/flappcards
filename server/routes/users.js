@@ -6,7 +6,6 @@ const connection = require('../config/config'); // So connection credentials can
 const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in confic js]]
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-//temporary, for now leave the db and connections on the same page
 
 connection.connect((error) => {
     (error) ? (console.error('error connection: ' + error.stack)) : '';
@@ -40,7 +39,6 @@ router.post('/register',(request,response,next)=>{
                     msg: results,
                     token: token
                 });
-                // response.json({success: true, msg: "User Registered"});
             })
         });
     });
@@ -87,7 +85,6 @@ router.post('/login',function(request,response){
 });
 //test
 router.use((request, response, next)=> {
-    // check header or url parameters or post parameters for token
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
     // decode token
     if (token) {
@@ -147,7 +144,8 @@ router.post('/home', (request,response)=> {
 // Made after clicking on view from my shelf
 //TODO implement /stackOverview/:uID/:sID version?
 router.post('/stackOverview/:sID',(request,response) => {
-    let uid = request.body.uID;
+    let uid = request.decoded.UserID;
+    // let uid = request.body.uID;
     let sid = request.params.sID;
     console.log("stackOverview", request.body);
     connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
@@ -161,7 +159,7 @@ router.post('/stackOverview/:sID',(request,response) => {
         }
     });
 });
-
+//THIS ISNT READY
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 router.post('/stack/:uID/:sID',(request,response)=>{
     //let uid = request.decoded.UserID; //TOKEN OR URL
@@ -192,7 +190,7 @@ router.post('/stack/:uID/:sID',(request,response)=>{
        response.json({success:true, msg:"Stack showing"});
    })
 });
-//shows Q and A of the stack you selected
+//shows Q and A of the stack you selected MAYBE THIS IS NOT NEEEDED.
 router.post('/stackOverview/', (request,response) => {
     console.log("getCard request", request.body);
     connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=> {
@@ -205,10 +203,9 @@ router.post('/stackOverview/', (request,response) => {
         }
     })
 });
+//END THIS ISNT READY
 
-
-//
-//delete an individual card from your stack overview , requires card id from the stackov page
+//delete an individual card from your stack overview
 router.delete('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     console.log('single id coming from card',singleID);
@@ -219,7 +216,6 @@ router.delete('/stack/:cId',(request,response)=>{
     });
 });
 //update an individual card from your stack overview, requires card id from the stack overview page
-// For overview
 router.put('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     //get changed information
@@ -271,13 +267,13 @@ router.post('/myShelf',(request,response)=> {
 });
 
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
-router.delete('/myshelf/:uId',(request,response)=>{
+router.delete('/myshelf/:sId',(request,response)=>{
     let stackID = request.body.sID;
     connection.query("DELETE FROM stacks WHERE stack_id = ?",[stackID],(err,results)=>{
         response.json({success:true, msg:"whole stack deleted"});
     })
 });
-//Search, need the logged on user_id and the search parameter.....should give you a stack overview. Doesn't work, ask why result is empty..but it works on mysql
+//Search, need user_id and search parameter.....should give you a stack overview. Doesn't work, ask why result is empty..but it works on mysql
 router.get('/search/:id/:searchid',(request,response)=>{
     let uid = request.params.id;
     let fromSearch = request.params.searchid;
@@ -294,7 +290,7 @@ router.get('/search/:id/:searchid',(request,response)=>{
        }
    )
 });
-
+//Log out, pass the token, update the users last_login from table
 router.post('/logout',(request,response)=>{
     let un =request.decoded.UserName;
     console.log('un ',un);
@@ -305,8 +301,7 @@ router.post('/logout',(request,response)=>{
     })
 });
 
-//Future Considerations below...Authentication will likely handle the login check and provide a token
-//Profile
+//Profile retrieve some user information
 router.post('/profile',(request,response)=>{
     let un = request.decoded.UserID;
     connection.query("SELECT users.fullname, users.username, users.user_bday, users.user_join FROM users WHERE users.user_id =?",[un],(err,result)=>{
