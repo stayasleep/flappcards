@@ -132,7 +132,7 @@ router.use((request, response, next)=> {
 router.post('/community', (request,response) => {
     //Community query
     let uid = request.decoded.UserID;
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%d/%m/%Y %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
         //TODO error handling
         if (err) {
             response.send("Uh oh");
@@ -148,7 +148,7 @@ router.post('/community', (request,response) => {
 });
 
 
-// Recent stacks query; This gets called for the home page...
+// Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response)=> {
     let un = request.decoded.UserName;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +

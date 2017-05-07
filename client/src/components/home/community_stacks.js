@@ -38,7 +38,7 @@ class Community extends Component {
                     <CardText>
                         Created by: {item.createdBy}
                         Total Cards: {item.totalCards}
-                        {item.createdOn}
+                        Created On: {item.createdOn}
                         {item.stackRating}
                     </CardText>
                     <CardActions>
