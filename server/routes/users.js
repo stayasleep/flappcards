@@ -22,12 +22,27 @@ router.post('/register',(request,response,next)=>{
         user_email:request.body.email,
         user_bday: request.body.birthday,
     };
+    if(newUser.userName && !/^[a-zA-Z0-9]{6,20}/i.test(newUser.userName)){
+        return response.json({success: false, error: "Registration failed"})
+    }
+    if(newUser.userName && !/^\w+/i.test(newUser.userName)){
+        return response.json({success: false, error: "Registration failed"})
+    }
+    if (newUser.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(newUser.email)) {
+        return response.json({success: false, error: "Registration failed"})
+    }
+    if (newUser.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(newUser.password)) {
+        return response.json({success: false, error: "Registration failed"})
+    }
+    if (newUser.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(newUser.birthday)){
+        return response.json({success: false, error: "Registration failed"})
+    }
     console.log('pw is ', newUser.user_pw);
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(newUser.user_pw, salt, function(err, hash) {
             newUser.user_pw = hash;
             connection.query("INSERT INTO `users` SET ?", newUser,(err,results)=>{
-                if(err) throw err;
+
                 console.log('ID of the inserted user row', results.insertId);
                 //do stuff with jwt here
                 let token = jwt.sign({UserName: newUser.username,UserID:results.insertId},config.secret,{
@@ -49,19 +64,19 @@ router.post('/login',function(request,response){
     let un = request.body.userName;
     let upw = request.body.password;
     //call db
-    connection.query("SELECT `user_id`, `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+    connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
         // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
+        // Do not give the user a token if error
         if (err) {
-            response.send(false);
+            response.json({success: false, msg: "Username/Password not found"});
         }
-        else {
+        else if (result.length > 0) {
             console.log('res',result);
-            let str = JSON.stringify(result); // Result of query
-            let strJ = JSON.parse(str);
-            let usersid= strJ[0].user_id;
-            // console.log("JSON.parse(str)", strJ);
-
-            let hash = strJ[0].user_pw;
+            console.log("result[0]", result[0].username);
+            let un = result[0].username;
+            let hash = result[0].user_pw;
+            let usersid = result[0].user_id;
+            // This is the hashed password
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
@@ -77,9 +92,13 @@ router.post('/login',function(request,response){
                 });
                 } else {
                     console.log(err);
+                    console.log("Wrong password");
                     response.json({success: false, msg: "wrong pw"});
                 }
             });
+        }
+        else {
+            response.json({success: false, msg: "Username/Password not found"});
         }
     })
 });
@@ -112,12 +131,19 @@ router.use((request, response, next)=> {
 //test
 router.post('/community', (request,response) => {
     //Community query
-    let un = request.decoded.UserID;
+    let uid = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
-        if (err) throw err; //TODO error handling
+        //TODO error handling
+        if (err) {
+            response.send("Uh oh");
+        }
+        else if (results.length > 0) {
+            response.send(results);
+        }
+        else {
+            response.send("No community stacks found");
+        }
         //console log to see if the metadata from the community is retrieved before redirect
-        console.log('comm results',results);
-        response.send(results);
     });
 });
 
@@ -133,7 +159,7 @@ router.post('/home', (request,response)=> {
         } else if (results.length > 0) {
             response.send(results);
         } else {
-            response.send("Get some stacks!");
+            response.send("Looks like your shelf is empty. Create a stack or take a look at some of the community content below!");
         }
     })
 });
@@ -222,7 +248,9 @@ router.put('/stack/:cId',(request,response)=>{
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
     connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
-        if (err) throw err;
+        if (err) {
+            response.json({success:false, msg: "Failed to updated"});
+        }
         console.log('updated',results.affectedRows);
         response.json({success:true, msg: "Single Card Updated"});
     });

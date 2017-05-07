@@ -20,10 +20,20 @@ class SingleCard extends Component {
     }
 
     nextCard() {
-        this.setState({card: this.state.card + 1})
+        if(this.state.card === this.props.cards.length-1){
+            return;
+        }
+        else{
+            this.setState({card: this.state.card + 1})
+        }
     }
     prevCard() {
-        this.setState({ card: this.state.card - 1 })
+        if(this.state.card === 0){
+            return;
+        }
+        else {
+            this.setState({card: this.state.card - 1})
+        }
     }
 
     static contextTypes ={
@@ -36,7 +46,7 @@ class SingleCard extends Component {
         console.log("single_card, this.props", this.props);
         console.log("single_card, state", this.state);
     }
-    componentDidUpdate(){
+    componentDidMount(){
         var flip = true;
         document.getElementById('questionCard').addEventListener('click', switchDisplay);
         function switchDisplay() {
@@ -72,7 +82,7 @@ class SingleCard extends Component {
         };
         const cardStyle = {
             width: '100vw',
-            height: '80vh',
+            height: '90vh',
             transition: 'transform 1s',
             textAlign: "center",
             transformStyle: "preserve-3d",
@@ -99,7 +109,6 @@ class SingleCard extends Component {
         };
         // this.state.card is the index for the next and previous
         const card = this.props.stackCards[this.state.card];
-        console.log("single_card", card);
         if(!card){
             return <h3>Loading...</h3>
         }
@@ -112,7 +121,6 @@ class SingleCard extends Component {
                     <h2 style={answer} id="answer">
                         {card.answer}
                     </h2>
-
                 </div>
                 <div  style={centered}>
                     <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>

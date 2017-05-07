@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import cardEditor from '../../actions/index';
+import {cardEditor} from '../../actions/index';
 
 class EditCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
@@ -23,8 +23,8 @@ class EditCard extends Component {
         open: false,
     };
 
-    handleDelete(id){
-        this.props.deleteCard(id)
+    handleEdit(cardObject){
+        this.props.cardEditor(cardObject);
     }
 
     handleOpen = () => {
@@ -34,6 +34,7 @@ class EditCard extends Component {
     handleClose = () => {
         this.setState({open: false});
     };
+
 
 
     render() {
@@ -47,7 +48,7 @@ class EditCard extends Component {
                 label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
-                onClick={() => {this.handleDelete(this.props.cardID)}}
+                onClick={() => {this.handleEdit(this.props.cardID)}}
             />,
         ];
 
@@ -83,4 +84,4 @@ EditCard = reduxForm({
     validate
 })(EditCard);
 
-export default EditCard;
+export default connect(null, {cardEditor})(EditCard);
