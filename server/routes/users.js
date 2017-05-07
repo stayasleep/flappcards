@@ -76,11 +76,9 @@ router.post('/login',function(request,response){
             console.log('res',result);
             console.log("result[0]", result[0].username);
             let un = result[0].username;
-            let upw = result[0].user_pw;
-            let usersid= strJ[0].user_id;
-            // console.log("JSON.parse(str)", strJ);
+            let hash = result[0].user_pw;
+            let usersid = result[0].user_id;
             // This is the hashed password
-            let hash = strJ[0].user_pw;
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
@@ -254,7 +252,9 @@ router.put('/stack/:cId',(request,response)=>{
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
     connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
-        if (err) throw err;
+        if (err) {
+            response.json({success:false, msg: "Failed to updated"});
+        }
         console.log('updated',results.affectedRows);
         response.json({success:true, msg: "Single Card Updated"});
     });
