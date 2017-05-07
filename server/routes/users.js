@@ -171,9 +171,16 @@ router.post('/home', (request,response)=> {
 //TODO implement /stackOverview/:uID/:sID version?
 router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.decoded.UserID;
-    // let uid = request.body.uID;
     let sid = request.params.sID;
     console.log("stackOverview", request.body);
+    // connection.query("SELECT stack_id FROM stacks WHERE NOT user_id =?",[uid],(err,result)=>{
+    //     if (err){
+    //         response.send("Uh Oh");
+    //     }else if (result.length>0){
+    //
+    //     }
+    //     console.log("result",result);
+    // });
     connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
         "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
@@ -193,7 +200,7 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    let sid=request.params.sID;
    let commSubj =request.body.subject;
    let commCat = request.body.category;
-   var idCopiedStack=null;
+   let idCopiedStack=null;
    connection.query(
        "BEGIN; " +
        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
@@ -211,7 +218,9 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    );
    //the idCOpiedStack doesnt work....this query depends on the one above
    connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
-       if (err) throw err;
+       if(err){
+           response.send("Uh oh");
+       }
        console.log("Ha, the last inserted ID produced these cards", results);
        response.json({success:true, msg:"Stack showing"});
    })
@@ -233,12 +242,18 @@ router.post('/stackOverview/', (request,response) => {
 
 //delete an individual card from your stack overview
 router.delete('/stack/:cId',(request,response)=>{
+    let uid = request.decoded.UserID;
     let singleID = request.params.cId;
     console.log('single id coming from card',singleID);
-    connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{
-        if (err) throw err;
-        response.json({success:true, msg:"Single Card deleted"});
-        console.log('rows deleted: ', result.affectedRows);
+    connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
+    // connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{ //I THINK THE ONE ABOVE WORKS BETTER, MUST MATCH USER TO CARD OWNER
+        if (err){
+            response.send("error");
+        }else if(result>0){
+            response.send("Card deleted from your stack.")
+        }else{
+            response.send("Cannot be deleted at this time.");
+        }
     });
 });
 //update an individual card from your stack overview, requires card id from the stack overview page
@@ -269,7 +284,9 @@ router.post('/stack/:user_id',(request,response)=>{
         "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
         "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?); "+
         "COMMIT;",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
-        if(err) throw err;
+            if (err){
+                response.send("Uh Oh");
+            }
         console.log(userID+" Made A Stack with 1 q and a");
         response.json({success:true, msg:"Stack was just created"});
     });
@@ -297,24 +314,36 @@ router.post('/myShelf',(request,response)=> {
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.delete('/myshelf/:sId',(request,response)=>{
     let stackID = request.body.sID;
-    connection.query("DELETE FROM stacks WHERE stack_id = ?",[stackID],(err,results)=>{
-        response.json({success:true, msg:"whole stack deleted"});
+    let uid = request.decoded.UserID;
+    connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
+        if (err){
+            response.send("um ok");
+        }else if (results>0){
+            response.send(results);
+        }else{
+            response.send("Cannot delete Stack");
+        }
+        // response.json({success:true, msg:"whole stack deleted"});
     })
 });
 //Search, need user_id and search parameter.....should give you a stack overview. Doesn't work, ask why result is empty..but it works on mysql
 router.get('/search/:id/:searchid',(request,response)=>{
-    let uid = request.params.id;
+    // let uid = request.params.id;id
+    let uid =request.decoded.UserID;
     let fromSearch = request.params.searchid;
    connection.query(
        "SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total " +
        "FROM stacks JOIN cards on stacks.stack_id=cards.stack_id " +
        "JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject OR stacks.category LIKE '%'?) " +
        "GROUP BY cards.stack_id ORDER BY stacks.created DESC;",[uid,fromSearch],(err,results)=>{
-       if (err) throw err;
-       console.log("youre searching for ",fromSearch);
-       console.log("response",response);
-       console.log("searched results ",results);
-       response.json({success:true, msg: "Youre Searching"});
+           if (err) {
+               response.send("Uh oh");
+           }else{
+               console.log("youre searching for ",fromSearch);
+               console.log("response",response);
+               console.log("searched results ",results);
+               response.send(results);
+           }
        }
    )
 });
@@ -323,20 +352,26 @@ router.post('/logout',(request,response)=>{
     let un =request.decoded.UserName;
     console.log('un ',un);
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
-        if (err) throw err;
-        console.log('updated user log out', result);
-        response.json({success:true, message:"updated log out"});
+        if (err) {
+            response.send("Uh oh");
+        }else{
+            console.log('updated user log out', result);
+            response.send({success:true, message:"updated log out"});
+        }
     })
 });
-
 //Profile retrieve some user information
 router.post('/profile',(request,response)=>{
     let un = request.decoded.UserID;
     connection.query("SELECT users.fullname, users.username, users.user_bday, users.user_join FROM users WHERE users.user_id =?",[un],(err,result)=>{
-        if (err) throw err;
-        console.log("USER ID IS NOW LOGGED OFF ",un);
-        console.log("results ",result);
-        response.send({success:true, msg: "info"});
+        console.log(result);
+        if (err) {
+            response.send("Uh oh");
+        } else{
+            console.log("USER ID IS NOW LOGGED OFF ",un);
+            console.log("results ",result);
+            response.send({success:true, msg: "info"});
+        }
     })
 });
 
