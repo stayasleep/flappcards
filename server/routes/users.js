@@ -81,7 +81,6 @@ router.post('/login',function(request,response){
                     console.log(err);
                     response.json({success: false, msg: "wrong pw"});
                 }
-
             });
         }
     })
@@ -115,8 +114,8 @@ router.use((request, response, next)=> {
 });
 //test
 router.post('/community', (request,response) => {
-
     //Community query
+    let un = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 2 ",[un],(err,results)=>{
         if (err) throw err; //TODO error handling
         //console log to see if the metadata from the community is retrieved before redirect
@@ -165,6 +164,7 @@ router.post('/stackOverview/:sID',(request,response) => {
 
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 router.post('/stack/:uID/:sID',(request,response)=>{
+    //let uid = request.decoded.UserID; //TOKEN OR URL
    let uid =request.params.uID;
    let sid=request.params.sID;
    let commSubj =request.body.subject;
@@ -192,7 +192,7 @@ router.post('/stack/:uID/:sID',(request,response)=>{
        response.json({success:true, msg:"Stack showing"});
    })
 });
-
+//shows Q and A of the stack you selected
 router.post('/stackOverview/', (request,response) => {
     console.log("getCard request", request.body);
     connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=> {
@@ -296,8 +296,6 @@ router.get('/search/:id/:searchid',(request,response)=>{
 });
 
 router.post('/logout',(request,response)=>{
-    let token = request.body.token;
-    console.log('token ',token);
     let un =request.decoded.UserName;
     console.log('un ',un);
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
@@ -308,13 +306,15 @@ router.post('/logout',(request,response)=>{
 });
 
 //Future Considerations below...Authentication will likely handle the login check and provide a token
-//Authenticate
-router.post('/authenticate',(request,response,next)=>{
-    response.send('AUTHENTICATE');
-});
 //Profile
-router.post('/profile',(request,response,next)=>{
-    response.send('PROFILE');
+router.post('/profile',(request,response)=>{
+    let un = request.decoded.UserID;
+    connection.query("SELECT users.fullname, users.username, users.user_bday, users.user_join FROM users WHERE users.user_id =?",[un],(err,result)=>{
+        if (err) throw err;
+        console.log("USER ID IS NOW LOGGED OFF ",un);
+        console.log("results ",result);
+        response.send({success:true, msg: "info"});
+    })
 });
 
 module.exports = router;

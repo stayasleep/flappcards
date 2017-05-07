@@ -2,13 +2,19 @@ import React, {Component} from 'react';
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton'
 import {connect} from 'react-redux';
-import {getMyRecentStacksOverview} from '../../actions/index'
+import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 class Recent extends Component {
     componentWillMount() {
         this.props.getMyRecentStacksOverview();
+    }
+
+    viewStack(stackInfo) {
+        console.log("stackID", stackInfo);
+        this.props.getStackOverview(stackInfo.stack_id);
+
     }
 
     render() {
@@ -29,9 +35,11 @@ class Recent extends Component {
                         {item.stackRating}
                     </CardText>
                     <CardActions>
-                        <Link to="/stackOverview" name="SingleCard"><RaisedButton>
-                            <i className="material-icons">visibility</i>
-                        </RaisedButton></Link>
+                        <RaisedButton
+                            containerElement={<Link to="/stackOverview" name="stackOverview"/>}
+                            onClick={() => {this.viewStack(this.props.recentStacks[index])}}>
+                            View
+                        </RaisedButton>
                     </CardActions>
                 </Card>
             )
@@ -49,4 +57,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getMyRecentStacksOverview})(Recent);
+export default connect(mapStateToProps, {getMyRecentStacksOverview, getStackOverview})(Recent);
