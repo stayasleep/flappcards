@@ -249,11 +249,16 @@ router.delete('/stack/:cId',(request,response)=>{
     // connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{ //I THINK THE ONE ABOVE WORKS BETTER, MUST MATCH USER TO CARD OWNER
         if (err){
             response.send("error");
-        }else if(result>0){
+        }else if(result.length>0){
             response.send("Card deleted from your stack.")
         }else{
             response.send("Cannot be deleted at this time.");
         }
+        // if (err) {
+        //     return response.json({success: false, msg: "Card deletion failed"})
+        // }
+        // console.log('rows deleted: ', result.affectedRows);
+        // response.json({success:true, msg:"Single Card deleted"});
     });
 });
 //update an individual card from your stack overview, requires card id from the stack overview page
@@ -263,6 +268,7 @@ router.put('/stack/:cId',(request,response)=>{
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
     connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
+        // If error, notify client that card edit failed
         if (err) {
             response.json({success:false, msg: "Failed to updated"});
         }
