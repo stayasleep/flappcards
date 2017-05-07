@@ -236,7 +236,8 @@ router.post('/stackOverview/', (request,response) => {
 //
 //delete an individual card from your stack overview , requires card id from the stackov page
 router.delete('/stack/:cId',(request,response)=>{
-    let singleID = request.params.cId;
+    let singleID = request.params.cID;
+    console.log("request.body", request.body);
     console.log('single id coming from card',singleID);
     connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{
         // if error, notify the client that the card deletion failed

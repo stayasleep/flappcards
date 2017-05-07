@@ -164,11 +164,16 @@ export function deleteStack() {
         })
     }
 }
-
-export function deleteCard(cardObject) {
+/**
+ * @name - deleteCard
+ * @param cardID
+ * @returns {Function}
+ */
+export function deleteCard(cardID) {
     return function(dispatch) {
-        let {cardID} = cardObject;
-        axios.delete(`${BASE_URL}/stack/${cardID}`,).then((response) => {
+        let token = localStorage.getItem('token');
+        console.log("deleteCardID function", cardID);
+        axios.delete(`${BASE_URL}/stack/${cardID}`, {token: 'token'}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -180,7 +185,7 @@ export function deleteCard(cardObject) {
 }
 
 /**
- *
+ * @name - cardEditor
  * @param cardObject -> contains question, answer, and card ID
  * @returns {Function}
  */
