@@ -135,7 +135,7 @@ router.use((request, response, next)=> {
 router.post('/community', (request,response) => {
     //Community query
     let uid = request.decoded.UserID;
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%d/%m/%Y %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
         //TODO error handling
         if (err) {
             response.send("Uh oh");
@@ -367,10 +367,10 @@ router.post('/logout',(request,response)=>{
         }
     })
 });
-//Profile retrieve some user information
+//Profile retrieve some user information          DATE_FORMAT(stacks.created,'%d/%m/%Y %H:%i')
 router.post('/profile',(request,response)=>{
     let un = request.decoded.UserID;
-    connection.query("SELECT users.fullname, users.username, users.user_bday, users.user_email,users.user_join FROM users WHERE users.user_id =?",[un],(err,result)=>{
+    connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d'), users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') FROM users WHERE users.user_id =?",[un],(err,result)=>{
         console.log(result);
         if (err) {
             response.send("Uh oh");
