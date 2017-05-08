@@ -336,7 +336,7 @@ router.post('/myShelf',(request,response)=> {
     });
 });
 
-//clicking myShelf and deleting a whole stack, requires stack id from the front end
+//DELETING a whole stack, requires stack id from the front end
 router.delete('/myShelf/:sId',(request,response)=>{
     let stackID = request.body.sID;
     let uid = request.decoded.UserID;
