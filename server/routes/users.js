@@ -14,7 +14,6 @@ connection.connect((error) => {
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     //get information from registration page
-    console.log("Register request", request.body);
     // TODO Review the purpose of the 5 if blocks
     let newUser = {
         fullname: request.body.name,
@@ -172,7 +171,7 @@ router.post('/home', (request,response)=> {
 router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.decoded.UserID;
     let sid = request.params.sID;
-    console.log("stackOverview", request.body);
+
     // connection.query("SELECT stack_id FROM stacks WHERE NOT user_id =?",[uid],(err,result)=>{
     //     if (err){
     //         response.send("Uh Oh");
@@ -241,10 +240,10 @@ router.post('/stackOverview/', (request,response) => {
 //END THIS ISNT READY
 
 //DELETE INDIVIDUAL card from your stack overview
-router.delete('/stack/:cId',(request,response)=>{
-    console.log("request.body", request.body);
+router.post('/deleteCard/:cId',(request,response)=>{
+    console.log("deleteCard request");
     let uid = request.decoded.UserID;
-    let singleID = request.params.cId;
+    let singleID = request.body.cardID;
     console.log('single id coming from card',singleID);
     connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
     // connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{ //I THINK THE ONE ABOVE WORKS BETTER, MUST MATCH USER TO CARD OWNER
@@ -337,9 +336,12 @@ router.post('/myShelf',(request,response)=> {
 });
 
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
-router.delete('/myShelf/:sId',(request,response)=>{
-    let stackID = request.body.sID;
+router.post('/deleteStack/:sID',(request,response)=>{
+    console.log("Delete request");
     let uid = request.decoded.UserID;
+    console.log("userID,", uid);
+    let stackID = request.body.stackID;
+    console.log("stackID", stackID);
     connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
         if (err){
             response.send("um ok");
@@ -382,6 +384,7 @@ router.post('/logout',(request,response)=>{
         if (err) {
             response.send("Uh oh");
         }else{
+            console.log('updated user log out', result);
             console.log('updated user log out', result);
             response.send({success:true, message:"updated log out"});
         }
