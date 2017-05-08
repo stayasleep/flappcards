@@ -58,8 +58,10 @@ export function getCard() {
     }
 }
 export function getUserData() {
+    let token = localStorage.getItem('token');
     return function (dispatch) {
-        axios.post(`${BASE_URL}/profile`).then((response) => {
+        axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
+            console.log("profile response", response);
             dispatch({type: FETCH_USER_META, payload: response.data});
         }).catch(err => {
             dispatch({

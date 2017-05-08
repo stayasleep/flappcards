@@ -5,9 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import {cardEditor} from '../../actions/index';
-
-
+import {cardEditor, getStackOverview} from '../../actions/index';
 
 class EditCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
@@ -75,7 +73,13 @@ EditCard = reduxForm({
     validate
 })(EditCard);
 
+function mapStateToProps(state) {
+    return {
+        stackCards: state.stack.stackCards
+    }
+}
+
 // Connecting the edit card form values
-export default connect(null,{cardEditor})(EditCard);
+export default connect(mapStateToProps,{cardEditor, getStackOverview})(EditCard);
 
 

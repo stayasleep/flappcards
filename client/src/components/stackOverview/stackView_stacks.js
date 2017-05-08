@@ -14,11 +14,6 @@ class StackViewStacks extends Component{
         router: PropTypes.object
     };
 
-    componentWillMount(){
-        console.log("StackViewStacks this.props.getStackOverview");
-        // this.props.getStackOverview();
-    }
-
     enterStudyMode(stackID) {
         this.context.router.push('/single_card');
     }
