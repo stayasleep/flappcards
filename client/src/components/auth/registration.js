@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router'
 import {register} from '../../actions/index'
+import ReactDOM from 'react-dom'
 
 class Registration extends Component {
 
@@ -24,6 +25,22 @@ class Registration extends Component {
                        {...input}
             />
         )
+    }
+
+    componentDidUpdate(event){
+        var dateField = document.body.children.root.children["0"].children[1].children[6].children["0"].children.birthday;
+        if(dateField) {
+            dateField.onkeyup = bar;
+            function bar(evt) {
+                var v = this.value;
+                if (v.match(/^\d{4}$/) !== null) {
+                    this.value = v + '-';
+                } else if (v.match(/^\d{4}\-\d{2}$/) !== null) {
+                    this.value = v + '-';
+                }
+
+            }
+        }
     }
 
     render (){
@@ -55,7 +72,7 @@ class Registration extends Component {
                         <Field name="email" component={this.renderInput} label="Email"/>
                     </div>
                     <div>
-                        <Field name="birthday" component={this.renderInput} label="Birthday(YYYYMMDD)"/>
+                        <Field id="date" name="birthday" component={this.renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
                     <div>
                         <RaisedButton primary={true} type="submit" label="Submit"/>
@@ -71,6 +88,11 @@ class Registration extends Component {
 function validate(values) {
     var min_age = 13;
     const errors = {};
+    var birth = '';
+    if(values.birthday) {
+        birth = values.birthday.replace(/[^0-9 ]/g, '');
+        console.log("Birthday: ", birth)
+    }
     const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
@@ -104,13 +126,13 @@ function validate(values) {
     if (values.password !== values.passwordConfirm) {
         errors.passwordConfirm = 'Passwords must match'
     }
-    if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(values.birthday)){
-        errors.birthday = 'Enter a Correct Date (YYYY/MM/DD)'
+    if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
+        errors.birthday = 'Enter a Correct Date (YYYY-MM-DD)'
     }
     if(values.birthday) {
-        var year = parseInt(values.birthday.slice(0, 4));
-        var month = parseInt(values.birthday.slice(4, 6));
-        var day = parseInt(values.birthday.slice(6, 8));
+        var year = parseInt(birth.slice(0, 4));
+        var month = parseInt(birth.slice(4, 6));
+        var day = parseInt(birth.slice(6, 8));
     if(month < 10){
         month = parseInt("0" + month)
     }

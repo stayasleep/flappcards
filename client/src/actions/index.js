@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD, SEARCH_STACKS} from './types';
 import {FETCH_MY_RECENT_STACKS} from './types';
 import {CREATE_STACK} from './types';
 
@@ -59,8 +59,9 @@ export function getCard() {
     }
 }
 export function getUserData() {
+    let token = localStorage.getItem('token');
     return function (dispatch) {
-        axios.post(`${BASE_URL}/profile`).then((response) => {
+        axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
             dispatch({type: FETCH_USER_META, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -142,7 +143,6 @@ export function getMyRecentStacksOverview() {
     return function(dispatch) {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/home`,{'token':token}).then((response) => {
-            console.log("getMyRecentStacksOverview response", response);
             dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -228,6 +228,7 @@ export function getCommunityStacksOverview() {
     }
 }
 
+
 /**
  * @name - createStack
  * @param stackObject -> contains subject, category, questions, and answers
@@ -235,13 +236,28 @@ export function getCommunityStacksOverview() {
  */
 export function createStack(stackObject) {
     console.log("createStack called; stackObject", stackObject);
-    return function(dispatch) {
+    return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/createCards`, {'token':token, "stackObject":stackObject}).then((response) => {
+        axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
             dispatch({type: CREATE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,
+                error: err.response
+            });
+        })
+    }
+}
+export function searchStacks(search) {
+    return function (dispatch) {
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/search/${search}`,{'token':token}).then((response) => {
+            console.log("Search: ", response.data);
+            dispatch({type: SEARCH_STACKS, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: SEARCH_STACKS,
+
                 error: err.response
             });
         })
