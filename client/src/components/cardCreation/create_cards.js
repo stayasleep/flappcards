@@ -1,38 +1,106 @@
-import React, {Component, PropTypes} from 'react';
-import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import StackCreation from './create_stack'
-import CardCreation from './card_input'
-import StackSubmission from './stack_submit'
+import React, {Component} from 'react';
+import { Field, FieldArray, reduxForm } from 'redux-form';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import validate from './validate';
+import {connect} from 'react-redux';
+import {createStack} from '../../actions/index';
+
+
+
+
+
 
 class CreateCards extends Component {
-    constructor(props) {
+
+    constructor(props){
         super(props);
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-        this.state = {
-            page: 1
-        }
-    }
-    nextPage() {
-        this.setState({ page: this.state.page + 1 })
+        // bind this so renderInput is defined for renderCards
+        this.renderInput = this.renderInput.bind(this);
+        this.renderCards = this.renderCards.bind(this);
     }
 
-    previousPage() {
-        this.setState({ page: this.state.page - 1 })
-    }
-
-    render (){
-        const { onSubmit } = this.props;
-        const { page } = this.state;
+    renderInput({input, label, type, meta: {touched, error}}) {
         return (
-            <div>
-                <FlashCardsAppBar/>
-                {page === 1 && <StackCreation onSubmit={this.nextPage}/>}
-                {page === 2 && <CardCreation previousPage={this.previousPage} onSubmit={this.nextPage}/>}
-                {page === 3 && <StackSubmission previousPage={this.previousPage} onSubmit={onSubmit}/>}
-            </div>
+            <TextField hintText={label}
+                       floatingLabelText={label}
+                       errorText={touched && error}
+                       type={type}
+                       {...input}
+            />
         )
+    }
+
+    renderCards({fields, meta: {touched, error, submitFailed}}) {
+        return (
+            <ul>
+                <li>
+                    <button type="button" onClick={() => fields.push({})}>Add Card</button>
+                    {(touched || submitFailed) && error && <span>{error}</span>}
+                </li>
+                {fields.map((stack, index) => (
+                    <li key={index}>
+                        <button
+                            type="button"
+                            title="Remove Card"
+                            onClick={() => fields.remove(index)}
+                        />
+                        <h4>Card #{index + 1}</h4>
+                        <Field
+                            name={`${stack}.question`}
+                            type="text"
+                            component={this.renderInput}
+                            label="Question"
+                        />
+                        <Field
+                            name={`${stack}.answer`}
+                            type="text"
+                            component={this.renderInput}
+                            label="Answer"
+                        />
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+
+    handleCreate(stackObject) {
+        console.log("handleCreate function called; stackObject:", stackObject);
+        this.props.createStack(stackObject);
+    }
+
+    render() {
+        const {handleSubmit, reset, pristine, submitting} = this.props;
+        return (
+            <form onSubmit={handleSubmit((values) => {this.handleCreate(values)})}>
+                <Field
+                    name="subject"
+                    type="text"
+                    component={this.renderInput}
+                    label="Subject"
+                />
+                <Field
+                    name="category"
+                    type="text"
+                    component={this.renderInput}
+                    label="Category"
+                />
+                <FieldArray name="stack" component={this.renderCards} />
+                <div>
+                    <button type="submit" disabled={submitting}>Submit</button>
+                    <button type="button" disabled={pristine || submitting} onClick={reset}>
+                        Remove All
+                    </button>
+                </div>
+            </form>
+        );
     }
 }
 
-export default CreateCards
+
+CreateCards = reduxForm({
+    form: 'createStack', // a unique identifier for this form
+    validate,
+})(CreateCards);
+
+export default connect(null, {createStack})(CreateCards);

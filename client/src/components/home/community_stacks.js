@@ -21,9 +21,9 @@ class Community extends Component {
         if (!this.props.communityStacks) {
             return (
                 <div>
-                    <h1>Recent Stacks:</h1>
+                    <h1>Community Stacks:</h1>
                     <div>
-                        Oops! Looks like your shelf is empty. Create a stack or take a took at some community content below!
+                        Oops! Looks like you own all the community content!
                     </div>
                 </div>
             )

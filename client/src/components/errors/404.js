@@ -2,7 +2,10 @@ import React from 'react';
 
 function Error404() {
     return (
-        <div>404 Error</div>
+        <div>
+            <h1>404 Error</h1>
+            <h4>Oops...FlappCards Not Found</h4>
+        </div>
     )
 }
 

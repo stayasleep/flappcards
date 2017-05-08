@@ -11,9 +11,9 @@ class DeleteCardConfirm extends React.Component {
         open: false,
     };
 
-    handleDelete(id){
-        console.log("hello ", id);
-        this.props.deleteCard(id)
+    handleDelete(cardID){
+        // this.props.cardID.card_id; the ID of the to be deleted
+        this.props.deleteCard(cardID);
     }
 
     handleOpen = () => {
@@ -35,7 +35,7 @@ class DeleteCardConfirm extends React.Component {
                 label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
-                onClick={() => {this.handleDelete(this.props.cardID)}}
+                onClick={() => {this.handleDelete(this.props.cardID.card_id)}}
             />,
         ];
 

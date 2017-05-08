@@ -22,13 +22,19 @@ class Profile extends Component{
                     <AccountCircle style={profileImg}/>
                 </div>
                 <div>
-                    {this.props.username}
+                    Name: {this.props.name}
                 </div>
                 <div>
-                    {this.props.email}
+                    Username: {this.props.username}
                 </div>
                 <div>
-                    {this.props.birthday}
+                    Email: {this.props.email}
+                </div>
+                <div>
+                    Birthday: {this.props.birthday}
+                </div>
+                <div>
+                    Join Date: {this.props.joined}
                 </div>
             </div>
         )
@@ -39,7 +45,9 @@ function mapStateToProps(state) {
     return {
         username: state.profile.userName,
         email: state.profile.email,
-        birthday: state.profile.birthday
+        birthday: state.profile.birthday,
+        name: state.profile.name,
+        joined: state.profile.joinDate
     }
 }
 
