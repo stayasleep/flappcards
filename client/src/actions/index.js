@@ -106,7 +106,7 @@ export function getMyStackOverview() {
     // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/myshelf/`,{'token':token}).then((response) => {
+        axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
             console.log("getMyStackOverview response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
@@ -153,9 +153,11 @@ export function getMyRecentStacksOverview() {
     }
 }
 
-export function deleteStack() {
+export function deleteStack(stackID) {
     return function(dispatch) {
-        axios.delete(`${BASE_URL}/myShelf`).then((response) => {
+        let token = localStorage.getItem('token');
+        console.log("deleteStack action creator", stackID);
+        axios.post(`${BASE_URL}/deleteStack/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -174,7 +176,7 @@ export function deleteCard(cardID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
         console.log("deleteCardID function", cardID);
-        axios.delete(`${BASE_URL}/stack/${cardID}`, {token: 'token'}).then((response) => {
+        axios.post(`${BASE_URL}/deleteCard/${cardID}`, {token: token, cardID: cardID}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -251,7 +253,8 @@ export function createStack(stackObject) {
 export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/search/${search}`,{'token':token}).then((response) => {
+        console.log("searchStacks search parameter", search);
+        axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
             console.log("Search: ", response.data);
             dispatch({type: SEARCH_STACKS, payload: response.data});
         }).catch(err => {
