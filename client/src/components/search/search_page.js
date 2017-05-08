@@ -48,7 +48,6 @@ class Search extends Component{
                         </RaisedButton></Link>
                     </TableRowColumn>
                     <TableRowColumn>
-                        <DeleteStackConfirm/>
                     </TableRowColumn>
                 </TableRow>
             )
