@@ -3,9 +3,9 @@ const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
 const connection = require('../config/config'); // So connection credentials can be ignored
-const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in confic js]]
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
+const bcrypt = require('bcryptjs'); // Hashing
+const jwt = require('jsonwebtoken'); // For token
 
 connection.connect((error) => {
     (error) ? (console.error('error connection: ' + error.stack)) : '';
@@ -15,6 +15,7 @@ connection.connect((error) => {
 router.post('/register',(request,response,next)=>{
     //get information from registration page
     console.log("Register request", request.body);
+    // TODO Review the purpose of the 5 if blocks
     let newUser = {
         fullname: request.body.name,
         username: request.body.userName,
@@ -241,6 +242,7 @@ router.post('/stackOverview/', (request,response) => {
 
 //DELETE INDIVIDUAL card from your stack overview
 router.delete('/stack/:cId',(request,response)=>{
+    console.log("request.body", request.body);
     let uid = request.decoded.UserID;
     let singleID = request.params.cId;
     console.log('single id coming from card',singleID);
@@ -276,25 +278,43 @@ router.put('/stack/:cId',(request,response)=>{
     });
 });
 //CREATE STACK, only creates 1 card atm
-router.post('/stack/:user_id',(request,response)=>{
-    let userID = request.params.user_id;
-    let newSub = request.body.subject;
-    let newCat = request.body.category;
-    let newQ = request.body.question;
-    let newA = request.body.answer;
-    //get username of logged in user
-    let whoMadeMe = "user1";
-    connection.query(
-        "BEGIN; " +
-        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
-        "INSERT INTO cards(stack_id, question, answer, orig_source_stack) VALUES (LAST_INSERT_ID(),?,?,?); "+
-        "COMMIT;",[userID,newSub,newCat,newQ,newA,whoMadeMe],(err,results)=>{
-            if (err){
-                response.send("Uh Oh");
-            }
-        console.log(userID+" Made A Stack with 1 q and a");
-        response.json({success:true, msg:"Stack was just created"});
+router.post('/createCards',(request,response)=>{
+    // had to remove :userID from url; they won't have the information, the token will
+    let stack = request.body.stackObject;
+    let newSub = stack.subject;
+    let newCat = stack.category;
+    let numberOfCardsToInsert = stack.stack.length;
+    let whoMadeMe = request.decoded.UserName; // pull off user name from the token
+    let userID = request.decoded.UserID; // pull off user ID from the token sent
+    let stackQuery = "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?);";
+    // Make the new stack first
+    connection.query(`${stackQuery}`, [userID, newSub, newCat],(err, results) => {
+        if (err) {
+            return response.send("Uh oh, something went wrong");
+        }
+        // console.log("results", results);
+        let stackID = results.insertId;
+        console.log("stackID", stackID);
+        for (let i=0; i < numberOfCardsToInsert; i++) {
+            let newQ = stack.stack[i].question;
+            let newA = stack.stack[i].answer;
+            console.log("In the for loop newQ", newQ);
+            console.log("In the for loop newA", newA);
+            // Sorry dan, had to just do it with a for loop
+            connection.query("INSERT INTO cards (stack_id, question, answer, orig_source_stack) VALUES (?,?,?,?);", [stackID, newQ, newA, whoMadeMe], (err, results) => {
+                if (err) {
+                    console.log("inside error conditional");
+                    return response.send("Could not complete insertion");
+                }
+                console.log("Inside the query function");
+            });
+        }
+        response.send("Finished");
     });
+
+    // let cardQueryPart1 = "INSERT INTO cards SET (stack_id, question, answer, orig_source_stack) VALUES"; // First part of insert query
+    // let cardQueryPart2 = `(?,?,?,?);" ${[stackID, newQ, newA, whoMadeMe]} ` ; // LAST_INSERT_ID() is to keep them associated with the same stack  Second part of insert query quesitons and answers
+
 });
 
 //clicking myShelf and getting your overview,
@@ -317,7 +337,7 @@ router.post('/myShelf',(request,response)=> {
 });
 
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
-router.delete('/myshelf/:sId',(request,response)=>{
+router.delete('/myShelf/:sId',(request,response)=>{
     let stackID = request.body.sID;
     let uid = request.decoded.UserID;
     connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
