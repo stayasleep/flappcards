@@ -370,7 +370,7 @@ router.post('/logout',(request,response)=>{
 //Profile retrieve some user information
 router.post('/profile',(request,response)=>{
     let un = request.decoded.UserID;
-    connection.query("SELECT users.fullname, users.username, users.user_bday, users.user_join FROM users WHERE users.user_id =?",[un],(err,result)=>{
+    connection.query("SELECT users.fullname, users.username, users.user_bday, users.user_email,users.user_join FROM users WHERE users.user_id =?",[un],(err,result)=>{
         console.log(result);
         if (err) {
             response.send("Uh oh");
