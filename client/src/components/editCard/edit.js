@@ -5,7 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import {cardEditor, getStackOverview} from '../../actions/index';
+import {cardEditor} from '../../actions/index';
+import {Link} from 'react-router'
 
 class EditCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
@@ -52,7 +53,7 @@ class EditCard extends Component {
                 >
 
                     {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleEdit function*/}
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit((values) => {this.handleEdit(values)})} >
                         <div>
                             <Field name="question" component={this.renderInput} label="Question"/>
                         </div>
@@ -80,6 +81,6 @@ function mapStateToProps(state) {
 }
 
 // Connecting the edit card form values
-export default connect(mapStateToProps,{cardEditor, getStackOverview})(EditCard);
+export default connect(mapStateToProps,{cardEditor})(EditCard);
 
 

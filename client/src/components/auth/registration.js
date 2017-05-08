@@ -28,7 +28,7 @@ class Registration extends Component {
     }
 
     componentDidUpdate(event){
-        var dateField = document.body.children.root.children["0"].children[1].children[6].children["0"].children.birthday;
+        var dateField = document.body.firstElementChild.children["0"].childNodes[1].childNodes[3].childNodes[1].childNodes[6].childNodes["0"].childNodes[2];
         if(dateField) {
             dateField.onkeyup = bar;
             function bar(evt) {
