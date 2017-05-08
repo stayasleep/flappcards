@@ -52,7 +52,7 @@ class EditCard extends Component {
                 >
 
                     {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleEdit function*/}
-                    <form onSubmit={handleSubmit((values) => {this.handleEdit(values)})}>
+                    <form onSubmit={handleSubmit}>
                         <div>
                             <Field name="question" component={this.renderInput} label="Question"/>
                         </div>

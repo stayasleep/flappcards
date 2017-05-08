@@ -11,3 +11,4 @@ export const DELETE_STACK = 'delete_stack';
 export const DELETE_CARD = 'delete_card';
 export const EDIT_CARD = 'edit_card';
 export const FETCH_MY_COMMUNITY_STACKS = 'fetch_my_community_stacks';
+export const SEARCH_STACKS = 'search_stacks';

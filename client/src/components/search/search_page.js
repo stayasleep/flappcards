@@ -3,6 +3,9 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {Link} from 'react-router';
 import {Field, reduxForm} from 'redux-form';
 import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton'
+import {searchStacks} from '../../actions/index'
+import {connect} from 'react-redux'
 import {
     Table,
     TableBody,
@@ -14,7 +17,7 @@ import {
 
 class Search extends Component{
     componentWillMount(){
-        this.props;
+        this.props.searchStacks();
     }
 
     renderInput({input, label, meta: {touched, error}}){
@@ -27,8 +30,12 @@ class Search extends Component{
         )
     }
 
-    render(){
+    handleSearch(search){
+        this.props.searchStacks(search);
+    }
 
+    render(){
+        const { handleSubmit } = this.props;
         // const stacksList = this.props.map((item, index) => {
         //     return (
         //         <TableRow key={index}>
@@ -50,7 +57,10 @@ class Search extends Component{
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Field name="Search" component={this.renderInput} label="Search Caegory or Subject"/>
+                <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
+                    <Field name="Search" component={this.renderInput} label="Search Caegory or Subject"/>
+                    <RaisedButton type="submit" label="Search"/>
+                </form>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -79,4 +89,4 @@ Search = reduxForm({
     form: 'Search',
 })(Search);
 
-export default Search
+export default connect(mapStateToProps, {searchStacks})(Search);

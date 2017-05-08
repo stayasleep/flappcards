@@ -14,7 +14,7 @@ export default function (state = default_state, action) {
             return {
                 ...state,
                 userName: action.payload[0].username,
-                email: action.payload[0].email,
+                email: action.payload[0].user_email,
                 birthday: action.payload[0].user_bday,
                 name: action.payload[0].fullname,
                 joinDate: action.payload[0].user_join
