@@ -12,9 +12,9 @@ class DeleteStackConfirm extends React.Component {
         open: false,
     };
 
-    handleDelete(stack_id){
-        console.log("Stack to be deleted: ", stack_id);
-        this.props.deleteStack(stack_id)
+    handleDelete(stackObject){
+        console.log("Stack to be deleted: ",stackObject.stack_id);
+        this.props.deleteStack(stackObject.stack_id);
     }
 
     handleOpen = () => {
