@@ -6,21 +6,34 @@ import {Link} from 'react-router'
 import {getCard} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
 
+
 class SingleCard extends Component {
     constructor(props) {
         super(props);
+        console.log("single card", props);
         this.nextCard = this.nextCard.bind(this);
         this.prevCard = this.prevCard.bind(this);
+        // Refers to index in array
         this.state = {
             card: 0
         }
     }
 
     nextCard() {
-        this.setState({card: this.state.card + 1})
+        if(this.state.card === this.props.cards.length-1){
+            return;
+        }
+        else{
+            this.setState({card: this.state.card + 1})
+        }
     }
     prevCard() {
-        this.setState({ card: this.state.card - 1 })
+        if(this.state.card === 0){
+            return;
+        }
+        else {
+            this.setState({card: this.state.card - 1})
+        }
     }
 
     static contextTypes ={
@@ -29,9 +42,11 @@ class SingleCard extends Component {
 
 
     componentWillMount(){
-        this.props.getCard(this.props.params.id);
+        // this.props.getCard(this.props.params.id); //Don't need server call
+        console.log("single_card, this.props", this.props);
+        console.log("single_card, state", this.state);
     }
-    componentDidUpdate(){
+    componentDidMount(){
         var flip = true;
         document.getElementById('questionCard').addEventListener('click', switchDisplay);
         function switchDisplay() {
@@ -67,7 +82,7 @@ class SingleCard extends Component {
         };
         const cardStyle = {
             width: '100vw',
-            height: '80vh',
+            height: '90vh',
             transition: 'transform 1s',
             textAlign: "center",
             transformStyle: "preserve-3d",
@@ -92,8 +107,8 @@ class SingleCard extends Component {
         const question ={
             display: "block"
         };
-
-        const card = this.props.cards[this.state.card];
+        // this.state.card is the index for the next and previous
+        const card = this.props.stackCards[this.state.card];
         if(!card){
             return <h3>Loading...</h3>
         }
@@ -121,7 +136,9 @@ class SingleCard extends Component {
 
 function mapStateToProps(state) {
     return {
-        cards: state.stack.single
+        cards: state.stack.stackCards,
+        stackCards: state.stack.stackCards
+
     }
 }
 

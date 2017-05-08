@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
 import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
@@ -22,6 +24,7 @@ class Stacks extends Component {
     viewStack(stackInfo) {
         console.log("stackID", stackInfo.stack_id);
         this.props.getStackOverview(stackInfo.stack_id);
+
     }
 
     render() {
@@ -66,6 +69,7 @@ class Stacks extends Component {
     }
 }
 function mapStateToProps(state) {
+
     return {
         stacks: state.stack.stacks
     }

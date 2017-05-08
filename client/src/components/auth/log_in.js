@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {userLogin} from '../../actions/index';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Link} from 'react-router'
-import {browserHistory} from 'react-router';
 
 class LogIn extends Component {
     static contextTypes = {
@@ -33,17 +31,12 @@ class LogIn extends Component {
         const { handleSubmit } = this.props;
         return (
             <div>
-                <h1>Login</h1>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div>
                         <Field name="userName" component={this.renderInput} label="Username"/>
-                    </div>
                         <Field name="password" component={this.renderInput} label="Password" type="password"/>
-                    <div>
                         <RaisedButton type="submit" label="Login"/>
-                        <Link to="/Registration"> <RaisedButton type="button" label="Register"/></Link>
                     </div>
-
                 </form>
             </div>
         )

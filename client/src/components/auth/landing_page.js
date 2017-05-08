@@ -8,31 +8,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {Link} from 'react-router'
 import Registration from './registration';
+import Login from './log_in'
 
 class landing extends Component {
-    static contextTypes = {
-        router: PropTypes.object
-    };
-    handleLogin(values) {
-        // Action creator userLogin sends an axios call to the server
-        this.props.userLogin(values);
-    }
-
-    //TODO move renderInput into a separate common utilities folder?
-
-    renderInput({input, label, type, meta: {touched, error}}){
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
-
     render (){
-        const { handleSubmit } = this.props;
         const styles = {
             title: {
                 cursor: 'pointer',
@@ -54,21 +33,12 @@ class landing extends Component {
             <div>
                 <Toolbar>
                     <ToolbarTitle text="FlappCards" />
-                    <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
-                        <ToolbarGroup style={loginStyle}>
-                            <ToolbarGroup style={inputStyle}>
-                                <Field name="userName" component={this.renderInput} label="Username"/>
-                                <Field name="password" component={this.renderInput} label="Password" type="password"/>
-                            </ToolbarGroup>
-                            <RaisedButton type="submit" label="Login"/>
-                            <Link to="/Registration" name="Register"><RaisedButton label="Register"/></Link>
-                        </ToolbarGroup>
-                    </form>
+                    <ToolbarGroup>
+                        <Login/>
+                    </ToolbarGroup>
                 </Toolbar>
                 <div>
-                    <div style={mesgStyle}>
                         Create Cards to Study! Study Cards Made By Our Flappy Community!
-                    </div>
                     <Registration/>
                 </div>
             </div>
@@ -76,22 +46,5 @@ class landing extends Component {
     }
 }
 
-function validate(values) {
-    const errors = {};
-    const requiredFields = [ 'userName', 'password'];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[field] = `Required`
-        }
-    });
 
-    return errors
-}
-
-landing = reduxForm({
-    form: 'login',
-    validate
-})(landing);
-
-
-export default connect(null, {userLogin})(landing);
+export default landing

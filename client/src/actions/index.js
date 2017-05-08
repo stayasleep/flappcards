@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD} from './types';
+import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD} from './types';
 import {FETCH_MY_RECENT_STACKS} from './types';
 
 import {browserHistory} from 'react-router';
@@ -105,7 +105,7 @@ export function getMyStackOverview() {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myshelf/`,{'token':token}).then((response) => {
-            console.log("response", response);
+            console.log("getMyStackOverview response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('ERROR:', err);
@@ -121,13 +121,13 @@ export function getMyStackOverview() {
 export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token}).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token, "stackID": stackID}).then((response) => {
             console.log("getStackOverview", response.data);
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
-                error: err.response.data.error
+                error: err.response
             });
         })
     }
@@ -165,9 +165,10 @@ export function deleteStack() {
     }
 }
 
-export function deleteCard() {
+export function deleteCard(cardObject) {
     return function(dispatch) {
-        axios.delete(`${BASE_URL}/stackOverview`).then((response) => {
+        let {cardID} = cardObject;
+        axios.delete(`${BASE_URL}/stack/${cardID}`,).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -178,19 +179,41 @@ export function deleteCard() {
     }
 }
 
-export function cardEditor() {
+/**
+ *
+ * @param cardObject -> contains question, answer, and card ID
+ * @returns {Function}
+ */
+export function cardEditor(cardObject) {
     return function (dispatch) {
-        let stackID = 3;
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
+        let token = localStorage.getItem('token');
+        console.log("cardEditor function called");
+        let {cardID, question, answer} = cardObject; // cardObject.card_id, cardObject.question, cardObject.answer
+        console.log("cardObject in cardEditor", cardObject);
+        console.log("question", question);
+        console.log("cardID", cardID);
+        axios.put(`${BASE_URL}/stack/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
             console.log("getStackOverview", response.data);
-            dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
-                type: FETCH_STACK_OVERVIEW,
+                type: EDIT_CARD,
                 error: err.response.data.error
             });
         })
     }
 }
-
+export function getCommunityStacksOverview() {
+    return function(dispatch) {
+        let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
+        axios.post(`${BASE_URL}/community`,{'token':token}).then((response) => {
+            dispatch({type: FETCH_MY_COMMUNITY_STACKS, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: FETCH_MY_COMMUNITY_STACKS,
+                error: err.response
+            });
+        })
+    }
+}
 // JSON is the default expected response type for axios calls

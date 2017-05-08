@@ -15,7 +15,6 @@ class Home extends Component {
                         <Recent/>
                     </ul>
                 </div>
-                <div>Here is Some Aggregated Content To Get Your Attention</div>
                 <div>
                     <ul>
                         <Community/>
