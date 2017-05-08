@@ -60,14 +60,17 @@ router.post('/register',(request,response,next)=>{
 });
 //test login comparison
 router.post('/login',function(request,response){
-    console.log(request.body);
-    let un = request.body.userName;
+    // console.log(request.body);
+    let usn = request.body.userName;
     let upw = request.body.password;
+    console.log('un ',usn);
+    console.log('upw ',upw);
     //call db
-    connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[un],function(err,result) {
+    connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[usn],function(err,result) {
         // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
         // Do not give the user a token if error
         if (err) {
+            console.log('error');
             response.json({success: false, msg: "Username/Password not found"});
         }
         else if (result.length > 0) {
@@ -98,11 +101,12 @@ router.post('/login',function(request,response){
             });
         }
         else {
+            console.log('u though');
             response.json({success: false, msg: "Username/Password not found"});
         }
     })
 });
-//test
+//VERIFY TOKEN
 router.use((request, response, next)=> {
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
     // decode token
@@ -128,7 +132,6 @@ router.use((request, response, next)=> {
         });
     }
 });
-//test
 router.post('/community', (request,response) => {
     //Community query
     let uid = request.decoded.UserID;
@@ -143,17 +146,15 @@ router.post('/community', (request,response) => {
         else {
             response.send("No community stacks found");
         }
-        //console log to see if the metadata from the community is retrieved before redirect
     });
 });
-
 
 // Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response)=> {
     let un = request.decoded.UserName;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
         "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
-        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 2 ", [un], (err, results) => {
+        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 1 ", [un], (err, results) => {
         if (err) {
             response.send("Uh oh");
         } else if (results.length > 0) {
@@ -164,10 +165,8 @@ router.post('/home', (request,response)=> {
     })
 });
 
-
-
 // Associated Axios call: getStack;
-// Made after clicking on view from my shelf
+// Made after clicking on view button on table
 //TODO implement /stackOverview/:uID/:sID version?
 router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.decoded.UserID;
@@ -240,7 +239,7 @@ router.post('/stackOverview/', (request,response) => {
 });
 //END THIS ISNT READY
 
-//delete an individual card from your stack overview
+//DELETE INDIVIDUAL card from your stack overview
 router.delete('/stack/:cId',(request,response)=>{
     let uid = request.decoded.UserID;
     let singleID = request.params.cId;
@@ -261,7 +260,7 @@ router.delete('/stack/:cId',(request,response)=>{
         // response.json({success:true, msg:"Single Card deleted"});
     });
 });
-//update an individual card from your stack overview, requires card id from the stack overview page
+//UPDATE INDIVIDUAL CARD FROM OVERVIEW
 router.put('/stack/:cId',(request,response)=>{
     let singleID = request.params.cId;
     //get changed information
@@ -276,7 +275,7 @@ router.put('/stack/:cId',(request,response)=>{
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
-//create stack by clicking any create button, [userID is from logged in user and so is username] only creates 1 card atm
+//CREATE STACK, only creates 1 card atm
 router.post('/stack/:user_id',(request,response)=>{
     let userID = request.params.user_id;
     let newSub = request.body.subject;
@@ -298,7 +297,7 @@ router.post('/stack/:user_id',(request,response)=>{
     });
 });
 
-//clicking myShelf and getting your overview, requires logged on user id and you will get the stack id as attributes
+//clicking myShelf and getting your overview,
 // Tied to the getMyStackOverview action creator
 router.post('/myShelf',(request,response)=> {
     console.log("request.body", request.body);
@@ -332,21 +331,23 @@ router.delete('/myshelf/:sId',(request,response)=>{
         // response.json({success:true, msg:"whole stack deleted"});
     })
 });
-//Search, need user_id and search parameter.....should give you a stack overview. Doesn't work, ask why result is empty..but it works on mysql
-router.get('/search/:id/:searchid',(request,response)=>{
-    // let uid = request.params.id;id
+//SEARCH,
+router.post('/search/:id',(request,response)=>{
     let uid =request.decoded.UserID;
-    let fromSearch = request.params.searchid;
+    // let uid = request.params.id;
+    let fromSearch = request.body.searchid;
+    console.log('uid', uid);
+    console.log('search', fromSearch);
    connection.query(
-       "SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total " +
-       "FROM stacks JOIN cards on stacks.stack_id=cards.stack_id " +
-       "JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject OR stacks.category LIKE '%'?) " +
-       "GROUP BY cards.stack_id ORDER BY stacks.created DESC;",[uid,fromSearch],(err,results)=>{
+       'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total ' +
+       'FROM stacks JOIN cards on stacks.stack_id=cards.stack_id ' +
+       'JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
+       'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(err,results)=>{
            if (err) {
                response.send("Uh oh");
            }else{
                console.log("youre searching for ",fromSearch);
-               console.log("response",response);
+               // console.log("response",response);
                console.log("searched results ",results);
                response.send(results);
            }
