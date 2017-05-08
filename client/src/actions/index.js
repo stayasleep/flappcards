@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD} from './types';
 import {FETCH_MY_RECENT_STACKS} from './types';
+import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
@@ -208,6 +209,11 @@ export function cardEditor(cardObject) {
         })
     }
 }
+/**
+ * @name - getCommunityStacksOverview
+ * @purpose - Sends request to database to return all card stacks that do not belong to the logged in user.
+ * @returns {Function}
+ */
 export function getCommunityStacksOverview() {
     return function(dispatch) {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
@@ -216,6 +222,26 @@ export function getCommunityStacksOverview() {
         }).catch(err => {
             dispatch({
                 type: FETCH_MY_COMMUNITY_STACKS,
+                error: err.response
+            });
+        })
+    }
+}
+
+/**
+ * @name - createStack
+ * @param stackObject -> contains subject, category, questions, and answers
+ * @returns {Function}
+ */
+export function createStack(stackObject) {
+    console.log("createStack called; stackObject", stackObject);
+    return function(dispatch) {
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/createCards`, {'token':token, "stackObject":stackObject}).then((response) => {
+            dispatch({type: CREATE_STACK, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: CREATE_STACK,
                 error: err.response
             });
         })
