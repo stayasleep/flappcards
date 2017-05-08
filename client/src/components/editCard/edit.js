@@ -43,27 +43,12 @@ class EditCard extends Component {
 
 
     render() {
-        const actions = [
-            <RaisedButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />,
-            <RaisedButton
-                label="Yes"
-                primary={true}
-                onTouchTap={this.handleClose}
-                type="submit"
-            />,
-        ];
-
         const { handleSubmit} = this.props;
         return (
             <div>
                 <RaisedButton label="Edit" onTouchTap={this.handleOpen} />
                 <Dialog
                     title="Are You Sure?"
-                    actions={actions}
                     modal={true}
                     open={this.state.open}
                 >
@@ -76,6 +61,7 @@ class EditCard extends Component {
                         <div>
                             <Field name="answer" component={this.renderInput} label="Answer"/>
                         </div>
+                        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
                         <RaisedButton label="Yes" primary={true} type="submit" onTouchTap={this.handleClose} />
                     </form>
                 </Dialog>
