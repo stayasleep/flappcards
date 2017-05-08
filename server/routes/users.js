@@ -354,14 +354,15 @@ router.post('/deleteStack/:sID',(request,response)=>{
     })
 });
 //SEARCH,
-router.post('/search/:id',(request,response)=>{
+router.post('/search',(request,response)=>{
     let uid =request.decoded.UserID;
     // let uid = request.params.id;
-    let fromSearch = request.body.searchid;
+    let fromSearch = request.body.query.Search;
     console.log('uid', uid);
+    console.log("request.body", request.body);
     console.log('search', fromSearch);
    connection.query(
-       'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as Total ' +
+       'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as totalCards ' +
        'FROM stacks JOIN cards on stacks.stack_id=cards.stack_id ' +
        'JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
        'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(err,results)=>{

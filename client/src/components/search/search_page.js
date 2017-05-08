@@ -17,7 +17,7 @@ import {
 
 class Search extends Component{
     componentWillMount(){
-        this.props.searchStacks();
+        // this.props.searchStacks();
     }
 
     renderInput({input, label, meta: {touched, error}}){
@@ -36,29 +36,29 @@ class Search extends Component{
 
     render(){
         const { handleSubmit } = this.props;
-        // const stacksList = this.props.map((item, index) => {
-        //     return (
-        //         <TableRow key={index}>
-        //             <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
-        //             <TableRowColumn>{item.totalCards}</TableRowColumn>
-        //             <TableRowColumn>{item.stackRating}</TableRowColumn>
-        //             <TableRowColumn>
-        //                 <Link to="/stackOverview" name="stackOverview"><RaisedButton>
-        //                     View
-        //                 </RaisedButton></Link>
-        //             </TableRowColumn>
-        //             <TableRowColumn>
-        //                 <DeleteStackConfirm/>
-        //             </TableRowColumn>
-        //         </TableRow>
-        //     )
-        // });
+        const stacksList = this.props.stacks.map((item, index) => {
+            return (
+                <TableRow key={index}>
+                    <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
+                    <TableRowColumn>{item.totalCards}</TableRowColumn>
+                    <TableRowColumn>{item.rating}</TableRowColumn>
+                    <TableRowColumn>
+                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                            View
+                        </RaisedButton></Link>
+                    </TableRowColumn>
+                    <TableRowColumn>
+                        <DeleteStackConfirm/>
+                    </TableRowColumn>
+                </TableRow>
+            )
+        });
 
         return (
             <div>
                 <FlashCardsAppBar/>
                 <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
-                    <Field name="Search" component={this.renderInput} label="Search Caegory or Subject"/>
+                    <Field name="Search" component={this.renderInput} label="Search Category or Subject"/>
                     <RaisedButton type="submit" label="Search"/>
                 </form>
                 <Table>
@@ -71,7 +71,7 @@ class Search extends Component{
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {/*{stacksList}*/}
+                        {stacksList}
                     </TableBody>
                 </Table>
             </div>

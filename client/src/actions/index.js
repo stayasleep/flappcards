@@ -253,7 +253,8 @@ export function createStack(stackObject) {
 export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/search/${search}`,{'token':token}).then((response) => {
+        console.log("searchStacks search parameter", search);
+        axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
             console.log("Search: ", response.data);
             dispatch({type: SEARCH_STACKS, payload: response.data});
         }).catch(err => {
