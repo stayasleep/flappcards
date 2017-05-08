@@ -370,7 +370,7 @@ router.post('/logout',(request,response)=>{
 //Profile retrieve some user information          DATE_FORMAT(stacks.created,'%d/%m/%Y %H:%i')
 router.post('/profile',(request,response)=>{
     let un = request.decoded.UserID;
-    connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d'), users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') FROM users WHERE users.user_id =?",[un],(err,result)=>{
+    connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(err,result)=>{
         console.log(result);
         if (err) {
             response.send("Uh oh");
