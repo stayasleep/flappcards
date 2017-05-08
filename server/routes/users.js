@@ -377,7 +377,7 @@ router.post('/profile',(request,response)=>{
         } else{
             console.log("USER ID IS NOW LOGGED OFF ",un);
             console.log("results ",result);
-            response.send({success:true, msg: "info"});
+            response.send(result);
         }
     })
 });
