@@ -21,12 +21,6 @@ class Stacks extends Component {
         this.props.getMyStackOverview();
     }
 
-    viewStack(stackInfo) {
-        console.log("stackID", stackInfo.stack_id);
-        console.log("this.props.stacks", this.props.stacks);
-        this.props.getStackOverview(stackInfo.stack_id);
-
-    }
 
     render() {
         if(!this.props.stacks){
