@@ -16,6 +16,7 @@ class StackViewStacks extends Component{
         router: PropTypes.object
     };
     handleCopy(copy){
+        console.log(copy)
         this.props.stackCopy(copy);
     };
 
@@ -31,7 +32,7 @@ class StackViewStacks extends Component{
             textAlign: "center"
         };
         let stackView;
-        if(this.props.stackCards){
+        if(this.props.stackCards[0].isOwned){
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
                     <Card style={cardDisplay} key={index}>
@@ -77,7 +78,7 @@ class StackViewStacks extends Component{
             stackView =
                 <div>
                     <div>
-                        <RaisedButton name="Copy" onClick={this.handleCopy(this.props.stackCards)} label="copy"/>
+                        <RaisedButton name="Copy" onClick={() => {this.handleCopy(this.props.stackCards[0])}} label="copy"/>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                             <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
