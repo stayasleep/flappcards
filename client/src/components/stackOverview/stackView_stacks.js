@@ -9,6 +9,8 @@ import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
+import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+
 import {GridList, GridTile} from 'material-ui/GridList';
 class StackViewStacks extends Component{
 
@@ -27,7 +29,9 @@ class StackViewStacks extends Component{
             gridList: {
                 width: 500,
                 height: 450,
-                overflowY: 'auto'
+                overflowY: 'auto',
+                padding: 4,
+                cols: 3,
             },
             header: {
                 textAlign: "center"
@@ -36,7 +40,13 @@ class StackViewStacks extends Component{
                 textAlign: "center",
                 display: "inline-block",
                 width: 500,
-                height:450
+                height:450,
+            },
+            cardTitle: {
+
+            },
+            cardActions: {
+
             }
         };
 
@@ -45,7 +55,7 @@ class StackViewStacks extends Component{
         }
         const cardStackList = this.props.stackCards.map((item, index) => {
             return (
-                <GridTile key={index} cols={3} cellHeight={200} padding={1} style={styles.gridList}>
+                <GridTile key={index} style={styles.gridList}>
                 <Card style={styles.cardDisplay}>
                     <CardTitle>
                         {item.question}

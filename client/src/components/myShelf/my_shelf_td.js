@@ -1,19 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
 import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
 import RaisedButton from 'material-ui/RaisedButton'
-import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';

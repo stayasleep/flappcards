@@ -6,7 +6,8 @@ import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import {cardEditor} from '../../actions/index';
-import {Link} from 'react-router'
+import IconButton from 'material-ui/IconButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 
 class EditCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
@@ -48,7 +49,9 @@ class EditCard extends Component {
         const { handleSubmit} = this.props;
         return (
             <div>
-                <RaisedButton label="Edit" onTouchTap={this.handleOpen} />
+                <IconButton label="Edit" tooltip="Edit Card" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
+                    <EditorModeEdit />
+                </IconButton>
                 <Dialog
                     title="Are you sure you want to edit this card?"
                     modal={true}
