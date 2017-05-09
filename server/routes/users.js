@@ -285,21 +285,21 @@ router.post('/copy/:stackId',(request,response)=>{
    //             });
    //     }});
    //below creates a new stack row and card rows from the copied to your account if you click COPY button
-   connection.query(
-       "BEGIN; " +
-       "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
-       "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
-       "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
-       "COMMIT;",[uid,commSubj,commCat,sid],(err,results)=>{
-           if (err) throw err;
-           let str=JSON.stringify(results);
-           let strJ=JSON.parse(str);
-           //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
-           idCopiedStack = strJ[1];
-           console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
-           // response.json({success:true, msg:"Stack was just copied"});
-       }
-   );
+   // connection.query(
+   //     "BEGIN; " +
+   //     "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
+   //     "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
+   //     "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
+   //     "COMMIT;",[uid,commSubj,commCat,sid],(err,results)=>{
+   //         if (err) throw err;
+   //         let str=JSON.stringify(results);
+   //         let strJ=JSON.parse(str);
+   //         //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
+   //         idCopiedStack = strJ[1];
+   //         console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
+   //         // response.json({success:true, msg:"Stack was just copied"});
+   //     }
+   // );
    //UNDO ABOVE
    //the idCOpiedStack doesnt work....this query depends on the one above
    // connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
