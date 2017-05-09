@@ -15,7 +15,9 @@ class StackViewStacks extends Component{
     static contextTypes = {
         router: PropTypes.object
     };
+    handleCopy(){
 
+    }
     render() {
         if (!this.props.stackCards) {
             return <div>Loading...</div>
@@ -27,89 +29,80 @@ class StackViewStacks extends Component{
             display: "inline-block",
             textAlign: "center"
         };
-        // if(this.props.stackCards){
-        //     return (
-        //         <div>
-        //             <RaisedButton
-        //                 containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
-        //                 Study
-        //             </RaisedButton>
-        //             <div>
-        //                 <AddCard/>
-        //             </div>
-        //         </div>
-        //     )
-        // }
-        // else {
-        //     return(
-        //         <RaisedButton label="Copy"/>
-        //     )
-        // }
-        const cardStackList = this.props.stackCards.map((item, index) => {
-            return (
-                <Card style={cardDisplay} key={index}>
-                    <CardTitle>
-                        {item.question}
-                    </CardTitle>
-                    <CardText>
-                        {item.answer}
-                    </CardText>
-                    <CardActions>
-                        <EditCard cardID={this.props.stackCards[index]}/>
-                        <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
-                    </CardActions>
-                </Card>
-            )
-        });
-
+        let stackView;
+        if(this.props.stackCards){
+            const cardStackList = this.props.stackCards.map((item, index) => {
+                return (
+                    <Card style={cardDisplay} key={index}>
+                        <CardTitle>
+                            {item.question}
+                        </CardTitle>
+                        <CardText>
+                            {item.answer}
+                        </CardText>
+                        <CardActions>
+                            <EditCard cardID={this.props.stackCards[index]}/>
+                            <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
+                        </CardActions>
+                    </Card>
+                )
+            });
+            stackView =
+                <div>
+                    <RaisedButton containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
+                    <div>
+                        <AddCard/>
+                    </div>
+                    <div>
+                        {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
+                        <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
+                    </div>
+                    {cardStackList}
+                </div>
+        }
+        else if(this.props.stackCards){
+            const cardStackList = this.props.stackCards.map((item, index) => {
+                return (
+                    <Card style={cardDisplay} key={index}>
+                        <CardTitle>
+                            {item.question}
+                        </CardTitle>
+                        <CardText>
+                            {item.answer}
+                        </CardText>
+                    </Card>
+                )
+            });
+            stackView =
+                <div>
+                    <div>
+                        <RaisedButton label="copy"/>
+                        <div>
+                            {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
+                            <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
+                        </div>
+                    </div>
+                    {cardStackList}
+                </div>
+        }
         return (
             <div>
                 <div style={header}>
-                        {/* The subject and category are referenced once in this component, so we just pull off the category from the first card
-                         (this.props.stackCards[0]) since it applies to all cards in this view.
-                         */}
-                        <span>{this.props.stackCards[0].subject}</span>
+                    <span>{this.props.stackCards[0].subject}</span>
                 </div>
                 <div>
-                    <div>
-                        <span>{this.props.stackCards[0].category}</span>
-                    </div>
-
-                    <div>
-                        <span>Made by: {this.props.stackCards[0].createdBy}</span>
-                    </div>
-
-                    <div>
-                            <RaisedButton
-                                containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
-                                Study
-                            </RaisedButton>
-                        <div>
-                            <AddCard/>
-                        </div>
-                        <div>
-                            {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <Badge
-                                badgeContent={this.props.stackCards.length}
-                                primary={true}
-                            >
-                                Number of Cards
-                            </Badge>
-                        </div>
-                    </div>
+                    <span>{this.props.stackCards[0].category}</span>
                 </div>
-                {cardStackList}
+                <div>
+                    <span>Made by: {this.props.stackCards[0].createdBy}</span>
+                </div>
+                {stackView}
             </div>
         );
     }
 }
 function mapStateToProps(state) {
     return {
-        cards: state.stack.all,
-        subject: state.stack.subj,
-        course: state.stack.course,
-        creator: state.stack.createdBy,
-        number: state.stack.number,
         stackCards: state.stack.stackCards
     }
 }
