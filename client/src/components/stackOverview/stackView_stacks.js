@@ -59,7 +59,7 @@ class StackViewStacks extends Component{
                     </div>
 
                     <div>
-                        <span>Made by {this.props.creator}</span>
+                        <span>Made by: {this.props.stackCards[0].createdBy}</span>
                     </div>
 
                     <div>
