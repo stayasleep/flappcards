@@ -40,6 +40,7 @@ class Search extends Component{
             return (
                 <TableRow key={index}>
                     <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
+                    <TableRowColumn>{item.orig_source_stack}</TableRowColumn>
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.rating}</TableRowColumn>
                     <TableRowColumn>
@@ -65,6 +66,7 @@ class Search extends Component{
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>Subjects</TableHeaderColumn>
+                            <TableHeaderColumn>Created By</TableHeaderColumn>
                             <TableHeaderColumn>Number of Cards</TableHeaderColumn>
                             <TableHeaderColumn>Rating</TableHeaderColumn>
                             <TableHeaderColumn>View</TableHeaderColumn>
