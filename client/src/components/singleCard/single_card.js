@@ -43,6 +43,7 @@ class SingleCard extends Component {
 
     componentWillMount(){
         // this.props.getCard(this.props.params.id); //Don't need server call
+        console.log("single card this.props.params", this.props.params);
         console.log("single_card, this.props", this.props);
         console.log("single_card, state", this.state);
     }
@@ -125,7 +126,7 @@ class SingleCard extends Component {
                 <div  style={centered}>
                     <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>
                     <RaisedButton primary={true} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
-                    <RaisedButton style={centered} id="return" containerElement={<Link to="/stackOverview" name="back"/>}>Return</RaisedButton>
+                    <RaisedButton style={centered} id="return" containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="back"/>}>Return</RaisedButton>
                     <RaisedButton primary={true} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
                     <RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>
                 </div>

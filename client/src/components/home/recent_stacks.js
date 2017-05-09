@@ -43,7 +43,7 @@ class Recent extends Component {
                     </CardText>
                     <CardActions>
                         <RaisedButton
-                            containerElement={<Link to="/stackOverview" name="stackOverview"/>}
+                            containerElement={<Link to={`/stackOverview/${this.props.recentStacks[index].stack_id}`} name="stackOverview"/>}
                             onClick={() => {this.viewStack(this.props.recentStacks[index])}}>
                             View
                         </RaisedButton>

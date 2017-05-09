@@ -23,6 +23,7 @@ class Stacks extends Component {
 
     viewStack(stackInfo) {
         console.log("stackID", stackInfo.stack_id);
+        console.log("this.props.stacks", this.props.stacks);
         this.props.getStackOverview(stackInfo.stack_id);
 
     }
@@ -39,8 +40,7 @@ class Stacks extends Component {
                     <TableRowColumn>{item.stackRating}</TableRowColumn>
                     <TableRowColumn>
                         <RaisedButton
-                            containerElement={<Link to="/stackOverview" name="stackOverview"/>}
-                            onClick={() => {this.viewStack(this.props.stacks[index])}}>
+                            containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
                             View
                         </RaisedButton>
                     </TableRowColumn>

@@ -43,14 +43,15 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
+                <IndexRoute component={landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>
                 <Route path="Search" component={requireAuth(Search)}/>
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
-                <Route path="stackOverview" component={requireAuth(Stacks)}/>
-                <Route path="single_card" component={requireAuth(SingleCard)}/>
-                <IndexRoute component={landing}/>
+                <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
+                <Route path="single_card/:sid/:cid" component={requireAuth(SingleCard)}/>
+
             </Route>
         </Router>
     </Provider>,
