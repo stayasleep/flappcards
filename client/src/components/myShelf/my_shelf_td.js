@@ -33,23 +33,26 @@ class Stacks extends Component {
 
 
     render() {
-        const subHeader = {
-            textAlign: "center",
-            fontSize: "2em",
-            fontWeight: "bold"
-        };
-        const cardHeader = {
-            fontSize: "1em",
-            fontWeight: "bold"
-        };
-        const cardActions = {
-            position: "relative",
-            display: "inline-flex",
-            float: "right",
-            marginRight: "1em"
-        };
-        const cardText = {
-            fontSize: "1em"
+        // Doesn't need to be called "styles" but it makes it clear what it does
+        const styles = {
+            subHeader: {
+                textAlign: "center",
+                fontSize: "2em",
+                fontWeight: "bold"
+            },
+            cardHeader: {
+                fontSize: "1em",
+                fontWeight: "bold"
+            },
+            cardActions: {
+                position: "relative",
+                display: "inline-flex",
+                float: "right",
+                marginRight: "1em"
+            },
+            cardText : {
+                fontSize: "1em"
+            }
         };
 
         if(!this.props.stacks){
@@ -62,22 +65,22 @@ class Stacks extends Component {
                         title={`Subject: ${item.subject}`}
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar>{item.totalCards}</Avatar>}
-                        style={cardHeader}
+                        style={styles.cardHeader}
                     />
-                    <CardActions style={cardActions}>
+                    <CardActions style={styles.cardActions}>
                         <RaisedButton
                             containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
                             View
                         </RaisedButton>
                         <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </CardActions>
-                    <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>
+                    <CardText style={styles.cardText}>{`Rating: ${item.stackRating}`}</CardText>
                 </Card>
             )
         });
         return (
             <List>
-                <Subheader style={subHeader}>My Shelf</Subheader>
+                <Subheader style={styles.subHeader}>My Shelf</Subheader>
                     {stacksList}
             </List>
 

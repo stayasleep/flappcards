@@ -28,26 +28,25 @@ class StackViewStacks extends Component{
                 width: 500,
                 height: 450,
                 overflowY: 'auto'
-
+            },
+            header: {
+                textAlign: "center"
+            },
+            cardDisplay: {
+                textAlign: "center",
+                display: "inline-block",
+                width: 500,
+                height:450
             }
         };
 
         if (!this.props.stackCards) {
             return <div>Loading...</div>
         }
-        const header = {
-            textAlign: "center"
-        };
-        const cardDisplay = {
-            display: "inline-block",
-            textAlign: "center",
-            width: 500,
-            height:450
-        };
         const cardStackList = this.props.stackCards.map((item, index) => {
             return (
-                <GridTile cols={3} cellHeight={200} padding={1} style={styles.gridList}>
-                <Card style={cardDisplay} key={index}>
+                <GridTile key={index} cols={3} cellHeight={200} padding={1} style={styles.gridList}>
+                <Card style={styles.cardDisplay}>
                     <CardTitle>
                         {item.question}
                     </CardTitle>
@@ -65,7 +64,7 @@ class StackViewStacks extends Component{
 
         return (
             <div>
-                <div style={header}>
+                <div style={styles.header}>
                         {/* The subject and category are referenced once in this component, so we just pull off the category from the first card
                          (this.props.stackCards[0]) since it applies to all cards in this view.
                          */}
