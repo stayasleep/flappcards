@@ -31,7 +31,7 @@ app.use('/users',users);
 
 //index route
 app.get('/',(request,response)=>{
-    response.send('Invalid Endpoint');
+    response.sendFile('../client/src/components/errors/404');
 });
 
 //begin listening
