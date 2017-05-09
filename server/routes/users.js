@@ -278,6 +278,19 @@ router.put('/stack/:cId',(request,response)=>{
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
+//ADD CARD TO EXISTING STACK
+router.post('/addSingleCard/:stackId',(request,response)=>{
+    let un = request.decoded.UserName;
+    let stackID = request.params.stackId;
+    let addQ = request.body.cardQuestion;
+    let addA = request.body.cardAnswer;
+    connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
+        if (err) {
+            response.json({success: false, msg: "Failed to add card"});
+        }
+        response.json({success: true, msg:"Added card to Stack"});
+    })
+});
 //CREATE STACK
 router.post('/createCards',(request,response)=>{
     // had to remove :userID from url; they won't have the information, the token will
