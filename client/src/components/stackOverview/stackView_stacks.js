@@ -12,7 +12,6 @@ import Badge from 'material-ui/Badge';
 
 class StackViewStacks extends Component{
 
-
     static contextTypes = {
         router: PropTypes.object
     };
@@ -28,24 +27,24 @@ class StackViewStacks extends Component{
             display: "inline-block",
             textAlign: "center"
         };
-        if(this.props.stackCards){
-            return (
-                <div>
-                    <RaisedButton
-                        containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
-                        Study
-                    </RaisedButton>
-                    <div>
-                        <AddCard/>
-                    </div>
-                </div>
-            )
-        }
-        else {
-            return(
-                <RaisedButton label="Copy"/>
-            )
-        }
+        // if(this.props.stackCards){
+        //     return (
+        //         <div>
+        //             <RaisedButton
+        //                 containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
+        //                 Study
+        //             </RaisedButton>
+        //             <div>
+        //                 <AddCard/>
+        //             </div>
+        //         </div>
+        //     )
+        // }
+        // else {
+        //     return(
+        //         <RaisedButton label="Copy"/>
+        //     )
+        // }
         const cardStackList = this.props.stackCards.map((item, index) => {
             return (
                 <Card style={cardDisplay} key={index}>

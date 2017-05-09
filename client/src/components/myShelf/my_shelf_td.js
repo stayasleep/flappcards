@@ -21,7 +21,6 @@ class Stacks extends Component {
         this.props.getMyStackOverview();
     }
 
-
     render() {
         if(!this.props.stacks){
             return <div>Loading...</div>
