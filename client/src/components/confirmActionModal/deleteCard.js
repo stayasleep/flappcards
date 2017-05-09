@@ -32,7 +32,7 @@ class DeleteCardConfirm extends React.Component {
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
-                label="Yes"
+                label="Remove Card"
                 primary={true}
                 onTouchTap={this.handleClose}
                 onClick={() => {this.handleDelete(this.props.cardID.card_id)}}
@@ -43,7 +43,7 @@ class DeleteCardConfirm extends React.Component {
             <div>
                 <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Are You Sure?"
+                    title="Are you sure you want to remove this card from the stack?"
                     actions={actions}
                     modal={true}
                     open={this.state.open}

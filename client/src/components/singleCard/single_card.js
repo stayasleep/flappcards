@@ -10,10 +10,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 class SingleCard extends Component {
     constructor(props) {
         super(props);
-        console.log("single card", props);
+        console.log("single card in the constructor statement", props);
         this.nextCard = this.nextCard.bind(this);
         this.prevCard = this.prevCard.bind(this);
         // Refers to index in array
+        // Use the index in the array to update the card_id dynamically/accurately
         this.state = {
             card: 0
         }
@@ -39,13 +40,6 @@ class SingleCard extends Component {
     static contextTypes ={
         router: PropTypes.object,
     };
-
-
-    componentWillMount(){
-        // this.props.getCard(this.props.params.id); //Don't need server call
-        console.log("single_card, this.props", this.props);
-        console.log("single_card, state", this.state);
-    }
     componentDidMount(){
         var flip = true;
         document.getElementById('questionCard').addEventListener('click', switchDisplay);
@@ -125,7 +119,7 @@ class SingleCard extends Component {
                 <div  style={centered}>
                     <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>
                     <RaisedButton primary={true} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
-                    <RaisedButton style={centered} id="return" containerElement={<Link to="/stackOverview" name="back"/>}>Return</RaisedButton>
+                    <RaisedButton style={centered} id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
                     <RaisedButton primary={true} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
                     <RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>
                 </div>

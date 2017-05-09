@@ -172,6 +172,7 @@ router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.decoded.UserID;
     let sid = request.params.sID;
 
+
     // connection.query("SELECT stack_id FROM stacks WHERE NOT user_id =?",[uid],(err,result)=>{
     //     if (err){
     //         response.send("Uh Oh");
@@ -180,7 +181,7 @@ router.post('/stackOverview/:sID',(request,response) => {
     //     }
     //     console.log("result",result);
     // });
-    connection.query("SELECT `cards`.`card_id`, `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+    connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
         "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
         console.log("results from navigating to stackOverview", results);
@@ -200,6 +201,7 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    let commSubj =request.body.subject;
    let commCat = request.body.category;
    let idCopiedStack=null;
+   //below creates a new stack row and card rows from the copied to your account if you click COPY button
    connection.query(
        "BEGIN; " +
        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
@@ -216,13 +218,13 @@ router.post('/stack/:uID/:sID',(request,response)=>{
        }
    );
    //the idCOpiedStack doesnt work....this query depends on the one above
-   connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
-       if(err){
-           response.send("Uh oh");
-       }
-       console.log("Ha, the last inserted ID produced these cards", results);
-       response.json({success:true, msg:"Stack showing"});
-   })
+   // connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
+   //     if(err){
+   //         response.send("Uh oh");
+   //     }
+   //     console.log("Ha, the last inserted ID produced these cards", results);
+   //     response.json({success:true, msg:"Stack showing"});
+   // })
 });
 //shows Q and A of the stack you selected MAYBE THIS IS NOT NEEEDED.
 router.post('/stackOverview/', (request,response) => {
@@ -276,7 +278,21 @@ router.put('/stack/:cId',(request,response)=>{
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
-//CREATE STACK, only creates 1 card atm
+//ADD CARD TO EXISTING STACK
+router.post('/addSingleCard/:stackID',(request,response)=>{
+    let un = request.decoded.UserName;
+    let stackID = request.params.stackID;
+    let addQ = request.body.cardObject.question;
+    let addA = request.body.cardObject.answer;
+    connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
+        if (err) {
+            console.log('errrrrr');
+            response.json({success: false, msg: "Failed to add card"});
+        }
+        response.send("Added card to Stack");
+    })
+});
+//CREATE STACK
 router.post('/createCards',(request,response)=>{
     // had to remove :userID from url; they won't have the information, the token will
     let stack = request.body.stackObject;
@@ -310,10 +326,8 @@ router.post('/createCards',(request,response)=>{
         }
         response.send("Finished");
     });
-
     // let cardQueryPart1 = "INSERT INTO cards SET (stack_id, question, answer, orig_source_stack) VALUES"; // First part of insert query
     // let cardQueryPart2 = `(?,?,?,?);" ${[stackID, newQ, newA, whoMadeMe]} ` ; // LAST_INSERT_ID() is to keep them associated with the same stack  Second part of insert query quesitons and answers
-
 });
 
 //clicking myShelf and getting your overview,
@@ -334,9 +348,7 @@ router.post('/myShelf',(request,response)=> {
         }
     });
 });
-
 //DELETING a whole stack, requires stack id from the front end
-
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.post('/deleteStack/:sID',(request,response)=>{
     console.log("Delete request");

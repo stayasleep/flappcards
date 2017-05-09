@@ -16,9 +16,6 @@ import {
 } from 'material-ui/Table';
 
 class Search extends Component{
-    componentWillMount(){
-        // this.props.searchStacks();
-    }
 
     renderInput({input, label, meta: {touched, error}}){
         return (
@@ -40,12 +37,14 @@ class Search extends Component{
             return (
                 <TableRow key={index}>
                     <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
+                    <TableRowColumn>{item.orig_source_stack}</TableRowColumn>
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.rating}</TableRowColumn>
                     <TableRowColumn>
-                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                        <RaisedButton
+                            containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
                             View
-                        </RaisedButton></Link>
+                        </RaisedButton>
                     </TableRowColumn>
                     <TableRowColumn>
                     </TableRowColumn>
@@ -64,6 +63,7 @@ class Search extends Component{
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn>Subjects</TableHeaderColumn>
+                            <TableHeaderColumn>Created By</TableHeaderColumn>
                             <TableHeaderColumn>Number of Cards</TableHeaderColumn>
                             <TableHeaderColumn>Rating</TableHeaderColumn>
                             <TableHeaderColumn>View</TableHeaderColumn>

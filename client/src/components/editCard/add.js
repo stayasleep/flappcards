@@ -5,10 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import {cardEditor} from '../../actions/index';
+import {addSingleCard} from '../../actions/index';
 import {Link} from 'react-router'
 
-class EditCard extends Component {
+class AddCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
         return (
             <TextField hintText={label}
@@ -24,11 +24,11 @@ class EditCard extends Component {
         open: false,
     };
 
-    handleEdit(cardObject){
-        // Pass in the cardObject which contains the necessary information for the edit
+    handleAdd(cardObject){
+        // Pass in the cardObject which contains the necessary information for the add
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
-        cardObject.cardID = this.props.cardID.card_id;
-        this.props.cardEditor(cardObject);
+        cardObject.stack_id = this.props.stackCards[0].stack_id;
+        this.props.addSingleCard(cardObject);
         if(cardObject){
             this.setState({open: false})
         }
@@ -48,15 +48,15 @@ class EditCard extends Component {
         const { handleSubmit} = this.props;
         return (
             <div>
-                <RaisedButton label="Edit" onTouchTap={this.handleOpen} />
+                <RaisedButton label="Add" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Are you sure you want to edit this card?"
+                    title="Are you sure you want to add a card to this stack?"
                     modal={true}
                     open={this.state.open}
                 >
 
-                    {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleEdit function*/}
-                    <form onSubmit={handleSubmit((values) => {this.handleEdit(values)})} >
+                    {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleAdd function*/}
+                    <form onSubmit={handleSubmit((values) => {this.handleAdd(values)})} >
                         <div>
                             <Field name="question" component={this.renderInput} label="Question"/>
                         </div>
@@ -64,7 +64,7 @@ class EditCard extends Component {
                             <Field name="answer" component={this.renderInput} label="Answer"/>
                         </div>
                         <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
-                        <RaisedButton label="Edit" primary={true} type="submit"/>
+                        <RaisedButton label="Add Card" primary={true} type="submit"/>
                     </form>
                 </Dialog>
             </div>
@@ -72,10 +72,10 @@ class EditCard extends Component {
     }
 }
 
-EditCard = reduxForm({
-    form: 'EditCard',
+AddCard = reduxForm({
+    form: 'AddCard',
     validate
-})(EditCard);
+})(AddCard);
 
 function mapStateToProps(state) {
     return {
@@ -83,7 +83,5 @@ function mapStateToProps(state) {
     }
 }
 
-// Connecting the edit card form values
-export default connect(mapStateToProps,{cardEditor})(EditCard);
-
-
+// Connecting the add card form values
+export default connect(mapStateToProps,{addSingleCard})(AddCard);
