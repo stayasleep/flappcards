@@ -1,3 +1,9 @@
 /node_modules/
-/server/routes/users.js
+
 /skeleton_server/
+/server/c217_fc.sql
+/server/config/config.js
+/server/config/secret.js
+
+
+

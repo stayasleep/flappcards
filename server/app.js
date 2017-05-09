@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 
 //bodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 
 //cors middleware for all pages
@@ -31,7 +31,7 @@ app.use('/users',users);
 
 //index route
 app.get('/',(request,response)=>{
-    response.send('Invalid Endpoint');
+    response.sendFile('../client/src/components/errors/404');
 });
 
 //begin listening

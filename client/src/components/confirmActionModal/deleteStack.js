@@ -2,13 +2,20 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import {deleteStack} from '../../actions/index';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
+class DeleteStackConfirm extends React.Component {
 
-
-export default class Confirm extends React.Component {
     state = {
         open: false,
     };
+
+    handleDelete(stackObject){
+        console.log("Stack to be deleted: ",stackObject.stack_id);
+        this.props.deleteStack(stackObject.stack_id);
+    }
 
     handleOpen = () => {
         this.setState({open: true});
@@ -29,6 +36,7 @@ export default class Confirm extends React.Component {
                 label="Yes"
                 primary={true}
                 onTouchTap={this.handleClose}
+                onClick={() => {this.handleDelete(this.props.stackID)}}
             />,
         ];
 
@@ -46,3 +54,5 @@ export default class Confirm extends React.Component {
         );
     }
 }
+
+export default connect(null, {deleteStack})(DeleteStackConfirm);

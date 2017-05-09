@@ -8,6 +8,8 @@ export default function(ComposedComponent) {
             router: PropTypes.object
         };
 
+        // if this.props.authenticated is false, !(this.props.authenticated) = true
+        // So if they're not authenticated they'll get pushed to the index route (?)
         componentWillMount() {
             if(!this.props.authenticated){
                 this.context.router.push('/');

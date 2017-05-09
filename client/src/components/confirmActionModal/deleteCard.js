@@ -2,13 +2,19 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import {deleteCard} from '../../actions/index';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
-
-
-export default class Confirm extends React.Component {
+class DeleteCardConfirm extends React.Component {
     state = {
         open: false,
     };
+
+    handleDelete(cardID){
+        // this.props.cardID.card_id; the ID of the to be deleted
+        this.props.deleteCard(cardID);
+    }
 
     handleOpen = () => {
         this.setState({open: true});
@@ -26,9 +32,10 @@ export default class Confirm extends React.Component {
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
-                label="Yes"
+                label="Remove Card"
                 primary={true}
                 onTouchTap={this.handleClose}
+                onClick={() => {this.handleDelete(this.props.cardID.card_id)}}
             />,
         ];
 
@@ -36,7 +43,7 @@ export default class Confirm extends React.Component {
             <div>
                 <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Are You Sure?"
+                    title="Are you sure you want to remove this card from the stack?"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
@@ -46,3 +53,5 @@ export default class Confirm extends React.Component {
         );
     }
 }
+
+export default connect(null, {deleteCard})(DeleteCardConfirm);

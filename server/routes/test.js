@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const users = require('../user_data');
-const stackoverviewCB = require('../stackoverviewCB');
-const myShelf = require('../myShelf');
-const recentStacks = require('../recent_stacks');
+
 
 router.post('/login', (req,res) => {
     let sentUsername = req.body.userName;

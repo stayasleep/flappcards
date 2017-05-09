@@ -1,10 +1,12 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'; // Updated PropTypes import statement
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router'
 import {register} from '../../actions/index'
+import ReactDOM from 'react-dom'
 
 class Registration extends Component {
 
@@ -25,10 +27,31 @@ class Registration extends Component {
         )
     }
 
+    componentDidUpdate(event){
+        var dateField = document.body.firstElementChild.children["0"].childNodes[1].childNodes[3].childNodes[1].childNodes[6].childNodes["0"].childNodes[2];
+        if(dateField) {
+            dateField.onkeyup = bar;
+            function bar(evt) {
+                var v = this.value;
+                if (v.match(/^\d{4}$/) !== null) {
+                    this.value = v + '-';
+                } else if (v.match(/^\d{4}\-\d{2}$/) !== null) {
+                    this.value = v + '-';
+                }
+
+            }
+        }
+    }
+
     render (){
         const {handleSubmit, reset} = this.props;
+        const regStyle = {
+            float: "right",
+            textAlign: "center",
+            paddingRight: "10%"
+        };
         return (
-            <div>
+            <div style={regStyle}>
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div>
@@ -44,13 +67,12 @@ class Registration extends Component {
                         <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password" type="password"/>
                     </div>
                     <div>
-                        At least 1 lowercase letter, 1 uppercase letter, 1 #, and 1 special character and be between 8 and 15 characters long
                     </div>
                     <div>
                         <Field name="email" component={this.renderInput} label="Email"/>
                     </div>
                     <div>
-                        <Field name="birthday" component={this.renderInput} label="Birthday(MM/DD/YYYY)"/>
+                        <Field id="date" name="birthday" component={this.renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
                     <div>
                         <RaisedButton primary={true} type="submit" label="Submit"/>
@@ -64,21 +86,64 @@ class Registration extends Component {
 }
 
 function validate(values) {
+    var min_age = 13;
     const errors = {};
+    var birth = '';
+    if(values.birthday) {
+        birth = values.birthday.replace(/[^0-9 ]/g, '');
+        console.log("Birthday: ", birth)
+    }
     const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Required'
         }
     });
+    if(values.userName && !/^[a-zA-Z0-9]{6,20}/i.test(values.userName)){
+        errors.userName = "Username must be 6 to 20 characters long"
+    }
+    if(values.userName && !/^\w+/i.test(values.userName)){
+        errors.userName = "Please only use letters, numbers and _"
+    }
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
     if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
-        errors.password = 'Invalid password'
+        errors.password = 'Must be between 8 and 15 characters long'
+    }
+    if(values.password && !/^(?=.*[a-z])/i.test(values.password)){
+        errors.password = 'Must have lowercase letter'
+    }
+    if(values.password && !/^(?=.*[A-Z])/i.test(values.password)){
+        errors.password = 'Must have uppercase letter'
+    }
+    if(values.password && !/^(?=.*[0-9])/i.test(values.password)){
+        errors.password = 'Must have number'
+    }
+    if(values.password && !/^(?=.*[!@#\$%\^&\*])/i.test(values.password)){
+        errors.password = 'Must have special character(!,@,#,$,%,\,^,&)'
     }
     if (values.password !== values.passwordConfirm) {
         errors.passwordConfirm = 'Passwords must match'
+    }
+    if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
+        errors.birthday = 'Enter a Correct Date (YYYY-MM-DD)'
+    }
+    if(values.birthday) {
+        var year = parseInt(birth.slice(0, 4));
+        var month = parseInt(birth.slice(4, 6));
+        var day = parseInt(birth.slice(6, 8));
+    if(month < 10){
+        month = parseInt("0" + month)
+    }
+        if(day < 10){
+            day = parseInt("0" + day)
+        }
+        var theirDate = new Date((year + min_age), month, day);
+        var today = new Date;
+        if ((today.getTime() - theirDate.getTime()) < 0) {
+            errors.birthday = 'You must be over 13 to use'
+        }
     }
     return errors
 }
