@@ -10,12 +10,14 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 class StackViewStacks extends Component{
 
+
     static contextTypes = {
         router: PropTypes.object
     };
 
     enterStudyMode(stackID) {
-        this.context.router.push('/single_card');
+        console.log("stackID", stackID);
+        this.context.router.push(`/single_card/`);
     }
 
     render() {
@@ -73,8 +75,8 @@ class StackViewStacks extends Component{
                     <div className="mdl-grid">
                         <div className="mdl-cell mdl-cell--3-col">
                             <RaisedButton
-                                containerElement={<Link to="/single_card" name="SingleCard"/>}
-                                onClick={() => {this.enterStudyMode(8)}}>
+                                containerElement={<Link to={`/single_card/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}
+                                onClick={() => {this.enterStudyMode()}}>
                                 Study
                             </RaisedButton>
                         </div>
