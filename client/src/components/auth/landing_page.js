@@ -38,7 +38,16 @@ class landing extends Component {
                     </ToolbarGroup>
                 </Toolbar>
                 <div>
-                        Create Cards to Study! Study Cards Made By Our Flappy Community!
+                        FLAPPCARDS<br/>
+                        The #1 Flashcard-App Around!<br/>
+
+                        Create personalized study stacks or search new topics at the click of a button.<br/>
+
+                    Our mission is to make learning easier for everybody.<br/>
+                    Improve your grades by studying with FlappCards.  It's easy to use, fun, and always free!<br/>
+
+                    Find more of what you're looking for on FlappCards,<br/>
+                        Join Today!
                     <Registration/>
                 </div>
             </div>
