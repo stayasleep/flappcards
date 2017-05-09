@@ -6,8 +6,8 @@ import validate from './validate';
 import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-
-
+import {Link} from 'react-router'
+import {browserHistory} from 'react-router'
 
 
 class CreateCards extends Component {
@@ -67,6 +67,9 @@ class CreateCards extends Component {
     handleCreate(stackObject) {
         console.log("handleCreate function called; stackObject:", stackObject);
         this.props.createStack(stackObject);
+        if(stackObject){
+            browserHistory.push("/stackOverview")
+        }
     }
 
     render() {
@@ -89,10 +92,8 @@ class CreateCards extends Component {
                     />
                     <FieldArray name="stack" component={this.renderCards} />
                     <div>
-                        <RaisedButton type="submit" disabled={submitting}>Submit</RaisedButton>
-                        <RaisedButton type="button" disabled={pristine || submitting} onClick={reset}>
-                            Remove All
-                        </RaisedButton>
+                        <RaisedButton type="submit" label="Submit" disabled={pristine || submitting}/>
+                        <RaisedButton type="button" label="Remove All" disabled={pristine || submitting} onClick={reset}/>
                     </div>
                 </form>
             </div>
