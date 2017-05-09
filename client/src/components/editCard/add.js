@@ -27,7 +27,7 @@ class AddCard extends Component {
     handleAdd(cardObject){
         // Pass in the cardObject which contains the necessary information for the add
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
-        cardObject.cardID = this.props.cardID.card_id;
+
         this.props.addSingleCard(cardObject);
         if(cardObject){
             this.setState({open: false})
@@ -84,4 +84,4 @@ function mapStateToProps(state) {
 }
 
 // Connecting the add card form values
-export default connect(mapStateToProps,{singleCardAdd})(AddCard);
+export default connect(mapStateToProps,{addSingleCard})(AddCard);
