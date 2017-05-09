@@ -43,9 +43,10 @@ class Search extends Component{
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.rating}</TableRowColumn>
                     <TableRowColumn>
-                        <Link to="/stackOverview" name="stackOverview"><RaisedButton>
+                        <RaisedButton
+                            containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
                             View
-                        </RaisedButton></Link>
+                        </RaisedButton>
                     </TableRowColumn>
                     <TableRowColumn>
                     </TableRowColumn>

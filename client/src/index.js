@@ -25,8 +25,6 @@ import Profile from './components/profile/profile';
 import MyShelf from './components/myShelf/my_shelf';
 import Search from './components/search/search_page';
 import CreateCards from './components/cardCreation/create_cards';
-import LogIn from './components/auth/log_in';
-import Registration from './components/auth/registration';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
 import SingleCard from './components/singleCard/single_card';
@@ -43,14 +41,15 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
+                <IndexRoute component={landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>
                 <Route path="Search" component={requireAuth(Search)}/>
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
-                <Route path="stackOverview" component={requireAuth(Stacks)}/>
-                <Route path="single_card" component={requireAuth(SingleCard)}/>
-                <IndexRoute component={landing}/>
+                <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
+                <Route path="stackOverview/:sid/:cid" component={requireAuth(SingleCard)}/>
+
             </Route>
         </Router>
     </Provider>,

@@ -29,6 +29,9 @@ class EditCard extends Component {
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
         cardObject.cardID = this.props.cardID.card_id;
         this.props.cardEditor(cardObject);
+        if(cardObject){
+            this.setState({open: false})
+        }
     }
 
     handleOpen = () => {
@@ -61,7 +64,7 @@ class EditCard extends Component {
                             <Field name="answer" component={this.renderInput} label="Answer"/>
                         </div>
                         <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
-                        <RaisedButton label="Yes" primary={true} type="submit" onTouchTap={this.handleClose} />
+                        <RaisedButton label="Yes" primary={true} type="submit"/>
                     </form>
                 </Dialog>
             </div>
