@@ -30,22 +30,6 @@ export function userLogin(values) {
     }
 }
 
-// Returns the data necessary for viewing the cards within a single stack
-export function getStack() {
-    return function (dispatch) {
-        let stackID = 3; // Need to add this to the button to send the stackID with the request
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`).then((response) => {
-            console.log("actions index", response.data);
-            dispatch({type: FETCH_STACKS, payload: response.data});
-        }).catch(err => {
-            dispatch({
-                type: null,
-                error: err.response
-            });
-        })
-    }
-}
-
 export function getCard() {
     return function (dispatch) {
         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
@@ -136,9 +120,11 @@ export function getStackOverview(stackID) {
 }
 
 
-// Loads the recent stacks for when you get to the home page
-// Associated reducer is in stack_reducer.js
-//TODO check what the getMyRecentStacksOverview query logic requires
+/**
+ * @name - getMyRecentStacksOverview
+ * @returns {Function}
+ * @description - Loads the recent stacks for the home page
+ */
 export function getMyRecentStacksOverview() {
     return function(dispatch) {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
@@ -153,6 +139,12 @@ export function getMyRecentStacksOverview() {
     }
 }
 
+/**
+ * @name - deleteStack
+ * @param stackID {int}
+ * @returns {Function}
+ * @description - Fired from myShelf
+ */
 export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
@@ -169,7 +161,7 @@ export function deleteStack(stackID) {
 }
 /**
  * @name - deleteCard
- * @param cardID
+ * @param cardID {int}
  * @returns {Function}
  */
 export function deleteCard(cardID) {
@@ -250,6 +242,11 @@ export function createStack(stackObject) {
         })
     }
 }
+/**
+ * @name - searchStacks
+ * @param search  {object | string}
+ * @returns {Function}
+ */
 export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
@@ -267,7 +264,12 @@ export function searchStacks(search) {
     }
 }
 
-
+/**
+ * @name - addSingleCard
+ * @param cardObject {object}
+ * @returns {Function}
+ * @description - Used for adding a single card to a stack
+ */
 export function addSingleCard(cardObject) {
     return function (dispatch) {
         // cardObject contains question and answer

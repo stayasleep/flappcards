@@ -14,6 +14,9 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
 
 class Stacks extends Component {
 
@@ -28,7 +31,7 @@ class Stacks extends Component {
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <TableRow selectable={false} key={index}>
+                <TableRow  key={index}>
                     <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
                     <TableRowColumn>{item.totalCards}</TableRowColumn>
                     <TableRowColumn>{item.stackRating}</TableRowColumn>
@@ -45,6 +48,7 @@ class Stacks extends Component {
             )
         });
         return (
+            <div>
             <Table>
                 <TableHeader displaySelectAll={false}>
                     <TableRow>
@@ -59,7 +63,20 @@ class Stacks extends Component {
                     {stacksList}
                 </TableBody>
             </Table>
+
+                <List>
+                    <ListItem
+                        leftAvatar={<p>10</p>}
+                        primaryText="Subject"
+                        secondaryText={<p>Category</p>}
+                        secondaryTextLines={3}
+                    />
+
+                </List>
+            </div>
         );
+
+
     }
 }
 function mapStateToProps(state) {
