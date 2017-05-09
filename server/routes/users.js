@@ -106,7 +106,7 @@ router.post('/login',function(request,response){
         }
     })
 });
-//VERIFY TOKEN
+// VERIFY TOKEN
 router.use((request, response, next)=> {
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
     // decode token
@@ -198,25 +198,52 @@ router.post('/stack/:uID/:sID',(request,response)=>{
     //let uid = request.decoded.UserID; //TOKEN OR URL
    let uid =request.params.uID;
    let sid=request.params.sID;
-   let commSubj =request.body.subject;
-   let commCat = request.body.category;
-   let idCopiedStack=null;
-   //below creates a new stack row and card rows from the copied to your account if you click COPY button
-   connection.query(
-       "BEGIN; " +
-       "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
-       "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
-       "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
-       "COMMIT;",[uid,commSubj,commCat,sid],(err,results)=>{
-           if (err) throw err;
-           let str=JSON.stringify(results);
-           let strJ=JSON.parse(str);
-           //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
-           idCopiedStack = strJ[1];
-           console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
-           // response.json({success:true, msg:"Stack was just copied"});
+   console.log('sid',sid);
+   // let commSubj =request.body.subject;
+   // let commCat = request.body.category;
+   // let idCopiedStack=null;
+   //serch table rows with the stack id youre clicking on, if it exists in your rows already then DO NOT COPY!
+   connection.query("SELECT stacks.copied_stack FROM stacks WHERE stacks.copied_stack = ? AND stacks.user_id=?",[sid,uid],(err,result)=>{
+       if (err){
+           response.send("Error");
        }
-   );
+       // let checkID = result[0].copied_stack;
+       // console.log('result',result[0].copied_stack);
+       console.log('resss', result);
+       if(result.length === 0){
+           console.log('undefined, this doesnt match your data');
+       }else {
+           // if (result[0].copied_stack == sid) {
+               console.log("Hey this stack is in my rows already, dont copy");
+               connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                   "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+                   "WHERE `stacks`.`stack_id`=?;", [sid], (err, results) => {
+                   console.log("results from navigating to stackOverview", results);
+                   if (err) {
+                       response.send("Error on stack request");
+                   } else {
+                       console.log('looking at some card overview');
+                       response.send(results);
+                   }
+               });
+       }});
+   //below creates a new stack row and card rows from the copied to your account if you click COPY button
+   // connection.query(
+   //     "BEGIN; " +
+   //     "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
+   //     "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
+   //     "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
+   //     "COMMIT;",[uid,commSubj,commCat,sid],(err,results)=>{
+   //         if (err) throw err;
+   //         let str=JSON.stringify(results);
+   //         let strJ=JSON.parse(str);
+   //         //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
+   //         idCopiedStack = strJ[1];
+   //         console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
+   //         // response.json({success:true, msg:"Stack was just copied"});
+   //     }
+   // );
+   //UNDO ABOVE
    //the idCOpiedStack doesnt work....this query depends on the one above
    // connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
    //     if(err){
