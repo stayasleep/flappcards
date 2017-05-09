@@ -27,7 +27,6 @@ class AddCard extends Component {
     handleAdd(cardObject){
         // Pass in the cardObject which contains the necessary information for the add
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
-        console.log(cardObject);
         cardObject.stack_id = this.props.stackCards[0].stack_id;
         this.props.addSingleCard(cardObject);
         if(cardObject){
