@@ -7,6 +7,8 @@ import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import {cardEditor, getStackOverview} from '../../actions/index';
 import {Link} from 'react-router'
+import StackViewStacks from '../stackOverview/stackView_stacks';
+import ReactDOM from 'react-dom'
 
 class EditCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){
@@ -30,6 +32,7 @@ class EditCard extends Component {
         cardObject.cardID = this.props.cardID.card_id;
         this.props.cardEditor(cardObject);
         if(cardObject){
+            this.setState({StackCards: this.props.stackCards});
             this.setState({open: false});
         }
     }
