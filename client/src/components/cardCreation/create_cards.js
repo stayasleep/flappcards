@@ -6,7 +6,6 @@ import validate from './validate';
 import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import {Link} from 'react-router'
 import {browserHistory} from 'react-router'
 
 

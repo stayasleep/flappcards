@@ -237,11 +237,11 @@ export function getCommunityStacksOverview() {
  * @returns {Function}
  */
 export function createStack(stackObject) {
-    console.log("createStack called; stackObject", stackObject);
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
             dispatch({type: CREATE_STACK, payload: response.data});
+            browserHistory.push("/myShelf/")
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,
