@@ -6,7 +6,8 @@ import {getStackOverview} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton';
+import Badge from 'material-ui/Badge';
 
 class StackViewStacks extends Component{
 
@@ -14,11 +15,6 @@ class StackViewStacks extends Component{
     static contextTypes = {
         router: PropTypes.object
     };
-
-    enterStudyMode(stackID) {
-        console.log("stackID", stackID);
-        this.context.router.push();
-    }
 
     render() {
         if (!this.props.stackCards) {
@@ -50,45 +46,41 @@ class StackViewStacks extends Component{
 
         return (
             <div>
-                <div style={header} className="mdl-grid">
-
-                    <div className="mdl-cell mdl-cell--6-col">
+                <div style={header}>
                         {/* The subject and category are referenced once in this component, so we just pull off the category from the first card
                          (this.props.stackCards[0]) since it applies to all cards in this view.
                          */}
                         <span>{this.props.stackCards[0].subject}</span>
-                    </div>
-
                 </div>
-                <div className="mdl-grid">
-                    <div className="mdl-cell mdl-cell--3-col">
+                <div>
+                    <div>
                         <span>{this.props.stackCards[0].category}</span>
                     </div>
 
-                    <div className="mdl-grid">
-                        <div className="mdl-layout-spacer"/>
-                        <div className="mdl-cell mdl-cell--3-col">
-                            <span>Made by {this.props.creator}</span>
-                        </div>
+                    <div>
+                        <span>Made by {this.props.creator}</span>
                     </div>
 
-                    <div className="mdl-grid">
-                        <div className="mdl-cell mdl-cell--3-col">
+                    <div>
                             <RaisedButton
                                 containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
                                 Study
                             </RaisedButton>
-                        </div>
-                        <div className="mdl-cell mdl-cell--2-col">
-                            <Link to="/createCards" name="Add">
-                                <button className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        <div>
+                            <Link to={"somewhere"} name="Add">
+                                <RaisedButton>
                                     Add Cards
-                                </button>
+                                </RaisedButton>
                             </Link>
                         </div>
-                        <div className="mdl-cell mdl-cell--2-col">
+                        <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <span className="mdl-badge" data-badge={this.props.stackCards.length}>Number of Cards: </span>
+                            <Badge
+                                badgeContent={this.props.stackCards.length}
+                                primary={true}
+                            >
+                                Number of Cards
+                            </Badge>
                         </div>
                     </div>
                 </div>
@@ -102,7 +94,7 @@ function mapStateToProps(state) {
         cards: state.stack.all,
         subject: state.stack.subj,
         course: state.stack.course,
-        creator: state.stack.creator,
+        creator: state.stack.createdBy,
         number: state.stack.number,
         stackCards: state.stack.stackCards
     }
