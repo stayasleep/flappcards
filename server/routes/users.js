@@ -279,16 +279,17 @@ router.put('/stack/:cId',(request,response)=>{
     });
 });
 //ADD CARD TO EXISTING STACK
-router.post('/addSingleCard/:stackId',(request,response)=>{
+router.post('/addSingleCard/:stackID',(request,response)=>{
     let un = request.decoded.UserName;
-    let stackID = request.params.stackId;
-    let addQ = request.body.cardQuestion;
-    let addA = request.body.cardAnswer;
+    let stackID = request.params.stackID;
+    let addQ = request.body.cardObject.question;
+    let addA = request.body.cardObject.answer;
     connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
         if (err) {
+            console.log('errrrrr');
             response.json({success: false, msg: "Failed to add card"});
         }
-        response.json({success: true, msg:"Added card to Stack"});
+        response.send("Added card to Stack");
     })
 });
 //CREATE STACK
