@@ -18,7 +18,7 @@ class StackViewStacks extends Component{
 
     enterStudyMode(stackID) {
         console.log("stackID", stackID);
-        this.context.router.push(`/single_card/`);
+        this.context.router.push();
     }
 
     render() {
@@ -68,8 +68,7 @@ class StackViewStacks extends Component{
 
                     <div>
                             <RaisedButton
-                                containerElement={<Link to={`/single_card/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}
-                                onClick={() => {this.enterStudyMode()}}>
+                                containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
                                 Study
                             </RaisedButton>
                         <div>
