@@ -17,7 +17,8 @@ class StackViewStacks extends Component{
     };
     handleCopy(copy){
         this.props.stackCopy(copy);
-    }
+    };
+
     render() {
         if (!this.props.stackCards) {
             return <div>Loading...</div>

@@ -286,12 +286,13 @@ export function addSingleCard(cardObject) {
 
 export function stackCopy(stackCopy) {
     return function (dispatch){
+        let stackID = stackCopy.stack_id;
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/addSingleCard/$`, {"token": token, "stack": stackCopy}).then((response) => {
-            dispatch({type: CREATE_STACK, payload: response.data});
+        axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
+            dispatch({type: COPY_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
-                type: CREATE_STACK,
+                type: COPY_STACK,
                 error: err.response
             });
         })
