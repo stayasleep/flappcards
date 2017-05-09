@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton'
 import {connect} from 'react-redux';
 import {getCommunityStacksOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import {GridTile} from 'material-ui/GridList';
 
 class Community extends Component {
     componentWillMount() {
@@ -18,6 +18,38 @@ class Community extends Component {
     }
 
     render() {
+        const styles = {
+            root: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around'
+            },
+            gridList: {
+                width: 500,
+                height: 450,
+                padding: 4,
+                cols: 1
+            },
+            header: {
+                textAlign: "center"
+            },
+            cardDisplay: {
+                textAlign: "center",
+                display: "inline-block",
+                width: 500,
+                height:450,
+            },
+            cardTitle: {
+
+            },
+            cardActions: {
+
+            },
+            chip: {
+                paddingRight: 0
+            }
+        };
+
         if (!this.props.communityStacks) {
             return (
                 <div>
@@ -30,7 +62,8 @@ class Community extends Component {
         }
         const communityStacksList = this.props.communityStacks.map((item, index) => {
             return (
-                <Card key={index}>
+                <GridTile key={index} style={styles.gridList}>
+                <Card style={styles.cardDisplay}>
                     <CardHeader
                         title={item.subject}
                         subtitle={item.category}
@@ -39,7 +72,7 @@ class Community extends Component {
                         Created by: {item.createdBy}
                         Total Cards: {item.totalCards}
                         Created On: {item.createdOn}
-                        {item.stackRating}
+                        Rating: {item.stackRating}
                     </CardText>
                     <CardActions>
                         <RaisedButton
@@ -49,6 +82,7 @@ class Community extends Component {
                         </RaisedButton>
                     </CardActions>
                 </Card>
+                </GridTile>
             )
         });
         return (

@@ -11,6 +11,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import {GridTile} from 'material-ui/GridList';
+
 class StackViewStacks extends Component{
 
     static contextTypes = {
@@ -32,7 +33,7 @@ class StackViewStacks extends Component{
                 width: 500,
                 height: 450,
                 padding: 4,
-                cols: 3,
+                cols: 3
             },
             header: {
                 textAlign: "center"
@@ -91,7 +92,7 @@ class StackViewStacks extends Component{
         else if(this.props.stackCards){
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <GridTile key={index} cols={3} style={styles.gridList}>
+                    <GridTile key={index} style={styles.gridList}>
                         <Card style={styles.cardDisplay}>
                             <CardTitle>
                                 {item.question}
@@ -109,7 +110,7 @@ class StackViewStacks extends Component{
                         <RaisedButton name="Copy" onClick={() => {this.handleCopy(this.props.stackCards[0])}} label="copy"/>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
+                            <Chip style={styles.chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
                         </div>
                     </div>
                     {cardStackList}

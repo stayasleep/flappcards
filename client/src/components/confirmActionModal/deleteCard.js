@@ -41,20 +41,20 @@ class DeleteCardConfirm extends React.Component {
         ];
 
         const styles ={
-            largeIcon: {
-                width: 60,
-                height: 60
+            mediumIcon: {
+                width: 48,
+                height: 48
             },
-            large: {
-                width: 120,
-                height: 120,
-                padding: 30
+            medium: {
+                width: 96,
+                height: 96,
+                padding: 24
             }
         };
 
         return (
             <div>
-                <IconButton iconStyle={styles.largeIcon} style={styles.large} tooltip="Delete" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
+                <IconButton iconStyle={styles.mediumIcon} style={styles.medium} tooltip="Delete" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
                     <ActionDelete/>
                 </IconButton>
                 <Dialog
