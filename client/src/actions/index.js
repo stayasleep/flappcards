@@ -266,4 +266,21 @@ export function searchStacks(search) {
         })
     }
 }
+
+
+export function addSingleCard(cardObject) {
+    return function (dispatch) {
+        // cardObject contains question and answer
+        let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/addSingleCard/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
+            dispatch({type: CREATE_STACK, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: CREATE_STACK,
+                error: err.response
+            });
+        })
+    }
+}
 // JSON is the default expected response type for axios calls

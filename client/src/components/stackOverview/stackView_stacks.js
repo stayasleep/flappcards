@@ -4,7 +4,8 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getStackOverview} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
-import EditCard from '../editCard/edit'
+import EditCard from '../editCard/edit';
+import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
@@ -67,11 +68,7 @@ class StackViewStacks extends Component{
                                 Study
                             </RaisedButton>
                         <div>
-                            <Link to={"somewhere"} name="Add">
-                                <RaisedButton>
-                                    Add Cards
-                                </RaisedButton>
-                            </Link>
+                            <AddCard/>
                         </div>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
