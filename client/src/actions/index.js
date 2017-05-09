@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD, SEARCH_STACKS} from './types';
-import {FETCH_MY_RECENT_STACKS} from './types';
+import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
@@ -274,6 +274,20 @@ export function addSingleCard(cardObject) {
         let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/addSingleCard/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
+            dispatch({type: CREATE_STACK, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: CREATE_STACK,
+                error: err.response
+            });
+        })
+    }
+}
+
+export function stackCopy(stackCopy) {
+    return function (dispatch){
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/addSingleCard/$`, {"token": token, "stack": stackCopy}).then((response) => {
             dispatch({type: CREATE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({

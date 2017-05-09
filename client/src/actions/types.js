@@ -13,4 +13,4 @@ export const EDIT_CARD = 'edit_card';
 export const FETCH_MY_COMMUNITY_STACKS = 'fetch_my_community_stacks';
 export const CREATE_STACK = 'create_stack';
 export const SEARCH_STACKS = 'search_stacks';
-
+export const COPY_STACK = 'copy_stack';

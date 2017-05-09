@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getStackOverview} from '../../actions/index'
+import {getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
@@ -15,8 +15,8 @@ class StackViewStacks extends Component{
     static contextTypes = {
         router: PropTypes.object
     };
-    handleCopy(){
-
+    handleCopy(copy){
+        this.props.stackCopy(copy);
     }
     render() {
         if (!this.props.stackCards) {
@@ -76,7 +76,7 @@ class StackViewStacks extends Component{
             stackView =
                 <div>
                     <div>
-                        <RaisedButton label="copy"/>
+                        <RaisedButton name="Copy" onClick={this.handleCopy(this.props.stackCards)} label="copy"/>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                             <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
@@ -107,4 +107,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getStackOverview})(StackViewStacks);
+export default connect(mapStateToProps, {getStackOverview, stackCopy})(StackViewStacks);
