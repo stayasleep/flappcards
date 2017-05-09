@@ -6,7 +6,7 @@ import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import {addSingleCard} from '../../actions/index';
-import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+
 
 class AddCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){

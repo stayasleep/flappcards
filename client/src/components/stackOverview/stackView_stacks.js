@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getStackOverview} from '../../actions/index'
+import {getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 
@@ -16,6 +15,10 @@ class StackViewStacks extends Component{
 
     static contextTypes = {
         router: PropTypes.object
+    };
+    handleCopy(copy){
+        console.log("copy", copy);
+        this.props.stackCopy(copy);
     };
 
     render() {
@@ -75,54 +78,74 @@ class StackViewStacks extends Component{
         return (
             <div>
                 <div style={styles.header}>
-                        {/* The subject and category are referenced once in this component, so we just pull off the category from the first card
-                         (this.props.stackCards[0]) since it applies to all cards in this view.
-                         */}
                         <span>{this.props.stackCards[0].subject}</span>
                 </div>
+        if(this.props.stackCards[0].isOwned) {
+            const cardStackList = this.props.stackCards.map((item, index) => {
+
                 <div>
+                    <RaisedButton containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                     <div>
-                        <span>{this.props.stackCards[0].category}</span>
+                        <AddCard/>
                     </div>
+                    <div>
+                        <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
+                    </div>
+                    {cardStackList}
+                </div>
+        }
+        else if(this.props.stackCards){
+            const cardStackList = this.props.stackCards.map((item, index) => {
+                return (
+                    <GridTile key={index} cols={3} style={styles.gridList}>
+                        <Card style={styles.cardDisplay}>
+                            <CardTitle>
+                                {item.question}
+                            </CardTitle>
+                            <CardText>
+                                {item.answer}
+                            </CardText>
+                        </Card>
+                    </GridTile>
+                )
+            });
+            <div>
+                <div>
+                    <RaisedButton name="Copy" onClick={() => {this.handleCopy(this.props.stackCards[0])}} label="copy"/>
+                    <div>
+                        <Chip>Number of Cards<Avatar size={32}>{this.props.stackCards.length}</Avatar></Chip>
+                </div>
 
-                    <div>
-                        <span>Made by: {this.props.stackCards[0].createdBy}</span>
-                    </div>
-
-                    <div>
-                            <RaisedButton
-                                containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>
-                                Study
-                            </RaisedButton>
-                        <div>
-                            <AddCard/>
-                        </div>
-                        <div>
-                            {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <Chip>
-                                <Avatar size={32}>{this.props.stackCards.length}</Avatar>
-                                Number of Cards
-                            </Chip>
-                        </div>
-                    </div>
+                <div>
+                    {cardStackList}
                 </div>
 
                     <GridList style={styles.root}>
                         {cardStackList}
                     </GridList>
+                </div>
+                </div>
+        }
+        return (
+            <div>
+                <div style={styles.header}>
+                    <span>{this.props.stackCards[0].subject}</span>
+                </div>
+                <div>
+                    <span>{this.props.stackCards[0].category}</span>
+                </div>
+                <div>
+                    <span>Made by: {this.props.stackCards[0].createdBy}</span>
+                </div>
+                {cardStackList}
             </div>
         );
     }
 }
 function mapStateToProps(state) {
     return {
-        cards: state.stack.all,
-        subject: state.stack.subj,
-        course: state.stack.course,
-        creator: state.stack.createdBy,
-        number: state.stack.number,
         stackCards: state.stack.stackCards
     }
 }
 
-export default connect(mapStateToProps, {getStackOverview})(StackViewStacks);
+export default connect(mapStateToProps, {getStackOverview, stackCopy})(StackViewStacks);

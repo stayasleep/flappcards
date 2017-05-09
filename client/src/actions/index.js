@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD, SEARCH_STACKS} from './types';
-import {FETCH_MY_RECENT_STACKS} from './types';
+import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
@@ -280,6 +280,21 @@ export function addSingleCard(cardObject) {
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,
+                error: err.response
+            });
+        })
+    }
+}
+
+export function stackCopy(stackCopy) {
+    return function (dispatch){
+        let stackID = stackCopy.stack_id;
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
+            dispatch({type: COPY_STACK, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: COPY_STACK,
                 error: err.response
             });
         })

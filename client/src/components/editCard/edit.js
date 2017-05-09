@@ -8,8 +8,15 @@ import Dialog from 'material-ui/Dialog';
 import {cardEditor} from '../../actions/index';
 import IconButton from 'material-ui/IconButton';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import PropTypes from 'prop-types';
+
 
 class EditCard extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    };
+
     renderInput({input, label, type, meta: {touched, error}}){
         return (
             <TextField hintText={label}
@@ -31,7 +38,7 @@ class EditCard extends Component {
         cardObject.cardID = this.props.cardID.card_id;
         this.props.cardEditor(cardObject);
         if(cardObject){
-            this.setState({open: false})
+            this.setState({open: false});
         }
     }
 
