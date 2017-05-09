@@ -106,32 +106,32 @@ router.post('/login',function(request,response){
         }
     })
 });
-//VERIFY TOKEN
-router.use((request, response, next)=> {
-    const token = request.body.token || request.query.token || request.headers['x-access-token'];
-    // decode token
-    if (token) {
-        // verifies secret and checks exp
-        jwt.verify(token, config.secret,(err, decoded)=> {
-            if (err) {
-                return response.json({ success: false, message: 'Failed to authenticate token.' });
-            } else {
-                // if everything is good, save to request for use in other routes
-                request.decoded = decoded;
-                // console.log("decoded", decoded);
-                // console.log("request.decoded", request.decoded);
-                //response wil be sent by the next function...
-                next();
-            }
-        });
-    } else {
-        // if there is no token
-        return response.status(403).send({
-            success: false,
-            message: 'No token provided.'
-        });
-    }
-});
+// VERIFY TOKEN
+// router.use((request, response, next)=> {
+//     const token = request.body.token || request.query.token || request.headers['x-access-token'];
+//     // decode token
+//     if (token) {
+//         // verifies secret and checks exp
+//         jwt.verify(token, config.secret,(err, decoded)=> {
+//             if (err) {
+//                 return response.json({ success: false, message: 'Failed to authenticate token.' });
+//             } else {
+//                 // if everything is good, save to request for use in other routes
+//                 request.decoded = decoded;
+//                 // console.log("decoded", decoded);
+//                 // console.log("request.decoded", request.decoded);
+//                 //response wil be sent by the next function...
+//                 next();
+//             }
+//         });
+//     } else {
+//         // if there is no token
+//         return response.status(403).send({
+//             success: false,
+//             message: 'No token provided.'
+//         });
+//     }
+// });
 router.post('/community', (request,response) => {
     //Community query
     let uid = request.decoded.UserID;
@@ -171,26 +171,36 @@ router.post('/home', (request,response)=> {
 router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.decoded.UserID;
     let sid = request.params.sID;
-
-
-    // connection.query("SELECT stack_id FROM stacks WHERE NOT user_id =?",[uid],(err,result)=>{
-    //     if (err){
-    //         response.send("Uh Oh");
-    //     }else if (result.length>0){
-    //
-    //     }
-    //     console.log("result",result);
-    // });
-    connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-        "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-        "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
-        console.log("results from navigating to stackOverview", results);
-        if (err) {
-            response.send("Error on stack request");
-        } else {
-            response.send(results);
+    connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
+        if (err){
+            response.send("Error Connecting");
+        }
+        if(result.length>0){
+            connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+                "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+                console.log("results from navigating to stackOverview", results);
+                if (err) {
+                    response.send("Error on stack request");
+                } else {
+                    response.send(results);
+                }
+            });
+        }else{
+            //you don't own this stack
+            response.send(false);
         }
     });
+    // connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+    //     "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+    //     "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+    //     console.log("results from navigating to stackOverview", results);
+    //     if (err) {
+    //         response.send("Error on stack request");
+    //     } else {
+    //         response.send(results);
+    //     }
+    // });
 });
 //THIS ISNT READY
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
@@ -198,9 +208,82 @@ router.post('/stack/:uID/:sID',(request,response)=>{
     //let uid = request.decoded.UserID; //TOKEN OR URL
    let uid =request.params.uID;
    let sid=request.params.sID;
-   let commSubj =request.body.subject;
-   let commCat = request.body.category;
-   let idCopiedStack=null;
+   console.log('sid',sid);
+   // let commSubj =request.body.subject;
+   // let commCat = request.body.category;
+   // let idCopiedStack=null;
+    connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id = ? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
+        if (err){
+            response.send("Error Connecting");
+        }
+        console.log('res',result);
+        console.log('res0',result[0]);
+        //this means I have the copy and own it, hide the button
+        if(result.length>0){
+            connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+                "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
+                console.log("results from navigating to stackOverview", results);
+                if (err) {
+                    response.send("Error on stack request");
+                } else {
+                    response.send(results);
+                }
+            });
+        }else{
+            //this information isnt in logged users data, make the clone button appear and show the overview
+            console.log("copy this stack");
+        }
+    });
+});
+router.post('/copy/:stackId',(request,response)=>{
+    let uid = request.decoded.UserID;
+    let sId = request.params.stackId;
+    connection.query(
+        "BEGIN; " +
+        "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?); "+
+        "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
+        "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
+        "COMMIT;",[uid,commSubj,commCat,sid],(err,results)=>{
+            if (err) throw err;
+            let str=JSON.stringify(results);
+            let strJ=JSON.parse(str);
+            //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
+            idCopiedStack = strJ[1];
+            console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
+            // response.json({success:true, msg:"Stack was just copied"});
+        }
+    );
+
+});
+
+
+
+   //serch table rows with the stack id youre clicking on, if it exists in your rows already then DO NOT COPY!
+   // connection.query("SELECT stacks.copied_stack FROM stacks WHERE stacks.copied_stack = ? AND stacks.user_id=?",[sid,uid],(err,result)=>{
+   //     if (err){
+   //         response.send("Error");
+   //     }
+   //     // let checkID = result[0].copied_stack;
+   //     // console.log('result',result[0].copied_stack);
+   //     console.log('resss', result);
+   //     if(result.length === 0){
+   //         console.log('undefined, this doesnt match your data');
+   //     }else {
+   //         // if (result[0].copied_stack == sid) {
+   //             console.log("Hey this stack is in my rows already, dont copy");
+   //             connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+   //                 "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+   //                 "WHERE `stacks`.`stack_id`=?;", [sid], (err, results) => {
+   //                 console.log("results from navigating to stackOverview", results);
+   //                 if (err) {
+   //                     response.send("Error on stack request");
+   //                 } else {
+   //                     console.log('looking at some card overview');
+   //                     response.send(results);
+   //                 }
+   //             });
+   //     }});
    //below creates a new stack row and card rows from the copied to your account if you click COPY button
    connection.query(
        "BEGIN; " +
@@ -217,6 +300,7 @@ router.post('/stack/:uID/:sID',(request,response)=>{
            // response.json({success:true, msg:"Stack was just copied"});
        }
    );
+   //UNDO ABOVE
    //the idCOpiedStack doesnt work....this query depends on the one above
    // connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=>{
    //     if(err){
@@ -225,7 +309,6 @@ router.post('/stack/:uID/:sID',(request,response)=>{
    //     console.log("Ha, the last inserted ID produced these cards", results);
    //     response.json({success:true, msg:"Stack showing"});
    // })
-});
 //shows Q and A of the stack you selected MAYBE THIS IS NOT NEEEDED.
 router.post('/stackOverview/', (request,response) => {
     console.log("getCard request", request.body);
