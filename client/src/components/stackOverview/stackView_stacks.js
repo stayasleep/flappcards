@@ -9,7 +9,7 @@ import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
-
+import {GridList, GridTile} from 'material-ui/GridList';
 class StackViewStacks extends Component{
 
     static contextTypes = {
@@ -21,32 +21,49 @@ class StackViewStacks extends Component{
     };
 
     render() {
+        const styles = {
+            root: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around'
+            },
+            gridList: {
+                width: 500,
+                height: 450,
+                overflowY: 'auto'
+            },
+            header: {
+                textAlign: "center"
+            },
+            cardDisplay: {
+                textAlign: "center",
+                display: "inline-block",
+                width: 500,
+                height:450
+            }
+        };
+
         if (!this.props.stackCards) {
             return <div>Loading...</div>
         }
-        const header = {
-            textAlign: "center"
-        };
-        const cardDisplay = {
-            display: "inline-block",
-            textAlign: "center"
-        };
         let stackView;
-        if(this.props.stackCards[0].isOwned){
+        if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <Card style={cardDisplay} key={index}>
-                        <CardTitle>
-                            {item.question}
-                        </CardTitle>
-                        <CardText>
-                            {item.answer}
-                        </CardText>
-                        <CardActions>
-                            <EditCard cardID={this.props.stackCards[index]}/>
-                            <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
-                        </CardActions>
-                    </Card>
+                    <GridTile key={index} cols={3} cellHeight={200} padding={1} style={styles.gridList}>
+                        <Card style={styles.cardDisplay}>
+                            <CardTitle>
+                                {item.question}
+                            </CardTitle>
+                            <CardText>
+                                {item.answer}
+                            </CardText>
+                            <CardActions>
+                                <EditCard cardID={this.props.stackCards[index]}/>
+                                <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
+                            </CardActions>
+                        </Card>
+                    </GridTile>
                 )
             });
             stackView =
@@ -65,14 +82,16 @@ class StackViewStacks extends Component{
         else if(this.props.stackCards){
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <Card style={cardDisplay} key={index}>
-                        <CardTitle>
-                            {item.question}
-                        </CardTitle>
-                        <CardText>
-                            {item.answer}
-                        </CardText>
-                    </Card>
+                    <GridTile key={index} cols={3} style={styles.gridList}>
+                        <Card style={styles.cardDisplay}>
+                            <CardTitle>
+                                {item.question}
+                            </CardTitle>
+                            <CardText>
+                                {item.answer}
+                            </CardText>
+                        </Card>
+                    </GridTile>
                 )
             });
             stackView =
@@ -89,7 +108,7 @@ class StackViewStacks extends Component{
         }
         return (
             <div>
-                <div style={header}>
+                <div style={styles.header}>
                     <span>{this.props.stackCards[0].subject}</span>
                 </div>
                 <div>

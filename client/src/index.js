@@ -46,7 +46,6 @@ const MaterializedApp = (props) => (
 // console.log('88           88               d8          8b     88          88    88         88');
 // console.log('88           88              d8            8b     "8        8b     88         88');
 // console.log('88           8888888888888  88              88      "q8888p"       88         88');
-
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>

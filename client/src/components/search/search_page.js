@@ -16,9 +16,6 @@ import {
 } from 'material-ui/Table';
 
 class Search extends Component{
-    componentWillMount(){
-        // this.props.searchStacks();
-    }
 
     renderInput({input, label, meta: {touched, error}}){
         return (
