@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import {addSingleCard} from '../../actions/index';
 import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
 
 class AddCard extends Component {
     renderInput({input, label, type, meta: {touched, error}}){

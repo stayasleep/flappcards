@@ -47,9 +47,20 @@ class EditCard extends Component {
 
     render() {
         const { handleSubmit} = this.props;
+        const styles ={
+            mediumIcon: {
+                width: 48,
+                height: 48
+            },
+            medium: {
+                width: 96,
+                height: 96,
+                padding: 24
+            }
+        };
         return (
             <div>
-                <IconButton label="Edit" tooltip="Edit Card" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
+                <IconButton iconStyle={styles.mediumIcon} style={styles.medium} label="Edit" tooltip="Edit Card" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
                     <EditorModeEdit />
                 </IconButton>
                 <Dialog

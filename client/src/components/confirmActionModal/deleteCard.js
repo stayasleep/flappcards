@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import {deleteCard} from '../../actions/index';
 import {connect} from 'react-redux';
@@ -41,9 +40,21 @@ class DeleteCardConfirm extends React.Component {
             />,
         ];
 
+        const styles ={
+            largeIcon: {
+                width: 60,
+                height: 60
+            },
+            large: {
+                width: 120,
+                height: 120,
+                padding: 30
+            }
+        };
+
         return (
             <div>
-                <IconButton tooltip="Delete" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
+                <IconButton iconStyle={styles.largeIcon} style={styles.large} tooltip="Delete" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
                     <ActionDelete/>
                 </IconButton>
                 <Dialog

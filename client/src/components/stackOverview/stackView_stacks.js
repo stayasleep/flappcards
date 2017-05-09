@@ -8,12 +8,11 @@ import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import Badge from 'material-ui/Badge';
-import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 
 import {GridList, GridTile} from 'material-ui/GridList';
 class StackViewStacks extends Component{
-
 
     static contextTypes = {
         router: PropTypes.object
@@ -29,7 +28,6 @@ class StackViewStacks extends Component{
             gridList: {
                 width: 500,
                 height: 450,
-                overflowY: 'auto',
                 padding: 4,
                 cols: 3,
             },
@@ -41,8 +39,10 @@ class StackViewStacks extends Component{
                 display: "inline-block",
                 width: 500,
                 height:450,
+                margin: 2
             },
             cardTitle: {
+                titleColor: "blue"
 
             },
             cardActions: {
@@ -57,7 +57,7 @@ class StackViewStacks extends Component{
             return (
                 <GridTile key={index} style={styles.gridList}>
                 <Card style={styles.cardDisplay}>
-                    <CardTitle>
+                    <CardTitle style={styles.cardTitle}>
                         {item.question}
                     </CardTitle>
                     <CardText>
@@ -99,18 +99,17 @@ class StackViewStacks extends Component{
                         </div>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <Badge
-                                badgeContent={this.props.stackCards.length}
-                                primary={true}
-                            >
+                            <Chip>
+                                <Avatar size={32}>{this.props.stackCards.length}</Avatar>
                                 Number of Cards
-                            </Badge>
+                            </Chip>
                         </div>
                     </div>
                 </div>
-                <div style={styles.root}>
-                {cardStackList}
-                </div>
+
+                    <GridList style={styles.root}>
+                        {cardStackList}
+                    </GridList>
             </div>
         );
     }
