@@ -6,11 +6,14 @@ import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import {cardEditor, getStackOverview} from '../../actions/index';
-import {Link} from 'react-router'
-import StackViewStacks from '../stackOverview/stackView_stacks';
-import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types';
 
 class EditCard extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    };
+
     renderInput({input, label, type, meta: {touched, error}}){
         return (
             <TextField hintText={label}
@@ -32,7 +35,6 @@ class EditCard extends Component {
         cardObject.cardID = this.props.cardID.card_id;
         this.props.cardEditor(cardObject);
         if(cardObject){
-            this.setState({StackCards: this.props.stackCards});
             this.setState({open: false});
         }
     }
@@ -87,6 +89,6 @@ function mapStateToProps(state) {
 }
 
 // Connecting the edit card form values
-export default connect(mapStateToProps,{cardEditor, getStackOverview})(EditCard);
+export default connect(mapStateToProps,{cardEditor})(EditCard);
 
 
