@@ -9,7 +9,7 @@ import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
-
+import {GridList, GridTile} from 'material-ui/GridList';
 class StackViewStacks extends Component{
 
 
@@ -18,6 +18,20 @@ class StackViewStacks extends Component{
     };
 
     render() {
+        const styles = {
+            root: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around'
+            },
+            gridList: {
+                width: 500,
+                height: 450,
+                overflowY: 'auto'
+
+            }
+        };
+
         if (!this.props.stackCards) {
             return <div>Loading...</div>
         }
@@ -26,10 +40,13 @@ class StackViewStacks extends Component{
         };
         const cardDisplay = {
             display: "inline-block",
-            textAlign: "center"
+            textAlign: "center",
+            width: 500,
+            height:450
         };
         const cardStackList = this.props.stackCards.map((item, index) => {
             return (
+                <GridTile cols={3} cellHeight={200} padding={1} style={styles.gridList}>
                 <Card style={cardDisplay} key={index}>
                     <CardTitle>
                         {item.question}
@@ -42,6 +59,7 @@ class StackViewStacks extends Component{
                         <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                     </CardActions>
                 </Card>
+                </GridTile>
             )
         });
 
@@ -81,7 +99,9 @@ class StackViewStacks extends Component{
                         </div>
                     </div>
                 </div>
+                <div style={styles.root}>
                 {cardStackList}
+                </div>
             </div>
         );
     }

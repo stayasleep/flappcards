@@ -15,26 +15,32 @@ class Profile extends Component{
             height: "50vh",
             width: "50vw"
         };
+        const listStyle = {
+            listStyleType: "none"
+        };
+        // The list could be a map? But at this point, that feels like code golf
         return (
             <div>
                 <FlashCardsAppBar/>
                 <div>
                     <AccountCircle style={profileImg}/>
-                </div>
-                <div>
-                    Name: {this.props.name}
-                </div>
-                <div>
-                    Username: {this.props.username}
-                </div>
-                <div>
-                    Email: {this.props.email}
-                </div>
-                <div>
-                    Birthday: {this.props.birthday}
-                </div>
-                <div>
-                    Join Date: {this.props.joined}
+                    <ul style={listStyle}>
+                        <li>
+                            Name: {this.props.name}
+                        </li>
+                        <li>
+                            Username: {this.props.username}
+                        </li>
+                        <li>
+                            Email: {this.props.email}
+                        </li>
+                        <li>
+                            Birthday: {this.props.birthday}
+                        </li>
+                        <li>
+                            Join Date: {this.props.joined}
+                        </li>
+                    </ul>
                 </div>
             </div>
         )
