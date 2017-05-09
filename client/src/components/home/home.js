@@ -6,6 +6,15 @@ import {Link} from 'react-router'
 import RaisedButton from './../../../../node_modules/material-ui/RaisedButton';
 import Create from './../../../../node_modules/material-ui/svg-icons/content/create';
 class Home extends Component {
+
+    CreateButton() {
+        return (
+            <RaisedButton><Create /></RaisedButton>
+        );
+    }
+
+
+
     render(){
         return(
             <div>
@@ -20,14 +29,9 @@ class Home extends Component {
                         <Community/>
                     </ul>
                 </div>
-                <div className="mdl-grid">
                     <Link to="createCards" name="Create Cards">
-                    <button>
-                        <i className="material-icons">create</i>
-                    </button>
+                        <RaisedButton><Create/></RaisedButton>
                     </Link>
-                    {/*<RaisedButton label="Create cards" primary={true} icon={Create}/>*/}
-                </div>
             </div>
         )
     }

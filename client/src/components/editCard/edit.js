@@ -50,7 +50,7 @@ class EditCard extends Component {
             <div>
                 <RaisedButton label="Edit" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Are You Sure?"
+                    title="Are you sure you want to edit this card?"
                     modal={true}
                     open={this.state.open}
                 >
@@ -64,7 +64,7 @@ class EditCard extends Component {
                             <Field name="answer" component={this.renderInput} label="Answer"/>
                         </div>
                         <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
-                        <RaisedButton label="Yes" primary={true} type="submit"/>
+                        <RaisedButton label="Edit" primary={true} type="submit"/>
                     </form>
                 </Dialog>
             </div>
