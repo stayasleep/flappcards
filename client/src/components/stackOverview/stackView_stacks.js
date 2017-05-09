@@ -56,29 +56,8 @@ class StackViewStacks extends Component{
         if (!this.props.stackCards) {
             return <div>Loading...</div>
         }
-<<<<<<< HEAD
         let stackView;
         if(this.props.stackCards[0].isOwned) {
-            const cardStackList = this.props.stackCards.map((item, index) => {
-                return (
-                    <GridTile key={index} cols={3} cellHeight={200} padding={1} style={styles.gridList}>
-                        <Card style={styles.cardDisplay}>
-                            <CardTitle>
-                                {item.question}
-                            </CardTitle>
-                            <CardText>
-                                {item.answer}
-                            </CardText>
-                            <CardActions>
-                                <EditCard cardID={this.props.stackCards[index]}/>
-                                <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
-                            </CardActions>
-                        </Card>
-                    </GridTile>
-                )
-            });
-            stackView =
-=======
         const cardStackList = this.props.stackCards.map((item, index) => {
             return (
                 <GridTile key={index} style={styles.gridList}>
@@ -98,15 +77,15 @@ class StackViewStacks extends Component{
             )
         });
 
-        return (
-            <div>
-                <div style={styles.header}>
-                        {/* The subject and category are referenced once in this component, so we just pull off the category from the first card
-                         (this.props.stackCards[0]) since it applies to all cards in this view.
-                         */}
-                        <span>{this.props.stackCards[0].subject}</span>
-                </div>
->>>>>>> ad0dc0a7410c12aa47c8507125dec691a07a590d
+        {/*return (*/}
+            {/*<div>*/}
+                {/*<div style={styles.header}>*/}
+                        {/*/!* The subject and category are referenced once in this component, so we just pull off the category from the first card*/}
+                         {/*(this.props.stackCards[0]) since it applies to all cards in this view.*/}
+                         {/**!/*/}
+                        {/*<span>{this.props.stackCards[0].subject}</span>*/}
+                {/*</div>*/}
+                stackView=
                 <div>
                     <RaisedButton containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                     <div>
