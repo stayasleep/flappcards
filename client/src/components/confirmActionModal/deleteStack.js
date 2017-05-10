@@ -3,7 +3,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {deleteStack} from '../../actions/index';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
 class DeleteStackConfirm extends React.Component {
