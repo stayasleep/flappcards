@@ -30,7 +30,8 @@ class Recent extends Component {
                 cols: 1
             },
             header: {
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily: "Roboto, sans-serif"
             },
             cardDisplay: {
                 textAlign: "center",
@@ -86,7 +87,7 @@ class Recent extends Component {
         });
         return (
             <div>
-                <h1>Recent Stacks:</h1>
+                <h1 style={styles.header}>Recent Stacks:</h1>
                 {recentStacksList}
             </div>
         );

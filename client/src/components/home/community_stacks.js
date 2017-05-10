@@ -19,6 +19,7 @@ class Community extends Component {
 
     render() {
         const styles = {
+
             root: {
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -31,7 +32,8 @@ class Community extends Component {
                 cols: 1
             },
             header: {
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily: "Roboto, sans-serif"
             },
             cardDisplay: {
                 textAlign: "center",
@@ -87,7 +89,7 @@ class Community extends Component {
         });
         return (
             <div>
-                <h1>Community Stacks:</h1>
+                <h1 style={styles.header}>Community Stacks:</h1>
                 {communityStacksList}
             </div>
         );

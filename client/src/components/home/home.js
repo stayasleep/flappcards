@@ -8,8 +8,14 @@ import Create from 'material-ui/svg-icons/content/create';
 
 class Home extends Component {
     render(){
+        const styles = {
+            body: {
+                height: "100vh",
+                width: "100vw"
+            }
+        };
         return(
-            <div>
+            <div style={styles.body}>
                 <FlashCardsAppBar/>
                     <ul>
                         <Recent/>
