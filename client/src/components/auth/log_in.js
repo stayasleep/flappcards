@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {userLogin} from '../../actions/index';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import renderInput from '../utilities/renderInput';
 
 class LogIn extends Component {
     static contextTypes = {
@@ -14,18 +14,6 @@ class LogIn extends Component {
         // Action creator userLogin sends an axios call to the server
        this.props.userLogin(values);
     }
-    //TODO move renderInput into a separate common utilities folder?
-
-    renderInput({input, label, type, meta: {touched, error}}){
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
 
     render (){
         const { handleSubmit } = this.props;
@@ -33,8 +21,8 @@ class LogIn extends Component {
             <div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div>
-                        <Field name="userName" component={this.renderInput} label="Username"/>
-                        <Field name="password" component={this.renderInput} label="Password" type="password"/>
+                        <Field name="userName" component={renderInput} label="Username"/>
+                        <Field name="password" component={renderInput} label="Password" type="password"/>
                         <RaisedButton type="submit" label="Login"/>
                     </div>
                 </form>
