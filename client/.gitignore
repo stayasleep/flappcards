@@ -1,11 +1,3 @@
-.idea
-/client/.idea
+.idea/
 .DS_Store
-node_modules
-dist
-!dist/index.html
-C2.17_flash_cards/client/node_modules
-/client/node_modules
-./client/node_modules
-/skeleton_server/webserver.js
-/client/src/data/config_data.js
+node_modules/
