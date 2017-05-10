@@ -7,9 +7,6 @@ import thunk from 'redux-thunk';
 import {AUTH_USER} from './actions/types'
 
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-
 import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
@@ -31,12 +28,6 @@ import SingleCard from './components/singleCard/single_card';
 import landing from './components/auth/landing_page';
 import Error404 from './components/errors/404';
 
-const MaterializedApp = (props) => (
-    <MuiThemeProvider>
-        <App/>
-        {props.children}
-    </MuiThemeProvider>
-);
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
