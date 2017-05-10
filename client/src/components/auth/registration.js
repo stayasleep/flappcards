@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router'
 import {register} from '../../actions/index'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 
 class Registration extends Component {
 
@@ -28,9 +28,9 @@ class Registration extends Component {
     }
 
     componentDidUpdate(event){
-        var dateField = document.body.firstElementChild.children["0"].childNodes[1].childNodes[3].childNodes[1].childNodes[6].childNodes["0"].childNodes[2];
-        if(dateField) {
-            dateField.onkeyup = bar;
+        var dateField = ReactDOM.findDOMNode(this);
+        if(dateField.children[1].children[6].children["0"].children.birthday) {
+            dateField.children[1].children[6].children["0"].children.birthday.onkeyup = bar;
             function bar(evt) {
                 var v = this.value;
                 if (v.match(/^\d{4}$/) !== null) {
