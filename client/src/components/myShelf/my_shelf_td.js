@@ -5,10 +5,8 @@ import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
 import RaisedButton from 'material-ui/RaisedButton'
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
+import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-
 import Avatar from 'material-ui/Avatar';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
@@ -27,7 +25,9 @@ class Stacks extends Component {
                 textAlign: "center",
                 fontSize: "2em",
                 fontWeight: "bold",
-                fontFamily: "Roboto, sans-serif"
+                fontFamily: "Roboto, sans-serif",
+                paddingLeft: 0,
+                marginTop: "1em"
             },
             cardHeader: {
                 fontSize: "1em",
@@ -39,8 +39,12 @@ class Stacks extends Component {
                 float: "right",
                 marginRight: "1em"
             },
-            cardText : {
+            cardText: {
                 fontSize: "1em"
+            },
+            cardDisplay: {
+                marginTop: "1em",
+                marginBottom: "1em"
             }
         };
 

@@ -6,6 +6,7 @@ import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
 
 class Community extends Component {
     componentWillMount() {
@@ -50,7 +51,7 @@ class Community extends Component {
             return (
                 <List>
                     <Subheader style={styles.subHeader}>Community Stacks</Subheader>
-                    <div>
+                    <div style={{fontFamily: "Roboto, sans-serif"}}>
                         Oops! Looks like you own all the community content!
                     </div>
                 </List>
@@ -60,10 +61,16 @@ class Community extends Component {
             return (
                 <Card key={index} style={styles.cardDisplay}>
                     <CardHeader
-                        title={item.subject}
-                        subtitle={item.category}
+                        title={`Subject: ${item.subject}`}
+                        subtitle={`Category: ${item.category}`}
+                        avatar={<Avatar>{item.totalCards}</Avatar>}
                         style={styles.cardHeader}
                     />
+                    <CardText>
+                        Created by: {item.createdBy}
+                        Created On: {item.createdOn}
+                        Rating: {item.stackRating}
+                    </CardText>
                     <CardActions>
                         <RaisedButton
                             containerElement={<Link to={`/stackOverview/${this.props.communityStacks[index].stack_id}`} name="stackOverview"/>}
@@ -71,12 +78,6 @@ class Community extends Component {
                             View
                         </RaisedButton>
                     </CardActions>
-                    <CardText>
-                        Created by: {item.createdBy}
-                        Total Cards: {item.totalCards}
-                        Last Played: {item.lastPlayed}
-                        Rating: {item.stackRating}
-                    </CardText>
                 </Card>
             )
         });

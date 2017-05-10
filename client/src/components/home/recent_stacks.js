@@ -6,6 +6,7 @@ import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import Subheader from 'material-ui/Subheader';
 import {List} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 
 class Recent extends Component {
     componentWillMount() {
@@ -51,7 +52,7 @@ class Recent extends Component {
             return (
                 <List>
                     <Subheader style={styles.subHeader}>Recent Stacks:</Subheader>
-                    <div>
+                    <div style={{fontFamily: "Roboto, sans-serif"}}>
                         Oops! Looks like your shelf is empty. Create a stack or take a took at some community content below!
                     </div>
                 </List>
@@ -61,8 +62,9 @@ class Recent extends Component {
             return (
                     <Card key={index} style={styles.cardDisplay}>
                         <CardHeader
-                            title={item.subject}
-                            subtitle={item.category}
+                            title={`Subject: ${item.subject}`}
+                            subtitle={`Category: ${item.category}`}
+                            avatar={<Avatar>{item.totalCards}</Avatar>}
                             style={styles.cardHeader}
                         />
                         <CardText>
