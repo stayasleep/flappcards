@@ -7,6 +7,9 @@ import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {browserHistory} from 'react-router'
+import IconButton from 'material-ui/IconButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import {red500} from 'material-ui/styles/colors';
 
 
 class CreateCards extends Component {
@@ -30,21 +33,33 @@ class CreateCards extends Component {
     }
 
     renderCards({fields, meta: {touched, error, submitFailed}}) {
+        const styles = {
+            listStyleType: "none",
+            mediumIcon: {
+                width: "48px",
+                height: "48px"
+            },
+            medium: {
+                width: "96px",
+                height: "96px",
+                padding: "24px"
+            }
+        };
         return (
-            <ul>
+            <ul style={{listStyleType: "none"}}>
                 <li>
                     <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
                     {(touched || submitFailed) && error && <span>{error}</span>}
                 </li>
                 {fields.map((stack, index) => (
                     <li key={index}>
-                        <RaisedButton
-                            type="button"
-                            title="Remove Card"
-                            onClick={() => fields.remove(index)}
-                            label="Remove Card"
-                        />
-                        <h4 style={{fontFamily: "Roboto, sans-serif"}}>Card #{index + 1}</h4>
+
+                        <h4 style={{fontFamily: "Roboto, sans-serif"}}>Card #{index + 1}
+                        <IconButton iconStyle={`${styles.mediumIcon}`} style={`${styles.medium}`} tooltip="Remove Card" label="Remove Card" tooltipPosition="top-right" onTouchTap={()=> fields.remove(index)}>
+                            <ActionDelete hoverColor={red500}/>
+                        </IconButton>
+                        </h4>
+
                         <Field
                             name={`${stack}.question`}
                             type="text"

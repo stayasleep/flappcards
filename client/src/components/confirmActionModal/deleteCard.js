@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import {deleteCard, getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-
+import {red500} from 'material-ui/styles/colors';
 
 class DeleteCardConfirm extends React.Component {
     state = {
@@ -55,8 +55,8 @@ class DeleteCardConfirm extends React.Component {
 
         return (
             <div>
-                <IconButton iconStyle={styles.mediumIcon} style={styles.medium} tooltip="Delete" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
-                    <ActionDelete/>
+                <IconButton iconStyle={styles.mediumIcon} style={styles.medium} tooltip="Delete" tooltipPosition="top-center" onTouchTap={this.handleOpen}>
+                    <ActionDelete hoverColor={red500}/>
                 </IconButton>
                 <Dialog
                     title="Are you sure you want to remove this card from the stack?"

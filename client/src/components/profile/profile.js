@@ -14,7 +14,8 @@ class Profile extends Component{
             width: "50vw"
         };
         const listStyle = {
-            listStyleType: "none"
+            listStyleType: "none",
+            fontFamily: "Roboto, sans-serif"
         };
         // The list could be a map? But at this point, that feels like code golf
         return (
