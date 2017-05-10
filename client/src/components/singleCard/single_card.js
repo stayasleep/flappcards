@@ -20,12 +20,14 @@ class SingleCard extends Component {
         const {card} = this.state;
         // card === cards.length-1 means that you are at the end of the deck
         // So we reset card to 0 giving the appearance of the deck wrapping around
+        this.props.params.cid = this.props.cards[card].card_id +1;
         if (card === this.props.cards.length-1) {
             this.setState({card: 0 },
                 () => {this.updateItem(this.state.card)});
         }
         else {
             console.log("nextCard, inside of else statement, card", card);
+            this.props.params.cid = this.props.cards[card].card_id +1;
             this.setState({
                 card: this.state.card+1},
                 () => {this.updateItem(this.state.card)}
@@ -36,11 +38,13 @@ class SingleCard extends Component {
     }
     prevCard() {
         const {card} = this.state;
+        this.props.params.cid = this.props.cards[card].card_id -1;
         if (this.state.card === 0){
             this.setState({card: this.props.cards.length-1}, () => {this.updateItem(this.state.card)});
         }
         else {
             console.log("prevCard setState else statement");
+            this.props.params.cid = this.props.cards[card].card_id -1;
             this.setState({
                 card: this.state.card - 1},
             () => {this.updateItem(this.state.card)
@@ -64,7 +68,7 @@ class SingleCard extends Component {
         if(this.props.cards && this.props.cards[this.state.card].card_id !== parseInt(this.props.params.cid)){
             for(var i = 0; i < this.props.cards.length; i++){
                 if(this.props.cards[i].card_id === parseInt(this.props.params.cid)){
-                    this.setState({card: i})
+                    this.setState({card: i});
                 }
             }
         }
