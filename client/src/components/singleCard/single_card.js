@@ -43,7 +43,7 @@ class SingleCard extends Component {
             console.log("prevCard setState else statement");
             this.setState({
                 card: this.state.card - 1},
-            () => {this.updateItem(this.state)
+            () => {this.updateItem(this.state.card)
 
             })
         }
