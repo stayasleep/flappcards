@@ -10,7 +10,8 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
-import {GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 
 class StackViewStacks extends Component{
 
@@ -18,10 +19,9 @@ class StackViewStacks extends Component{
         router: PropTypes.object
     };
     handleCopy(copy){
-        console.log(copy);
+        console.log("handleCopy function called; copy:", copy);
         this.props.stackCopy(copy);
     };
-
     render() {
         const styles = {
             root: {
@@ -36,7 +36,8 @@ class StackViewStacks extends Component{
                 cols: 3
             },
             header: {
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily: "Roboto, sans-serif"
             },
             cardDisplay: {
                 textAlign: "center",
@@ -52,6 +53,15 @@ class StackViewStacks extends Component{
             },
             chip :{
                 paddingRight: 0
+            },
+            mediumIcon: {
+                width: 48,
+                height: 48
+            },
+            medium: {
+                width: 96,
+                height: 96,
+                padding: 24
             }
         };
 
@@ -62,7 +72,6 @@ class StackViewStacks extends Component{
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <GridTile key={index} style={styles.gridList}>
                         <Card style={styles.cardDisplay}>
                             <CardTitle>
                                 {item.question}
@@ -75,7 +84,6 @@ class StackViewStacks extends Component{
                                 <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                             </CardActions>
                         </Card>
-                    </GridTile>
                 )
             });
             // Bitten by a snake while struck by lightning on this part right here
@@ -92,8 +100,7 @@ class StackViewStacks extends Component{
         else if(this.props.stackCards){
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <GridTile key={index} style={styles.gridList}>
-                        <Card style={styles.cardDisplay}>
+                        <Card key={index} style={styles.cardDisplay}>
                             <CardTitle>
                                 {item.question}
                             </CardTitle>
@@ -101,13 +108,15 @@ class StackViewStacks extends Component{
                                 {item.answer}
                             </CardText>
                         </Card>
-                    </GridTile>
+
                 )
             });
             stackView =
                 <div>
                     <div>
-                        <RaisedButton name="Copy" onClick={() => {this.handleCopy(this.props.stackCards[0])}} label="copy"/>
+                        <IconButton iconStyle={styles.mediumIcon} style={styles.medium} label="Copy" tooltip="Copy Stack" tooltipPosition="top-center" onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}>
+                            <ContentContentCopy/>
+                        </IconButton>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                             <Chip style={styles.chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
@@ -119,13 +128,15 @@ class StackViewStacks extends Component{
         return (
             <div>
                 <div style={styles.header}>
-                    <span>{this.props.stackCards[0].subject}</span>
+                <div>
+                    <span>{`Subject: ${this.props.stackCards[0].subject}`}</span>
                 </div>
                 <div>
-                    <span>{this.props.stackCards[0].category}</span>
+                    <span>{`Category: ${this.props.stackCards[0].category}`}</span>
                 </div>
                 <div>
-                    <span>Made by: {this.props.stackCards[0].createdBy}</span>
+                    <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
+                </div>
                 </div>
                 {stackView}
             </div>

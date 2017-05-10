@@ -2,8 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
-const connection = require('../config/config'); // So connection credentials can be ignored
-const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
+const connection = require('../server/config/config'); // So connection credentials can be ignored
+const config = require('../server/config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
 const bcrypt = require('bcryptjs'); // Hashing
 const jwt = require('jsonwebtoken'); // For token
 
@@ -153,9 +153,9 @@ router.post('/community', (request,response) => {
 // Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response)=> {
     let un = request.decoded.UserName;
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
         "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
-        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.last_played DESC LIMIT 1 ", [un], (err, results) => {
+        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.stack_id DESC LIMIT 2 ", [un], (err, results) => {
         if (err) {
             response.send("Uh oh");
         } else if (results.length > 0) {
@@ -168,7 +168,6 @@ router.post('/home', (request,response)=> {
 
 // Associated Axios call: getStack;
 // Made after clicking on view button on table
-//TODO implement /stackOverview/:uID/:sID version?
 router.post('/stackOverview/:sID',(request,response) => {
     let uid = request.decoded.UserID;
     let sid = request.params.sID;
@@ -251,7 +250,7 @@ router.post('/copy/:stackId',(request,response)=>{
                 response.send("Error Connecting");
             }
             //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
-            console.log('my copied id',results[1].insertId);
+            // console.log('my copied id',results[1].insertId); // Sends the ID of the stack
             response.send(results[1]);
         }
     );
@@ -366,11 +365,11 @@ router.post('/createCards',(request,response)=>{
 router.post('/myShelf',(request,response)=> {
     console.log("request.body", request.body);
     let uid = request.decoded.UserID;
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played, stacks.rating as 'stackRating', " +
+    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
         "cards.orig_source_stack, " +
         "COUNT(*) AS 'totalCards' FROM stacks " +
         "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
-        "GROUP BY stacks.subject", [uid], (err, results) => {
+        "GROUP BY stacks.stack_id", [uid], (err, results) => {
         if (err) {
             console.log(err);
             response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing

@@ -1,60 +1,58 @@
 import React, {Component} from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {browserHistory} from 'react-router'
+import IconButton from 'material-ui/IconButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import {red500} from 'material-ui/styles/colors';
+import renderInput from '../utilities/renderInput';
 
 
 class CreateCards extends Component {
 
-    constructor(props){
-        super(props);
-        // bind this so renderInput is defined for renderCards
-        this.renderInput = this.renderInput.bind(this);
-        this.renderCards = this.renderCards.bind(this);
-    }
-
-    renderInput({input, label, type, meta: {touched, error}}) {
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
 
     renderCards({fields, meta: {touched, error, submitFailed}}) {
+        const styles = {
+            listStyleType: "none",
+            mediumIcon: {
+                width: "48px",
+                height: "48px"
+            },
+            medium: {
+                width: "96px",
+                height: "96px",
+                padding: "24px"
+            }
+        };
         return (
-            <ul>
+            <ul style={{listStyleType: "none"}}>
                 <li>
                     <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
                     {(touched || submitFailed) && error && <span>{error}</span>}
                 </li>
                 {fields.map((stack, index) => (
                     <li key={index}>
-                        <RaisedButton
-                            type="button"
-                            title="Remove Card"
-                            onClick={() => fields.remove(index)}
-                            label="Remove Card"
-                        />
-                        <h4>Card #{index + 1}</h4>
+
+                        <h4 style={{fontFamily: "Roboto, sans-serif"}}>Card #{index + 1}
+                        <IconButton iconStyle={`${styles.mediumIcon}`} style={`${styles.medium}`} tooltip="Remove Card" label="Remove Card" tooltipPosition="top-right" onTouchTap={()=> fields.remove(index)}>
+                            <ActionDelete hoverColor={red500}/>
+                        </IconButton>
+                        </h4>
+
                         <Field
                             name={`${stack}.question`}
                             type="text"
-                            component={this.renderInput}
+                            component={renderInput}
                             label="Question"
                         />
                         <Field
                             name={`${stack}.answer`}
                             type="text"
-                            component={this.renderInput}
+                            component={renderInput}
                             label="Answer"
                         />
                     </li>
@@ -80,13 +78,13 @@ class CreateCards extends Component {
                     <Field
                         name="subject"
                         type="text"
-                        component={this.renderInput}
+                        component={renderInput}
                         label="Subject"
                     />
                     <Field
                         name="category"
                         type="text"
-                        component={this.renderInput}
+                        component={renderInput}
                         label="Category"
                     />
                     <FieldArray name="stack" component={this.renderCards} />

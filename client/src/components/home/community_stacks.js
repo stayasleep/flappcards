@@ -4,7 +4,9 @@ import {connect} from 'react-redux';
 import {getCommunityStacksOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import {GridTile} from 'material-ui/GridList';
+import {List} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
 
 class Community extends Component {
     componentWillMount() {
@@ -19,58 +21,53 @@ class Community extends Component {
 
     render() {
         const styles = {
-            root: {
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around'
-            },
-            gridList: {
-                width: 500,
-                height: 450,
-                padding: "1em",
-                cols: 1
-            },
-            header: {
-                textAlign: "center"
-            },
-            cardDisplay: {
+            subHeader: {
                 textAlign: "center",
-                display: "inline-block",
-                width: 500,
-                height:450,
+                fontSize: "2em",
+                fontWeight: "bold",
+                fontFamily: "Roboto, sans-serif",
+                paddingLeft: 0
             },
-            cardTitle: {
-
+            cardHeader: {
+                fontSize: "1em",
+                fontWeight: "bold"
             },
             cardActions: {
-
+                position: "relative",
+                display: "inline-flex",
+                float: "right",
+                marginRight: "1em"
             },
-            chip: {
-                paddingRight: 0
+            cardText : {
+                fontSize: "1em"
+            },
+            cardDisplay: {
+                marginTop: "1em",
+                marginBottom: "1em"
             }
         };
 
         if (!this.props.communityStacks) {
             return (
-                <div>
-                    <h1>Community Stacks:</h1>
-                    <div>
+                <List>
+                    <Subheader style={styles.subHeader}>Community Stacks</Subheader>
+                    <div style={{fontFamily: "Roboto, sans-serif"}}>
                         Oops! Looks like you own all the community content!
                     </div>
-                </div>
+                </List>
             )
         }
         const communityStacksList = this.props.communityStacks.map((item, index) => {
             return (
-                <GridTile key={index} style={styles.gridList}>
-                <Card style={styles.cardDisplay}>
+                <Card key={index} style={styles.cardDisplay}>
                     <CardHeader
-                        title={item.subject}
-                        subtitle={item.category}
+                        title={`Subject: ${item.subject}`}
+                        subtitle={`Category: ${item.category}`}
+                        avatar={<Avatar>{item.totalCards}</Avatar>}
+                        style={styles.cardHeader}
                     />
                     <CardText>
                         Created by: {item.createdBy}
-                        Total Cards: {item.totalCards}
                         Created On: {item.createdOn}
                         Rating: {item.stackRating}
                     </CardText>
@@ -82,14 +79,13 @@ class Community extends Component {
                         </RaisedButton>
                     </CardActions>
                 </Card>
-                </GridTile>
             )
         });
         return (
-            <div>
-                <h1>Community Stacks:</h1>
+            <List>
+                <Subheader style={styles.subHeader}>Community Stacks</Subheader>
                 {communityStacksList}
-            </div>
+            </List>
         );
     }
 }
