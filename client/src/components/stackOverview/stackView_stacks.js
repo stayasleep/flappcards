@@ -19,7 +19,7 @@ class StackViewStacks extends Component{
         router: PropTypes.object
     };
     handleCopy(copy){
-        console.log(copy);
+        console.log("handleCopy function called; copy:", copy);
         this.props.stackCopy(copy);
     };
     render() {
