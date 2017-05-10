@@ -83,14 +83,14 @@ class SingleCard extends Component {
                     document.getElementById('question').style.display = 'none';
                     document.getElementById('answer').style.display = 'block';
                     flip = false;
-                }, 1000);
+                }, 200);
             } else {
                 this.classList.toggle('flippedCard');
                 setTimeout(function () {
                     document.getElementById('question').style.display = 'block';
                     document.getElementById('answer').style.display = 'none';
                     flip = true;
-                }, 300);
+                }, 200);
             }
         }
     }
