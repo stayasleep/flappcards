@@ -56,13 +56,21 @@ class SingleCard extends Component {
     componentWillMount() {
         const { sid } = this.props.params;
         const {cid} = this.props.params;
-        console.log("sid in stackoverview", sid); // {sid} = sid.sid
         this.props.getStackOverview(sid);
         this.props.getCard(cid)
     }
     componentDidUpdate(){
         var flip = true;
-        document.getElementById('questionCard').addEventListener('click', switchDisplay);
+        if(this.props.cards && this.props.cards[this.state.card].card_id !== parseInt(this.props.params.cid)){
+            for(var i = 0; i < this.props.cards.length; i++){
+                if(this.props.cards[i].card_id === parseInt(this.props.params.cid)){
+                    this.setState({card: i})
+                }
+            }
+        }
+        if(document.getElementById('questionCard')) {
+            document.getElementById('questionCard').addEventListener('click', switchDisplay);
+        }
         function switchDisplay() {
             var questionCard = document.getElementById('questionCard');
             if (flip) {
