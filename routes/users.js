@@ -251,7 +251,7 @@ router.post('/copy/:stackId',(request,response)=>{
                 response.send("Error Connecting");
             }
             //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
-            console.log('my copied id',results[1].insertId); // Sends the ID of the stack
+            // console.log('my copied id',results[1].insertId); // Sends the ID of the stack
             response.send(results[1]);
         }
     );

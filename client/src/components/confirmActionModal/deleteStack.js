@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {deleteStack} from '../../actions/index';
+import {deleteStack, getMyStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 
 class DeleteStackConfirm extends React.Component {
@@ -14,6 +14,7 @@ class DeleteStackConfirm extends React.Component {
     handleDelete(stackObject){
         console.log("Stack to be deleted: ",stackObject.stack_id);
         this.props.deleteStack(stackObject.stack_id);
+        this.props.getMyStackOverview();
     }
 
     handleOpen = () => {
@@ -54,4 +55,4 @@ class DeleteStackConfirm extends React.Component {
     }
 }
 
-export default connect(null, {deleteStack})(DeleteStackConfirm);
+export default connect(null, {deleteStack, getMyStackOverview})(DeleteStackConfirm);
