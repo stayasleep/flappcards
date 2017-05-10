@@ -6,7 +6,8 @@ const default_state ={
     creator: "",
     number: "",
     single: [],
-    stacks: []
+    stacks: [],
+    card: 0
 };
 
 

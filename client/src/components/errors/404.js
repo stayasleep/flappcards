@@ -1,5 +1,5 @@
 import React from 'react';
-import flash404 from '../imgs/404flash.jpg'
+import flash404 from '../imgs/404Error.png'
 import FlatButton from 'material-ui/FlatButton'
 import {Link} from 'react-router'
 
@@ -8,7 +8,7 @@ function Error404() {
         backgroundImage: `url(${flash404})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain",
-        width: "100%",
+        width: "100vw",
         height: "100vh",
         position: "relative"
     };
@@ -21,7 +21,6 @@ function Error404() {
         return (
             <div style={notFound}>
                 <div style={errorMsg}>
-                    <h1>404 Error</h1>
                     <FlatButton label="Back to Home" containerElement={<Link to="/home" name="Return"/>}/>
                 </div>
             </div>

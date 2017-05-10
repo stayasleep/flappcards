@@ -50,7 +50,7 @@ class StackViewStacks extends Component{
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <GridTile key={index} cols={3} cellHeight={200} padding={1} style={styles.gridList}>
+                    <GridTile key={index} cols={3} style={styles.gridList}>
                         <Card style={styles.cardDisplay}>
                             <CardTitle>
                                 {item.question}
