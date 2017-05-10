@@ -150,10 +150,10 @@ class SingleCard extends Component {
             <div>
                 <div style={cardStyle} id="questionCard">
                     <h2 style={question} id="question">
-                        {card.question}
+                        Question: {card.question}
                     </h2>
                     <h2 style={answer} id="answer">
-                        {card.answer}
+                        Answer: {card.answer}
                     </h2>
                 </div>
                 <div  style={centered}>
