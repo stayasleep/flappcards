@@ -21,7 +21,6 @@ class StackViewStacks extends Component{
         console.log(copy);
         this.props.stackCopy(copy);
     };
-
     render() {
         const styles = {
             root: {
