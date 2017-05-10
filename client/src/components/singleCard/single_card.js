@@ -54,7 +54,11 @@ class SingleCard extends Component {
         this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
     }
     componentWillMount() {
-        console.log("single_card view");
+        const { sid } = this.props.params;
+        const {cid} = this.props.params;
+        console.log("sid in stackoverview", sid); // {sid} = sid.sid
+        this.props.getStackOverview(sid);
+        this.props.getCard(cid)
     }
     componentDidUpdate(){
         var flip = true;
