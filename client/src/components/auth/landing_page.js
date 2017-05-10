@@ -11,45 +11,51 @@ import Registration from './registration';
 import Login from './log_in';
 import {GridList, GridTile} from 'material-ui/GridList';
 
+const styles = {
+    title: {
+        cursor: 'pointer',
+    },
+    div:{
+        display:'flex',
+        flexDirection:'row wrap',
+        padding:20,
+        width: '100%'
+    },
+    paperLeft: {
+        flex: 1,
+        height: '100%',
+        margin: 10,
+        textAlign: 'center',
+        padding: 10,
+    },
+    paperRight:{
+        height:600,
+        flex: 4,
+        margin: 10,
+        textAlign: 'center',
+    },
+    loginStyle:{
+        position: "relative",
+        width: "70%",
+        height: "100%"
+    },
+    inputStyle:{
+        height: "50%"
+    },
+    mesgStyle:{
+        textAlign: "center",
+        fontSize: "4vh"
+    },
+    subs:{
+        margin:"5%",
+    },
+    midT:{
+        color: 'red',
+    }
+};
+
 class landing extends Component {
     render (){
-        const styles = {
-            title: {
-                cursor: 'pointer',
-            },
-            root:{
-                display:'flex',
-                flexWrap:'wrap',
-                justifyContent:'space-around'
-            },
-            gridList: {
-                width: 500,
-                height: 450,
-                overflowY: 'auto',
-                padding: 4,
-                cols: 2,
-            },
-            titles:{
-                marginBottom: '10vh',
-                marginLeft: '20vw',
-            },
-            midT:{
-                color:'red',
-            }
-        };
-        const loginStyle = {
-            position: "relative",
-            width: "70%",
-            height: "100%"
-        };
-        const inputStyle = {
-            height: "50%"
-        };
-        const mesgStyle = {
-            textAlign: "center",
-            fontSize: "4vh"
-        };
-
         return (
             <div>
                 <Toolbar style={styles.header}>
@@ -58,18 +64,19 @@ class landing extends Component {
                         <Login/>
                     </ToolbarGroup>
                 </Toolbar>
-                <div>
-                    <h1 style={styles.titles}>FL<span style={styles.midT}>APP</span>CARDS</h1>
-                    <h3>The #1 Flashcard-App Around!</h3><br/>
-
-                    <h5>Create personalized study stacks or search new topics at the click of a button.</h5><br/>
-
-                    <h5>Our mission is to make learning easier for everybody.</h5><br/>
-                    <h5>Improve your grades by studying with FlappCards.  It's easy to use, fun, and always free!</h5><br/>
-
-                    <h6>Find more of what you're looking for on FlappCards,</h6><br/>
-                    <h6>Join Today!</h6>
-                    <Registration/>
+                <div style={styles.div}>
+                    <div style={styles.paperRight}>
+                        <h1>FL<span style={styles.midT}>APP</span>CARDS</h1>
+                        <h3 style={styles.subs}>The #1 Flashcard-App Around!</h3>
+                        <h3 style={styles.subs}>Create personalized study stacks or search new topics at the click of a button.</h3>
+                        <h3 style={styles.subs}>Our mission is to make learning easier for everybody.</h3>
+                        <h3 style={styles.subs}>Improve your grades by studying with FlappCards.  It's easy to use, fun, and always free!</h3>
+                        <h3 style={styles.subs}>Find more of what you're looking for on FlappCards,</h3>
+                        <h3 style={styles.subs}>Join Today!</h3>
+                    </div>
+                    <div style={styles.paperLeft}>
+                        <Registration/>
+                    </div>
                 </div>
             </div>
         )
