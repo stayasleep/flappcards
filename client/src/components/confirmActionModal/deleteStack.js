@@ -3,7 +3,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {deleteStack} from '../../actions/index';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
 class DeleteStackConfirm extends React.Component {
@@ -33,7 +32,7 @@ class DeleteStackConfirm extends React.Component {
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
-                label="Yes"
+                label="Delete Stack"
                 primary={true}
                 onTouchTap={this.handleClose}
                 onClick={() => {this.handleDelete(this.props.stackID)}}
@@ -44,7 +43,7 @@ class DeleteStackConfirm extends React.Component {
             <div>
                 <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Are You Sure?"
+                    title="Are you sure you want to delete this stack?"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
