@@ -29,6 +29,7 @@ class EditCard extends Component {
         this.props.cardEditor(cardObject);
         if(cardObject){
             this.setState({open: false});
+            this.props.getStackOverview(this.props.cardID.stack_id);
         }
     }
 

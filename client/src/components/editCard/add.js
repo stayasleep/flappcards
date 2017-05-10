@@ -4,9 +4,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import {addSingleCard} from '../../actions/index';
 import renderInput from '../utilities/renderInput';
-
+import {addSingleCard, getStackOverview} from '../../actions/index';
 
 class AddCard extends Component {
     state = {
@@ -19,7 +18,8 @@ class AddCard extends Component {
         cardObject.stack_id = this.props.stackCards[0].stack_id;
         this.props.addSingleCard(cardObject);
         if(cardObject){
-            this.setState({open: false})
+            this.setState({open: false});
+            this.props.getStackOverview(cardObject.stack_id);
         }
     }
 
@@ -73,4 +73,4 @@ function mapStateToProps(state) {
 }
 
 // Connecting the add card form values
-export default connect(mapStateToProps,{addSingleCard})(AddCard);
+export default connect(mapStateToProps,{addSingleCard, getStackOverview})(AddCard);
