@@ -8,8 +8,7 @@ import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-
-
+import {subHeader, cardHeader, cardActions, cardText, cardDisplay} from '../utilities/stackSummaryStyle';
 
 class Stacks extends Component {
 
@@ -18,67 +17,40 @@ class Stacks extends Component {
     }
 
     render() {
-        // Doesn't need to be called "styles" but it makes it clear what it does
-        const styles = {
-            subHeader: {
-                textAlign: "center",
-                fontSize: "2em",
-                fontWeight: "bold",
-                fontFamily: "Roboto, sans-serif",
-                paddingLeft: 0,
-                marginTop: "1em"
-            },
-            cardHeader: {
-                fontSize: "1em",
-                fontWeight: "bold"
-            },
-            cardActions: {
-                position: "relative",
-                display: "inline-flex",
-                float: "right",
-                marginRight: "1em"
-            },
-            cardText: {
-                fontSize: "1em"
-            },
-            cardDisplay: {
-                marginTop: "1em",
-                marginBottom: "1em"
-            }
-        };
-
         if(!this.props.stacks){
-            return <div>Loading...</div>
+            return (
+                <List>
+                    <Subheader style={subHeader}>My Shelf</Subheader>
+                    Loading...
+                </List>
+            )
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <Card key={index} style={styles.cardDisplay}>
+                <Card key={index} style={cardDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar>{item.totalCards}</Avatar>}
-                        style={styles.cardHeader}
+                        style={cardHeader}
                     />
-                    <CardActions style={styles.cardActions}>
+                    <CardActions style={cardActions}>
                         <RaisedButton
                             containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
                             View
                         </RaisedButton>
                         <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </CardActions>
-                    <CardText style={styles.cardText}>{`Rating: ${item.stackRating}`}</CardText>
+                    <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>
                 </Card>
             )
         });
         return (
             <List>
-                <Subheader style={styles.subHeader}>My Shelf</Subheader>
+                <Subheader style={subHeader}>My Shelf</Subheader>
                     {stacksList}
             </List>
-
         );
-
-
     }
 }
 function mapStateToProps(state) {

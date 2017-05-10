@@ -8,7 +8,7 @@ class Stacks extends Component {
     const { sid } = this.props.params; // To pull from the url
     console.log("sid in stackoverview", sid); // {sid} = sid.sid
     this.props.getStackOverview(sid);
-}
+    }
     render() {
         return (
             <div>
