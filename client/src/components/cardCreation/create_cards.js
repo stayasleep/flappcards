@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
