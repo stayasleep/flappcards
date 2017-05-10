@@ -22,7 +22,8 @@ class Profile extends Component{
         const listStyle = {
             textAlign: "center",
             listStyleType: "none",
-            fontFamily: "Roboto, sans-serif"
+            fontFamily: "Roboto, sans-serif",
+            marginTop: "1em"
         };
         // The list could be a map? But at this point, that feels like code golf
         return (
