@@ -142,6 +142,7 @@ router.post('/community', (request,response) => {
             response.send("Uh oh");
         }
         else if (results.length > 0) {
+            console.log('comm res',results);
             response.send(results);
         }
         else {
@@ -414,7 +415,6 @@ router.post('/search',(request,response)=>{
                response.send("Uh oh");
            }else{
                console.log("youre searching for ",fromSearch);
-               // console.log("response",response);
                console.log("searched results ",results);
                response.send(results);
            }

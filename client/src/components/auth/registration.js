@@ -50,6 +50,7 @@ class Registration extends Component {
             textAlign: "center",
             paddingRight: "10%"
         };
+
         return (
             <div style={regStyle}>
                 <h1>Register</h1>
