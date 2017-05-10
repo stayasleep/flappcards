@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {Link} from 'react-router';
 import {Field, reduxForm} from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import {searchStacks} from '../../actions/index'
 import {connect} from 'react-redux'
@@ -14,18 +13,9 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import renderInput from '../utilities/renderInput';
 
-class Search extends Component{
-
-    renderInput({input, label, meta: {touched, error}}){
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       {...input}
-            />
-        )
-    }
+class Search extends Component {
 
     handleSearch(search){
         this.props.searchStacks(search);
@@ -56,7 +46,7 @@ class Search extends Component{
             <div>
                 <FlashCardsAppBar/>
                 <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
-                    <Field name="Search" component={this.renderInput} label="Search Category or Subject"/>
+                    <Field name="Search" component={renderInput} label="Search Category or Subject"/>
                     <RaisedButton type="submit" label="Search"/>
                 </form>
                 <Table>

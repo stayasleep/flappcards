@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
@@ -10,27 +9,11 @@ import {browserHistory} from 'react-router'
 import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
+import renderInput from '../utilities/renderInput';
 
 
 class CreateCards extends Component {
 
-    constructor(props){
-        super(props);
-        // bind this so renderInput is defined for renderCards
-        this.renderInput = this.renderInput.bind(this);
-        this.renderCards = this.renderCards.bind(this);
-    }
-
-    renderInput({input, label, type, meta: {touched, error}}) {
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
 
     renderCards({fields, meta: {touched, error, submitFailed}}) {
         const styles = {
@@ -63,13 +46,13 @@ class CreateCards extends Component {
                         <Field
                             name={`${stack}.question`}
                             type="text"
-                            component={this.renderInput}
+                            component={renderInput}
                             label="Question"
                         />
                         <Field
                             name={`${stack}.answer`}
                             type="text"
-                            component={this.renderInput}
+                            component={renderInput}
                             label="Answer"
                         />
                     </li>
@@ -95,13 +78,13 @@ class CreateCards extends Component {
                     <Field
                         name="subject"
                         type="text"
-                        component={this.renderInput}
+                        component={renderInput}
                         label="Subject"
                     />
                     <Field
                         name="category"
                         type="text"
-                        component={this.renderInput}
+                        component={renderInput}
                         label="Category"
                     />
                     <FieldArray name="stack" component={this.renderCards} />
