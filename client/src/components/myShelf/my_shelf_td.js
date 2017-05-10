@@ -52,7 +52,7 @@ class Stacks extends Component {
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <Card key={index}>
+                <Card key={index} style={styles.cardDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         subtitle={`Category: ${item.category}`}
