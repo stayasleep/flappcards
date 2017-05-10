@@ -239,8 +239,8 @@ router.post('/stackOverview/:sID',(request,response) => {
 router.post('/copy/:stackId',(request,response)=>{
     let uid = request.decoded.UserID;
     let sId = request.params.stackId;
-    let commSubj = request.body.subject;
-    let commCat = request.body.category;
+    let commSubj = request.body.stack.subject;
+    let commCat = request.body.stack.category;
     connection.query(
         "BEGIN; " +
         "INSERT INTO stacks(user_id, subject, category,copied_stack) VALUES (?,?,?,?); "+
@@ -250,11 +250,9 @@ router.post('/copy/:stackId',(request,response)=>{
             if (err){
                 response.send("Error Connecting");
             }
-            console.log('res of inserted stack id',results[0].insertId);
-            //this is the ID of the copied stack, can use to perform next query and redirect into stack overview
-            // idCopiedStack = strJ[1];
-            // console.log("user "+uid+" made a stack from stack "+sid,idCopiedStack.insertId);
-            // response.json({success:true, msg:"Stack was just copied"});
+            //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
+            console.log('my copied id',results[1].insertId);
+            response.send(results[1]);
         }
     );
 });
