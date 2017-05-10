@@ -26,7 +26,7 @@ class Recent extends Component {
             gridList: {
                 width: 500,
                 height: 450,
-                padding: 4,
+                padding: "1em",
                 cols: 1
             },
             header: {
