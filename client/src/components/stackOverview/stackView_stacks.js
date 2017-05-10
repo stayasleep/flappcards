@@ -74,10 +74,10 @@ class StackViewStacks extends Component{
                 return (
                         <Card key={index} style={styles.cardDisplay}>
                             <CardTitle>
-                                {item.question}
+                                Question: {item.question}
                             </CardTitle>
                             <CardText>
-                                {item.answer}
+                                Answer: {item.answer}
                             </CardText>
                             <CardActions>
                                 <EditCard cardID={this.props.stackCards[index]}/>
