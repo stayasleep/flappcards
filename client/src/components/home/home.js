@@ -13,8 +13,6 @@ class Home extends Component {
                 <FlashCardsAppBar/>
                     <ul>
                         <Recent/>
-                    </ul>
-                    <ul>
                         <Community/>
                     </ul>
                     <Link to="createCards" name="Create Cards">

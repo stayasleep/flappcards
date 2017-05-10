@@ -10,10 +10,8 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 
 import Avatar from 'material-ui/Avatar';
-import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+
 
 
 class Stacks extends Component {

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux'
-import {Link} from 'react-router'
 import {getUserData} from '../../actions/index'
 import AccountCircle from 'material-ui/svg-icons/action/account-circle'
 

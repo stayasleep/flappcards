@@ -8,17 +8,17 @@ import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import Badge from 'material-ui/Badge';
-import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
+import {GridTile} from 'material-ui/GridList';
 
-import {GridList, GridTile} from 'material-ui/GridList';
 class StackViewStacks extends Component{
 
     static contextTypes = {
         router: PropTypes.object
     };
     handleCopy(copy){
-        console.log(copy)
+        console.log(copy);
         this.props.stackCopy(copy);
     };
 
@@ -32,9 +32,8 @@ class StackViewStacks extends Component{
             gridList: {
                 width: 500,
                 height: 450,
-                overflowY: 'auto',
-                padding: 4,
-                cols: 3,
+                padding: "1em",
+                cols: 3
             },
             header: {
                 textAlign: "center"
@@ -50,6 +49,9 @@ class StackViewStacks extends Component{
             },
             cardActions: {
 
+            },
+            chip :{
+                paddingRight: 0
             }
         };
 
@@ -58,33 +60,31 @@ class StackViewStacks extends Component{
         }
         let stackView;
         if(this.props.stackCards[0].isOwned) {
-        const cardStackList = this.props.stackCards.map((item, index) => {
-            return (
-                <GridTile key={index} style={styles.gridList}>
-                <Card style={styles.cardDisplay}>
-                    <CardTitle>
-                        {item.question}
-                    </CardTitle>
-                    <CardText>
-                        {item.answer}
-                    </CardText>
-                    <CardActions>
-                        <EditCard cardID={this.props.stackCards[index]}/>
-                        <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
-                    </CardActions>
-                </Card>
-                </GridTile>
-            )
-        });
-                stackView=
-                    <div>
+            const cardStackList = this.props.stackCards.map((item, index) => {
+                return (
+                    <GridTile key={index} style={styles.gridList}>
+                        <Card style={styles.cardDisplay}>
+                            <CardTitle>
+                                {item.question}
+                            </CardTitle>
+                            <CardText>
+                                {item.answer}
+                            </CardText>
+                            <CardActions>
+                                <EditCard cardID={this.props.stackCards[index]}/>
+                                <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
+                            </CardActions>
+                        </Card>
+                    </GridTile>
+                )
+            });
+            // Bitten by a snake while struck by lightning on this part right here
+            stackView=
+                <div>
                     <RaisedButton containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                     <div>
                         <AddCard/>
-                    </div>
-                    <div>
-                        {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                        <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
+                        <Chip style={styles.chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Number Of Cards</Chip>
                     </div>
                     {cardStackList}
                 </div>
@@ -92,7 +92,7 @@ class StackViewStacks extends Component{
         else if(this.props.stackCards){
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                    <GridTile key={index} cols={3} style={styles.gridList}>
+                    <GridTile key={index} style={styles.gridList}>
                         <Card style={styles.cardDisplay}>
                             <CardTitle>
                                 {item.question}
@@ -110,7 +110,7 @@ class StackViewStacks extends Component{
                         <RaisedButton name="Copy" onClick={() => {this.handleCopy(this.props.stackCards[0])}} label="copy"/>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <Badge badgeContent={this.props.stackCards.length} primary={true}>Number of Cards</Badge>
+                            <Chip style={styles.chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
                         </div>
                     </div>
                     {cardStackList}
