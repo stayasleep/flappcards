@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getCard, getStackOverview} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
+import ReactDOM from 'react-dom'
 // this.context.router.push is what allows the URL to change without actually having to send requests
 
 class SingleCard extends Component {
@@ -17,6 +18,8 @@ class SingleCard extends Component {
     };
 
     nextCard() {
+        document.getElementById('question').style.display = 'block';
+        document.getElementById('answer').style.display = 'none';
         const {card} = this.state;
         // card === cards.length-1 means that you are at the end of the deck
         // So we reset card to 0 giving the appearance of the deck wrapping around
@@ -37,6 +40,8 @@ class SingleCard extends Component {
         // this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
     }
     prevCard() {
+        document.getElementById('question').style.display = 'block';
+        document.getElementById('answer').style.display = 'none';
         const {card} = this.state;
         this.props.params.cid = this.props.cards[card].card_id -1;
         if (this.state.card === 0){
@@ -145,10 +150,10 @@ class SingleCard extends Component {
             <div>
                 <div style={cardStyle} id="questionCard">
                     <h2 style={question} id="question">
-                        {card.question}
+                        Question: {card.question}
                     </h2>
                     <h2 style={answer} id="answer">
-                        {card.answer}
+                        Answer: {card.answer}
                     </h2>
                 </div>
                 <div  style={centered}>

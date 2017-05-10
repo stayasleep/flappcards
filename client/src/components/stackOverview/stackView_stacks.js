@@ -72,12 +72,12 @@ class StackViewStacks extends Component{
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                        <Card style={styles.cardDisplay}>
+                        <Card key={index} style={styles.cardDisplay}>
                             <CardTitle>
-                                {item.question}
+                                Question: {item.question}
                             </CardTitle>
                             <CardText>
-                                {item.answer}
+                                Answer: {item.answer}
                             </CardText>
                             <CardActions>
                                 <EditCard cardID={this.props.stackCards[index]}/>

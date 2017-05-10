@@ -23,25 +23,26 @@ class Search extends Component {
 
     render(){
         const { handleSubmit } = this.props;
-        const stacksList = this.props.stacks.map((item, index) => {
-            return (
-                <TableRow key={index}>
-                    <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
-                    <TableRowColumn>{item.orig_source_stack}</TableRowColumn>
-                    <TableRowColumn>{item.totalCards}</TableRowColumn>
-                    <TableRowColumn>{item.rating}</TableRowColumn>
-                    <TableRowColumn>
-                        <RaisedButton
-                            containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
-                            View
-                        </RaisedButton>
-                    </TableRowColumn>
-                    <TableRowColumn>
-                    </TableRowColumn>
-                </TableRow>
-            )
-        });
-
+            const stacksList = this.props.stacks.map((item, index) => {
+                return (
+                    <TableRow key={index}>
+                        <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
+                        <TableRowColumn>{item.orig_source_stack}</TableRowColumn>
+                        <TableRowColumn>{item.totalCards}</TableRowColumn>
+                        <TableRowColumn>{item.rating}</TableRowColumn>
+                        <TableRowColumn>
+                            <RaisedButton
+                                containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`}
+                                                        name="stackOverview"/>}>
+                                View
+                            </RaisedButton>
+                        </TableRowColumn>
+                        <TableRowColumn>
+                        </TableRowColumn>
+                    </TableRow>
+                )
+            });
+        if(this.props.stacks.length > 0) {
         return (
             <div>
                 <FlashCardsAppBar/>
@@ -65,6 +66,32 @@ class Search extends Component {
                 </Table>
             </div>
         )
+        }
+        else {
+            return (
+                <div>
+                    <FlashCardsAppBar/>
+                    <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
+                        <Field name="Search" component={renderInput} label="Search Category or Subject"/>
+                        <RaisedButton type="submit" label="Search"/>
+                    </form>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Subjects</TableHeaderColumn>
+                                <TableHeaderColumn>Created By</TableHeaderColumn>
+                                <TableHeaderColumn>Number of Cards</TableHeaderColumn>
+                                <TableHeaderColumn>Rating</TableHeaderColumn>
+                                <TableHeaderColumn>View</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                        </TableBody>
+                    </Table>
+                    Sorry There are no Stacks by that name or category.
+                </div>
+            )
+        }
     }
 }
 
