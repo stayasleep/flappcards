@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import StackViewStacks from './stackView_stacks'
-import {GridList, GridTile} from 'material-ui/GridList';
+import StackViewStacks from './stackView_stacks';
 import {getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 class Stacks extends Component {

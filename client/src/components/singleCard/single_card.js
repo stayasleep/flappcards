@@ -3,44 +3,60 @@ import PropTypes from 'prop-types';
 import {Card, CardActions, CardHeader, CardTitle, CardText} from '../../../../node_modules/material-ui/Card';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCard} from '../../actions/index'
+import {getCard, getStackOverview} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
-
+// this.context.router.push is what allows the URL to change without actually having to send requests
 
 class SingleCard extends Component {
-    constructor(props) {
-        super(props);
-        console.log("single card in the constructor statement", props);
-        this.nextCard = this.nextCard.bind(this);
-        this.prevCard = this.prevCard.bind(this);
-        // Refers to index in array
-        // Use the index in the array to update the card_id dynamically/accurately
-        this.state = {
-            card: 0
-        }
-    }
-
-    nextCard() {
-        if(this.state.card === this.props.cards.length-1){
-            return;
-        }
-        else{
-            this.setState({card: this.state.card + 1})
-        }
-    }
-    prevCard() {
-        if(this.state.card === 0){
-            return;
-        }
-        else {
-            this.setState({card: this.state.card - 1})
-        }
-    }
 
     static contextTypes ={
         router: PropTypes.object,
     };
-    componentDidMount(){
+    state = {
+        card: 0
+    };
+
+    nextCard() {
+        const {card} = this.state;
+        // card === cards.length-1 means that you are at the end of the deck
+        // So we reset card to 0 giving the appearance of the deck wrapping around
+        if (card === this.props.cards.length-1) {
+            this.setState({card: 0 },
+                () => {this.updateItem(this.state.card)});
+        }
+        else {
+            console.log("nextCard, inside of else statement, card", card);
+            this.setState({
+                card: this.state.card+1},
+                () => {this.updateItem(this.state.card)}
+            );
+        }
+        console.log("nextCard() card before push statement", card);
+        // this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
+    }
+    prevCard() {
+        const {card} = this.state;
+        if (this.state.card === 0){
+            this.setState({card: this.props.cards.length-1}, () => {this.updateItem(this.state.card)});
+        }
+        else {
+            console.log("prevCard setState else statement");
+            this.setState({
+                card: this.state.card - 1},
+            () => {this.updateItem(this.state.card)
+
+            })
+        }
+        console.log("card before push statement", card);
+        // this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
+    }
+    updateItem(card){
+        this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
+    }
+    componentWillMount() {
+        console.log("single_card view");
+    }
+    componentDidUpdate(){
         var flip = true;
         document.getElementById('questionCard').addEventListener('click', switchDisplay);
         function switchDisplay() {
@@ -51,7 +67,7 @@ class SingleCard extends Component {
                     document.getElementById('question').style.display = 'none';
                     document.getElementById('answer').style.display = 'block';
                     flip = false;
-                }, 300);
+                }, 1000);
             } else {
                 this.classList.toggle('flippedCard');
                 setTimeout(function () {
@@ -102,7 +118,10 @@ class SingleCard extends Component {
             display: "block"
         };
         // this.state.card is the index for the next and previous
-        const card = this.props.stackCards[this.state.card];
+        let card;
+        if(this.props.cards){
+            card = this.props.cards[this.state.card]
+        }
         if(!card){
             return <h3>Loading...</h3>
         }
@@ -132,9 +151,8 @@ function mapStateToProps(state) {
     return {
         cards: state.stack.stackCards,
         stackCards: state.stack.stackCards
-
     }
 }
 
-export default connect(mapStateToProps, {getCard})(SingleCard);
+export default connect(mapStateToProps, {getCard, getStackOverview})(SingleCard);
 

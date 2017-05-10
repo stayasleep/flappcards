@@ -1,10 +1,11 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
 import {deleteCard} from '../../actions/index';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+
 
 class DeleteCardConfirm extends React.Component {
     state = {
@@ -39,9 +40,23 @@ class DeleteCardConfirm extends React.Component {
             />,
         ];
 
+        const styles ={
+            mediumIcon: {
+                width: 48,
+                height: 48
+            },
+            medium: {
+                width: 96,
+                height: 96,
+                padding: 24
+            }
+        };
+
         return (
             <div>
-                <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
+                <IconButton iconStyle={styles.mediumIcon} style={styles.medium} tooltip="Delete" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
+                    <ActionDelete/>
+                </IconButton>
                 <Dialog
                     title="Are you sure you want to remove this card from the stack?"
                     actions={actions}

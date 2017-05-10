@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton'
 import {connect} from 'react-redux';
 import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
-
+import {GridTile} from 'material-ui/GridList';
 class Recent extends Component {
     componentWillMount() {
         this.props.getMyRecentStacksOverview();
@@ -18,6 +17,38 @@ class Recent extends Component {
     }
 
     render() {
+        const styles = {
+            root: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around'
+            },
+            gridList: {
+                width: 500,
+                height: 450,
+                padding: "1em",
+                cols: 1
+            },
+            header: {
+                textAlign: "center"
+            },
+            cardDisplay: {
+                textAlign: "center",
+                display: "inline-block",
+                width: 500,
+                height:450,
+            },
+            cardTitle: {
+
+            },
+            cardActions: {
+
+            },
+            chip :{
+                paddingRight: 0
+            }
+        };
+
         if (!this.props.recentStacks) {
             return (
                 <div>
@@ -30,7 +61,8 @@ class Recent extends Component {
         }
         const recentStacksList = this.props.recentStacks.map((item, index) => {
             return (
-                <Card key={index}>
+                <GridTile key={index} style={styles.gridList}>
+                <Card style={styles.cardDisplay}>
                     <CardHeader
                         title={item.subject}
                         subtitle={item.category}
@@ -38,8 +70,8 @@ class Recent extends Component {
                     <CardText>
                         Created by: {item.createdBy}
                         Total Cards: {item.totalCards}
-                        {item.createdOn}
-                        {item.stackRating}
+                        Created On: {item.createdOn}
+                        Rating: {item.stackRating}
                     </CardText>
                     <CardActions>
                         <RaisedButton
@@ -49,6 +81,7 @@ class Recent extends Component {
                         </RaisedButton>
                     </CardActions>
                 </Card>
+                </GridTile>
             )
         });
         return (
