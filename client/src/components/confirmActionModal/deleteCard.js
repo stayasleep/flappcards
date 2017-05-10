@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import {deleteCard} from '../../actions/index';
+import {deleteCard, getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 
@@ -15,6 +15,7 @@ class DeleteCardConfirm extends React.Component {
     handleDelete(cardID){
         // this.props.cardID.card_id; the ID of the to be deleted
         this.props.deleteCard(cardID);
+        this.props.getStackOverview(this.props.cardID.stack_id)
     }
 
     handleOpen = () => {
@@ -69,4 +70,4 @@ class DeleteCardConfirm extends React.Component {
     }
 }
 
-export default connect(null, {deleteCard})(DeleteCardConfirm);
+export default connect(null, {deleteCard, getStackOverview})(DeleteCardConfirm);
