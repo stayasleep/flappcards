@@ -8,7 +8,7 @@ import Dialog from 'material-ui/Dialog';
 import IconButton from 'material-ui/IconButton';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
-import {cardEditor} from '../../actions/index';
+import {cardEditor, getStackOverview} from '../../actions/index';
 
 class EditCard extends Component {
 
@@ -104,6 +104,6 @@ function mapStateToProps(state) {
 }
 
 // Connecting the edit card form values
-export default connect(mapStateToProps,{cardEditor})(EditCard);
+export default connect(mapStateToProps,{cardEditor, getStackOverview})(EditCard);
 
 
