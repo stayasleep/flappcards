@@ -26,7 +26,8 @@ class Stacks extends Component {
             subHeader: {
                 textAlign: "center",
                 fontSize: "2em",
-                fontWeight: "bold"
+                fontWeight: "bold",
+                fontFamily: "Roboto, sans-serif"
             },
             cardHeader: {
                 fontSize: "1em",

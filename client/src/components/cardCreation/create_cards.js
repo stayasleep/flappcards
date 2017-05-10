@@ -44,7 +44,7 @@ class CreateCards extends Component {
                             onClick={() => fields.remove(index)}
                             label="Remove Card"
                         />
-                        <h4>Card #{index + 1}</h4>
+                        <h4 style={{fontFamily: "Roboto, sans-serif"}}>Card #{index + 1}</h4>
                         <Field
                             name={`${stack}.question`}
                             type="text"

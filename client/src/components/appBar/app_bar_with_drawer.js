@@ -21,7 +21,7 @@ class FlashCardsAppBar extends Component {
         };
 
         return (
-            <div>
+            <div className="appBar">
                 <Drawer
                     docked={false}
                     open={this.state.open}

@@ -36,7 +36,8 @@ class StackViewStacks extends Component{
                 cols: 3
             },
             header: {
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily: "Roboto, sans-serif"
             },
             cardDisplay: {
                 textAlign: "center",
@@ -119,13 +120,15 @@ class StackViewStacks extends Component{
         return (
             <div>
                 <div style={styles.header}>
-                    <span>{this.props.stackCards[0].subject}</span>
+                <div>
+                    <span>{`Subject: ${this.props.stackCards[0].subject}`}</span>
                 </div>
                 <div>
-                    <span>{this.props.stackCards[0].category}</span>
+                    <span>{`Category: ${this.props.stackCards[0].category}`}</span>
                 </div>
                 <div>
-                    <span>Made by: {this.props.stackCards[0].createdBy}</span>
+                    <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
+                </div>
                 </div>
                 {stackView}
             </div>

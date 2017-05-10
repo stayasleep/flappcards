@@ -4,7 +4,9 @@ import {connect} from 'react-redux';
 import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import {GridTile} from 'material-ui/GridList';
+import Subheader from 'material-ui/Subheader';
+import {List} from 'material-ui/List';
+
 class Recent extends Component {
     componentWillMount() {
         this.props.getMyRecentStacksOverview();
@@ -18,78 +20,72 @@ class Recent extends Component {
 
     render() {
         const styles = {
-            root: {
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around'
-            },
-            gridList: {
-                width: 500,
-                height: 450,
-                padding: "1em",
-                cols: 1
-            },
-            header: {
+            subHeader: {
                 textAlign: "center",
-                fontFamily: "Roboto, sans-serif"
+                fontSize: "2em",
+                fontWeight: "bold",
+                fontFamily: "Roboto, sans-serif",
+                paddingLeft: 0,
+                marginTop: "1em"
             },
-            cardDisplay: {
-                textAlign: "center",
-                display: "inline-block",
-                width: 500,
-                height:450,
-            },
-            cardTitle: {
-
+            cardHeader: {
+                fontSize: "1em",
+                fontWeight: "bold"
             },
             cardActions: {
-
+                position: "relative",
+                display: "inline-flex",
+                float: "right",
+                marginRight: "1em"
             },
-            chip :{
-                paddingRight: 0
+            cardText: {
+                fontSize: "1em"
+            },
+            cardDisplay: {
+                marginTop: "1em",
+                marginBottom: "1em"
             }
         };
 
         if (!this.props.recentStacks) {
             return (
-                <div>
-                    <h1>Recent Stacks:</h1>
+                <List>
+                    <Subheader style={styles.subHeader}>Recent Stacks:</Subheader>
                     <div>
                         Oops! Looks like your shelf is empty. Create a stack or take a took at some community content below!
                     </div>
-                </div>
+                </List>
             )
         }
         const recentStacksList = this.props.recentStacks.map((item, index) => {
             return (
-                <GridTile key={index} style={styles.gridList}>
-                <Card style={styles.cardDisplay}>
-                    <CardHeader
-                        title={item.subject}
-                        subtitle={item.category}
-                    />
-                    <CardText>
-                        Created by: {item.createdBy}
-                        Total Cards: {item.totalCards}
-                        Created On: {item.createdOn}
-                        Rating: {item.stackRating}
-                    </CardText>
-                    <CardActions>
-                        <RaisedButton
-                            containerElement={<Link to={`/stackOverview/${this.props.recentStacks[index].stack_id}`} name="stackOverview"/>}
-                            onClick={() => {this.viewStack(this.props.recentStacks[index])}}>
-                            View
-                        </RaisedButton>
-                    </CardActions>
-                </Card>
-                </GridTile>
+                    <Card key={index} style={styles.cardDisplay}>
+                        <CardHeader
+                            title={item.subject}
+                            subtitle={item.category}
+                            style={styles.cardHeader}
+                        />
+                        <CardText>
+                            Created by: {item.createdBy}
+                            Total Cards: {item.totalCards}
+                            Created On: {item.createdOn}
+                            Rating: {item.stackRating}
+                        </CardText>
+                        <CardActions>
+                            <RaisedButton
+                                containerElement={<Link to={`/stackOverview/${this.props.recentStacks[index].stack_id}`} name="stackOverview"/>}
+                                onClick={() => {this.viewStack(this.props.recentStacks[index])}}>
+                                View
+                            </RaisedButton>
+                        </CardActions>
+                    </Card>
             )
         });
         return (
-            <div>
-                <h1 style={styles.header}>Recent Stacks:</h1>
+            <List>
+                <Subheader style={styles.subHeader}>Recent Stacks</Subheader>
                 {recentStacksList}
-            </div>
+            </List>
         );
     }
 }
