@@ -26,6 +26,7 @@ import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
 import SingleCard from './components/singleCard/single_card';
 import landing from './components/auth/landing_page';
+import About from './components/auth/about';
 import Error404 from './components/errors/404';
 
 ReactDOM.render(
@@ -40,6 +41,7 @@ ReactDOM.render(
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
                 <Route path="stackOverview/:sid/:cid" component={requireAuth(SingleCard)}/>
+                <Route path="about" component={About}/>
                 <Route path="*" component={Error404}/>
             </Route>
         </Router>

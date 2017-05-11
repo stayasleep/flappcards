@@ -10,6 +10,8 @@ import {Link} from 'react-router'
 import Registration from './registration';
 import Login from './log_in';
 import {GridList, GridTile} from 'material-ui/GridList';
+import flashidea from '../imgs/flashidea.jpg'
+
 
 const styles = {
     title: {
@@ -19,7 +21,10 @@ const styles = {
         display:'flex',
         flexDirection:'row wrap',
         padding:20,
-        width: '100%'
+        width: '100%',
+        backgroundImage:`url(${flashidea})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize:'cover'
     },
     paperLeft: {
         flex: 1,
@@ -48,6 +53,8 @@ const styles = {
     },
     subs:{
         margin:"5%",
+        fontWeight: 900,
+        fontSize: "2em"
     },
     midT:{
         color: 'red',
