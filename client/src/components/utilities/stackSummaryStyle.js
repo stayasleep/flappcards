@@ -33,7 +33,8 @@ export const stackSummaryDisplay = {
 
 export const header = {
     textAlign: "center",
-    fontFamily: "Roboto, sans-serif"
+    fontFamily: "Roboto, sans-serif",
+    fontSize: "2em"
 };
 
 export const mediumIcon = {
@@ -49,6 +50,10 @@ export const medium = {
 
 export const chip = {
     paddingRight: 0
+};
+
+export const rightAvatar = {
+    float: "right"
 };
 
 
