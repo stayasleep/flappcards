@@ -10,7 +10,7 @@ import {Link} from 'react-router'
 import Registration from './registration';
 import Login from './log_in';
 import {GridList, GridTile} from 'material-ui/GridList';
-import flashidea from '../imgs/flashidea.jpg'
+import home from '../imgs/home.JPG'
 
 
 const styles = {
@@ -22,7 +22,7 @@ const styles = {
         flexDirection:'row wrap',
         padding:20,
         width: '100%',
-        backgroundImage:`url(${flashidea})`,
+        backgroundImage:`url(${home})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover'
     },
