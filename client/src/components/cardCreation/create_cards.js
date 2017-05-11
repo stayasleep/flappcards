@@ -5,14 +5,11 @@ import validate from './validate';
 import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import IconButton from 'material-ui/IconButton';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
 import renderInput from '../utilities/renderInput';
 import Paper from 'material-ui/Paper';
-import {cardToAdd, cardToAddForm, addCardList, addCardHeader, actionDeleteIconButton} from '../utilities/stackSummaryStyle';
-
-import {medium, mediumIcon} from '../utilities/stackSummaryStyle';
+import {cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
+import Close from 'material-ui/svg-icons/navigation/close';
 
 
 class CreateCards extends Component {
@@ -21,19 +18,11 @@ class CreateCards extends Component {
     renderCards({fields, meta: {touched, error, submitFailed}}) {
         return (
             <ul style={addCardList}>
-                <li>
-                    <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
-                    {(touched || submitFailed) && error && <span>{error}</span>}
-                </li>
                 {fields.map((stack, index) => (
                     <Paper style={cardToAdd} key={index}>
                     <li>
-                        <h4 style={addCardHeader}>
-                        <IconButton iconStyle={mediumIcon} style={actionDeleteIconButton} tooltip="Remove Card" label="Remove Card" tooltipPosition="top-right" onTouchTap={()=> fields.remove(index)}>
-                            <ActionDelete hoverColor={red500}/>
-                        </IconButton>
-                        </h4>
-
+                        <Close style={closeIconButton} label="Remove Card" onTouchTap={()=> fields.remove(index)} hoverColor={red500}/>
+                        <div style={addCardInputFields}>
                         <Field
                             name={`${stack}.question`}
                             type="text"
@@ -46,9 +35,14 @@ class CreateCards extends Component {
                             component={renderInput}
                             label="Answer"
                         />
+                        </div>
                     </li>
                     </Paper>
                 ))}
+                <li style={{float: "right"}}>
+                    <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
+                    {(touched || submitFailed) && error && <span>{error}</span>}
+                </li>
             </ul>
         )
     }
@@ -64,18 +58,20 @@ class CreateCards extends Component {
                 <FlashCardsAppBar/>
                 <Paper style={cardToAddForm}>
                 <form onSubmit={handleSubmit((values) => {this.handleCreate(values)})}>
-                    <Field
-                        name="subject"
-                        type="text"
-                        component={renderInput}
-                        label="Subject"
-                    />
-                    <Field
-                        name="category"
-                        type="text"
-                        component={renderInput}
-                        label="Category"
-                    />
+                    <div style={cardToAddSubjectCategory}>
+                            <Field
+                                name="subject"
+                                type="text"
+                                component={renderInput}
+                                label="Subject"
+                            />
+                            <Field
+                                name="category"
+                                type="text"
+                                component={renderInput}
+                                label="Category"
+                            />
+                    </div>
                     <FieldArray name="stack" component={this.renderCards} />
                     <div>
                         <RaisedButton type="submit" label="Submit" disabled={pristine || submitting}/>

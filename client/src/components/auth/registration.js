@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router'
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
-import renderInput from '../utilities/renderInput';
+import renderInput from '../utilities/renderInputReg';
 
 class Registration extends Component {
 
@@ -38,16 +38,27 @@ class Registration extends Component {
         const regStyle = {
             float: "right",
             textAlign: "center",
-            paddingRight: "10%"
+            paddingRight: "10%",
+            color: 'black'
         };
-        const regT={
+        const passWordInfo = {
+            fontSize: 10,
+            margin: "1.3em"
+        };
+        const header = {
+            margin: 0,
             fontFamily: "Roboto,sans-serif",
+
         };
+        const buttons = {
+            margin: "1.3em"
+        };
+
 
 
         return (
             <div style={regStyle}>
-                <h1 style={regT}>Register</h1>
+                <h1 style={header}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div>
                         <Field name="name" component={renderInput} label="First and Last Name"/>
@@ -57,6 +68,9 @@ class Registration extends Component {
                     </div>
                     <div>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
+                        <div style={passWordInfo}>
+                            Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
+                        </div>
                     </div>
                     <div>
                         <Field name="passwordConfirm" component={renderInput} label="Confirm Password" type="password"/>
@@ -69,7 +83,7 @@ class Registration extends Component {
                     <div>
                         <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
-                    <div>
+                    <div style={buttons}>
                         <RaisedButton primary={true} type="submit" label="Submit"/>
                         <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>

@@ -9,7 +9,7 @@ import renderInput from '../utilities/renderInput';
 const styles = {
     center: {
         textAlign: "center",
-        margin: "2em"
+        margin: "1em"
     }
 };
 

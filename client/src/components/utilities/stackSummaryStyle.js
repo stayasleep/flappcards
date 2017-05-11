@@ -85,13 +85,23 @@ export const answerText = {
     fontSize: "1em"
 };
 
+export const cardToAddSubjectCategory = {
+    margin: "0em auto",
+    padding: "1em",
+    position: "relative",
+    width: "auto",
+    textAlign: "center"
+};
+
 export const cardToAdd = {
     position: "relative",
-    margin: "2em"
+    margin: "2em",
+    padding: "1em"
 };
 
 export const cardToAddForm = {
-    margin: "1em auto"
+    margin: "1em auto",
+    padding: "1em"
 };
 
 export const addCardList = {
@@ -99,17 +109,21 @@ export const addCardList = {
     display: "inline"
 };
 
-export const addCardHeader = {
-    fontFamily: "Roboto, sans-serif",
-    margin: "0em",
-    fontSize: "2em"
-};
-
-export const actionDeleteIconButton = {
+export const closeIconButton = {
     display: "inline-block",
     float: "right",
-    width: 96,
-    height: 96,
-    padding: 24
+    width: 36,
+    height: 36,
+    padding: 0,
+    margin: "0.35em"
 };
 
+export const addCardInputFields = {
+    margin: "0.5em"
+};
+
+// Styling to prevent error text from re-/mis- aligning input fields
+export const errorText  = {
+    float: "left",
+    margin: "0.5em"
+};
