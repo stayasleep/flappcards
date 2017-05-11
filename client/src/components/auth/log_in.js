@@ -6,6 +6,13 @@ import {userLogin} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import renderInput from '../utilities/renderInput';
 
+const styles = {
+    center: {
+        textAlign: "center",
+        margin: "2em"
+    }
+};
+
 class LogIn extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -20,9 +27,13 @@ class LogIn extends Component {
         return (
             <div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
-                    <div>
+                    <div style={styles.center}>
+                        <div style={styles.center}>
                         <Field name="userName" component={renderInput} label="Username"/>
+                        </div>
+                        <div style={styles.center}>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
+                        </div>
                         <RaisedButton type="submit" label="Login"/>
                     </div>
                 </form>
