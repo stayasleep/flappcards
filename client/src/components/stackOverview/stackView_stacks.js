@@ -13,7 +13,7 @@ import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 import Divider from 'material-ui/Divider';
-import {cardText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
+import {cardDisplay, cardHeader, cardDivider, cardText, questionText, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import {blue500} from 'material-ui/styles/colors';
 class StackViewStacks extends Component{
 
@@ -39,17 +39,18 @@ class StackViewStacks extends Component{
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                        <Card key={index} style={{width: "15vw", margin: "1em", display: "inline-flex"}}>
+                        <Card key={index} style={cardDisplay}>
                             <CardHeader
+                                style={cardHeader}
                                 title={`Question: ${item.question}`}
                                 titleStyle={{blue500}}
                                 actAsExpander={true}
                             />
-                            <Divider style={{height: "1vh", marginLeft: 0, backgroundColor: "rgb(0,0,0)"}} />
-                            <CardText style={{fontSize: "2em"}} expandable={true}>
+                            <Divider style={cardDivider} />
+                            <CardText style={answerText} expandable={true}>
                                 Answer: {item.answer}
                             </CardText>
-                            <CardActions style={{position: "relative", float: "right", display: "inline-flex"}}>
+                            <CardActions style={}>
                                 <EditCard cardID={this.props.stackCards[index]}/>
                                 <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                             </CardActions>
@@ -68,6 +69,7 @@ class StackViewStacks extends Component{
                 </div>
         }
         else if(this.props.stackCards){
+
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
                         <Card key={index}>

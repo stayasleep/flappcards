@@ -273,7 +273,12 @@ export function addSingleCard(cardObject) {
         })
     }
 }
-
+/**
+ * @name - stackCopy
+ * @param stackCopy {object}
+ * @returns {Function}
+ * @description - Used for copying a stack not owned by a user
+ */
 export function stackCopy(stackCopy) {
     return function (dispatch){
         let stackID = stackCopy.stack_id;

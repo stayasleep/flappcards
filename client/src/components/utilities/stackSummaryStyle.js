@@ -21,6 +21,14 @@ export const cardActions ={
     marginLeft: "1em"
 };
 
+
+// stackOverviewCardActions may or may not be different than cardActions, need to test
+export const stackOverviewCardActions = {
+    "position": "relative",
+    "float": "right",
+    "display": "inline-flex"
+};
+
 export const cardText = {
         fontSize: "1em"
 };
@@ -54,6 +62,26 @@ export const chip = {
 
 export const rightAvatar = {
     float: "right"
+};
+
+export const cardDisplay = {
+    display: "inline-block",
+    width: "15vw",
+    margin: "1em",
+};
+
+export const cardDivider = {
+    height: "1vh",
+    marginLeft: "0",
+    backgroundColor: "rgb(0,0,0)"
+};
+
+export const questionText = {
+    fontSize: "2em"
+};
+
+export const answerText = {
+    fontSize: "1em"
 };
 
 
