@@ -10,8 +10,14 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
 import {cardEditor, getStackOverview} from '../../actions/index';
 import {blue500} from 'material-ui/styles/colors';
-class EditCard extends Component {
 
+const styler = {
+    center: {
+        textAlign: "center"
+    }
+};
+
+class EditCard extends Component {
     static contextTypes = {
         router: PropTypes.object
     };
@@ -62,6 +68,7 @@ class EditCard extends Component {
                     <EditorModeEdit hoverColor={blue500} />
                 </IconButton>
                 <Dialog
+                    style={styler.center}
                     title="Are you sure you want to edit this card?"
                     modal={true}
                     open={this.state.open}

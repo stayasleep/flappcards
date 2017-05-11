@@ -8,6 +8,12 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
 import {medium, mediumIcon} from '../utilities/stackSummaryStyle';
 
+const styler = {
+    center: {
+        textAlign: "center"
+    }
+};
+
 class DeleteCardConfirm extends React.Component {
     state = {
         open: false,
@@ -48,9 +54,11 @@ class DeleteCardConfirm extends React.Component {
                     <ActionDelete hoverColor={red500}/>
                 </IconButton>
                 <Dialog
+                    style={styler.center}
                     title="Are you sure you want to remove this card from the stack?"
                     actions={actions}
                     modal={true}
+                    actionsContainerStyle={styler.center}
                     open={this.state.open}
                 >
                 </Dialog>

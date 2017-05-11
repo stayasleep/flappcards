@@ -7,6 +7,12 @@ import Dialog from 'material-ui/Dialog';
 import renderInput from '../utilities/renderInput';
 import {addSingleCard, getStackOverview} from '../../actions/index';
 
+const styler = {
+    center: {
+        textAlign: "center"
+    }
+};
+
 class AddCard extends Component {
     state = {
         open: false,
@@ -39,6 +45,7 @@ class AddCard extends Component {
             <div>
                 <RaisedButton label="Add" onTouchTap={this.handleOpen} />
                 <Dialog
+                    style={styler.center}
                     title="Are you sure you want to add a card to this stack?"
                     modal={true}
                     open={this.state.open}

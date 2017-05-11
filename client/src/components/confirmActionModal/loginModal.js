@@ -46,6 +46,7 @@ export default class LoginModal extends React.Component {
                 <RaisedButton style={styles.button} label="Login" onTouchTap={this.handleOpen} />
                 <Dialog
                     title="Login"
+                    autoScrollBodyContent = {true}
                     modal={true}
                     open={this.state.open}
                     style={styles.center}
