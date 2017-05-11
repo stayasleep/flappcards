@@ -40,10 +40,14 @@ class Registration extends Component {
             textAlign: "center",
             paddingRight: "10%"
         };
+        const regT={
+            fontFamily: "Roboto,sans-serif",
+        };
+
 
         return (
             <div style={regStyle}>
-                <h1>Register</h1>
+                <h1 style={regT}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div>
                         <Field name="name" component={renderInput} label="First and Last Name"/>
