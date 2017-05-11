@@ -8,7 +8,10 @@ import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import {subHeader, cardHeader, cardActions, cardText, cardDisplay} from '../utilities/stackSummaryStyle';
+import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from '../utilities/stackSummaryStyle';
+import IconButton from 'material-ui/IconButton';
+import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import {green500} from 'material-ui/styles/colors';
 
 class Stacks extends Component {
 
@@ -21,13 +24,13 @@ class Stacks extends Component {
             return (
                 <List>
                     <Subheader style={subHeader}>My Shelf</Subheader>
-                    Loading...
+                    <div style={{fontFamily: "Roboto, sans-serif"}}></div>Loading...
                 </List>
             )
         }
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <Card key={index} style={cardDisplay}>
+                <Card key={index} style={stackSummaryDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         subtitle={`Category: ${item.category}`}
@@ -35,10 +38,9 @@ class Stacks extends Component {
                         style={cardHeader}
                     />
                     <CardActions style={cardActions}>
-                        <RaisedButton
-                            containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
-                            View
-                        </RaisedButton>
+                        <IconButton containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
+                            <RemoveRedEye hoverColor={green500}/>
+                        </IconButton>
                         <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </CardActions>
                     <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>

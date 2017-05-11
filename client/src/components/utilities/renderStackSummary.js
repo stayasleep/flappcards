@@ -7,7 +7,7 @@ import Subheader from 'material-ui/Subheader';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {getStackOverview} from '../../actions/index'; // need connect for action creator
-import {subHeader, cardHeader, cardActions, cardText, cardDisplay} from './stackSummaryStyle';
+import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from './stackSummaryStyle';
 // When using the component, you'll pass in the name of the cardStack that is in this.props
 class StackSummary extends Component {
 
@@ -20,15 +20,17 @@ class StackSummary extends Component {
         const stackSummary = cardStack.map((item, index) => {
             return (
 
-                <Card key={index} style={cardDisplay}>
+                <Card key={index} style={stackSummaryDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar>{item.totalCards}</Avatar>}
                         style={cardHeader}
+                        actAsExpander={true}
                     />
                     <CardText
                         style={cardText}
+                        expandable={true}
                     >
                         Created by: {item.createdBy}
                         Total Cards: {item.totalCards}

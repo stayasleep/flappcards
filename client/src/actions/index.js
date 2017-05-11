@@ -5,8 +5,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
-const BASE_URL = '/users';
+const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
+// const BASE_URL = '/users';
 
 export function userLogin(values) {
 
@@ -232,8 +232,9 @@ export function createStack(stackObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
+            let stackID = response.data.stackID;
             dispatch({type: CREATE_STACK, payload: response.data});
-            browserHistory.push("/myShelf/")
+            browserHistory.push(`stackOverview/${stackID}`);
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,

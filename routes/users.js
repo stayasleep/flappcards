@@ -2,8 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
-const connection = require('../config/config'); // So connection credentials can be ignored
-const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
+const connection = require('../server/config/config'); // So connection credentials can be ignored
+const config = require('../server/config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
 const bcrypt = require('bcryptjs'); // Hashing
 const jwt = require('jsonwebtoken'); // For token
 
@@ -201,6 +201,7 @@ router.post('/stackOverview/:sID',(request,response) => {
         }
     });
 });
+// TODO REMOVE WHATEVER THIS IS
 //THIS ISNT READY
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 // router.post('/stack/:uID/:sID',(request,response)=>{
@@ -339,7 +340,6 @@ router.post('/createCards',(request,response)=>{
         }
         // console.log("results", results);
         let stackID = results.insertId;
-        console.log("stackID", stackID);
         for (let i=0; i < numberOfCardsToInsert; i++) {
             let newQ = stack.stack[i].question;
             let newA = stack.stack[i].answer;
@@ -354,10 +354,8 @@ router.post('/createCards',(request,response)=>{
                 console.log("Inside the query function");
             });
         }
-        response.send("Finished");
+        response.send({"stackID": stackID});
     });
-    // let cardQueryPart1 = "INSERT INTO cards SET (stack_id, question, answer, orig_source_stack) VALUES"; // First part of insert query
-    // let cardQueryPart2 = `(?,?,?,?);" ${[stackID, newQ, newA, whoMadeMe]} ` ; // LAST_INSERT_ID() is to keep them associated with the same stack  Second part of insert query quesitons and answers
 });
 
 //clicking myShelf and getting your overview,

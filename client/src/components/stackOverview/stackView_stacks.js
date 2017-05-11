@@ -13,6 +13,8 @@ import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 
+import { cardDisplay,chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
+
 class StackViewStacks extends Component{
 
     static contextTypes = {
@@ -24,46 +26,25 @@ class StackViewStacks extends Component{
     };
     render() {
         const styles = {
-            root: {
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around'
-            },
-            gridList: {
-                width: 500,
-                height: 450,
-                padding: "1em",
-                cols: 3
-            },
-            header: {
-                textAlign: "center",
-                fontFamily: "Roboto, sans-serif"
-            },
-            cardDisplay: {
-                textAlign: "center",
-                display: "inline-block",
-                width: 500,
-                height:450,
-            },
-            cardTitle: {
-
-            },
-            cardActions: {
-
-            },
-            chip :{
-                paddingRight: 0
-            },
-            mediumIcon: {
-                width: 48,
-                height: 48
-            },
-            medium: {
-                width: 96,
-                height: 96,
-                padding: 24
+                root: {
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-around'
+                },
+                gridList: {
+                    width: 500,
+                    height: 450,
+                    padding: "1em",
+                    cols: 3
+                },
+                cardDisplay: {
+                    textAlign: "center",
+                    display: "inline-block",
+                    width: 500,
+                    height: 450,
+                }
             }
-        };
+        ;
 
         if (!this.props.stackCards) {
             return <div>Loading...</div>
@@ -92,7 +73,7 @@ class StackViewStacks extends Component{
                     <RaisedButton containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                     <div>
                         <AddCard/>
-                        <Chip style={styles.chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Number Of Cards</Chip>
+                        <Chip style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Number Of Cards</Chip>
                     </div>
                     {cardStackList}
                 </div>
@@ -114,12 +95,12 @@ class StackViewStacks extends Component{
             stackView =
                 <div>
                     <div>
-                        <IconButton iconStyle={styles.mediumIcon} style={styles.medium} label="Copy" tooltip="Copy Stack" tooltipPosition="top-center" onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}>
+                        <IconButton iconStyle={mediumIcon} style={medium} label="Copy" tooltip="Copy Stack" tooltipPosition="top-center" onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}>
                             <ContentContentCopy/>
                         </IconButton>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
-                            <Chip style={styles.chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
+                            <Chip style={chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
                         </div>
                     </div>
                     {cardStackList}
@@ -127,7 +108,7 @@ class StackViewStacks extends Component{
         }
         return (
             <div>
-                <div style={styles.header}>
+                <div style={header}>
                 <div>
                     <span>{`Subject: ${this.props.stackCards[0].subject}`}</span>
                 </div>
