@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
-import {Link} from 'react-router'
+import {Link, browserHistory} from 'react-router'
 import {getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
@@ -20,9 +20,11 @@ class StackViewStacks extends Component{
     static contextTypes = {
         router: PropTypes.object
     };
+
     handleCopy(copy){
         this.props.stackCopy(copy);
     };
+
     render() {
         const styles = {
                 root: {
@@ -125,7 +127,8 @@ class StackViewStacks extends Component{
 }
 function mapStateToProps(state) {
     return {
-        stackCards: state.stack.stackCards
+        stackCards: state.stack.stackCards,
+        newStackID: state.stack.newStackID
     }
 }
 

@@ -201,22 +201,12 @@ router.post('/copy/:stackId',(request,response)=>{
                 response.send("Error Connecting");
             }
             //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
-            response.send(results[1]);
+            let stackID = results[1].insertId;
+            response.send({"stackID": stackID});
         }
     );
 });
 
-//shows Q and A of the stack you selected MAYBE THIS IS NOT NEEEDED.
-router.post('/stackOverview/', (request,response) => {
-    connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=> {
-        if (err) {
-            response.send("Error");
-        }
-        else {
-            response.json({success: true, msg: "Stack showing"});
-        }
-    })
-});
 
 //DELETE INDIVIDUAL card from your stack overview
 router.post('/deleteCard/:cId',(request,response)=>{
@@ -344,7 +334,7 @@ router.post('/logout',(request,response)=>{
     let un =request.decoded.UserName;
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
         if (err) {
-            response.send("Uh oh");
+            response.send("Failed to log user out");
         }else {
             response.send({success:true, message:"updated log out"});
         }
