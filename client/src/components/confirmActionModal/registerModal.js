@@ -2,19 +2,15 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Login from '../auth/log_in';
+import Registration from '../auth/registration';
 
 const styles = {
     center: {
         textAlign: "center"
-    },
-    button: {
-        marginTop: 6,
-        marginRight: 20
     }
 };
 
-export default class LoginModal extends React.Component {
+export default class RegisterModal extends React.Component {
     state = {
         open: false,
     };
@@ -43,14 +39,14 @@ export default class LoginModal extends React.Component {
 
         return (
             <div>
-                <RaisedButton style={styles.button} label="Login" onTouchTap={this.handleOpen} />
+                <RaisedButton label="Register" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Login"
+                    title="Register"
                     modal={true}
                     open={this.state.open}
                     style={styles.center}
                 >
-                    <Login/>
+                    <Registration/>
                     <FlatButton
                         label="Cancel"
                         primary={true}

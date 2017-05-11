@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router'
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
-import renderInputReg from '../utilities/renderInputReg';
+import renderInput from '../utilities/renderInput';
 
 class Registration extends Component {
 
@@ -46,31 +46,30 @@ class Registration extends Component {
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div>
-                        <Field name="name" component={renderInputReg} label="First and Last Name"/>
+                        <Field name="name" component={renderInput} label="First and Last Name"/>
                     </div>
                     <div>
-                        <Field name="userName" component={renderInputReg} label="Username"/>
+                        <Field name="userName" component={renderInput} label="Username"/>
                     </div>
                     <div>
-                        <Field name="password" component={renderInputReg} label="Password" type="password"/>
+                        <Field name="password" component={renderInput} label="Password" type="password"/>
                     </div>
                     <div>
-                        <Field name="passwordConfirm" component={renderInputReg} label="Confirm Password" type="password"/>
+                        <Field name="passwordConfirm" component={renderInput} label="Confirm Password" type="password"/>
                     </div>
                     <div>
                     </div>
                     <div>
-                        <Field name="email" component={renderInputReg} label="Email"/>
+                        <Field name="email" component={renderInput} label="Email"/>
                     </div>
                     <div>
-                        <Field id="date" name="birthday" component={renderInputReg} label="Birthday(YYYY-MM-DD)"/>
+                        <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
                     <div>
                         <RaisedButton primary={true} type="submit" label="Submit"/>
                         <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>
                 </form>
-                <Link to="/" name="Log In"><RaisedButton label="Return"/></Link>
             </div>
         )
     }
