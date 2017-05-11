@@ -18,7 +18,7 @@ class Recent extends Component {
                 <List>
                     <Subheader style={subHeader}>Recent Stacks:</Subheader>
                     <div style={{fontFamily: "Roboto, sans-serif"}}>
-                        Oops! Looks like your shelf is empty. Create a stack or take a took at some community content below!
+                        Oops! Looks like your shelf is empty. Create a stack or take a look at some of the community content below!
                     </div>
                 </List>
             )

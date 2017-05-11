@@ -155,5 +155,7 @@ export default ()=>(
             [Re: Privacy Compliance Officer]
 
                 [9200 Irvine Center Dr., Irvine, CA, 92618, United States]</p>
+            <h5>Privacy Policy © 2017 FlappCards.com</h5>
+
         </Paper>
 )
