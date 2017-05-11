@@ -28,11 +28,11 @@ app.use('/users',users);
 
 //routes folder?
 app.get('*',(req,res)=>{
-    console.log('Getting to the correct place...',  path.resolve(__dirname, 'client', 'dist', 'index.html'));
+    path.resolve(__dirname, 'client', 'dist', 'index.html');
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
 });
 
 //begin listening
 app.listen(PORT, function(){
-    console.log('Listening to sw33t 1337 radio');
+    console.log("Listening on PORT:", PORT);
 });

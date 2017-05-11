@@ -12,7 +12,6 @@ import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from 
 class StackSummary extends Component {
 
     viewStack(stackInfo) {
-        console.log("stackID", stackInfo);
         this.props.getStackOverview(stackInfo.stack_id);
     }
     render() {

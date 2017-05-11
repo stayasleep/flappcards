@@ -15,7 +15,6 @@ class DeleteStackConfirm extends React.Component {
     };
 
     handleDelete(stackObject){
-        console.log("Stack to be deleted: ",stackObject.stack_id);
         this.props.deleteStack(stackObject.stack_id);
         this.props.getMyStackOverview();
     }

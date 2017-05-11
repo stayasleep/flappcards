@@ -82,7 +82,7 @@ function validate(values) {
     var birth = '';
     if(values.birthday) {
         birth = values.birthday.replace(/[^0-9 ]/g, '');
-        console.log("Birthday: ", birth)
+
     }
     const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
