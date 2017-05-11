@@ -29,15 +29,12 @@ class SingleCard extends Component {
                 () => {this.updateItem(this.state.card)});
         }
         else {
-            console.log("nextCard, inside of else statement, card", card);
             this.props.params.cid = this.props.cards[card].card_id +1;
             this.setState({
                 card: this.state.card+1},
                 () => {this.updateItem(this.state.card)}
             );
         }
-        console.log("nextCard() card before push statement", card);
-        // this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
     }
     prevCard() {
         document.getElementById('question').style.display = 'block';
@@ -48,7 +45,6 @@ class SingleCard extends Component {
             this.setState({card: this.props.cards.length-1}, () => {this.updateItem(this.state.card)});
         }
         else {
-            console.log("prevCard setState else statement");
             this.props.params.cid = this.props.cards[card].card_id -1;
             this.setState({
                 card: this.state.card - 1},
@@ -56,8 +52,6 @@ class SingleCard extends Component {
 
             })
         }
-        console.log("card before push statement", card);
-        // this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
     }
     updateItem(card){
         this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);

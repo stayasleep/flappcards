@@ -16,10 +16,6 @@ class FlashCardsAppBar extends Component {
     }
     handleClose() { this.setState({open: false}); }
     render() {
-        const style = {
-            textAlign: "center"
-        };
-
         return (
             <div className="appBar">
                 <Drawer
@@ -28,10 +24,10 @@ class FlashCardsAppBar extends Component {
                     onRequestChange={(open) => this.setState({open})}
                 >
                     <MenuItem style={style} primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
-                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                     <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
-                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                     <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
                     <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
                 </Drawer>
@@ -42,6 +38,10 @@ class FlashCardsAppBar extends Component {
                 />
             </div>
         );
+
+        const style = {
+            textAlign: "center"
+        };
     }
 }
 

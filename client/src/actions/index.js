@@ -86,15 +86,12 @@ export function logout() {
 // Accessed by clicking on the 'My Shelf' link of the app drawer
 // stack_reducer.js
 export function getMyStackOverview() {
-    console.log("getMyStackOverview() called");
     // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
-            console.log("getMyStackOverview response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
-            console.log('ERROR:', err);
             dispatch({
                 type: FETCH_MY_STACK_OVERVIEW,
                 error: err.response
@@ -108,7 +105,6 @@ export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token, "stackID": stackID}).then((response) => {
-            console.log("getStackOverview", response.data);
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -148,7 +144,6 @@ export function getMyRecentStacksOverview() {
 export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        console.log("deleteStack action creator", stackID);
         axios.post(`${BASE_URL}/deleteStack/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
@@ -167,7 +162,6 @@ export function deleteStack(stackID) {
 export function deleteCard(cardID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        console.log("deleteCardID function", cardID);
         axios.post(`${BASE_URL}/deleteCard/${cardID}`, {token: token, cardID: cardID}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
@@ -187,13 +181,8 @@ export function deleteCard(cardID) {
 export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        console.log("cardEditor function called");
         let {cardID, question, answer} = cardObject; // cardObject.card_id, cardObject.question, cardObject.answer
-        console.log("cardObject in cardEditor", cardObject);
-        console.log("question", question);
-        console.log("cardID", cardID);
         axios.put(`${BASE_URL}/stack/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
-            console.log("getStackOverview", response.data);
             dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -251,9 +240,7 @@ export function createStack(stackObject) {
 export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        console.log("searchStacks search parameter", search);
         axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
-            console.log("Search: ", response.data);
             dispatch({type: SEARCH_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({

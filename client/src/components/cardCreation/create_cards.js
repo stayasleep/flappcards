@@ -51,7 +51,6 @@ class CreateCards extends Component {
     }
 
     handleCreate(stackObject) {
-        console.log("handleCreate function called; stackObject:", stackObject);
         this.props.createStack(stackObject);
     }
 

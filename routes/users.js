@@ -60,22 +60,17 @@ router.post('/register',(request,response,next)=>{
 });
 //test login comparison
 router.post('/login',function(request,response){
-    // console.log(request.body);
     let usn = request.body.userName;
     let upw = request.body.password;
-    console.log('un ',usn);
-    console.log('upw ',upw);
     //call db
     connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[usn],function(err,result) {
         // if (err) throw err; // We can't just throw an error here. If the person mistypes their username, the server quits.
         // Do not give the user a token if error
         if (err) {
-            console.log('error');
+
             response.json({success: false, msg: "Username/Password not found"});
         }
         else if (result.length > 0) {
-            console.log('res',result);
-            console.log("result[0]", result[0].username);
             let un = result[0].username;
             let hash = result[0].user_pw;
             let usersid = result[0].user_id;
@@ -83,8 +78,6 @@ router.post('/login',function(request,response){
             bcrypt.compare(upw, hash, function (err, res) {
             // res === true
             if (res){
-                console.log('the passwords match');
-                console.log(res);
                 let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
                     expiresIn: 604800 //1 week in seconds
                 });
@@ -94,14 +87,11 @@ router.post('/login',function(request,response){
                     token: token
                 });
                 } else {
-                    console.log(err);
-                    console.log("Wrong password");
                     response.json({success: false, msg: "wrong pw"});
                 }
             });
         }
         else {
-            console.log('u though');
             response.json({success: false, msg: "Username/Password not found"});
         }
     })
@@ -118,8 +108,6 @@ router.use((request, response, next)=> {
             } else {
                 // if everything is good, save to request for use in other routes
                 request.decoded = decoded;
-                // console.log("decoded", decoded);
-                // console.log("request.decoded", request.decoded);
                 //response wil be sent by the next function...
                 next();
             }
@@ -137,12 +125,10 @@ router.post('/community', (request,response) => {
     //Community query
     let uid = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
-        //TODO error handling
         if (err) {
             response.send("Uh oh");
         }
         else if (results.length > 0) {
-            console.log('comm res',results);
             response.send(results);
         }
         else {
@@ -180,61 +166,24 @@ router.post('/stackOverview/:sID',(request,response) => {
             connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                 "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
                 "WHERE `stacks`.`stack_id`=?;", [sid], (err, results) => {
-                console.log("results from navigating to stackOverview", results);
                 if (err) {
                     response.send("Error on stack request");
                 }
                 results[0].isOwned = true;
-                console.log('sending res', results);
                 response.send(results);
             });
         }else {
             connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                 "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
                 "WHERE `stacks`.`stack_id`=?;", [sid], (err, results) => {
-                console.log("results from navigating to stackOverview", results);
                 if (err) {
                     response.send("Error on stack request");
                 }
-                console.log('sending res', results);
                 response.send(results);
             });
         }
     });
 });
-// TODO REMOVE WHATEVER THIS IS
-//THIS ISNT READY
-//click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
-// router.post('/stack/:uID/:sID',(request,response)=>{
-//     //let uid = request.decoded.UserID; //TOKEN OR URL
-//    let uid =request.params.uID;
-//    let sid=request.params.sID;
-//    console.log('sid',sid);
-//    // let idCopiedStack=null;
-//     connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id = ? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
-//         if (err){
-//             response.send("Error Connecting");
-//         }
-//         console.log('res',result);
-//         console.log('res0',result[0]);
-//         //this means I have the copy and own it, hide the button
-//         if(result.length>0){
-//             connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-//                 "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-//                 "WHERE `stacks`.`stack_id`=?;", [sid], (err,results) => {
-//                 console.log("results from navigating to stackOverview", results);
-//                 if (err) {
-//                     response.send("Error on stack request");
-//                 } else {
-//                     response.send(results);
-//                 }
-//             });
-//         }else{
-//             //this information isnt in logged users data, make the clone button appear and show the overview
-//             console.log("copy this stack");
-//         }
-//     });
-// });
 
 //CLICK THE COPY BUTTON, COPIES OTHER STACK INTO YOUR ACCOUNT
 router.post('/copy/:stackId',(request,response)=>{
@@ -252,7 +201,6 @@ router.post('/copy/:stackId',(request,response)=>{
                 response.send("Error Connecting");
             }
             //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
-            // console.log('my copied id',results[1].insertId); // Sends the ID of the stack
             response.send(results[1]);
         }
     );
@@ -260,25 +208,20 @@ router.post('/copy/:stackId',(request,response)=>{
 
 //shows Q and A of the stack you selected MAYBE THIS IS NOT NEEEDED.
 router.post('/stackOverview/', (request,response) => {
-    console.log("getCard request", request.body);
     connection.query("SELECT card_id, question,answer,difficulty,orig_source_stack, last_updated FROM cards WHERE stack_id = ?",[idCopiedStack],(err,results)=> {
         if (err) {
             response.send("Error");
         }
         else {
-            console.log("Ha, the last inserted ID produced these cards", results);
             response.json({success: true, msg: "Stack showing"});
         }
     })
 });
-//END THIS ISNT READY
 
 //DELETE INDIVIDUAL card from your stack overview
 router.post('/deleteCard/:cId',(request,response)=>{
-    console.log("deleteCard request");
     let uid = request.decoded.UserID;
     let singleID = request.body.cardID;
-    console.log('single id coming from card',singleID);
     connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
     // connection.query("DELETE FROM `cards` WHERE card_id=?",[singleID],(err,result)=>{ //I THINK THE ONE ABOVE WORKS BETTER, MUST MATCH USER TO CARD OWNER
         if (err){
@@ -288,11 +231,6 @@ router.post('/deleteCard/:cId',(request,response)=>{
         }else{
             response.send("Cannot be deleted at this time.");
         }
-        // if (err) {
-        //     return response.json({success: false, msg: "Card deletion failed"})
-        // }
-        // console.log('rows deleted: ', result.affectedRows);
-        // response.json({success:true, msg:"Single Card deleted"});
     });
 });
 //UPDATE INDIVIDUAL CARD FROM OVERVIEW
@@ -306,7 +244,6 @@ router.put('/stack/:cId',(request,response)=>{
         if (err) {
             response.json({success:false, msg: "Failed to updated"});
         }
-        console.log('updated',results.affectedRows);
         response.json({success:true, msg: "Single Card Updated"});
     });
 });
@@ -318,7 +255,6 @@ router.post('/addSingleCard/:stackID',(request,response)=>{
     let addA = request.body.cardObject.answer;
     connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
         if (err) {
-            console.log('errrrrr');
             response.json({success: false, msg: "Failed to add card"});
         }
         response.send("Added card to Stack");
@@ -339,20 +275,14 @@ router.post('/createCards',(request,response)=>{
         if (err) {
             return response.send("Uh oh, something went wrong");
         }
-        // console.log("results", results);
         let stackID = results.insertId;
         for (let i=0; i < numberOfCardsToInsert; i++) {
             let newQ = stack.stack[i].question;
             let newA = stack.stack[i].answer;
-            console.log("In the for loop newQ", newQ);
-            console.log("In the for loop newA", newA);
-            // Sorry dan, had to just do it with a for loop
             connection.query("INSERT INTO cards (stack_id, question, answer, orig_source_stack) VALUES (?,?,?,?);", [stackID, newQ, newA, whoMadeMe], (err, results) => {
                 if (err) {
-                    console.log("inside error conditional");
                     return response.send("Could not complete insertion");
                 }
-                console.log("Inside the query function");
             });
         }
         response.send({"stackID": stackID});
@@ -362,7 +292,6 @@ router.post('/createCards',(request,response)=>{
 //clicking myShelf and getting your overview,
 // Tied to the getMyStackOverview action creator
 router.post('/myShelf',(request,response)=> {
-    console.log("request.body", request.body);
     let uid = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
         "cards.orig_source_stack, " +
@@ -370,7 +299,6 @@ router.post('/myShelf',(request,response)=> {
         "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
         "GROUP BY stacks.stack_id", [uid], (err, results) => {
         if (err) {
-            console.log(err);
             response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
         } else {
             response.send(results);
@@ -380,11 +308,8 @@ router.post('/myShelf',(request,response)=> {
 //DELETING a whole stack, requires stack id from the front end
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.post('/deleteStack/:sID',(request,response)=>{
-    console.log("Delete request");
     let uid = request.decoded.UserID;
-    console.log("userID,", uid);
     let stackID = request.body.stackID;
-    console.log("stackID", stackID);
     connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
         if (err){
             response.send("um ok");
@@ -401,9 +326,6 @@ router.post('/search',(request,response)=>{
     let uid =request.decoded.UserID;
     // let uid = request.params.id;
     let fromSearch = request.body.query.Search;
-    console.log('uid', uid);
-    console.log("request.body", request.body);
-    console.log('search', fromSearch);
    connection.query(
        'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as totalCards ' +
        'FROM stacks JOIN cards on stacks.stack_id=cards.stack_id ' +
@@ -411,9 +333,7 @@ router.post('/search',(request,response)=>{
        'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(err,results)=>{
            if (err) {
                response.send("Uh oh");
-           }else{
-               console.log("youre searching for ",fromSearch);
-               console.log("searched results ",results);
+           } else {
                response.send(results);
            }
        }
@@ -422,13 +342,10 @@ router.post('/search',(request,response)=>{
 //Log out, pass the token, update the users last_login from table
 router.post('/logout',(request,response)=>{
     let un =request.decoded.UserName;
-    console.log('un ',un);
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
         if (err) {
             response.send("Uh oh");
-        }else{
-            console.log('updated user log out', result);
-            console.log('updated user log out', result);
+        }else {
             response.send({success:true, message:"updated log out"});
         }
     })
@@ -437,12 +354,9 @@ router.post('/logout',(request,response)=>{
 router.post('/profile',(request,response)=>{
     let un = request.decoded.UserID;
     connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(err,result)=>{
-        console.log(result);
         if (err) {
             response.send("Uh oh");
         } else{
-            console.log("USER ID IS NOW LOGGED OFF ",un);
-            console.log("results ",result);
             response.send(result);
         }
     })
