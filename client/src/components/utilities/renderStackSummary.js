@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import {List} from 'material-ui/List';
