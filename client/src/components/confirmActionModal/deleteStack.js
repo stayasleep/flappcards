@@ -4,6 +4,9 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {deleteStack, getMyStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
+import IconButton from 'material-ui/IconButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import {red500} from 'material-ui/styles/colors';
 
 class DeleteStackConfirm extends React.Component {
 
@@ -42,7 +45,9 @@ class DeleteStackConfirm extends React.Component {
 
         return (
             <div>
-                <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
+                <IconButton label="Delete" onTouchTap={this.handleOpen}>
+                    <ActionDelete hoverColor={red500}/>
+                </IconButton>
                 <Dialog
                     title="Are you sure you want to delete this stack?"
                     actions={actions}

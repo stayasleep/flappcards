@@ -201,6 +201,7 @@ router.post('/stackOverview/:sID',(request,response) => {
         }
     });
 });
+// TODO REMOVE WHATEVER THIS IS
 //THIS ISNT READY
 //click on a stack in home page or search  and it gets copied into your account, requires logged on user id and stack id , ---> should lead into the overview page
 // router.post('/stack/:uID/:sID',(request,response)=>{
@@ -339,7 +340,6 @@ router.post('/createCards',(request,response)=>{
         }
         // console.log("results", results);
         let stackID = results.insertId;
-        console.log("stackID", stackID);
         for (let i=0; i < numberOfCardsToInsert; i++) {
             let newQ = stack.stack[i].question;
             let newA = stack.stack[i].answer;
