@@ -51,4 +51,7 @@ export const chip = {
     paddingRight: 0
 };
 
+export const rightAvatar = {
+    float: "right"
+};
 

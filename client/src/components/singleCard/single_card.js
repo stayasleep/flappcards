@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getCard, getStackOverview} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
-import ReactDOM from 'react-dom'
 // this.context.router.push is what allows the URL to change without actually having to send requests
 
 class SingleCard extends Component {
