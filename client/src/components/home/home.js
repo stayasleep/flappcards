@@ -5,6 +5,7 @@ import Community from './community_stacks'
 import {Link} from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton';
 import Create from 'material-ui/svg-icons/content/create';
+import Paper from 'material-ui/Paper';
 
 class Home extends Component {
     render(){
@@ -23,8 +24,9 @@ class Home extends Component {
             }
         };
         return(
-            <div style={styles.body}>
+            <div>
                 <FlashCardsAppBar/>
+                <Paper>
                 <div style={styles.recentCards}>
                     <Recent/>
                 </div>
@@ -34,6 +36,7 @@ class Home extends Component {
                     <Link to="createCards" name="Create Cards">
                         <RaisedButton><Create/></RaisedButton>
                     </Link>
+                </Paper>
             </div>
         )
     }
