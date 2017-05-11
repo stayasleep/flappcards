@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
-import RaisedButton from 'material-ui/RaisedButton'
 import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';

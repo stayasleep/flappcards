@@ -6,15 +6,15 @@ import {getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
-
-import { cardDisplay,chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
-
+import Divider from 'material-ui/Divider';
+import {cardText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
+import {blue500} from 'material-ui/styles/colors';
 class StackViewStacks extends Component{
 
     static contextTypes = {
@@ -26,27 +26,12 @@ class StackViewStacks extends Component{
     };
 
     render() {
-        const styles = {
-                root: {
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-around'
-                },
-                gridList: {
-                    width: 500,
-                    height: 450,
-                    padding: "1em",
-                    cols: 3
-                },
-                cardDisplay: {
-                    textAlign: "center",
-                    display: "inline-block",
-                    width: 500,
-                    height: 450,
-                }
-            }
-        ;
 
+        const styles = {
+            cardHeader: {
+                backgroundColor: {blue500}
+            }
+        };
         if (!this.props.stackCards) {
             return <div>Loading...</div>
         }
@@ -54,14 +39,17 @@ class StackViewStacks extends Component{
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                        <Card key={index} style={styles.cardDisplay}>
-                            <CardTitle>
-                                Question: {item.question}
-                            </CardTitle>
-                            <CardText>
+                        <Card key={index} style={{width: "15vw", margin: "1em", display: "inline-flex"}}>
+                            <CardHeader
+                                title={`Question: ${item.question}`}
+                                titleStyle={{blue500}}
+                                actAsExpander={true}
+                            />
+                            <Divider style={{height: "1vh", marginLeft: 0, backgroundColor: "rgb(0,0,0)"}} />
+                            <CardText style={{fontSize: "2em"}} expandable={true}>
                                 Answer: {item.answer}
                             </CardText>
-                            <CardActions>
+                            <CardActions style={{position: "relative", float: "right", display: "inline-flex"}}>
                                 <EditCard cardID={this.props.stackCards[index]}/>
                                 <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                             </CardActions>
@@ -82,7 +70,7 @@ class StackViewStacks extends Component{
         else if(this.props.stackCards){
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                        <Card key={index} style={styles.cardDisplay}>
+                        <Card key={index}>
                             <CardTitle>
                                 {item.question}
                             </CardTitle>
