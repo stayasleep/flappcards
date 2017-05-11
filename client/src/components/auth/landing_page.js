@@ -20,21 +20,22 @@ const styles = {
     div:{
         display:'flex',
         flexDirection:'row wrap',
-        padding:20,
+        // padding:20,
         width: '100%',
+        height:'100vh',
         backgroundImage:`url(${home})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover'
     },
     paperLeft: {
         flex: 1,
-        height: '100%',
+        // height: '100%',
         margin: 10,
         textAlign: 'center',
         padding: 10,
     },
     paperRight:{
-        height:600,
+        // height:600,
         flex: 4,
         margin: 10,
         textAlign: 'center',
@@ -53,11 +54,15 @@ const styles = {
     },
     subs:{
         margin:"5%",
+        color: 'white',
         fontWeight: 900,
         fontSize: "2em"
     },
     midT:{
         color: 'red',
+    },
+    mTitle:{
+        marginBottom:'5%',
     }
 };
 
@@ -73,7 +78,7 @@ class landing extends Component {
                 </Toolbar>
                 <div style={styles.div}>
                     <div style={styles.paperRight}>
-                        <h1>FL<span style={styles.midT}>APP</span>CARDS</h1>
+                        <h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>
                         <h3 style={styles.subs}>The #1 Flashcard-App Around!</h3>
                         <h3 style={styles.subs}>Create personalized study stacks or search new topics at the click of a button.</h3>
                         <h3 style={styles.subs}>Our mission is to make learning easier for everybody.</h3>
