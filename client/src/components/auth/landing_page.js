@@ -11,7 +11,7 @@ import Registration from './registration';
 import Login from './log_in';
 import LoginModal from '../confirmActionModal/loginModal'
 import {GridList, GridTile} from 'material-ui/GridList';
-import home from '../imgs/home.JPG'
+import home from '../imgs/home2.JPG'
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import ActionCardMembership from 'material-ui/svg-icons/action/card-membership'
@@ -25,13 +25,14 @@ const styles = {
         display:'flex',
         flexDirection:'row wrap',
         // padding:20,
-        // height:'100vh',
+        height:'100vh',
         backgroundImage:`url(${home})`,
         width: '100%',
         position: "relative",
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover',
-        height: '89vh'
+        // height: '89vh',
+        backgroundAttached:'fixed',
     },
     paperLeft: {
         flex: 1,
@@ -60,9 +61,11 @@ const styles = {
     },
     subs:{
         margin:"5%",
-        color: 'white',
+        color: 'black',
         fontWeight: 900,
-        fontSize: "2em"
+        fontSize: "1.75em",
+        fontFamily:"Roboto,sans-serif",
+        // opacity:0.7
     },
     midT:{
         color: 'red',
@@ -83,7 +86,7 @@ class landing extends Component {
                 <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={<LoginModal/>}/>
                 <div style={styles.div}>
                     <div style={styles.paperRight}>
-                        <h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>
+                        {/*<h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>*/}
                         <h3 style={styles.subs}>The #1 Flashcard-App Around!</h3>
                         <h3 style={styles.subs}>Create personalized study stacks or search new topics at the click of a button.</h3>
                         <h3 style={styles.subs}>Our mission is to make learning easier for everybody.</h3>
