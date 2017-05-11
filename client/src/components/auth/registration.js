@@ -70,7 +70,6 @@ class Registration extends Component {
                         <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>
                 </form>
-                <Link to="/" name="Log In"><RaisedButton label="Return"/></Link>
             </div>
         )
     }

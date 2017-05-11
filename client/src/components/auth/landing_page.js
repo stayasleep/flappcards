@@ -9,8 +9,12 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import {Link} from 'react-router'
 import Registration from './registration';
 import Login from './log_in';
+import LoginModal from '../confirmActionModal/loginModal'
 import {GridList, GridTile} from 'material-ui/GridList';
 import home from '../imgs/home.JPG'
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import ActionCardMembership from 'material-ui/svg-icons/action/card-membership'
 
 
 const styles = {
@@ -21,11 +25,13 @@ const styles = {
         display:'flex',
         flexDirection:'row wrap',
         // padding:20,
-        width: '100%',
-        height:'100vh',
+        // height:'100vh',
         backgroundImage:`url(${home})`,
+        width: '100%',
+        position: "relative",
         backgroundRepeat: 'no-repeat',
-        backgroundSize:'cover'
+        backgroundSize:'cover',
+        height: '89vh'
     },
     paperLeft: {
         flex: 1,
@@ -63,6 +69,10 @@ const styles = {
     },
     mTitle:{
         marginBottom:'5%',
+    },
+    login: {
+        width: 500,
+        margin: 0
     }
 };
 
@@ -70,12 +80,7 @@ class landing extends Component {
     render (){
         return (
             <div>
-                <Toolbar style={styles.header}>
-                    <ToolbarTitle text="FlappCards" />
-                    <ToolbarGroup>
-                        <Login/>
-                    </ToolbarGroup>
-                </Toolbar>
+                <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={<LoginModal/>}/>
                 <div style={styles.div}>
                     <div style={styles.paperRight}>
                         <h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>
