@@ -9,8 +9,9 @@ export const subHeader = {
 };
 
 export const cardHeader = {
-        fontSize: "1em",
-        fontWeight: "bold"
+    fontSize: "1em",
+    fontWeight: "bold",
+    backgroundColor: "teal"
 };
 
 export const cardActions ={
@@ -73,7 +74,7 @@ export const cardDisplay = {
 export const cardDivider = {
     height: "1vh",
     marginLeft: "0",
-    backgroundColor: "rgb(0,0,0)"
+    backgroundColor: "#ffb499"
 };
 
 export const questionText = {
@@ -84,4 +85,31 @@ export const answerText = {
     fontSize: "1em"
 };
 
+export const cardToAdd = {
+    position: "relative",
+    margin: "2em"
+};
+
+export const cardToAddForm = {
+    margin: "1em auto"
+};
+
+export const addCardList = {
+    listStyleType: "none",
+    display: "inline"
+};
+
+export const addCardHeader = {
+    fontFamily: "Roboto, sans-serif",
+    margin: "0em",
+    fontSize: "2em"
+};
+
+export const actionDeleteIconButton = {
+    display: "inline-block",
+    float: "right",
+    width: 96,
+    height: 96,
+    padding: 24
+};
 

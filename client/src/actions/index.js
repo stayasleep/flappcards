@@ -3,7 +3,7 @@ import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
-import {browserHistory, Redirect} from 'react-router';
+import {browserHistory} from 'react-router';
 
 // const BASE_URL = 'http://localhost:1337/users'; // Uncomment for local testing
 const BASE_URL = '/users'; // Uncomment for live version
@@ -16,9 +16,7 @@ export function userLogin(values) {
             // response.data.success is set to send true if successful
             if (response.data.success) {
                 dispatch({type: AUTH_USER});
-
                 localStorage.setItem('token', response.data.token);
-
                 browserHistory.push('/home')
             }
         }).catch(err => {

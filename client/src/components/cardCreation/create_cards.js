@@ -9,6 +9,8 @@ import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
 import renderInput from '../utilities/renderInput';
+import Paper from 'material-ui/Paper';
+import {cardToAdd, cardToAddForm, addCardList, addCardHeader, actionDeleteIconButton} from '../utilities/stackSummaryStyle';
 
 import {medium, mediumIcon} from '../utilities/stackSummaryStyle';
 
@@ -18,16 +20,16 @@ class CreateCards extends Component {
 
     renderCards({fields, meta: {touched, error, submitFailed}}) {
         return (
-            <ul style={{listStyleType: "none"}}>
+            <ul style={addCardList}>
                 <li>
                     <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
                     {(touched || submitFailed) && error && <span>{error}</span>}
                 </li>
                 {fields.map((stack, index) => (
-                    <li key={index}>
-
-                        <h4 style={{fontFamily: "Roboto, sans-serif"}}>Card #{index + 1}
-                        <IconButton iconStyle={mediumIcon} style={medium} tooltip="Remove Card" label="Remove Card" tooltipPosition="top-right" onTouchTap={()=> fields.remove(index)}>
+                    <Paper style={cardToAdd} key={index}>
+                    <li>
+                        <h4 style={addCardHeader}>
+                        <IconButton iconStyle={mediumIcon} style={actionDeleteIconButton} tooltip="Remove Card" label="Remove Card" tooltipPosition="top-right" onTouchTap={()=> fields.remove(index)}>
                             <ActionDelete hoverColor={red500}/>
                         </IconButton>
                         </h4>
@@ -45,6 +47,7 @@ class CreateCards extends Component {
                             label="Answer"
                         />
                     </li>
+                    </Paper>
                 ))}
             </ul>
         )
@@ -59,6 +62,7 @@ class CreateCards extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
+                <Paper style={cardToAddForm}>
                 <form onSubmit={handleSubmit((values) => {this.handleCreate(values)})}>
                     <Field
                         name="subject"
@@ -78,6 +82,7 @@ class CreateCards extends Component {
                         <RaisedButton type="button" label="Remove All" disabled={pristine || submitting} onClick={reset}/>
                     </div>
                 </form>
+                </Paper>
             </div>
         );
     }

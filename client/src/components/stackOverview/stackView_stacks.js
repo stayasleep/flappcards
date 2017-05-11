@@ -13,7 +13,7 @@ import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 import Divider from 'material-ui/Divider';
-import {cardDisplay, cardHeader, cardDivider, cardText, questionText, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
+import {cardDisplay, cardHeader, cardDivider, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import {blue500} from 'material-ui/styles/colors';
 class StackViewStacks extends Component{
 
@@ -50,7 +50,7 @@ class StackViewStacks extends Component{
                             <CardText style={answerText} expandable={true}>
                                 Answer: {item.answer}
                             </CardText>
-                            <CardActions style={}>
+                            <CardActions style={stackOverviewCardActions}>
                                 <EditCard cardID={this.props.stackCards[index]}/>
                                 <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                             </CardActions>
