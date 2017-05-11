@@ -6,6 +6,7 @@ export default function renderInputReg({input, label, type, meta: {touched, erro
         <TextField hintText={label}
                    floatingLabelText={label}
                    errorText={touched && error}
+                   errorStyle={{float: "left"}}
                    type={type}
                    {...input}
         />

@@ -5,7 +5,7 @@ import replace from '../imgs/replaceAbout.jpg';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import Login from './log_in';
 import {userLogin} from '../../actions/index';
-
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 const style={
@@ -42,6 +42,7 @@ export default ()=>(
       <Toolbar style={style.header}>
           <ToolbarTitle text="FlappCards" />
           <ToolbarGroup>
+              <RaisedButton label="Home" containerElement={<Link to="/home"/>}/>
           </ToolbarGroup>
       </Toolbar>
 
