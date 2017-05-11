@@ -2,8 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
-const connection = require('../config/config'); // So connection credentials can be ignored
-const config = require('../config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
+const connection = require('../server/config/config'); // So connection credentials can be ignored
+const config = require('../server/config/secret'); //keep the secret in a sep. directory[[maybe can do in config js]]
 const bcrypt = require('bcryptjs'); // Hashing
 const jwt = require('jsonwebtoken'); // For token
 
