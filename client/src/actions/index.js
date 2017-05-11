@@ -3,7 +3,7 @@ import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
-import {browserHistory} from 'react-router';
+import {browserHistory, Redirect} from 'react-router';
 
 const BASE_URL = 'http://localhost:1337/users'; // Uncomment for local testing
 // const BASE_URL = '/users'; // Uncomment for live version
@@ -279,7 +279,10 @@ export function stackCopy(stackCopy) {
         let stackID = stackCopy.stack_id;
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
-            dispatch({type: COPY_STACK, payload: response.data});
+            let newStackID = response.data.stackID;
+            dispatch({type: COPY_STACK, payload: newStackID});
+            browserHistory.push(`/myShelf`);
+            browserHistory.push(`/stackOverview/${newStackID}`);
         }).catch(err => {
             dispatch({
                 type: COPY_STACK,

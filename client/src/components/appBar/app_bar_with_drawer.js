@@ -16,6 +16,9 @@ class FlashCardsAppBar extends Component {
     }
     handleClose() { this.setState({open: false}); }
     render() {
+        const style = {
+            textAlign: "center"
+        };
         return (
             <div className="appBar">
                 <Drawer
@@ -33,15 +36,13 @@ class FlashCardsAppBar extends Component {
                 </Drawer>
 
                 <AppBar
-                    title="Flash Cards"
+                    title="FlappCards"
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />
             </div>
         );
 
-        const style = {
-            textAlign: "center"
-        };
+
     }
 }
 
