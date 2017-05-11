@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Paper from 'material-ui/Paper';
-import replace from '../imgs/replaceAbout.jpg';
+import about from '../imgs/about.JPG';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import Login from './log_in';
 import {userLogin} from '../../actions/index';
@@ -25,7 +25,7 @@ const style={
     },
     paperL:{
         flex: 1,
-        backgroundImage:`url(${replace})`,
+        backgroundImage:`url(${about})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize:'contain'
     },
