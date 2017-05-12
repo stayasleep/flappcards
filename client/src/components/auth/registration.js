@@ -38,8 +38,8 @@ class Registration extends Component {
         const regStyle = {
             float: "right",
             textAlign: "center",
-            paddingRight: "10%",
-            color: 'black'
+            color: 'black',
+            backgroundColor: "rgba(255,255,255, 0.7)"
         };
         const passWordInfo = {
             fontSize: 10,
