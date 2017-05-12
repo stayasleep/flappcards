@@ -1,5 +1,22 @@
 # C2.17_flash_cards
 
+##Technologies 
+###Client/Front-End
+-HTML
+-CSS
+-ReactJS
+-Material UI
+-Redux
+-Redux API
+-ECMAScript 6
+###Server/Back-End
+-MySQL
+-Node.js
+-Express.js
+-Bcryptjs
+-JSON Web Token
+
+
 #### Senior Devs
 - Brian B
 - Jinwoo C
@@ -12,6 +29,12 @@
 - John M
 - John L
 - Regis J
+
+##Branches ###Master DO NOT TOUCH THIS BRANCH. This is for the latest STABLE release. Pushing to this branch is prohibited. Changes must be merged in.
+
+###Dev Make feature branches off this branch. Merge changes into this branch.
+
+##Installation Download the package.json npm install npm start
 
 #### Producer
 - Daniel P
