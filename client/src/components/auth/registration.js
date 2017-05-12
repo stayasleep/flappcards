@@ -43,7 +43,7 @@ class Registration extends Component {
         };
         const passWordInfo = {
             fontSize: 10,
-            margin: "1.3em"
+            marginTop: "1.3em"
         };
         const header = {
             margin: 0
