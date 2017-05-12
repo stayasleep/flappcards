@@ -46,7 +46,7 @@ export default ()=>(
           </ToolbarGroup>
       </Toolbar>
 
-      <Paper  style={style.div} zDepth={3}>
+      <Paper  style={style.div} zDepth={1}>
           <div style={style.container}>
               <h1>Welcome to FlappCards</h1>
               <h2>Our Mission</h2>
@@ -58,7 +58,7 @@ export default ()=>(
                today!</p>
           </div>
       </Paper>
-      <Paper style={style.div} zDepth={3}>
+      <Paper style={style.div} zDepth={1}>
           <div style={style.container2}>
               <div style={style.paperR}>
                   <h1>Our Story</h1>

@@ -1,6 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router';
 import Paper from 'material-ui/Paper';
-
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import Login from './log_in';
+import {userLogin} from '../../actions/index';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const style = {
     div:{
@@ -13,7 +17,14 @@ const style = {
 
 };
 export default ()=>(
-        <Paper style={style.div} zDepth={3}>
+    <div>
+        <Toolbar style={style.header}>
+            <ToolbarTitle text="FlappCards" />
+            <ToolbarGroup>
+                <RaisedButton label="Home" containerElement={<Link to="/home"/>}/>
+            </ToolbarGroup>
+        </Toolbar>
+        <Paper style={style.div} zDepth={1}>
             <h1>Privacy Policy</h1>
 
             <h3>SECTION 1 - WHAT DO WE DO WITH YOUR INFORMATION?</h3>
@@ -158,4 +169,5 @@ export default ()=>(
             <h5>Privacy Policy © 2017 FlappCards.com</h5>
 
         </Paper>
+    </div>
 )
