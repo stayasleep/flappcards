@@ -42,6 +42,7 @@ class Stacks extends Component {
                         </IconButton>
                         <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </CardActions>
+                    {/*<CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>*/}
                     <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>
                 </Card>
             )
