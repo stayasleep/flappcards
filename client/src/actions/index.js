@@ -57,12 +57,20 @@ export function getUserData() {
 export function register({name, userName, password, email, birthday}) {
     return function (dispatch) {
         axios.post(`${BASE_URL}/register`, {name, userName, password, email, birthday}).then((resp) => {
+            console.log("register response", resp);
+            // resp.data.success = true, register the user
+            if (resp.data.success) {
+                dispatch({type: AUTH_USER});
+                localStorage.setItem('token', resp.data.token);
+                browserHistory.push('/home')
+            }
+            // resp.data.success = false => the username was taken
+            // Push the user back to the home page
+            else {
+                browserHistory.push('/');
 
-            dispatch({type: AUTH_USER});
+            }
 
-            localStorage.setItem('token', resp.data.token);
-
-            browserHistory.push('/home')
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
