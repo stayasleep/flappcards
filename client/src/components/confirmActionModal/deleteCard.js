@@ -6,7 +6,7 @@ import {deleteCard, getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
-import {medium, mediumIcon} from '../utilities/stackSummaryStyle';
+import {deleteIconButton} from '../utilities/stackSummaryStyle';
 
 const styler = {
     center: {
@@ -50,9 +50,7 @@ class DeleteCardConfirm extends React.Component {
 
         return (
             <div>
-                <IconButton iconStyle={mediumIcon} style={medium} tooltip="Delete" tooltipPosition="top-center" onTouchTap={this.handleOpen}>
-                    <ActionDelete hoverColor={red500}/>
-                </IconButton>
+                <ActionDelete style={deleteIconButton} label="Delete" hoverColor={red500} onTouchTap={this.handleOpen} />
                 <Dialog
                     style={styler.center}
                     title="Are you sure you want to remove this card from the stack?"

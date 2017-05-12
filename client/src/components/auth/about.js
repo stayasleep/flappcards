@@ -10,7 +10,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const style={
     div:{
-        // height:'30vh',
         width:'80vw',
         textAlign: 'center',
         display:'block',
@@ -18,7 +17,6 @@ const style={
     },
     container:{
         width:'100%',
-        // height:'100%',
     },
     paperR:{
         flex: 1,
