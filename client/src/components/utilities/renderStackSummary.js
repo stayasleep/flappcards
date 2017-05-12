@@ -41,7 +41,7 @@ class StackSummary extends Component {
                         Created On: {item.createdOn}
                         </div>
                         <div>
-                        Rating: {item.stackRating}
+                            {`Rating: ${item.stackRating} %`}
                         </div>
                     </CardText>
                     <CardActions>

@@ -5,6 +5,7 @@ import {Field, reduxForm} from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton'
 import {searchStacks} from '../../actions/index'
 import {connect} from 'react-redux'
+import Paper from 'material-ui/Paper';
 import {
     Table,
     TableBody,
@@ -22,22 +23,23 @@ class Search extends Component {
     }
 
     render(){
+        const styles = {
+          textAlign: "center"
+        };
         const { handleSubmit } = this.props;
             const stacksList = this.props.stacks.map((item, index) => {
                 return (
-                    <TableRow key={index}>
-                        <TableRowColumn>{item.subject}: {item.category}</TableRowColumn>
-                        <TableRowColumn>{item.orig_source_stack}</TableRowColumn>
-                        <TableRowColumn>{item.totalCards}</TableRowColumn>
-                        <TableRowColumn>{item.rating}</TableRowColumn>
-                        <TableRowColumn>
+                    <TableRow key={index} style={styles}>
+                        <TableRowColumn style={styles}>{item.subject}: {item.category}</TableRowColumn>
+                        <TableRowColumn style={styles}>{item.orig_source_stack}</TableRowColumn>
+                        <TableRowColumn style={styles}>{item.totalCards}</TableRowColumn>
+                        <TableRowColumn style={styles}>{item.rating}</TableRowColumn>
+                        <TableRowColumn style={styles}>
                             <RaisedButton
                                 containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`}
                                                         name="stackOverview"/>}>
                                 View
                             </RaisedButton>
-                        </TableRowColumn>
-                        <TableRowColumn>
                         </TableRowColumn>
                     </TableRow>
                 )
@@ -46,24 +48,26 @@ class Search extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
+                <Paper>
                 <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
                     <Field name="Search" component={renderInput} label="Search Category or Subject"/>
                     <RaisedButton type="submit" label="Search"/>
                 </form>
                 <Table>
-                    <TableHeader>
+                    <TableHeader style={{textAlign:"center"}}>
                         <TableRow>
-                            <TableHeaderColumn>Subjects</TableHeaderColumn>
-                            <TableHeaderColumn>Created By</TableHeaderColumn>
-                            <TableHeaderColumn>Number of Cards</TableHeaderColumn>
-                            <TableHeaderColumn>Rating</TableHeaderColumn>
-                            <TableHeaderColumn>View</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>Subjects</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>Created By</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>Number of Cards</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>Rating</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {stacksList}
                     </TableBody>
                 </Table>
+                </Paper>
             </div>
         )
         }
@@ -71,6 +75,7 @@ class Search extends Component {
             return (
                 <div>
                     <FlashCardsAppBar/>
+                    <Paper>
                     <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
                         <Field name="Search" component={renderInput} label="Search Category or Subject"/>
                         <RaisedButton type="submit" label="Search"/>
@@ -78,17 +83,18 @@ class Search extends Component {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHeaderColumn>Subjects</TableHeaderColumn>
-                                <TableHeaderColumn>Created By</TableHeaderColumn>
-                                <TableHeaderColumn>Number of Cards</TableHeaderColumn>
-                                <TableHeaderColumn>Rating</TableHeaderColumn>
-                                <TableHeaderColumn>View</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Subjects</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Created By</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Number of Cards</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Rating</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                         </TableBody>
                     </Table>
-                    Sorry There are no Stacks by that name or category.
+                    Sorry, there are no Stacks by that name or category.
+                    </Paper>
                 </div>
             )
         }

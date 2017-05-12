@@ -6,6 +6,11 @@ import {Link} from 'react-router'
 import {getCard, getStackOverview} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
 // this.context.router.push is what allows the URL to change without actually having to send requests
+import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
+import Paper from 'material-ui/Paper';
+import SkipNext from 'material-ui/svg-icons/AV/skip-next';
+import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
+
 
 class SingleCard extends Component {
 
@@ -79,13 +84,13 @@ class SingleCard extends Component {
                 this.classList.toggle('flippedCard');
                 setTimeout(function () {
                     document.getElementById('question').style.display = 'none';
-                    document.getElementById('answer').style.display = 'block';
+                    document.getElementById('answer').style.display = 'inline-flex';
                     flip = false;
                 }, 200);
             } else {
                 this.classList.toggle('flippedCard');
                 setTimeout(function () {
-                    document.getElementById('question').style.display = 'block';
+                    document.getElementById('question').style.display = 'inline-flex';
                     document.getElementById('answer').style.display = 'none';
                     flip = true;
                 }, 200);
@@ -95,7 +100,9 @@ class SingleCard extends Component {
 
     render() {
         const centered = {
-            textAlign: "center"
+            textAlign: "center",
+            display: "inline-block",
+            marginTop: "3em"
         };
         const right = {
             textAlign: "center"
@@ -105,13 +112,11 @@ class SingleCard extends Component {
             backgroundColor: "red"
         };
         const cardStyle = {
-            width: '100vw',
-            height: '90vh',
             transition: 'transform 1s',
             textAlign: "center",
             transformStyle: "preserve-3d",
             transformOrigin: "50% 50%",
-            display: "flex",
+            display: "inline-flex",
             justifyContent: "center",
             backfaceVisibility: "visible"
         };
@@ -125,11 +130,15 @@ class SingleCard extends Component {
 
         const answer ={
             display: "none",
-            transform: "scale(1)"
+            transform: "scale(1)",
+            width: "40em",
+            margin: "1em auto"
         };
 
         const question ={
-            display: "block"
+            display: "inline-flex",
+            width: "40em",
+            margin: "1em auto"
         };
         // this.state.card is the index for the next and previous
         let card;
@@ -141,21 +150,27 @@ class SingleCard extends Component {
         }
         return (
             <div>
+                <FlashCardsAppBar/>
+                <Paper>
                 <div style={cardStyle} id="questionCard">
-                    <h2 style={question} id="question">
+                    <h2 style={{question}} id="question">
                         Question: {card.question}
                     </h2>
                     <h2 style={answer} id="answer">
                         Answer: {card.answer}
                     </h2>
                 </div>
-                <div  style={centered}>
-                    <RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>
-                    <RaisedButton primary={true} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</RaisedButton>
+                </Paper>
+                <Paper style={{textAlign: "center"}}>
+                <div style={centered}>
+                    {/*<RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>*/}
+                    <SkipPrevious primary={true} style={{margin: "1em", float: "left", height: "48px", width: "48px", padding: "24px"}} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</SkipPrevious>
                     <RaisedButton style={centered} id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
-                    <RaisedButton primary={true} id="next" onClick={() => {this.nextCard()}}>NEXT</RaisedButton>
-                    <RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>
+                    <SkipNext primary={true} style={{margin: "1em", float: "right",  height: "48px", width: "48px", padding: "24px"}} id="next" onClick={() => {this.nextCard()}}>NEXT</SkipNext>
+                    {/*<RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>*/}
                 </div>
+                </Paper>
+
             </div>
         );
     }
