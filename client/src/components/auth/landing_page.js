@@ -32,7 +32,7 @@ const styles = {
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover',
         // height: '89vh',
-        backgroundAttached:'fixed',
+        backgroundAttachment:'fixed',
     },
     paperLeft: {
         flex: 1,
@@ -63,7 +63,7 @@ const styles = {
         margin:"5%",
         color: 'black',
         fontWeight: 900,
-        fontSize: "1.75em",
+        fontSize: "1.5em",
         fontFamily:"Roboto,sans-serif",
         // opacity:0.7
     },

@@ -46,11 +46,16 @@ class Registration extends Component {
             margin: "1.3em"
         };
         const header = {
-            margin: 0
+            margin: 0,
+            fontFamily: "Roboto,sans-serif",
+
         };
         const buttons = {
             margin: "1.3em"
         };
+
+
+
         return (
             <div style={regStyle}>
                 <h1 style={header}>Register</h1>
