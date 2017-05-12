@@ -26,6 +26,9 @@ class FlashCardsAppBar extends Component {
             title: {
                 cursor: 'pointer',
             },
+            divider: {
+
+            }
         };
         function handleTouchTap() {
             browserHistory.push("/home")
