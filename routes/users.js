@@ -42,7 +42,8 @@ router.post('/register',(request,response,next)=>{
         }
         console.log('res', result[0].taken);
         if (result[0].taken === 1) { //UN exists in table
-            response.json({success: false});
+            // use return statement to jump out of the function to avoid setting headers after they've been sent
+            return response.json({success: false});
         }
         console.log('free');
         // Use bcrypt to salt and hash the password.
