@@ -10,6 +10,7 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
 import {cardEditor, getStackOverview} from '../../actions/index';
 import {blue500} from 'material-ui/styles/colors';
+import {editIconButton} from '../utilities/stackSummaryStyle';
 
 const styler = {
     center: {
@@ -51,22 +52,9 @@ class EditCard extends Component {
 
     render() {
         const { handleSubmit} = this.props;
-        const styles ={
-            mediumIcon: {
-                width: 48,
-                height: 48
-            },
-            medium: {
-                width: 96,
-                height: 96,
-                padding: 24
-            }
-        };
         return (
             <div>
-                <IconButton iconStyle={styles.mediumIcon} style={styles.medium} label="Edit" tooltip="Edit Card" tooltipPosition="top-right" onTouchTap={this.handleOpen}>
-                    <EditorModeEdit hoverColor={blue500} />
-                </IconButton>
+                <EditorModeEdit style={editIconButton} label="Edit"  hoverColor={blue500} onTouchTap={this.handleOpen} />
                 <Dialog
                     style={styler.center}
                     title="Are you sure you want to edit this card?"
