@@ -7,6 +7,7 @@ export default function renderInput({input, label, type, meta: {touched, error}}
         <TextField hintText={label}
                    floatingLabelText={label}
                    errorText={touched && error}
+                   underlineStyle={{width: 150}}
                    type={type}
                    style={addCardInputFields}
                    errorStyle={errorText}
