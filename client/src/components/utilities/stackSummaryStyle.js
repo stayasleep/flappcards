@@ -70,7 +70,7 @@ export const cardDisplay = {
     width: "15vw",
     margin: "1em",
 };
-
+// orange800
 export const cardDivider = {
     height: "1vh",
     marginLeft: "0",
@@ -78,7 +78,8 @@ export const cardDivider = {
 };
 
 export const questionText = {
-    fontSize: "2em"
+    fontSize: "2em",
+    fontColor: "#FAFAFA"
 };
 
 export const answerText = {
@@ -117,6 +118,24 @@ export const closeIconButton = {
     padding: 0,
     margin: "0.35em"
 };
+export const editIconButton = {
+    display: "inline-block",
+    float: "right",
+    width: 36,
+    height: 36,
+    padding: 0,
+    margin: "0.35em"
+};
+
+export const deleteIconButton = {
+    display: "inline-block",
+    float: "right",
+    width: 36,
+    height: 36,
+    padding: 0,
+    margin: "0.35em"
+};
+
 
 export const addCardInputFields = {
     margin: "0.5em"

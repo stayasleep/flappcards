@@ -33,7 +33,7 @@ class Stacks extends Component {
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar>{item.totalCards}</Avatar>}
+                        avatar={<Avatar style={{float:"right"}}>{item.totalCards}</Avatar>}
                         style={cardHeader}
                     />
                     <CardActions style={cardActions}>
