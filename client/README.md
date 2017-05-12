@@ -1,5 +1,9 @@
 # C2.17_flash_cards
 
+##Create your flashcard stack on [FlappCards](https://flappcards.com/about) 
+### The new, cool Flashcard App around!
+
+
 ##Technologies 
 ###Client/Front-End
 -HTML
