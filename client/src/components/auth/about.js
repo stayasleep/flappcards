@@ -25,12 +25,12 @@ const style={
         flex: 1,
         backgroundImage:`url(${about})`,
         backgroundRepeat: 'no-repeat',
-        backgroundSize:'contain'
+        backgroundSize:'cover'
     },
     container2:{
         display:'flex',
         flexDirection:'row wrap',
-        padding:20,
+        // padding:20,
         width: '100%',
     }
 };
@@ -61,7 +61,7 @@ export default ()=>(
               <div style={style.paperR}>
                   <h1>Our Story</h1>
                   <p>FlappCards was founded in 2017 by LearningFuze students Brian Bernstein, Kevin Chalmers, and Andres Gasper
-                   as a tool that started out as a way to help them study each other's class notes while also being able to customize them
+                   as a tool that started out as a way to help us study each other's class notes while also being able to customize them
                   individually.</p>
                   <p>Since then, we've gone on to create a platform that welcomes anyone interested in expanding their horizon.  Create your
                    own stacks, share them with friends, or search through other member's contributions and pick up a new topic.  There's no

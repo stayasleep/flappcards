@@ -39,7 +39,7 @@ class Registration extends Component {
             float: "right",
             textAlign: "center",
             color: 'black',
-            backgroundColor: "rgba(255,255,255, 0.7)",
+            backgroundColor: "rgba(255,255,255,0.4",
             position: "relative"
         };
         const passWordInfo = {

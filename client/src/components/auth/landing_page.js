@@ -47,7 +47,7 @@ const styles = {
         flex: 4,
         margin: 10,
         textAlign: 'center',
-        backgroundColor: "rgba(255,255,255, 0.7)",
+        // backgroundColor: "rgba(255,255,255, 0.3)",
     },
     loginStyle:{
         position: "relative",

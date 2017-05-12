@@ -64,8 +64,10 @@ export const chip = {
 export const rightAvatar = {
     float: "right"
 };
+import {orange400} from 'material-ui/styles/colors';
 
 export const cardDisplay = {
+    backgroundColor:"{orange400}",
     display: "inline-block",
     width: "15vw",
     margin: "1em",
