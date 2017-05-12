@@ -66,14 +66,18 @@ class StackViewStacks extends Component{
 
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                        <Card key={index}>
-                            <CardTitle>
-                                {item.question}
-                            </CardTitle>
-                            <CardText>
-                                {item.answer}
-                            </CardText>
-                        </Card>
+                    <Card key={index} style={cardDisplay}>
+                        <CardHeader
+                            style={cardHeader}
+                            title={`Question: ${item.question}`}
+                            titleStyle={{blue500}}
+                            actAsExpander={true}
+                        />
+                        <Divider style={cardDivider} />
+                        <CardText style={answerText} expandable={true}>
+                            Answer: {item.answer}
+                        </CardText>
+                    </Card>
 
                 )
             });
