@@ -18,7 +18,6 @@ import ActionCardMembership from 'material-ui/svg-icons/action/card-membership'
 import Paper from 'material-ui/Paper';
 
 
-
 const styles = {
     title: {
         cursor: 'pointer',
@@ -48,6 +47,7 @@ const styles = {
         flex: 4,
         margin: 10,
         textAlign: 'center',
+        backgroundColor: "rgba(255,255,255, 0.7)",
     },
     loginStyle:{
         position: "relative",
@@ -110,7 +110,7 @@ const styles = {
         position: "relative",
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover',
-        // height: '89vh',
+        height: '89vh',
         backgroundAttachment:'fixed',
     }
 };
@@ -121,8 +121,14 @@ class landing extends Component {
             <div>
                 <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={<LoginModal/>}/>
                 <Paper style={styles.div2} zDepth={1}>
+                    <div id="mobileIntro" style={styles.paperRight}>
+                        {/*<h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>*/}
+                        <h3 style={styles.subs}>The #1 Flashcard-App Around!</h3>
+                        <h3 style={styles.subs}>Find more of what you're looking for on FlappCards,</h3>
+                        <h3 style={styles.subs}>Join Today!</h3>
+                    </div>
                     <div style={styles.container2}>
-                        <div style={styles.paperRight}>
+                        <div id="Intro" style={styles.paperRight}>
                             {/*<h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>*/}
                             <h3 style={styles.subs}>The #1 Flashcard-App Around!</h3>
                             <h3 style={styles.subs}>Create personalized study stacks or search new topics at the click of a button.</h3>

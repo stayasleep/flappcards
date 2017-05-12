@@ -39,7 +39,8 @@ class Registration extends Component {
             float: "right",
             textAlign: "center",
             color: 'black',
-            backgroundColor: "rgba(255,255,255, 0.7)"
+            backgroundColor: "rgba(255,255,255, 0.7)",
+            position: "relative"
         };
         const passWordInfo = {
             fontSize: 10,
@@ -51,7 +52,7 @@ class Registration extends Component {
 
         };
         const buttons = {
-            margin: "1.3em"
+            margin: "1.3em",
         };
 
 

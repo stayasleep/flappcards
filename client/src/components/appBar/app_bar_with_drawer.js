@@ -4,6 +4,7 @@ import {logout} from '../../actions/index';
 import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
 import Divider from 'material-ui/Divider';
+import {browserHistory} from 'react-router';
 
 class FlashCardsAppBar extends Component {
 
@@ -21,6 +22,17 @@ class FlashCardsAppBar extends Component {
             textAlign: "center",
             margin: "1em auto"
         };
+        const styles = {
+            title: {
+                cursor: 'pointer',
+            },
+            divider: {
+
+            }
+        };
+        function handleTouchTap() {
+            browserHistory.push("/home")
+        }
         return (
             <div className="appBar">
                 <Drawer
@@ -44,7 +56,8 @@ class FlashCardsAppBar extends Component {
                 </Drawer>
 
                 <AppBar
-                    title="FlappCards"
+                    title={<span style={styles.title}>FlappCards</span>}
+                    onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />
             </div>
