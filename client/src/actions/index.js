@@ -5,8 +5,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:1337/users'; // Uncomment for local testing
-// const BASE_URL = '/users'; // Uncomment for live version
+// const BASE_URL = 'http://localhost:1337/users'; // Uncomment for local testing
+const BASE_URL = '/users'; // Uncomment for live version
 
 export function userLogin(values) {
 
@@ -57,12 +57,19 @@ export function getUserData() {
 export function register({name, userName, password, email, birthday}) {
     return function (dispatch) {
         axios.post(`${BASE_URL}/register`, {name, userName, password, email, birthday}).then((resp) => {
+            // resp.data.success = true, register the user
+            if (resp.data.success) {
+                dispatch({type: AUTH_USER});
+                localStorage.setItem('token', resp.data.token);
+                browserHistory.push('/home')
+            }
+            // resp.data.success = false => the username was taken
+            // Push the user back to the home page
+            else {
+                browserHistory.push('/');
 
-            dispatch({type: AUTH_USER});
+            }
 
-            localStorage.setItem('token', resp.data.token);
-
-            browserHistory.push('/home')
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,

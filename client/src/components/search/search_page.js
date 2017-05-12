@@ -24,7 +24,8 @@ class Search extends Component {
 
     render(){
         const styles = {
-          textAlign: "center"
+            textAlign: "center"
+
         };
         const { handleSubmit } = this.props;
             const stacksList = this.props.stacks.map((item, index) => {
@@ -53,8 +54,8 @@ class Search extends Component {
                     <Field name="Search" component={renderInput} label="Search Category or Subject"/>
                     <RaisedButton type="submit" label="Search"/>
                 </form>
-                <Table>
-                    <TableHeader style={{textAlign:"center"}}>
+                <Table style={styles}>
+                    <TableHeader style={{textAlign:"center", displaySelectAll: "false"}}>
                         <TableRow>
                             <TableHeaderColumn style={{textAlign:"center"}}>Subjects</TableHeaderColumn>
                             <TableHeaderColumn style={{textAlign:"center"}}>Created By</TableHeaderColumn>
@@ -63,7 +64,7 @@ class Search extends Component {
                             <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
+                    <TableBody style={{displayRowCheckbox: "false"}}>
                         {stacksList}
                     </TableBody>
                 </Table>
@@ -81,7 +82,7 @@ class Search extends Component {
                         <RaisedButton type="submit" label="Search"/>
                     </form>
                     <Table>
-                        <TableHeader>
+                        <TableHeader style={{displaySelectAll: false}}>
                             <TableRow>
                                 <TableHeaderColumn style={{textAlign:"center"}}>Subjects</TableHeaderColumn>
                                 <TableHeaderColumn style={{textAlign:"center"}}>Created By</TableHeaderColumn>
@@ -90,7 +91,7 @@ class Search extends Component {
                                 <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody style={{displayRowCheckbox: "false"}}>
                         </TableBody>
                     </Table>
                     Sorry, there are no Stacks by that name or category.

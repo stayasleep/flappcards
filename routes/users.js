@@ -35,25 +35,36 @@ router.post('/register',(request,response,next)=>{
     if (newUser.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(newUser.birthday)){
         return response.json({success: false, error: "Registration failed"})
     }
-
-    // Use bcrypt to salt and hash the password.
-    // Use of salt + hash helps guard against use of rainbow tables
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(newUser.user_pw, salt, function(err, hash) {
-            newUser.user_pw = hash;
-            connection.query("INSERT INTO `users` SET ?", newUser,(err,results)=>{
-                // Use JSON Web Token to issue and sign the user a token
-                // Set token to expire in 1 week for persistent login
-                let token = jwt.sign({UserName: newUser.username,UserID:results.insertId},config.secret,{
-                    expiresIn: 604800 //1 week in seconds
-                });
-                response.json({
-                    success: true,
-                    message: "User registered",
-                    msg: results,
-                    token: token
-                });
-            })
+    connection.query("SELECT EXISTS(SELECT 1 FROM users WHERE username=?) as 'taken'",[newUser.username],(err,result)=> {
+        //if result = 1, we can interpret as true and UN already exits, if 0 then username does not exists
+        if (err) {
+            response.send("Error connecting");
+        }
+        console.log('res', result[0].taken);
+        if (result[0].taken === 1) { //UN exists in table
+            // use return statement to jump out of the function to avoid setting headers after they've been sent
+            return response.json({success: false});
+        }
+        console.log('free');
+        // Use bcrypt to salt and hash the password.
+        // Use of salt + hash helps guard against use of rainbow tables
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(newUser.user_pw, salt, function (err, hash) {
+                newUser.user_pw = hash;
+                connection.query("INSERT INTO `users` SET ?", newUser, (err, results) => {
+                    // Use JSON Web Token to issue and sign the user a token
+                    // Set token to expire in 1 week for persistent login
+                    let token = jwt.sign({UserName: newUser.username, UserID: results.insertId}, config.secret, {
+                        expiresIn: 604800 //1 week in seconds
+                    });
+                    response.json({
+                        success: true,
+                        message: "User registered",
+                        msg: results,
+                        token: token
+                    });
+                })
+            });
         });
     });
 });
