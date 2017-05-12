@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
-import {Link, browserHistory} from 'react-router'
+import {Link} from 'react-router'
 import {getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
@@ -26,12 +26,6 @@ class StackViewStacks extends Component{
     };
 
     render() {
-
-        const styles = {
-            cardHeader: {
-                backgroundColor: {blue500}
-            }
-        };
         if (!this.props.stackCards) {
             return <div>Loading...</div>
         }

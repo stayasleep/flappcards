@@ -3,6 +3,8 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackViewStacks from './stackView_stacks';
 import {getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
+import Paper from 'material-ui/Paper';
+
 class Stacks extends Component {
     componentWillMount() {
     const { sid } = this.props.params; // To pull from the url
@@ -12,9 +14,9 @@ class Stacks extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <div>
+                <Paper>
                     <StackViewStacks/>
-                </div>
+                </Paper>
             </div>
         )
     }
