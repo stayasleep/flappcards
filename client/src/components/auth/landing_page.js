@@ -67,6 +67,7 @@ const styles = {
         fontWeight: 900,
         fontSize: "1.5em",
         fontFamily:"Roboto,sans-serif",
+        textShadow:"2px 0 2px rgba(255,255,255,0.7)"
         // opacity:0.7
     },
     // midT:{
