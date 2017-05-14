@@ -23,7 +23,9 @@ class Stacks extends Component {
             return (
                 <List>
                     <Subheader style={subHeader}>My Shelf</Subheader>
-                    <div style={{fontFamily: "Roboto, sans-serif"}}></div>Loading...
+                    <div style={{fontFamily: "Roboto, sans-serif"}}>
+                        Loading...
+                    </div>
                 </List>
             )
         }

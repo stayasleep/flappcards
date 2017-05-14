@@ -11,7 +11,8 @@ export const subHeader = {
 export const cardHeader = {
     fontSize: "1em",
     fontWeight: "bold",
-    backgroundColor: "teal"
+    backgroundColor: "teal",
+    color: "white"
 };
 
 export const cardActions ={
@@ -81,7 +82,7 @@ export const cardDivider = {
 
 export const questionText = {
     fontSize: "2em",
-    fontColor: "#FAFAFA"
+    fontColor: "white"
 };
 
 export const answerText = {
