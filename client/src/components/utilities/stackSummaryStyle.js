@@ -12,7 +12,8 @@ export const cardHeader = {
     fontSize: "1em",
     fontWeight: "bold",
     backgroundColor: "teal",
-    color: "white"
+    color: "white",
+    padding: "12px"
 };
 
 export const cardActions ={
@@ -70,8 +71,9 @@ import {orange400} from 'material-ui/styles/colors';
 export const cardDisplay = {
     backgroundColor:"{orange400}",
     display: "inline-block",
-    width: "15vw",
+    width: "45vw",
     margin: "1em",
+
 };
 // orange800
 export const cardDivider = {
@@ -86,7 +88,8 @@ export const questionText = {
 };
 
 export const answerText = {
-    fontSize: "1em"
+    fontSize: "1em",
+    padding: "12px"
 };
 
 export const cardToAddSubjectCategory = {

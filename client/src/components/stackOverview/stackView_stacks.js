@@ -25,16 +25,24 @@ class StackViewStacks extends Component{
         expanded: false
     };
 
+
     handleCopy(copy){
         this.props.stackCopy(copy);
     };
 
-    handleExpansion(isExpanded) {
+    handleExpansion(cardIndex) {
         console.log("handleExpansion called");
+        console.log("cardIndex", cardIndex); // passed in via the key gotten from map
         // if !(F) => if T
-        if (!this.state)
-        this.setState({expanded: true});
-
+        if (!this.state.expanded) {
+            this.setState({expanded: true});
+            // to target the one clicked
+            // document.getElementByClassName returns an array of matches
+            document.getElementsByClassName("expandable")[cardIndex].style.display = 'inline-block';
+        } else {
+            this.setState({expanded: false});
+            document.getElementsByClassName("expandable")[cardIndex].style.display = 'none';
+        }
     }
 
 
@@ -49,14 +57,17 @@ class StackViewStacks extends Component{
 
                         <div style={singleCard}>
                         <Paper key={index} style={cardDisplay}>
-                            <div style={cardHeader} onClick={() => {this.handleExpansion()}}>
+                            <div style={cardHeader} onClick={() => {this.handleExpansion(index)}}>
                                 {`Question: ${item.question}`}
                             </div>
                             <Divider style={cardDivider} />
-                            <div style={answerText}>
-                                {`Answer: ${item.answer}`}
+
+                            <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>
+                                <div style={answerText}>
+                                    {`Answer: ${item.answer}`}
+                                </div>
                             </div>
-                            <div style={{display: "-webkit-inline-flex", float: "right"}}>
+                            <div>
                                 <EditCard cardID={this.props.stackCards[index]}/>
                                 <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                             </div>
@@ -85,8 +96,10 @@ class StackViewStacks extends Component{
                                     {`Question: ${item.question}`}]
                                 </div>
                                 <Divider style={cardDivider} />
-                                <div style={answerText}>
-                                    {`Answer: ${item.answer}`}
+                                <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>
+                                    <div style={answerText}>
+                                        {`Answer: ${item.answer}`}
+                                    </div>
                                 </div>
                             </Paper>
                         </div>
@@ -118,7 +131,7 @@ class StackViewStacks extends Component{
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
                 </div>
                 </div>
-                <div style={{border: "black 2px solid"}}>
+                <div>
                 {stackView}
                 </div>
             </div>
