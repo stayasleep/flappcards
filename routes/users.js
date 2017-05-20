@@ -116,7 +116,8 @@ router.post('/login',function(request,response,next){
             else {
                 response.json({success: false, msg: "Username/Password not found"});
             }
-        })
+        });
+        connection.release();
     });
 });
 // VERIFY TOKEN
@@ -148,33 +149,49 @@ router.use((request, response, next)=> {
 router.post('/community', (request,response,next) => {
     // Query the database for all card stacks that do not belong to the user
     let uid = request.decoded.UserID;
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating as 'stackRating', cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
-        if (err) {
-            response.send("Uh oh");
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-        else if (results.length > 0) {
-            response.send(results);
-        }
-        else {
-            response.send("No community stacks found");
-        }
-    });
+        connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating as 'stackRating', cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
+            if (err) {
+                response.send("Db down");
+            }
+            else if (results.length > 0) {
+                response.send(results);
+            }
+            else {
+                response.send("No community stacks found");
+            }
+        });
+        connection.release();
+    })
 });
 
 // Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response,next)=> {
     let un = request.decoded.UserName;
     // Query the database for the user's recent stacks
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.rating as 'stackRating', stacks.category, stacks.last_played as 'lastPlayed', DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
-        "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
-        "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.stack_id DESC LIMIT 2 ", [un], (err, results) => {
-        if (err) {
-            response.send("Uh oh");
-        } else if (results.length > 0) {
-            response.send(results);
-        } else {
-            response.send("Looks like your shelf is empty. Create a stack or take a look at some of the community content below!");
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
+        connection.query("SELECT stacks.stack_id, stacks.subject, stacks.rating as 'stackRating', stacks.category, stacks.last_played as 'lastPlayed', DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
+            "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
+            "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.stack_id DESC LIMIT 2 ", [un], (err, results) => {
+            if (err) {
+                response.send("Db down");
+            } else if (results.length > 0) {
+                response.send(results);
+            } else {
+                response.send("Looks like your shelf is empty. Create a stack or take a look at some of the community content below!");
+            }
+        });
+        connection.release();
     })
 });
 
@@ -183,31 +200,39 @@ router.post('/home', (request,response,next)=> {
 router.post('/stackOverview/:sID',(request,response,next) => {
     let uid = request.decoded.UserID;
     let sid = request.params.sID;
-    connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
-        if (err){
-            response.send("Error Connecting");
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-        if(result.length>0){
-            connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-                "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                "WHERE `stacks`.`stack_id`=?;", [sid], (err, results) => {
-                if (err) {
-                    response.send("Error on stack request");
-                }
-                results[0].isOwned = true;
-                response.send(results);
-            });
-        }else {
-            connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-                "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                "WHERE `stacks`.`stack_id`=?;", [sid], (err, results) => {
-                if (err) {
-                    response.send("Error on stack request");
-                }
-                response.send(results);
-            });
-        }
-    });
+        connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
+            if (err){
+                response.send("Error Connecting");
+            }
+            if(result.length>0){
+                connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                    "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+                    "WHERE `stacks`.`stack_id`=?;", [sid], (err2, results) => {
+                    if (err2) {
+                        response.send("Error on stack request");
+                    }
+                    results[0].isOwned = true;
+                    response.send(results);
+                });
+            }else {
+                connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                    "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
+                    "WHERE `stacks`.`stack_id`=?;", [sid], (err3, results) => {
+                    if (err3) {
+                        response.send("Error on stack request");
+                    }
+                    response.send(results);
+                });
+            }
+        });
+        connection.release();
+    })
 });
 
 //CLICK THE COPY BUTTON, COPIES OTHER STACK INTO YOUR ACCOUNT
@@ -216,20 +241,28 @@ router.post('/copy/:stackId',(request,response,next)=>{
     let sId = request.params.stackId;
     let commSubj = request.body.stack.subject;
     let commCat = request.body.stack.category;
-    connection.query(
-        "BEGIN; " +
-        "INSERT INTO stacks(user_id, subject, category,copied_stack) VALUES (?,?,?,?); "+
-        "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
-        "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
-        "COMMIT;",[uid,commSubj,commCat,sId,sId],(err,results)=>{
-            if (err){
-                response.send("Error Connecting");
-            }
-            //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
-            let stackID = results[1].insertId;
-            response.send({"stackID": stackID});
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-    );
+        connection.query(
+            "BEGIN; " +
+            "INSERT INTO stacks(user_id, subject, category,copied_stack) VALUES (?,?,?,?); "+
+            "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
+            "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
+            "COMMIT;",[uid,commSubj,commCat,sId,sId],(err,results)=>{
+                if (err){
+                    response.send("Error Connecting");
+                }
+                //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
+                let stackID = results[1].insertId;
+                response.send({"stackID": stackID});
+            }
+        );
+        connection.release();
+    })
 });
 
 
@@ -237,15 +270,23 @@ router.post('/copy/:stackId',(request,response,next)=>{
 router.post('/deleteCard/:cId',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let singleID = request.body.cardID;
-    connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
-        if (err){
-            response.send("error");
-        }else if(result.length>0){
-            response.send("Card deleted from your stack.")
-        }else{
-            response.send("Cannot be deleted at this time.");
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-    });
+        connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
+            if (err){
+                response.send("error");
+            }else if(result.length>0){
+                response.send("Card deleted from your stack.")
+            }else{
+                response.send("Cannot be deleted at this time.");
+            }
+        });
+        connection.release();
+    })
 });
 //UPDATE INDIVIDUAL CARD FROM OVERVIEW
 router.put('/stack/:cId',(request,response,next)=>{
@@ -253,13 +294,21 @@ router.put('/stack/:cId',(request,response,next)=>{
     //get changed information
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
-    connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
-        // If error, notify client that card edit failed
-        if (err) {
-            response.json({success:false, msg: "Failed to updated"});
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-        response.json({success:true, msg: "Single Card Updated"});
-    });
+        connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
+            // If error, notify client that card edit failed
+            if (err) {
+                response.json({success:false, msg: "Failed to updated"});
+            }
+            response.json({success:true, msg: "Single Card Updated"});
+        });
+        connection.release();
+    })
 });
 //ADD CARD TO EXISTING STACK
 router.post('/addSingleCard/:stackID',(request,response,next)=>{
@@ -267,11 +316,19 @@ router.post('/addSingleCard/:stackID',(request,response,next)=>{
     let stackID = request.params.stackID;
     let addQ = request.body.cardObject.question;
     let addA = request.body.cardObject.answer;
-    connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
-        if (err) {
-            response.json({success: false, msg: "Failed to add card"});
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-        response.send("Added card to Stack");
+        connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
+            if (err) {
+                response.json({success: false, msg: "Failed to add card"});
+            }
+            response.send("Added card to Stack");
+        });
+        connection.release();
     })
 });
 //CREATE STACK
@@ -284,95 +341,142 @@ router.post('/createCards',(request,response,next)=>{
     let whoMadeMe = request.decoded.UserName; // pull off user name from the token
     let userID = request.decoded.UserID; // pull off user ID from the token sent
     let stackQuery = "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?);";
-    // Make the new stack first
-    connection.query(`${stackQuery}`, [userID, newSub, newCat],(err, results) => {
-        if (err) {
-            return response.send("Uh oh, something went wrong");
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-        let stackID = results.insertId; // Use the insert id as the stackID
-        for (let i=0; i < numberOfCardsToInsert; i++) {
-            let newQ = stack.stack[i].question;
-            let newA = stack.stack[i].answer;
-            connection.query("INSERT INTO cards (stack_id, question, answer, orig_source_stack) VALUES (?,?,?,?);", [stackID, newQ, newA, whoMadeMe], (err, results) => {
-                if (err) {
-                    return response.send("Could not complete insertion");
-                }
-            });
-        }
-        response.send({"stackID": stackID});
-    });
+        // Make the new stack first
+        connection.query(`${stackQuery}`, [userID, newSub, newCat],(err, results) => {
+            if (err) {
+                return response.send("Uh oh, something went wrong");
+            }
+            let stackID = results.insertId; // Use the insert id as the stackID
+            for (let i=0; i < numberOfCardsToInsert; i++) {
+                let newQ = stack.stack[i].question;
+                let newA = stack.stack[i].answer;
+                connection.query("INSERT INTO cards (stack_id, question, answer, orig_source_stack) VALUES (?,?,?,?);", [stackID, newQ, newA, whoMadeMe], (err2, results) => {
+                    if (err2) {
+                        return response.send("Could not complete insertion");
+                    }
+                });
+            }
+            response.send({"stackID": stackID});
+        });
+        connection.release();
+    })
 });
 
 //clicking myShelf and getting your overview,
 // Tied to the getMyStackOverview action creator
 router.post('/myShelf',(request,response,next)=> {
     let uid = request.decoded.UserID;
-    // Query the database for all the user's stacks
-    connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
-        "cards.orig_source_stack, " +
-        "COUNT(*) AS 'totalCards' FROM stacks " +
-        "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
-        "GROUP BY stacks.stack_id", [uid], (err, results) => {
-        if (err) {
-            response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
-        } else {
-            response.send(results);
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
-    });
+        // Query the database for all the user's stacks
+        connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
+            "cards.orig_source_stack, " +
+            "COUNT(*) AS 'totalCards' FROM stacks " +
+            "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
+            "GROUP BY stacks.stack_id", [uid], (err, results) => {
+            if (err) {
+                response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
+            } else {
+                response.send(results);
+            }
+        });
+        connection.release();
+    })
 });
 //DELETING a whole stack, requires stack id from the front end
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.post('/deleteStack/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let stackID = request.body.stackID;
-    connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
-        if (err){
-            response.send("um ok");
-        }else if (results>0){
-            response.send(results);
-        }else{
-            response.send("Cannot delete Stack");
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
+        connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
+            if (err){
+                response.send("um ok");
+            }else if (results>0){
+                response.send(results);
+            }else{
+                response.send("Cannot delete Stack");
+            }
+        });
+        connection.release();
     })
 });
 //SEARCH,
 router.post('/search',(request,response,next)=>{
     let uid =request.decoded.UserID;
     let fromSearch = request.body.query.Search;
-    // Query the database for all stacks not from the user
-   connection.query(
-       'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as totalCards ' +
-       'FROM stacks JOIN cards on stacks.stack_id=cards.stack_id ' +
-       'JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
-       'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(err,results)=>{
-           if (err) {
-               response.send("Uh oh");
-           } else {
-               response.send(results);
-           }
-       }
-   )
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
+        }
+        // Query the database for all stacks not from the user
+        connection.query(
+            'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as totalCards ' +
+            'FROM stacks JOIN cards on stacks.stack_id=cards.stack_id ' +
+            'JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
+            'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(err,results)=>{
+                if (err) {
+                    response.send("Uh oh");
+                } else {
+                    response.send(results);
+                }
+            });
+        connection.release();
+    })
 });
 //Log out, pass the token, update the users last_login from table
 router.post('/logout',(request,response,next)=>{
     let un =request.decoded.UserName;
-    connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
-        if (err) {
-            response.send("Failed to log user out");
-        }else {
-            response.send({success:true, message:"updated log out"});
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
+        connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
+            if (err) {
+                response.send("Failed to log user out");
+            }else {
+                response.send({success:true, message:"updated log out"});
+            }
+        });
+        connection.release();
     })
 });
 //Profile retrieve some user information
 router.post('/profile',(request,response,next)=>{
     let un = request.decoded.UserID;
-    connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(err,result)=>{
-        if (err) {
-            response.send("Uh oh");
-        } else{
-            response.send(result);
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
         }
+        connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(err,result)=>{
+            if (err) {
+                response.send("Uh oh");
+            } else{
+                response.send(result);
+            }
+        });
+        connection.release();
     })
 });
 
