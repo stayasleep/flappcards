@@ -26,6 +26,13 @@ app.use(express.static(path.join(__dirname,'client', 'dist')));
 //handles when you head to home route and the other other pages
 app.use('/users',users);
 
+//maybe errors
+// app.use(function(err,request,response,next){
+//     console.error('err',err);
+//     console.error('err2',err.stack);
+//     response.status(500).send("Something broke!");
+// });
+
 //routes folder?
 app.get('*',(req,res)=>{
     path.resolve(__dirname, 'client', 'dist', 'index.html');

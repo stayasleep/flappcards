@@ -2,15 +2,16 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const path = require('path');
-const connection = require('../config/config'); // connection credentials for database
+const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
 const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
-connection.connect((error) => {
-    (error) ? (console.error('error connection: ' + error.stack)) : '';
-    return;
-});
+// connection.connect((error) => {
+//     (error) ? (console.error('error connection: ' + error.stack)) : '';
+//     return;
+// });
+
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     let newUser = {
@@ -35,72 +36,88 @@ router.post('/register',(request,response,next)=>{
     if (newUser.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(newUser.birthday)){
         return response.json({success: false, error: "Registration failed"})
     }
-    connection.query("SELECT EXISTS(SELECT 1 FROM users WHERE username=?) as 'taken'",[newUser.username],(err,result)=> {
-        //if result = 1, we can interpret as true and UN already exits, if 0 then username does not exists
-        if (err) {
-            response.send("Error connecting");
-        }
-        console.log('res', result[0].taken);
-        if (result[0].taken === 1) { //UN exists in table
-            // use return statement to jump out of the function to avoid setting headers after they've been sent
-            return response.json({success: false});
-        }
-        console.log('free');
-        // Use bcrypt to salt and hash the password.
-        // Use of salt + hash helps guard against use of rainbow tables
-        bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(newUser.user_pw, salt, function (err, hash) {
-                newUser.user_pw = hash;
-                connection.query("INSERT INTO `users` SET ?", newUser, (err, results) => {
-                    // Use JSON Web Token to issue and sign the user a token
-                    // Set token to expire in 1 week for persistent login
-                    let token = jwt.sign({UserName: newUser.username, UserID: results.insertId}, config.secret, {
-                        expiresIn: 604800 //1 week in seconds
-                    });
-                    response.json({
-                        success: true,
-                        message: "User registered",
-                        msg: results,
-                        token: token
-                    });
-                })
+    pool.getConnection((err,connection)=>{
+        if(err){
+            connection.release();
+            console.log("Error connecting to db",err);
+            next(err);
+        };
+        connection.query("SELECT EXISTS(SELECT 1 FROM users WHERE username=?) as 'taken'",[newUser.username],(error,result)=> {
+            //if result = 1, we can interpret as true and UN already exits, if 0 then username does not exists
+            if (error) {
+                response.send("Error handling request");
+                console.log("Error handling request",error);
+            }
+            console.log('res', result[0].taken);
+            if (result[0].taken === 1) { //UN exists in table
+                // use return statement to jump out of the function to avoid setting headers after they've been sent
+                return response.json({success: false});
+            }
+            console.log('free');
+            // Use bcrypt to salt and hash the password.
+            // Use of salt + hash helps guard against use of rainbow tables
+            bcrypt.genSalt(10, function (err, salt) {
+                bcrypt.hash(newUser.user_pw, salt, function (err, hash) {
+                    newUser.user_pw = hash;
+                    connection.query("INSERT INTO `users` SET ?", newUser, (err, results) => {
+                        // Use JSON Web Token to issue and sign the user a token
+                        // Set token to expire in 1 week for persistent login
+                        let token = jwt.sign({UserName: newUser.username, UserID: results.insertId}, config.secret, {
+                            expiresIn: 604800 //1 week in seconds
+                        });
+                        response.json({
+                            success: true,
+                            message: "User registered",
+                            msg: results,
+                            token: token
+                        });
+                    })
+                });
             });
         });
-    });
+        connection.release();
+    })
 });
 //test login comparison
-router.post('/login',function(request,response){
+router.post('/login',function(request,response,next){
     let usn = request.body.userName;
     let upw = request.body.password;
     //Query database to see if user exists in database
-    connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[usn],function(err,result) {
-        if (err) {
-            response.json({success: false, msg: "Username/Password not found"});
-        }
-        else if (result.length > 0) {
-            let un = result[0].username;
-            let hash = result[0].user_pw;
-            let usersid = result[0].user_id;
-            bcrypt.compare(upw, hash, function (err, res) {
-            // If the user password matches, issue and sign the token
-            if (res){
-                let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
-                    expiresIn: 604800 //1 week in seconds
+    pool.getConnection((error,connection)=>{
+        if(error){
+            connection.release();
+            console.log("Error connecting to db",error);
+            next(error);
+        };
+        connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[usn],function(err,result) {
+            if (err) {
+                response.json({success: false, msg: "Username/Password not found"});
+            }
+            else if (result.length > 0) {
+                let un = result[0].username;
+                let hash = result[0].user_pw;
+                let usersid = result[0].user_id;
+                bcrypt.compare(upw, hash, function (err2, res) {
+                    // If the user password matches, issue and sign the token
+                    if (res){
+                        let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
+                            expiresIn: 604800 //1 week in seconds
+                        });
+                        response.json({
+                            success: true,
+                            message: result,
+                            token: token
+                        });
+                    } else {
+                        response.json({success: false, msg: "wrong pw"});
+                    }
                 });
-                response.json({
-                    success: true,
-                    message: result,
-                    token: token
-                });
-                } else {
-                    response.json({success: false, msg: "wrong pw"});
-                }
-            });
-        }
-        else {
-            response.json({success: false, msg: "Username/Password not found"});
-        }
-    })
+            }
+            else {
+                response.json({success: false, msg: "Username/Password not found"});
+            }
+        })
+    });
 });
 // VERIFY TOKEN
 // *.use method acts as a funnel for requests
@@ -128,7 +145,7 @@ router.use((request, response, next)=> {
     }
 });
 //COMMUNITY
-router.post('/community', (request,response) => {
+router.post('/community', (request,response,next) => {
     // Query the database for all card stacks that do not belong to the user
     let uid = request.decoded.UserID;
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating as 'stackRating', cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
@@ -145,7 +162,7 @@ router.post('/community', (request,response) => {
 });
 
 // Recent stacks query; This gets called for the home page.
-router.post('/home', (request,response)=> {
+router.post('/home', (request,response,next)=> {
     let un = request.decoded.UserName;
     // Query the database for the user's recent stacks
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.rating as 'stackRating', stacks.category, stacks.last_played as 'lastPlayed', DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
@@ -163,7 +180,7 @@ router.post('/home', (request,response)=> {
 
 // Associated Axios call: getStack;
 // Made after clicking on view button on table
-router.post('/stackOverview/:sID',(request,response) => {
+router.post('/stackOverview/:sID',(request,response,next) => {
     let uid = request.decoded.UserID;
     let sid = request.params.sID;
     connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
@@ -194,7 +211,7 @@ router.post('/stackOverview/:sID',(request,response) => {
 });
 
 //CLICK THE COPY BUTTON, COPIES OTHER STACK INTO YOUR ACCOUNT
-router.post('/copy/:stackId',(request,response)=>{
+router.post('/copy/:stackId',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let sId = request.params.stackId;
     let commSubj = request.body.stack.subject;
@@ -217,7 +234,7 @@ router.post('/copy/:stackId',(request,response)=>{
 
 
 //DELETE INDIVIDUAL card from your stack overview
-router.post('/deleteCard/:cId',(request,response)=>{
+router.post('/deleteCard/:cId',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let singleID = request.body.cardID;
     connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
@@ -231,7 +248,7 @@ router.post('/deleteCard/:cId',(request,response)=>{
     });
 });
 //UPDATE INDIVIDUAL CARD FROM OVERVIEW
-router.put('/stack/:cId',(request,response)=>{
+router.put('/stack/:cId',(request,response,next)=>{
     let singleID = request.params.cId;
     //get changed information
     let newQ = request.body.cardQuestion;
@@ -245,7 +262,7 @@ router.put('/stack/:cId',(request,response)=>{
     });
 });
 //ADD CARD TO EXISTING STACK
-router.post('/addSingleCard/:stackID',(request,response)=>{
+router.post('/addSingleCard/:stackID',(request,response,next)=>{
     let un = request.decoded.UserName;
     let stackID = request.params.stackID;
     let addQ = request.body.cardObject.question;
@@ -258,7 +275,7 @@ router.post('/addSingleCard/:stackID',(request,response)=>{
     })
 });
 //CREATE STACK
-router.post('/createCards',(request,response)=>{
+router.post('/createCards',(request,response,next)=>{
     // had to remove :userID from url; they won't have the information, the token will
     let stack = request.body.stackObject;
     let newSub = stack.subject;
@@ -288,7 +305,7 @@ router.post('/createCards',(request,response)=>{
 
 //clicking myShelf and getting your overview,
 // Tied to the getMyStackOverview action creator
-router.post('/myShelf',(request,response)=> {
+router.post('/myShelf',(request,response,next)=> {
     let uid = request.decoded.UserID;
     // Query the database for all the user's stacks
     connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
@@ -305,7 +322,7 @@ router.post('/myShelf',(request,response)=> {
 });
 //DELETING a whole stack, requires stack id from the front end
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
-router.post('/deleteStack/:sID',(request,response)=>{
+router.post('/deleteStack/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let stackID = request.body.stackID;
     connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
@@ -319,7 +336,7 @@ router.post('/deleteStack/:sID',(request,response)=>{
     })
 });
 //SEARCH,
-router.post('/search',(request,response)=>{
+router.post('/search',(request,response,next)=>{
     let uid =request.decoded.UserID;
     let fromSearch = request.body.query.Search;
     // Query the database for all stacks not from the user
@@ -337,7 +354,7 @@ router.post('/search',(request,response)=>{
    )
 });
 //Log out, pass the token, update the users last_login from table
-router.post('/logout',(request,response)=>{
+router.post('/logout',(request,response,next)=>{
     let un =request.decoded.UserName;
     connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
         if (err) {
@@ -348,7 +365,7 @@ router.post('/logout',(request,response)=>{
     })
 });
 //Profile retrieve some user information
-router.post('/profile',(request,response)=>{
+router.post('/profile',(request,response,next)=>{
     let un = request.decoded.UserID;
     connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(err,result)=>{
         if (err) {
