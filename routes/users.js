@@ -449,7 +449,7 @@ router.post('/deleteStack/:sID',(request,response,next)=>{
         connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(error,results)=>{
             if (error){
                 response.send({success: false, message:"There was a problem with your request"});
-            }else if (results>0){ //ask 
+            }else if (results>0){ //ask
                 console.log('deleting stack',results);
                 response.send(results);
             }else{
