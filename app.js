@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 1337;
 const users = require('./routes/users');
 
 //HTTP Request for Dev
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 //bodyParser Middleware
 app.use(bodyParser.json({ type: '*/*' }));
@@ -23,10 +23,11 @@ app.use(cors());
 //static folder
 app.use(express.static(path.join(__dirname,'client', 'dist')));
 
-//handles when you head to home route and the other other pages
+//Set up for our routes
 app.use('/users',users);
 
-//routes folder?
+
+//Retrieve file when requested on client side and send it
 app.get('*',(req,res)=>{
     path.resolve(__dirname, 'client', 'dist', 'index.html');
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
