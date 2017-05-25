@@ -7,11 +7,6 @@ const config = require('../config/secret'); // config for signature
 const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
-// connection.connect((error) => {
-//     (error) ? (console.error('error connection: ' + error.stack)) : '';
-//     return;
-// });
-
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
     let newUser = {
@@ -56,7 +51,6 @@ router.post('/register',(request,response,next)=>{
                 // use return statement to jump out of the function to avoid setting headers after they've been sent
                 return response.json({success: false});
             }
-            console.log('free');
             // Use bcrypt to salt and hash the password.
             // Use of salt + hash helps guard against use of rainbow tables
             bcrypt.genSalt(10, function (err, salt) {
@@ -455,7 +449,7 @@ router.post('/deleteStack/:sID',(request,response,next)=>{
         connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(error,results)=>{
             if (error){
                 response.send({success: false, message:"There was a problem with your request"});
-            }else if (results>0){ //ask andres why this one is here and is this his way to error handle or if rowaffected = 1
+            }else if (results>0){ //ask 
                 console.log('deleting stack',results);
                 response.send(results);
             }else{
