@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 1337;
 const users = require('./routes/users');
 
 //HTTP Request for Dev
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 //bodyParser Middleware
 app.use(bodyParser.json({ type: '*/*' }));
