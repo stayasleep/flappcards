@@ -23,17 +23,11 @@ app.use(cors());
 //static folder
 app.use(express.static(path.join(__dirname,'client', 'dist')));
 
-//handles when you head to home route and the other other pages
+//Set up for our routes
 app.use('/users',users);
 
-//maybe errors
-// app.use(function(err,request,response,next){
-//     console.error('err',err);
-//     console.error('err2',err.stack);
-//     response.status(500).send("Something broke!");
-// });
 
-//routes folder?
+//Retrieve file when requested on client side and send it
 app.get('*',(req,res)=>{
     path.resolve(__dirname, 'client', 'dist', 'index.html');
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));

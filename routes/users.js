@@ -38,18 +38,21 @@ router.post('/register',(request,response,next)=>{
     }
     pool.getConnection((err,connection)=>{
         if(err){
-            connection.release();
             console.log("Error connecting to db",err);
-            next(err);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(err);
         };
         connection.query("SELECT EXISTS(SELECT 1 FROM users WHERE username=?) as 'taken'",[newUser.username],(error,result)=> {
-            //if result = 1, we can interpret as true and UN already exits, if 0 then username does not exists
+            //if result = 1 UN already exits, if 0 then username does not exists
             if (error) {
                 response.send("Error handling request");
                 console.log("Error handling request",error);
             }
             console.log('res', result[0].taken);
-            if (result[0].taken === 1) { //UN exists in table
+            if (result[0].taken === 1) { //UN exists
                 // use return statement to jump out of the function to avoid setting headers after they've been sent
                 return response.json({success: false});
             }
@@ -85,9 +88,12 @@ router.post('/login',function(request,response,next){
     //Query database to see if user exists in database
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         };
         connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[usn],function(err,result) {
             if (err) {
@@ -109,7 +115,7 @@ router.post('/login',function(request,response,next){
                             token: token
                         });
                     } else {
-                        response.json({success: false, msg: "wrong pw"});
+                        response.json({success: false, msg: "Username/Password does not match"});
                     }
                 });
             }
@@ -126,11 +132,10 @@ router.use((request, response, next)=> {
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
     // decode token
     if (token) {
-        // verifies secret and checks exp
-        // JWT verify method to check token information
+        // JWT verify method to check token information and secret
         jwt.verify(token, config.secret,(err, decoded)=> {
             if (err) {
-                return response.json({ success: false, message: 'Failed to authenticate token.' });
+                return response.json({ success: false, message: 'Failed to authenticate.' });
             } else {
                 // if token signature was verified, decode the request and use next() to go to the next function
                 request.decoded = decoded;
@@ -151,13 +156,16 @@ router.post('/community', (request,response,next) => {
     let uid = request.decoded.UserID;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating as 'stackRating', cards.orig_source_stack AS 'createdBy', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id = ? GROUP BY cards.stack_id ORDER BY stacks.created DESC LIMIT 3",[uid],(err,results)=>{
             if (err) {
-                response.send("Db down");
+                response.send({success: false, message:"There was a problem with your request"});
             }
             else if (results.length > 0) {
                 response.send(results);
@@ -176,15 +184,18 @@ router.post('/home', (request,response,next)=> {
     // Query the database for the user's recent stacks
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("SELECT stacks.stack_id, stacks.subject, stacks.rating as 'stackRating', stacks.category, stacks.last_played as 'lastPlayed', DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
             "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
             "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.stack_id DESC LIMIT 2 ", [un], (err, results) => {
             if (err) {
-                response.send("Db down");
+                response.send({success: false, message:"There was a problem with your request"});
             } else if (results.length > 0) {
                 response.send(results);
             } else {
@@ -194,7 +205,6 @@ router.post('/home', (request,response,next)=> {
         connection.release();
     })
 });
-
 // Associated Axios call: getStack;
 // Made after clicking on view button on table
 router.post('/stackOverview/:sID',(request,response,next) => {
@@ -202,31 +212,49 @@ router.post('/stackOverview/:sID',(request,response,next) => {
     let sid = request.params.sID;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;",[uid,sid],(err,result)=>{
             if (err){
-                response.send("Error Connecting");
+                response.send({success: false, message:"There was a problem with your request"});
             }
+            console.log('click stack',result.length);
             if(result.length>0){
+                //Stack is in your collection
                 connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                     "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
                     "WHERE `stacks`.`stack_id`=?;", [sid], (err2, results) => {
                     if (err2) {
-                        response.send("Error on stack request");
+                        response.send({success: false, message:"There was a problem with your request"});
                     }
-                    results[0].isOwned = true;
-                    response.send(results);
+                    if (results.length > 0) {
+                        results[0].isOwned = true;
+                        console.log('results',results);
+                        console.log('res0',results[0]);
+                        response.send(results);
+                    } else {
+                        //results is now undefined, it is an [] array so pass back a success empty msg
+                        console.log('shall not pass',results);
+                        response.send(results);
+                    }
+                    // results[0].isOwned = true;
+                    // console.log('one at a time',results);
+                    // response.send(results);
                 });
-            }else {
+            }else{
+                //If the stack is not initially in your collection
                 connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                     "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
                     "WHERE `stacks`.`stack_id`=?;", [sid], (err3, results) => {
                     if (err3) {
-                        response.send("Error on stack request");
+                        response.send({success: false, message:"There was a problem with your request"});
                     }
+                    console.log('not urs at first',results);
                     response.send(results);
                 });
             }
@@ -243,9 +271,12 @@ router.post('/copy/:stackId',(request,response,next)=>{
     let commCat = request.body.stack.category;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query(
             "BEGIN; " +
@@ -254,7 +285,7 @@ router.post('/copy/:stackId',(request,response,next)=>{
             "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
             "COMMIT;",[uid,commSubj,commCat,sId,sId],(err,results)=>{
                 if (err){
-                    response.send("Error Connecting");
+                    response.send({success: false, message:"There was a problem with your request"});
                 }
                 //THE STACK ID OF THE COPIED STACK ON YOUR ACCOUNT NOW, SHOULD REDIRECT TO THIS STACK OVERVIEW
                 let stackID = results[1].insertId;
@@ -272,13 +303,16 @@ router.post('/deleteCard/:cId',(request,response,next)=>{
     let singleID = request.body.cardID;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?",[uid,singleID],(err,result)=>{
             if (err){
-                response.send("error");
+                response.send({success: false, message:"There was a problem with your request"});
             }else if(result.length>0){
                 response.send("Card deleted from your stack.")
             }else{
@@ -296,14 +330,17 @@ router.put('/stack/:cId',(request,response,next)=>{
     let newA = request.body.cardAnswer;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(err,results)=>{
             // If error, notify client that card edit failed
             if (err) {
-                response.json({success:false, msg: "Failed to updated"});
+                response.send({success: false, message:"There was a problem with your request"});
             }
             response.json({success:true, msg: "Single Card Updated"});
         });
@@ -318,13 +355,16 @@ router.post('/addSingleCard/:stackID',(request,response,next)=>{
     let addA = request.body.cardObject.answer;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(err,results)=>{
             if (err) {
-                response.json({success: false, msg: "Failed to add card"});
+                response.send({success: false, message:"There was a problem with your request"});
             }
             response.send("Added card to Stack");
         });
@@ -343,14 +383,17 @@ router.post('/createCards',(request,response,next)=>{
     let stackQuery = "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?);";
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         // Make the new stack first
         connection.query(`${stackQuery}`, [userID, newSub, newCat],(err, results) => {
             if (err) {
-                return response.send("Uh oh, something went wrong");
+                return response.send({success: false, message:"There was a problem with your request"});
             }
             let stackID = results.insertId; // Use the insert id as the stackID
             for (let i=0; i < numberOfCardsToInsert; i++) {
@@ -358,7 +401,7 @@ router.post('/createCards',(request,response,next)=>{
                 let newA = stack.stack[i].answer;
                 connection.query("INSERT INTO cards (stack_id, question, answer, orig_source_stack) VALUES (?,?,?,?);", [stackID, newQ, newA, whoMadeMe], (err2, results) => {
                     if (err2) {
-                        return response.send("Could not complete insertion");
+                        response.send({success: false, message:"There was a problem with your request"});
                     }
                 });
             }
@@ -374,9 +417,12 @@ router.post('/myShelf',(request,response,next)=> {
     let uid = request.decoded.UserID;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         // Query the database for all the user's stacks
         connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
@@ -385,7 +431,7 @@ router.post('/myShelf',(request,response,next)=> {
             "JOIN cards ON stacks.stack_id =cards.stack_id JOIN users on stacks.user_id = users.user_id WHERE users.user_id = ? " +
             "GROUP BY stacks.stack_id", [uid], (err, results) => {
             if (err) {
-                response.send("Uh oh"); // Probably need to send something a bit better than 'uh oh', but this stops the server from crashing
+                response.send({success: false, message:"There was a problem with your request"});
             } else {
                 response.send(results);
             }
@@ -393,24 +439,29 @@ router.post('/myShelf',(request,response,next)=> {
         connection.release();
     })
 });
-//DELETING a whole stack, requires stack id from the front end
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.post('/deleteStack/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let stackID = request.body.stackID;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(err,results)=>{
             if (err){
-                response.send("um ok");
-            }else if (results>0){
-                response.send(results);
+                response.send({success: false, message:"There was a problem with your request"});
+            // }else if (results>0){ //ask andres why this one is here and is this his way to error handle or if rowaffected = 1
+            //     console.log('deleting stack',results);
+            //     response.send(results);
             }else{
-                response.send("Cannot delete Stack");
+                //if i copy a stack and delete it from myshelf, this is what is sent.
+                console.log('deleting the clone',results);
+                response.send(results);
             }
         });
         connection.release();
@@ -422,9 +473,12 @@ router.post('/search',(request,response,next)=>{
     let fromSearch = request.body.query.Search;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         // Query the database for all stacks not from the user
         connection.query(
@@ -433,7 +487,7 @@ router.post('/search',(request,response,next)=>{
             'JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
             'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(err,results)=>{
                 if (err) {
-                    response.send("Uh oh");
+                    response.send({success: false, message:"There was a problem with your request"});
                 } else {
                     response.send(results);
                 }
@@ -446,13 +500,16 @@ router.post('/logout',(request,response,next)=>{
     let un =request.decoded.UserName;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(err,result)=>{
             if (err) {
-                response.send("Failed to log user out");
+                response.send({success: false, message:"There was a problem with your request"});
             }else {
                 response.send({success:true, message:"updated log out"});
             }
@@ -465,13 +522,16 @@ router.post('/profile',(request,response,next)=>{
     let un = request.decoded.UserID;
     pool.getConnection((error,connection)=>{
         if(error){
-            connection.release();
             console.log("Error connecting to db",error);
-            next(error);
+            response.json({
+                success: false,
+                message: "Problem Connecting to DB"
+            });
+            return next(error);
         }
         connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(err,result)=>{
             if (err) {
-                response.send("Uh oh");
+                response.send({success: false, message:"There was a problem with your request"});
             } else{
                 response.send(result);
             }
