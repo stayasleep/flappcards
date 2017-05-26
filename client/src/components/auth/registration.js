@@ -51,21 +51,24 @@ class Registration extends Component {
             fontFamily: "Roboto,sans-serif",
 
         };
+        const fieldHeight = {
+            height: "4em"
+        };
         const userError = {
             height: "1em"
-        }
+        };
         const buttons = {
-            margin: "1.3em",
+            margin: ".6em",
         };
 
         return (
             <div style={regStyle}>
                 <h1 style={header}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field name="name" component={renderInput} label="First and Last Name"/>
                     </div>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field name="userName" component={renderInput} label="Username"/>
                         <div style={userError} id="takenUser"/>
                     </div>
@@ -80,10 +83,10 @@ class Registration extends Component {
                     </div>
                     <div>
                     </div>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field name="email" component={renderInput} label="Email"/>
                     </div>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
                     <div style={buttons}>
@@ -119,24 +122,24 @@ function validate(values) {
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
-    if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
-        errors.password = 'Must be between 8 and 15 characters long'
-    }
-    if(values.password && !/^(?=.*[a-z])/i.test(values.password)){
-        errors.password = 'Must have lowercase letter'
-    }
-    if(values.password && !/^(?=.*[A-Z])/i.test(values.password)){
-        errors.password = 'Must have uppercase letter'
-    }
-    if(values.password && !/^(?=.*[0-9])/i.test(values.password)){
-        errors.password = 'Must have number'
-    }
-    if(values.password && !/^(?=.*[!@#\$%\^&\*])/i.test(values.password)){
-        errors.password = 'Must have special character(!,@,#,$,%,\,^,&)'
-    }
-    if (values.password !== values.passwordConfirm) {
-        errors.passwordConfirm = 'Passwords must match'
-    }
+    // if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
+    //     errors.password = 'Must be between 8 and 15 characters long'
+    // }
+    // if(values.password && !/^(?=.*[a-z])/i.test(values.password)){
+    //     errors.password = 'Must have lowercase letter'
+    // }
+    // if(values.password && !/^(?=.*[A-Z])/i.test(values.password)){
+    //     errors.password = 'Must have uppercase letter'
+    // }
+    // if(values.password && !/^(?=.*[0-9])/i.test(values.password)){
+    //     errors.password = 'Must have number'
+    // }
+    // if(values.password && !/^(?=.*[!@#\$%\^&\*])/i.test(values.password)){
+    //     errors.password = 'Must have special character(!,@,#,$,%,\,^,&)'
+    // }
+    // if (values.password !== values.passwordConfirm) {
+    //     errors.passwordConfirm = 'Passwords must match'
+    // }
     if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
         errors.birthday = 'Enter a Correct Date (YYYY-MM-DD)'
     }
@@ -161,13 +164,15 @@ function validate(values) {
 
 function mapStateToProps(state) {
     if(state.auth.authError !== null){
-        function appendHtml(el, str) {
+        function appendUserError(el, str) {
             var div = document.createElement('div');
+            div.innerHTML = '';
+            el.innerHTML = '';
             div.innerHTML = str;
             el.appendChild(div.children[0]);
         }
-        var html = '<div style="float: left; color: red; width=100px; height: 30px">Username is taken</div>';
-        appendHtml(document.getElementById("takenUser"), html); // "body" has two more children - h1 and span.
+        var userError = '<div style="float: left; color: red;">Username is taken</div>';
+        appendUserError(document.getElementById("takenUser"), userError); // "body" has two more children - h1 and span.
     }
     return {
         authenticated: state.auth.authenticated,
