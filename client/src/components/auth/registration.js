@@ -122,24 +122,24 @@ function validate(values) {
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
-    // if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
-    //     errors.password = 'Must be between 8 and 15 characters long'
-    // }
-    // if(values.password && !/^(?=.*[a-z])/i.test(values.password)){
-    //     errors.password = 'Must have lowercase letter'
-    // }
-    // if(values.password && !/^(?=.*[A-Z])/i.test(values.password)){
-    //     errors.password = 'Must have uppercase letter'
-    // }
-    // if(values.password && !/^(?=.*[0-9])/i.test(values.password)){
-    //     errors.password = 'Must have number'
-    // }
-    // if(values.password && !/^(?=.*[!@#\$%\^&\*])/i.test(values.password)){
-    //     errors.password = 'Must have special character(!,@,#,$,%,\,^,&)'
-    // }
-    // if (values.password !== values.passwordConfirm) {
-    //     errors.passwordConfirm = 'Passwords must match'
-    // }
+    if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
+        errors.password = 'Must be between 8 and 15 characters long'
+    }
+    if(values.password && !/^(?=.*[a-z])/i.test(values.password)){
+        errors.password = 'Must have lowercase letter'
+    }
+    if(values.password && !/^(?=.*[A-Z])/i.test(values.password)){
+        errors.password = 'Must have uppercase letter'
+    }
+    if(values.password && !/^(?=.*[0-9])/i.test(values.password)){
+        errors.password = 'Must have number'
+    }
+    if(values.password && !/^(?=.*[!@#\$%\^&\*])/i.test(values.password)){
+        errors.password = 'Must have special character(!,@,#,$,%,\,^,&)'
+    }
+    if (values.password !== values.passwordConfirm) {
+        errors.passwordConfirm = 'Passwords must match'
+    }
     if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
         errors.birthday = 'Enter a Correct Date (YYYY-MM-DD)'
     }
@@ -171,7 +171,7 @@ function mapStateToProps(state) {
             div.innerHTML = str;
             el.appendChild(div.children[0]);
         }
-        var userError = '<div style="float: left; color: red;">Username is taken</div>';
+        var userError = '<div style="color: red;">Username is taken</div>';
         appendUserError(document.getElementById("takenUser"), userError); // "body" has two more children - h1 and span.
     }
     return {
