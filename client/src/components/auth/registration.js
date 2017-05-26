@@ -39,7 +39,7 @@ class Registration extends Component {
             float: "right",
             textAlign: "center",
             color: 'black',
-            backgroundColor: "rgba(255,255,255,0.4",
+            backgroundColor: "rgba(255,255,255,1",
             position: "relative"
         };
         const passWordInfo = {
@@ -51,11 +51,12 @@ class Registration extends Component {
             fontFamily: "Roboto,sans-serif",
 
         };
+        const userError = {
+            height: "1em"
+        }
         const buttons = {
             margin: "1.3em",
         };
-
-
 
         return (
             <div style={regStyle}>
@@ -66,6 +67,7 @@ class Registration extends Component {
                     </div>
                     <div>
                         <Field name="userName" component={renderInput} label="Username"/>
+                        <div style={userError} id="takenUser"/>
                     </div>
                     <div>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
@@ -157,9 +159,25 @@ function validate(values) {
     return errors
 }
 
+function mapStateToProps(state) {
+    if(state.auth.authError !== null){
+        function appendHtml(el, str) {
+            var div = document.createElement('div');
+            div.innerHTML = str;
+            el.appendChild(div.children[0]);
+        }
+        var html = '<div style="float: left; color: red; width=100px; height: 30px">Username is taken</div>';
+        appendHtml(document.getElementById("takenUser"), html); // "body" has two more children - h1 and span.
+    }
+    return {
+        authenticated: state.auth.authenticated,
+        error: state.auth.authError
+    };
+}
+
 Registration = reduxForm({
     form: 'Registration',
     validate
 })(Registration);
 
-export default connect(null, {register})(Registration)
+export default connect(mapStateToProps, {register})(Registration)
