@@ -7,6 +7,7 @@ import {Link} from 'react-router'
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
 import renderInput from '../utilities/renderInputReg';
+import Paper from 'material-ui/Paper';
 
 class Registration extends Component {
 
@@ -39,7 +40,8 @@ class Registration extends Component {
             float: "right",
             textAlign: "center",
             color: 'black',
-            backgroundColor: "rgba(255,255,255,1",
+            boxShadow: "5px 5px 2.5px #888888",
+            backgroundColor: "rgba(255,255,255,0.9",
             position: "relative"
         };
         const passWordInfo = {
@@ -62,7 +64,7 @@ class Registration extends Component {
         };
 
         return (
-            <div style={regStyle}>
+            <Paper style={regStyle}>
                 <h1 style={header}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div style={fieldHeight}>
@@ -94,7 +96,7 @@ class Registration extends Component {
                         <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>
                 </form>
-            </div>
+            </Paper>
         )
     }
 }
