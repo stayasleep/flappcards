@@ -31,8 +31,8 @@ class StackViewStacks extends Component{
     };
 
     handleExpansion(cardIndex) {
-        console.log("handleExpansion called");
-        console.log("cardIndex", cardIndex); // passed in via the key gotten from map
+        // console.log("handleExpansion called");
+        // console.log("cardIndex", cardIndex); // passed in via the key gotten from map
         // if !(F) => if T
         if (!this.state.expanded) {
             this.setState({expanded: true});
@@ -93,7 +93,7 @@ class StackViewStacks extends Component{
                         <div style={singleCard}>
                             <Paper key={index} style={cardDisplay}>
                                 <div style={cardHeader}>
-                                    {`Question: ${item.question}`}]
+                                    {`Question: ${item.question}`}
                                 </div>
                                 <Divider style={cardDivider} />
                                 <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>

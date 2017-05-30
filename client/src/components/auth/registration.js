@@ -7,6 +7,7 @@ import {Link} from 'react-router'
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
 import renderInput from '../utilities/renderInputReg';
+import Paper from 'material-ui/Paper';
 
 class Registration extends Component {
 
@@ -39,7 +40,8 @@ class Registration extends Component {
             float: "right",
             textAlign: "center",
             color: 'black',
-            backgroundColor: "rgba(255,255,255,0.4",
+            boxShadow: "5px 5px 2.5px #888888",
+            backgroundColor: "rgba(255,255,255,0.9",
             position: "relative"
         };
         const passWordInfo = {
@@ -51,21 +53,26 @@ class Registration extends Component {
             fontFamily: "Roboto,sans-serif",
 
         };
+        const fieldHeight = {
+            height: "4em"
+        };
+        const userError = {
+            height: "1em"
+        };
         const buttons = {
-            margin: "1.3em",
+            margin: ".6em",
         };
 
-
-
         return (
-            <div style={regStyle}>
+            <Paper style={regStyle}>
                 <h1 style={header}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field name="name" component={renderInput} label="First and Last Name"/>
                     </div>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field name="userName" component={renderInput} label="Username"/>
+                        <div style={userError} id="takenUser"/>
                     </div>
                     <div>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
@@ -78,10 +85,10 @@ class Registration extends Component {
                     </div>
                     <div>
                     </div>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field name="email" component={renderInput} label="Email"/>
                     </div>
-                    <div>
+                    <div style={fieldHeight}>
                         <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
                     <div style={buttons}>
@@ -89,7 +96,7 @@ class Registration extends Component {
                         <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>
                 </form>
-            </div>
+            </Paper>
         )
     }
 }
@@ -157,9 +164,31 @@ function validate(values) {
     return errors
 }
 
+function mapStateToProps(state) {
+    if(state.auth.authError === 'userName'){
+
+        function appendUserError(el, str) {
+            var div = document.createElement('div');
+            div.innerHTML = '';
+            el.innerHTML = '';
+            div.innerHTML = str;
+            el.appendChild(div.children[0]);
+        }
+        var userError = '<div style="color: red;">Username is taken</div>';
+        appendUserError(document.getElementById("takenUser"), userError); // "body" has two more children - h1 and span.
+
+        state.auth.authError = null; // Reset the authError to null so the user can try registering again.
+
+    }
+    return {
+        authenticated: state.auth.authenticated,
+        error: state.auth.authError
+    };
+}
+
 Registration = reduxForm({
     form: 'Registration',
     validate
 })(Registration);
 
-export default connect(null, {register})(Registration)
+export default connect(mapStateToProps, {register})(Registration)
