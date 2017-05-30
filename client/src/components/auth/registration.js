@@ -165,7 +165,8 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-    if(state.auth.authError !== null){
+    if(state.auth.authError === 'userName'){
+
         function appendUserError(el, str) {
             var div = document.createElement('div');
             div.innerHTML = '';
@@ -175,6 +176,9 @@ function mapStateToProps(state) {
         }
         var userError = '<div style="color: red;">Username is taken</div>';
         appendUserError(document.getElementById("takenUser"), userError); // "body" has two more children - h1 and span.
+
+        state.auth.authError = null; // Reset the authError to null so the user can try registering again.
+
     }
     return {
         authenticated: state.auth.authenticated,

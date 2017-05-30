@@ -49,7 +49,8 @@ router.post('/register',(request,response,next)=>{
             console.log('res', result[0].taken);
             if (result[0].taken === 1) { //UN exists
                 // use return statement to jump out of the function to avoid setting headers after they've been sent
-                return response.json({success: false});
+                // If the username is taken, send back userNameTaken: true; Now, would be a good time to consider status codes.
+                return response.json({success: false, userNameTaken: true});
             }
             // Use bcrypt to salt and hash the password.
             // Use of salt + hash helps guard against use of rainbow tables
@@ -65,7 +66,7 @@ router.post('/register',(request,response,next)=>{
                         response.json({
                             success: true,
                             message: "User registered",
-                            msg: results,
+                            // msg: results,
                             token: token
                         });
                     })
