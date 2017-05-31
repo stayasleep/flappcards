@@ -3,7 +3,6 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackViewStacks from './stackView_stacks';
 import {getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
-import Paper from 'material-ui/Paper';
 
 class Stacks extends Component {
     componentWillMount() {
@@ -14,9 +13,7 @@ class Stacks extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Paper>
-                    <StackViewStacks/>
-                </Paper>
+                <StackViewStacks/>
             </div>
         )
     }

@@ -99,46 +99,6 @@ class SingleCard extends Component {
     }
 
     render() {
-        const centered = {
-            textAlign: "center",
-            display: "inline-block",
-            marginTop: "2em"
-        };
-        const right = {
-            textAlign: "center"
-        };
-        const wrong = {
-            textAlign: "center",
-            backgroundColor: "red"
-        };
-        const cardStyle = {
-            display: "inline-block",
-            width: "100%",
-            transition: 'transform 1s',
-            textAlign: "center",
-            transformStyle: "preserve-3d",
-            transformOrigin: "50% 50%",
-            justifyContent: "center",
-            backfaceVisibility: "visible",
-            padding: "4em"
-        };
-        const answerCard = {
-            display: "none"
-        };
-
-        const flippedCard ={
-            transform: "rotate(180deg)"
-        };
-
-        const answer ={
-            textAlign: "center",
-            display: "none",
-            transform: "scale(1)",
-        };
-
-        const question ={
-            textAlign: "center",
-        };
         // this.state.card is the index for the next and previous
         let card;
         if(this.props.cards){
@@ -150,21 +110,21 @@ class SingleCard extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Paper id="questionCard" style={cardStyle}>
-                    <h2 style={question} id="question">
+                <Paper id="questionCard">
+                    <h2 id="question">
                         Question: {card.question}
                     </h2>
-                    <h2 style={answer} id="answer">
+                    <h2 id="answer">
                         Answer: {card.answer}
                     </h2>
                     <div>click card to flip</div>
                 </Paper>
                 <Paper style={{textAlign: "center"}}>
-                <div style={centered}>
+                <div className="centered">
                     {/*<RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>*/}
-                    <SkipPrevious style={{margin: "1em", float: "left", height: "48px", width: "48px", padding: "24px"}} id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</SkipPrevious>
-                    <RaisedButton style={centered} id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
-                    <SkipNext style={{margin: "1em", float: "right",  height: "48px", width: "48px", padding: "24px"}} id="next" onClick={() => {this.nextCard()}}>NEXT</SkipNext>
+                    <SkipPrevious id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</SkipPrevious>
+                    <RaisedButton className="centered" id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
+                    <SkipNext id="next" onClick={() => {this.nextCard()}}>NEXT</SkipNext>
                     {/*<RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>*/}
                 </div>
                 </Paper>
