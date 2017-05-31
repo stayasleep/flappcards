@@ -102,7 +102,8 @@ export const cardToAddSubjectCategory = {
 export const cardToAdd = {
     position: "relative",
     margin: "2em",
-    padding: "1em"
+    padding: "1em",
+    boxShadow: "rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
 };
 
 export const cardToAddForm = {
@@ -150,4 +151,5 @@ export const addCardInputFields = {
 export const errorText  = {
     float: "left",
     margin: "0.5em"
+
 };
