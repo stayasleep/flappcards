@@ -14,6 +14,10 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import IconButton from 'material-ui/IconButton';
+import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import {green500} from 'material-ui/styles/colors';
+import {medium, mediumIcon, rightAvatar} from '../utilities/stackSummaryStyle';
 import renderInput from '../utilities/renderInput';
 
 class Search extends Component {
@@ -23,24 +27,18 @@ class Search extends Component {
     }
 
     render(){
-        const styles = {
-            textAlign: "center"
-
-        };
         const { handleSubmit } = this.props;
             const stacksList = this.props.stacks.map((item, index) => {
                 return (
-                    <TableRow key={index} style={styles}>
-                        <TableRowColumn style={styles}>{item.subject}: {item.category}</TableRowColumn>
-                        <TableRowColumn style={styles}>{item.orig_source_stack}</TableRowColumn>
-                        <TableRowColumn style={styles}>{item.totalCards}</TableRowColumn>
-                        <TableRowColumn style={styles}>{item.rating}</TableRowColumn>
-                        <TableRowColumn style={styles}>
-                            <RaisedButton
-                                containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`}
-                                                        name="stackOverview"/>}>
-                                View
-                            </RaisedButton>
+                    <TableRow key={index} className="tableStyle">
+                        <TableRowColumn className="tableSubj">{item.subject}: {item.category}</TableRowColumn>
+                        <TableRowColumn className="tableStyle tableHidden">{item.orig_source_stack}</TableRowColumn>
+                        <TableRowColumn className="tableStyle">{item.totalCards}</TableRowColumn>
+                        <TableRowColumn className="tableStyle tableHidden">{item.rating}</TableRowColumn>
+                        <TableRowColumn className="tableStyle">
+                            <IconButton containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
+                                <RemoveRedEye hoverColor={green500} />
+                            </IconButton>
                         </TableRowColumn>
                     </TableRow>
                 )
@@ -54,17 +52,17 @@ class Search extends Component {
                     <Field name="Search" component={renderInput} label="Search Category or Subject"/>
                     <RaisedButton type="submit" label="Search"/>
                 </form>
-                <Table style={styles}>
-                    <TableHeader style={{textAlign:"center", displaySelectAll: "false"}}>
+                <Table className="tableStyle">
+                    <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>
-                            <TableHeaderColumn style={{textAlign:"center"}}>Subjects</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign:"center"}}>Created By</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign:"center"}}>Number of Cards</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign:"center"}}>Rating</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>Subject</TableHeaderColumn>
+                            <TableHeaderColumn className="tableHidden" style={{textAlign:"center"}}>Creator</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign:"center"}}>Card #</TableHeaderColumn>
+                            <TableHeaderColumn className="tableHidden" style={{textAlign:"center"}}>Rating</TableHeaderColumn>
                             <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody style={{displayRowCheckbox: "false"}}>
+                    <TableBody displayRowCheckbox={false}>
                         {stacksList}
                     </TableBody>
                 </Table>
@@ -82,16 +80,16 @@ class Search extends Component {
                         <RaisedButton type="submit" label="Search"/>
                     </form>
                     <Table>
-                        <TableHeader style={{displaySelectAll: false}}>
+                        <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>
                             <TableRow>
-                                <TableHeaderColumn style={{textAlign:"center"}}>Subjects</TableHeaderColumn>
-                                <TableHeaderColumn style={{textAlign:"center"}}>Created By</TableHeaderColumn>
-                                <TableHeaderColumn style={{textAlign:"center"}}>Number of Cards</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Subject</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Creator</TableHeaderColumn>
+                                <TableHeaderColumn style={{textAlign:"center"}}>Card #</TableHeaderColumn>
                                 <TableHeaderColumn style={{textAlign:"center"}}>Rating</TableHeaderColumn>
                                 <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
-                        <TableBody style={{displayRowCheckbox: "false"}}>
+                        <TableBody displayRowCheckbox={false}>
                         </TableBody>
                     </Table>
                     Sorry, there are no Stacks by that name or category.

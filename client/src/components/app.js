@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './landingPage.css';
 import './singleCard.css';
+import './search.css'
 import {
     teal700, teal500,
     indigo200,
