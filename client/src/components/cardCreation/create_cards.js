@@ -10,6 +10,7 @@ import renderInput from '../utilities/renderInput';
 import Paper from 'material-ui/Paper';
 import {cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
 import Close from 'material-ui/svg-icons/navigation/close';
+import {labelPlaceholder} from '../inputComponent.css';
 
 
 class CreateCards extends Component {
@@ -28,6 +29,8 @@ class CreateCards extends Component {
                             type="text"
                             component={renderInput}
                             label="Question"
+                            className="labelPlaceholder"
+
                         />
                         <Field
                             name={`${stack}.answer`}
@@ -64,6 +67,7 @@ class CreateCards extends Component {
                                 type="text"
                                 component={renderInput}
                                 label="Subject"
+                                className="inputField"
                             />
                             <Field
                                 name="category"
