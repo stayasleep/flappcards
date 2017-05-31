@@ -29,29 +29,38 @@
 #questionCard {
     display: inline-block;
     width: 100%;
-    transition: transform 1s;
+    transition: transform 4s;
     text-align: center;
     transform-style: preserve-3d;
     transform-origin: 50% 50%;
     justify-content: center;
-    backface-visibility: visible;
     height: 67vh;
 }
 
 .flippedCard {
-    transform: rotate(180deg);
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
 }
 
 #answer {
     text-align: center;
-    display: none;
-    transform: scale(1);
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
 }
 
 #question {
     text-align: center;
 }
-
+#FlipMsg {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
 /* Landscape */
 @media only screen
 and (min-device-width: 375px)

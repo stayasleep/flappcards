@@ -117,10 +117,10 @@ class SingleCard extends Component {
                     <h2 id="answer">
                         Answer: {card.answer}
                     </h2>
-                    <div>click card to flip</div>
                 </Paper>
                 <Paper style={{textAlign: "center"}}>
                 <div className="centered">
+                    <div>click card to flip</div>
                     {/*<RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>*/}
                     <SkipPrevious id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</SkipPrevious>
                     <RaisedButton className="centered" id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
