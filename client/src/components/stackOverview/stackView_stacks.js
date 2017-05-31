@@ -13,7 +13,6 @@ import IconButton from 'material-ui/IconButton';
 import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 import Divider from 'material-ui/Divider';
 import {cardDisplay, cardHeader, cardDivider, cardToAdd as singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
-
 import {blue500} from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 class StackViewStacks extends Component{
@@ -90,8 +89,8 @@ class StackViewStacks extends Component{
 
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                        <div style={singleCard}>
-                            <Paper key={index} style={cardDisplay}>
+                        <Paper style={singleCard}>
+                            <div key={index} style={cardDisplay}>
                                 <div style={cardHeader}>
                                     {`Question: ${item.question}`}
                                 </div>
@@ -101,26 +100,28 @@ class StackViewStacks extends Component{
                                         {`Answer: ${item.answer}`}
                                     </div>
                                 </div>
-                            </Paper>
-                        </div>
+                            </div>
+                        </Paper>
 
                 )
             });
             stackView =
                 <div>
-                    <IconButton iconStyle={mediumIcon} style={medium} label="Copy" tooltip="Copy Stack" tooltipPosition="top-center" onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}>
+                    <Paper>
+                        <IconButton iconStyle={mediumIcon} style={medium} label="Copy" tooltip="Copy Stack" tooltipPosition="top-center" onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}>
                             <ContentContentCopy/>
                         </IconButton>
                         <div>
                             {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                             <Chip style={chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
                         </div>
+                    </Paper>
                     {cardStackList}
                 </div>
         }
         return (
             <div>
-                <div style={header}>
+                <Paper style={header}>
                 <div>
                     <span>{`Subject: ${this.props.stackCards[0].subject}`}</span>
                 </div>
@@ -130,7 +131,7 @@ class StackViewStacks extends Component{
                 <div>
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
                 </div>
-                </div>
+                </Paper>
                 <div>
                 {stackView}
                 </div>
