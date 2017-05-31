@@ -22,6 +22,8 @@ class StackSummary extends Component {
                 <Card key={index} style={stackSummaryDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
+                        titleStyle={cardHeader}
+                        subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar style={rightAvatar}>{item.totalCards}</Avatar>}
                         style={cardHeader}

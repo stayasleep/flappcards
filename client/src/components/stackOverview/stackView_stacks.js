@@ -13,8 +13,10 @@ import IconButton from 'material-ui/IconButton';
 import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 import Divider from 'material-ui/Divider';
 import {cardDisplay, cardHeader, cardDivider, cardToAdd as singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
-import {blue500} from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
+
+import {cardStackList} from '../stackOverview.css' // import CSS for styling
+
 class StackViewStacks extends Component{
 
     static contextTypes = {
@@ -54,8 +56,8 @@ class StackViewStacks extends Component{
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
 
-                        <div style={singleCard}>
-                        <Paper key={index} style={cardDisplay}>
+                        <div key={index} style={singleCard}>
+                        <Paper  style={cardDisplay}>
                             <div style={cardHeader} onClick={() => {this.handleExpansion(index)}}>
                                 {`Question: ${item.question}`}
                             </div>
@@ -77,12 +79,14 @@ class StackViewStacks extends Component{
             // Bitten by a snake while struck by lightning on this part right here
             stackView=
                 <div>
+                    <div className="stackActions">
                     <RaisedButton containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
-                    <div>
                         <AddCard/>
-                        <Chip style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Number Of Cards</Chip>
+                        <Chip className="chip" style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>
                     </div>
+                    <div className="cardStackList">
                     {cardStackList}
+                    </div>
                 </div>
         }
         else if(this.props.stackCards){
@@ -116,7 +120,9 @@ class StackViewStacks extends Component{
                             <Chip style={chip}><Avatar>{this.props.stackCards.length}</Avatar>Number of Cards</Chip>
                         </div>
                     </Paper>
+                    <div className="cardStackList">
                     {cardStackList}
+                    </div>
                 </div>
         }
         return (
