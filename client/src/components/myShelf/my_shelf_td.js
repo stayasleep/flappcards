@@ -34,6 +34,8 @@ class Stacks extends Component {
                 <Card key={index} style={stackSummaryDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
+                        titleStyle={cardHeader}
+                        subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar style={{float:"right"}}>{item.totalCards}</Avatar>}
                         style={cardHeader}

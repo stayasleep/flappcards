@@ -60,18 +60,17 @@ export const medium = {
 };
 
 export const chip = {
-    paddingRight: 0
+    paddingRight: 0,
+    margin: 16
 };
 
 export const rightAvatar = {
     float: "right"
 };
-import {orange400} from 'material-ui/styles/colors';
 
 export const cardDisplay = {
     backgroundColor:"{orange400}",
     display: "inline-block",
-    width: "45vw",
     margin: "1em",
 
 };
