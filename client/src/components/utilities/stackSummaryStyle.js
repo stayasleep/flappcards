@@ -45,7 +45,9 @@ export const stackSummaryDisplay = {
 export const header = {
     textAlign: "center",
     fontFamily: "Roboto, sans-serif",
-    fontSize: "2em"
+    fontSize: "2em",
+    display: "-webkit-flex",
+    display: "flex"
 };
 
 export const mediumIcon = {
@@ -61,7 +63,8 @@ export const medium = {
 
 export const chip = {
     paddingRight: 0,
-    margin: 16
+    height: "2em",
+    margin: "1em"
 };
 
 export const rightAvatar = {
@@ -108,7 +111,7 @@ export const cardToAdd = {
 export const singleCard = {
     position: "relative",
     margin: "2em",
-    padding: "1em"
+    fontFamily: "Roboto, sans-serif"
 
 };
 

@@ -1,4 +1,4 @@
-@media (min-width: 1600px) {
+@media (min-width: 768px) {
     .cardStackList {
         display: -webkit-flex;
         display: flex;
@@ -8,28 +8,51 @@
     }
 
     .cardStackList > div {
-        width: 33em;
-        height: 20em;
-        min-height: 15em;
-        margin: 1em;
-        /*padding: 0;*/
-    }
-}
-
-@media (min-width: 667px) {
-    .cardStackList {
-        display: -webkit-flex;
-        display: flex;
-        flex-flow: row wrap;
-        -webkit-flex-flow: row wrap;
-        justify-content: center;
-    }
-
-    .cardStackList > div {
-        width: 33%;
+        width: 33vh;
         height: 20%;
         min-height: 15%;
         margin: 1em;
+
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        /*padding: 0;*/
+    }
+    .stackActions {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: space-around;
+    }
+    .stackActions > div {
+        margin: 1em;
+    }
+    .cardHeader {
+        font-size: 1em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
+    }
+
+}
+
+@media (max-width: 667px) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    .cardStackList > div {
+        width: 25vh;
+        height: 20%;
+        min-height: 15%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+
     }
 }
 
@@ -44,10 +67,19 @@
     }
 
     .cardStackList > div {
-        width: 10%;
+        width: 20vh;
         height: 6%;
         min-height: 3%;
         margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    }
+    .cardHeader {
+        font-size: 0.75em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
     }
 }
 @media (max-width: 600px) {
@@ -56,16 +88,43 @@
         display: flex;
         flex-flow: row wrap;
         -webkit-flex-flow: row wrap;
-        /*justify-content: center;*/
+        justify-content: center;
     }
 
     .cardStackList > div {
-        width: 10%;
+        width: 20vh;
         height: 6%;
         min-height: 3%;
         margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    }
+    .cardHeader {
+        font-size: 1em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
     }
 }
+
+@media (min-device-width: 320px) and (max-device-width: 480px) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+    .cardStackList > div {
+        width: 33vh;
+        height: 6%;
+        min-height: 3%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    }
+}
+
 
 .stackActions {
     display: -webkit-flex;
@@ -73,10 +132,29 @@
     flex-flow: row wrap;
     -webkit-flex-flow: row wrap;
     justify-content: space-around;
+    margin: 1em;
 }
 
 .stackActions > div  {
     margin: 1em;
+}
+
+.contentCopy {
+    height: 3em;
+    width: 3em;
+}
+
+.stackHeader {
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    font-size: 2em;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+
+.stackHeader > span {
+    margin: 0.2em;
 }
 
 
