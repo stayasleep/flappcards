@@ -105,6 +105,12 @@ export const cardToAdd = {
     padding: "1em",
     boxShadow: "rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
 };
+export const singleCard = {
+    position: "relative",
+    margin: "2em",
+    padding: "1em"
+
+};
 
 export const cardToAddForm = {
     margin: "1em auto",
