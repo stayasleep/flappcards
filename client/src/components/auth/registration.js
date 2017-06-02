@@ -60,7 +60,6 @@ class Registration extends Component {
         };
         const buttons = {
             margin: "2em .6em .6em .6em",
-            // margin: ".6em",
         };
         const subBtn = {
             marginRight: "5%",
