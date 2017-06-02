@@ -10,7 +10,7 @@ import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
 import Paper from 'material-ui/Paper';
 import SkipNext from 'material-ui/svg-icons/AV/skip-next';
 import SkipPrevious from 'material-ui/svg-icons/AV/skip-previous';
-
+import ReactDOM from 'react-dom';
 
 class SingleCard extends Component {
 
@@ -22,8 +22,9 @@ class SingleCard extends Component {
     };
 
     nextCard() {
-        document.getElementById('question').style.display = 'block';
-        document.getElementById('answer').style.display = 'none';
+        if(ReactDOM.findDOMNode(this.refs.comp).classList.value === "flippedCard") {
+            ReactDOM.findDOMNode(this.refs.comp).classList.toggle('flippedCard');
+        }
         const {card} = this.state;
         // card === cards.length-1 means that you are at the end of the deck
         // So we reset card to 0 giving the appearance of the deck wrapping around
@@ -41,8 +42,9 @@ class SingleCard extends Component {
         }
     }
     prevCard() {
-        document.getElementById('question').style.display = 'block';
-        document.getElementById('answer').style.display = 'none';
+        if(ReactDOM.findDOMNode(this.refs.comp).classList.value === "flippedCard") {
+            ReactDOM.findDOMNode(this.refs.comp).classList.toggle('flippedCard');
+        }
         const {card} = this.state;
         this.props.params.cid = this.props.cards[card].card_id -1;
         if (this.state.card === 0){
@@ -82,18 +84,10 @@ class SingleCard extends Component {
             var questionCard = document.getElementById('questionCard');
             if (flip) {
                 this.classList.toggle('flippedCard');
-                setTimeout(function () {
-                    document.getElementById('question').style.display = 'none';
-                    document.getElementById('answer').style.display = 'inline-block';
-                    flip = false;
-                }, 200);
+                    flip = false
             } else {
                 this.classList.toggle('flippedCard');
-                setTimeout(function () {
-                    document.getElementById('question').style.display = 'inline-block';
-                    document.getElementById('answer').style.display = 'none';
-                    flip = true;
-                }, 200);
+                    flip = true
             }
         }
     }
@@ -110,14 +104,16 @@ class SingleCard extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Paper id="questionCard">
-                    <h2 id="question">
-                        Question: {card.question}
-                    </h2>
-                    <h2 id="answer">
-                        Answer: {card.answer}
-                    </h2>
-                </Paper>
+                    <div className="container">
+                        <Paper ref="comp" id="questionCard">
+                            <h2 id="question">
+                                Question: {card.question}
+                            </h2>
+                            <h2 id="answer">
+                                Answer: {card.answer}
+                            </h2>
+                        </Paper>
+                    </div>
                 <Paper style={{textAlign: "center"}}>
                 <div className="centered">
                     <div>click card to flip</div>

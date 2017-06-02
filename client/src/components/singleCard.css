@@ -1,7 +1,16 @@
+.container {
+    position: relative;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    perspective: 800px;
+    height: 67vh;
+}
+
 .centered {
     text-align: center;
     display: inline-block;
     margin-top: 2em;
+    position: relative;
 }
 #previous{
     margin: 1em;
@@ -26,34 +35,46 @@
     text-align: center;
     background-color: red;
 }
-#questionCard {
-    display: inline-block;
-    width: 100%;
-    transition: transform 4s;
+#questionCard{
+    display: flex;
     text-align: center;
+    height: 100%;
+    position: relative;
+    -webkit-transition: -webkit-transform 1s;
+    -webkit-transition: 1s;
+    transition: 1s;
     transform-style: preserve-3d;
-    transform-origin: 50% 50%;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+    align-items: center;
     justify-content: center;
-    height: 67vh;
 }
 
-.flippedCard {
+#question{
+    position: absolute;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+}
+#answer{
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
 }
-
-#answer {
-    text-align: center;
+#questionCard.flippedCard{
+    transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
 }
-
-#question {
-    text-align: center;
+#questionCard.flippedCard > .back {
+    -webkit-transition: .3s;
+    transition: .3s;
+    visibility: hidden;
 }
 #FlipMsg {
     -webkit-transform: rotateY( 180deg );
@@ -61,13 +82,29 @@
     -o-transform: rotateY( 180deg );
     transform: rotateY( 180deg );
 }
+
+/* ----------- iPhone 6 ----------- */
+
 /* Landscape */
 @media only screen
 and (min-device-width: 375px)
 and (max-device-width: 667px)
 and (-webkit-min-device-pixel-ratio: 2)
 and (orientation: landscape) {
-    #questionCard {
+    .container {
+        height: 36vh;
+    }
+}
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Landscape */
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px)
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: landscape) {
+    .container {
         height: 43vh;
     }
 }
