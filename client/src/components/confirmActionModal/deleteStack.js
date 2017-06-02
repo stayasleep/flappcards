@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import {deleteStack, getMyStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 import IconButton from 'material-ui/IconButton';

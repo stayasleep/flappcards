@@ -17,7 +17,6 @@ import {
 import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
-import {medium, mediumIcon, rightAvatar} from '../utilities/stackSummaryStyle';
 import renderInput from '../utilities/renderInput';
 
 class Search extends Component {

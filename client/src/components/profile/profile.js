@@ -4,8 +4,6 @@ import {connect} from 'react-redux'
 import {getUserData} from '../../actions/index'
 import AccountCircle from 'material-ui/svg-icons/action/account-circle'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import Subheader from 'material-ui/Subheader';
-import Avatar from 'material-ui/Avatar';
 
 class Profile extends Component{
     componentWillMount(){

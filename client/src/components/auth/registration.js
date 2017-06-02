@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'; // Updated PropTypes import statement
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Link} from 'react-router'
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
 import renderInput from '../utilities/renderInputReg';

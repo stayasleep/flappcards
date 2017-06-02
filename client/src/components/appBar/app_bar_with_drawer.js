@@ -25,9 +25,6 @@ class FlashCardsAppBar extends Component {
         const styles = {
             title: {
                 cursor: 'pointer',
-            },
-            divider: {
-
             }
         };
         function handleTouchTap() {
