@@ -3,8 +3,6 @@ import {Link} from 'react-router';
 import Paper from 'material-ui/Paper';
 import about from '../imgs/about.JPG';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import Login from './log_in';
-import {userLogin} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 
 

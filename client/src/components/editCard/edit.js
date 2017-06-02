@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import IconButton from 'material-ui/IconButton';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
 import {cardEditor, getStackOverview} from '../../actions/index';
