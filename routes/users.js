@@ -78,6 +78,8 @@ router.post('/register',(request,response,next)=>{
 });
 //test login comparison
 router.post('/login',function(request,response,next){
+    console.log('ip', request.ip);
+    console.log('ips',request.ips);
     let usn = request.body.userName;
     let upw = request.body.password;
     //Query database to see if user exists in database
@@ -105,7 +107,7 @@ router.post('/login',function(request,response,next){
                         });
                         response.json({
                             success: true,
-                            message: result,
+                            // message: result,
                             token: token
                         });
                     } else {
