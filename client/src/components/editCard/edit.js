@@ -60,6 +60,8 @@ class EditCard extends Component {
                     title="Are you sure you want to edit this card?"
                     modal={true}
                     open={this.state.open}
+                    autoDetectWindowHeight={true}
+                    autoScrollBodyContent={true}
                 >
 
                     {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleEdit function*/}

@@ -47,7 +47,8 @@ export const header = {
     fontFamily: "Roboto, sans-serif",
     fontSize: "2em",
     display: "-webkit-flex",
-    display: "flex"
+    display: "flex",
+    backgroundColor: "#E0F2F1"
 };
 
 export const mediumIcon = {
