@@ -106,7 +106,6 @@ router.post('/login',function(request,response,next){
                         });
                         response.json({
                             success: true,
-                            message: result,
                             token: token
                         });
                     } else {
@@ -176,6 +175,9 @@ router.post('/community', (request,response,next) => {
 // Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response,next)=> {
     let un = request.decoded.UserName;
+    let ip = request.ip;
+    console.log('my ip',ip);
+    console.log('real ip', request.connection.remoteAddress);
     // Query the database for the user's recent stacks
     pool.getConnection((error,connection)=>{
         if(error){
