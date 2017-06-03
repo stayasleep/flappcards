@@ -5,7 +5,7 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/users'; // Uncomment for local testing
+//const BASE_URL = 'http://localhost:1337/users'; // Uncomment for local testing
 const BASE_URL = '/users'; // Uncomment for live version
 
 export function userLogin(values) {
