@@ -22,25 +22,8 @@ app.use(cors());
 //static folder
 app.use(express.static(path.join(__dirname,'client', 'dist')));
 
-//Retrieve file when requested on client side and send it
-// app.get('*',(req,res)=>{
-//     path.resolve(__dirname, 'client', 'dist', 'index.html');
-//     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
-// });
-
-//restrict route by checking to see if local host
-app.use((req,res,next)=>{
-    let remote = req.ip || req.connection.remoteAddress;
-    console.log('rem',remote);
-    if ((remote ==='::1')||(remote === 'localhost')){
-        return next();
-    }else{
-        res.status(404).send("Error, not authenticated");
-    }
-});
 //Set up for our routes
 app.use('/users', users);
-
 
 //Retrieve file when requested on client side and send it
 app.get('*',(req,res)=>{
