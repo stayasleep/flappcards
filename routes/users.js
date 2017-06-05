@@ -189,7 +189,7 @@ router.post('/home', (request,response,next)=> {
     console.log('my ip',ip);
     console.log('our ips', request.ips);
     console.log('reqcon',request.connection);
-    console.log('header ip', request.headers);
+    console.log('header', request.headers);
     // Query the database for the user's recent stacks
     pool.getConnection((error, connection) => {
         if (error) {
@@ -234,7 +234,7 @@ router.post('/stackOverview/:sID',(request,response,next) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 }
-                console.log('click stack', result.length);
+                // console.log('click stack', result.length);
                 if (result.length > 0) {
                     //Stack is in your collection
                     connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
@@ -245,12 +245,12 @@ router.post('/stackOverview/:sID',(request,response,next) => {
                         }
                         if (results.length > 0) {
                             results[0].isOwned = true;
-                            console.log('results', results);
-                            console.log('res0', results[0]);
+                            // console.log('results', results);
+                            // console.log('res0', results[0]);
                             response.send(results);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
-                            console.log('shall not pass', results);
+                            // console.log('shall not pass', results);
                             response.send(results);
                         }
                         // results[0].isOwned = true;
@@ -546,12 +546,10 @@ router.post('/search',(request,response,next)=>{
 
     //if there is no object in the body or an empty object
     if(Object.keys(request.body).length === 0 ) {
-        console.log('reqbod empty', request.body);
         return response.json({success:false, message:"Invalid Submission"})
     }
     //if subObj is undefined
     if (!request.body.query) {
-        console.log('userid', request.body.UserID);
         return response.json({success:false, message:"Invalid submission type"})
     }
     //if search is empty
@@ -559,8 +557,6 @@ router.post('/search',(request,response,next)=>{
         return response.json({success:false, message:"Invalid submission type"})
     }
     let fromSearch = request.body.query.Search;
-    console.log('query',request.body.query);
-    console.log('querySeach',request.body.query.Search);
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);

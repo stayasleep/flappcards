@@ -23,7 +23,7 @@ app.use(cors());
 // app.use(express.static(path.join(__dirname,'client', 'dist')));
 
 //Set up for our routes
-app.use('/users', users);
+app.use('/api', users);
 
 //Retrieve file when requested on client side and send it
 app.get('*',(req,res)=>{
