@@ -20,14 +20,15 @@ class FlashCardsAppBar extends Component {
     render() {
         const style = {
             textAlign: "center",
-            margin: "1em auto"
+            margin: "1em auto",
+            display: "-webkit-flex",
+            display: "flex",
+            "flex-flow": "column",
+            "-webkit-flex-flow": "column",
         };
         const styles = {
             title: {
                 cursor: 'pointer',
-            },
-            divider: {
-
             }
         };
         function handleTouchTap() {
@@ -52,7 +53,7 @@ class FlashCardsAppBar extends Component {
                     <Divider />
                     <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
                     <Divider />
-                    <MenuItem style={{position:"absolute", bottom: 0, marginLeft: "6.5em"}} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                    <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
                 </Drawer>
 
                 <AppBar

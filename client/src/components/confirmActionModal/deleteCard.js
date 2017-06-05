@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
 import {deleteCard, getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 import ActionDelete from 'material-ui/svg-icons/action/delete';

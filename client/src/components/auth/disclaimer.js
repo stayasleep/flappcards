@@ -2,8 +2,6 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import {Link} from 'react-router';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import Login from './log_in';
-import {userLogin} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const style={

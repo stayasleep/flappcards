@@ -16,7 +16,6 @@ const users = require('./routes/users');
 //bodyParser Middleware
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(bodyParser.urlencoded({extended:true}));
-
 //cors middleware for all pages
 app.use(cors());
 
@@ -24,8 +23,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname,'client', 'dist')));
 
 //Set up for our routes
-app.use('/users',users);
-
+app.use('/users', users);
 
 //Retrieve file when requested on client side and send it
 app.get('*',(req,res)=>{

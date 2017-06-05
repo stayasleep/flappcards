@@ -187,6 +187,9 @@ router.post('/community', (request,response,next) => {
 // Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response,next)=> {
     let un = request.decoded.UserName;
+    let ip = request.ip;
+    console.log('my ip',ip);
+    console.log('real ip', request.connection.remoteAddress);
     // Query the database for the user's recent stacks
     pool.getConnection((error, connection) => {
         if (error) {
@@ -299,7 +302,7 @@ router.post('/copy/:stackId',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         connection.query(
             "BEGIN; " +
@@ -484,7 +487,7 @@ router.post('/myShelf',(request,response,next)=> {
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         // Query the database for all the user's stacks
         connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
@@ -520,7 +523,7 @@ router.post('/deleteStack/:sID',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(error,results)=>{
             if (error){
@@ -592,7 +595,7 @@ router.post('/logout',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         connection.query("UPDATE `users` SET `last_login`=CURRENT_TIMESTAMP WHERE user_id=?",[un],(error,result)=>{
             if (error) {

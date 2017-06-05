@@ -1,0 +1,46 @@
+.singleCardForm {
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: column;
+    -webkit-flex-flow: column;
+    align-items: center;
+}
+
+.addCardConfirmationButtons {
+    margin: 2em;
+}
+.addCardConfirmationButtons > div {
+    margin: 2em;
+}
+
+.singleCardForm > div {
+    font-size: 1em !important;
+    line-height: 1.5em !important;
+    height: 4.5em !important;
+}
+
+@media (min-width: 375px) and (max-width: 768px) and (orientation: Landscape) {
+    .singleCardAddDialog {
+        height: auto;
+    }
+    .singleCardForm {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: column;
+        -webkit-flex-flow: column;
+        align-items: center;
+    }
+
+    .addCardConfirmationButtons {
+        margin: 2em;
+    }
+    .addCardConfirmationButtons > div {
+        margin: 2em;
+    }
+
+    .singleCardForm > div {
+        font-size: 1em !important;
+        line-height: 1.5em !important;
+        height: 4.5em !important;
+    }
+}

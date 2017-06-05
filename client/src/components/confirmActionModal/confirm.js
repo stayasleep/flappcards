@@ -3,8 +3,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
-
 export default class Confirm extends React.Component {
     state = {
         open: false,

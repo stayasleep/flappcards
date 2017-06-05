@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'; // Updated PropTypes import statement
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Link} from 'react-router'
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
 import renderInput from '../utilities/renderInputReg';
@@ -60,7 +59,10 @@ class Registration extends Component {
             height: "1em"
         };
         const buttons = {
-            margin: ".6em",
+            margin: "2em .6em .6em .6em",
+        };
+        const subBtn = {
+            marginRight: "5%",
         };
 
         return (
@@ -92,7 +94,7 @@ class Registration extends Component {
                         <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
                     <div style={buttons}>
-                        <RaisedButton primary={true} type="submit" label="Submit"/>
+                        <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
                         <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
                     </div>
                 </form>
