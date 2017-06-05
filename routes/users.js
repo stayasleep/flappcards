@@ -69,7 +69,6 @@ router.post('/register',(request,response,next)=>{
                         response.json({
                             success: true,
                             message: "User registered",
-                            // msg: results,
                             token: token
                         });
                     })
@@ -81,8 +80,7 @@ router.post('/register',(request,response,next)=>{
 });
 //test login comparison
 router.post('/login',function(request,response,next){
-    console.log('ip', request.ip);
-    console.log('ips',request.ips);
+    console.log('reqcon',request.connection);
     if(Object.keys(request.body).length===0){
         return response.json({success:false, msg: "Invalid Submission"})
     }
@@ -189,7 +187,9 @@ router.post('/home', (request,response,next)=> {
     let un = request.decoded.UserName;
     let ip = request.ip;
     console.log('my ip',ip);
-    console.log('real ip', request.connection.remoteAddress);
+    console.log('our ips', request.ips);
+    console.log('reqcon',request.connection);
+    console.log('header ip', request.headers);
     // Query the database for the user's recent stacks
     pool.getConnection((error, connection) => {
         if (error) {
