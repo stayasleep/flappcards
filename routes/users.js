@@ -16,6 +16,9 @@ router.post('/register',(request,response,next)=>{
         user_email:request.body.email,
         user_bday: request.body.birthday,
     };
+    if(Object.keys(request.body).length===0){
+        return response.json({success:false, error:"Invalid Submission"})
+    }
     if(newUser.userName && !/^[a-zA-Z0-9]{6,20}/i.test(newUser.userName)){
         return response.json({success: false, error: "Registration failed"})
     }
@@ -80,6 +83,12 @@ router.post('/register',(request,response,next)=>{
 router.post('/login',function(request,response,next){
     console.log('ip', request.ip);
     console.log('ips',request.ips);
+    if(Object.keys(request.body).length===0){
+        return response.json({success:false, msg: "Invalid Submission"})
+    }
+    if(!request.body.userName || !request.body.password){
+        return response.json({success:false, msg:"invalid Submission Type"})
+    }
     let usn = request.body.userName;
     let upw = request.body.password;
     //Query database to see if user exists in database
@@ -151,10 +160,6 @@ router.use((request, response, next)=> {
 router.post('/community', (request,response,next) => {
     // Query the database for all card stacks that do not belong to the user
     let uid = request.decoded.UserID;
-    // let uid = request.body.userID;
-    if(!uid){
-        return response.json({success: false, message: "Cannot submit blank requests"}); //checks to see if uid is null, undefined, NaN, "",0,False
-    }
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
@@ -182,9 +187,6 @@ router.post('/community', (request,response,next) => {
 // Recent stacks query; This gets called for the home page.
 router.post('/home', (request,response,next)=> {
     let un = request.decoded.UserName;
-    if(!un){
-         return response.send({success:false, message: "Cannot submit blank requests"})
-    }
     // Query the database for the user's recent stacks
     pool.getConnection((error, connection) => {
         if (error) {
@@ -213,6 +215,7 @@ router.post('/home', (request,response,next)=> {
 // Made after clicking on view button on table
 router.post('/stackOverview/:sID',(request,response,next) => {
     let uid = request.decoded.UserID;
+    //if it exists and isnt empty
     if(request.params.sID) {
         let sid = request.params.sID;
         pool.getConnection((error, connection) => {
@@ -222,7 +225,7 @@ router.post('/stackOverview/:sID',(request,response,next) => {
                     success: false,
                     message: "Problem Connecting to DB"
                 });
-                return next(error);
+                // return next(error);
             }
             connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;", [uid, sid], (error, result) => {
                 if (error) {
@@ -267,25 +270,25 @@ router.post('/stackOverview/:sID',(request,response,next) => {
             connection.release();
         })
     }else{
-        return response.send({success:false, message:"Invalid request path"})
+        return response.send({success:false, message:"Invalid Submission"})
     }
 });
 
 //CLICK THE COPY BUTTON, COPIES OTHER STACK INTO YOUR ACCOUNT
 router.post('/copy/:stackId',(request,response,next)=>{
     let uid = request.decoded.UserID;
-    //check to see if the sID exists
     let sId = request.params.stackId;
+
     //check to see if the request body object is empty
     if(Object.keys(request.body).length===0){
-        return response.send({success:false, message:"Must Submit Values With Your Request"});
+        return response.send({success:false, message:"Invalid Submission"});
     }
     //check to see if the subj and cat are empty strings
     if(!request.body.stack.subject){
-        return response.send({success:false, message:"Invalid value types"});
+        return response.send({success:false, message:"Invalid Submission Type"});
     }
     if(!request.body.stack.category){
-        return response.send({success:false,message:"Invalid"});
+        return response.send({success:false,message:"Invalid Submission Type"});
     }
     let commSubj = request.body.stack.subject;
     let commCat = request.body.stack.category;
@@ -349,6 +352,13 @@ router.post('/deleteCard/:cId',(request,response,next)=>{
 //UPDATE INDIVIDUAL CARD FROM OVERVIEW
 router.put('/stack/:cId',(request,response,next)=>{
     let singleID = request.params.cId;
+    //check to see if body exists and then to see if values are empty
+    if(Object.keys(request.body).length === 0){
+        return response.json({success:false, message:"Invalid Submission"})
+    }
+    if(!request.body.cardQuestion || !request.body.cardAnswer){
+        return response.json({success:false, message:"Invalid Submission Type"})
+    }
     //get changed information
     let newQ = request.body.cardQuestion;
     let newA = request.body.cardAnswer;
@@ -359,7 +369,7 @@ router.put('/stack/:cId',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(error,results)=>{
             // If error, notify client that card edit failed
@@ -375,6 +385,19 @@ router.put('/stack/:cId',(request,response,next)=>{
 router.post('/addSingleCard/:stackID',(request,response,next)=>{
     let un = request.decoded.UserName;
     let stackID = request.params.stackID;
+    if(Object.keys(request.body).length===0){
+        return response.json({success:false, message:"Invalid Submission"})
+    }
+    if(!request.body.cardObject){
+        return response.json({success:false, message:"Invalid Submission Type"})
+    }
+    if(Object.keys(request.body.cardObject).length===0){
+        return response.json({success:false, message:"Invalid Submission"})
+    }
+    if(!request.body.cardObject.question || !request.body.cardObject.answer){
+        return response.json({success:false, message:"Invalid Submission Type"})
+    }
+
     let addQ = request.body.cardObject.question;
     let addA = request.body.cardObject.answer;
     pool.getConnection((error,connection)=>{
@@ -384,7 +407,7 @@ router.post('/addSingleCard/:stackID',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(error,results)=>{
             if (error) {
@@ -398,13 +421,28 @@ router.post('/addSingleCard/:stackID',(request,response,next)=>{
 //CREATE STACK
 router.post('/createCards',(request,response,next)=>{
     // had to remove :userID from url; they won't have the information, the token will
+    if(Object.keys(request.body).length===0){
+        return response.json({success:false,message:"Invalid Submission"})
+    }
+    //check is value is empty string
+    if(!request.body.stackObject){
+        return response.json({success:false,message:"Invalid Submission Type"})
+    }
+    if(Object.keys(request.body.stackObject).length === 0){
+        return response.json({success:false, message:"Invalid Submission"})
+    }
     let stack = request.body.stackObject;
+    //check to see if values are empty
+    if(!stack.subject || !stack.category){
+        return response.json({success:false, message:"Invalid Submission Type"})
+    }
     let newSub = stack.subject;
     let newCat = stack.category;
     let numberOfCardsToInsert = stack.stack.length;
     let whoMadeMe = request.decoded.UserName; // pull off user name from the token
     let userID = request.decoded.UserID; // pull off user ID from the token sent
     let stackQuery = "INSERT INTO stacks(user_id, subject, category) VALUES (?,?,?);";
+
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
@@ -412,7 +450,7 @@ router.post('/createCards',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         // Make the new stack first
         connection.query(`${stackQuery}`, [userID, newSub, newCat],(error, results) => {
@@ -466,6 +504,14 @@ router.post('/myShelf',(request,response,next)=> {
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
 router.post('/deleteStack/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
+    //check to see if the body is empty and if the value exists
+    if(Object.keys(request.body).length === 0){
+        return response.json({success:false, message:"Invalid Submission"});
+    }
+    if(!request.body.stackID){
+        return response.json({success:false, message:"Invalid Submission Type"});
+    }
+
     let stackID = request.body.stackID;
     pool.getConnection((error,connection)=>{
         if(error){
@@ -494,7 +540,24 @@ router.post('/deleteStack/:sID',(request,response,next)=>{
 //SEARCH,
 router.post('/search',(request,response,next)=>{
     let uid =request.decoded.UserID;
+
+    //if there is no object in the body or an empty object
+    if(Object.keys(request.body).length === 0 ) {
+        console.log('reqbod empty', request.body);
+        return response.json({success:false, message:"Invalid Submission"})
+    }
+    //if subObj is undefined
+    if (!request.body.query) {
+        console.log('userid', request.body.UserID);
+        return response.json({success:false, message:"Invalid submission type"})
+    }
+    //if search is empty
+    if(!request.body.query.Search){
+        return response.json({success:false, message:"Invalid submission type"})
+    }
     let fromSearch = request.body.query.Search;
+    console.log('query',request.body.query);
+    console.log('querySeach',request.body.query.Search);
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
@@ -502,7 +565,7 @@ router.post('/search',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         // Query the database for all stacks not from the user
         connection.query(
@@ -551,7 +614,7 @@ router.post('/profile',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            return next(error);
+            // return next(error);
         }
         connection.query("SELECT users.fullname, users.username, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(error,result)=>{
             if (error) {
