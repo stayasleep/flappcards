@@ -40,7 +40,10 @@ class EditCard extends Component {
     }
 
     handleOpen = () => {
-        this.setState({open: true});
+        this.setState({
+            open: true
+
+        });
     };
 
     handleClose = () => {
@@ -50,7 +53,7 @@ class EditCard extends Component {
 
 
     render() {
-        const { handleSubmit} = this.props;
+        const { handleSubmit, } = this.props;
         return (
             <div>
                 <EditorModeEdit style={editIconButton} label="Edit"  hoverColor={blue500} onTouchTap={this.handleOpen} />
@@ -71,6 +74,10 @@ class EditCard extends Component {
                         <div>
                             <Field name="answer" component={renderInput} label="Answer"/>
                         </div>
+                        <div>
+                            <p>Original question: {this.props.cardID.question}</p>
+                            <p>Original answer: {this.props.cardID.answer}</p>
+                        </div>
                         <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
                         <RaisedButton label="Edit" primary={true} type="submit"/>
                     </form>
@@ -80,6 +87,9 @@ class EditCard extends Component {
     }
 }
 
+
+// Form name = EditCard
+// Apply the validation function
 EditCard = reduxForm({
     form: 'EditCard',
     validate

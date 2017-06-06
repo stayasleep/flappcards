@@ -1,18 +1,18 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import {addCardInputFields, errorText} from './stackSummaryStyle';
-
-export default function renderInput({input, label, type, meta: {touched, error}}) {
+// Set the default text value to nothing (null) if none were provided, else populate the fields with the old text
+export default function renderInput({input, label, type, meta: {active, dirty, touched, error}}) {
     return (
-        <TextField hintText={label}
-                   floatingLabelStyle={{color: "rgba(0,0,0,0,0.75)"}}
-                   hintStyle={{color: "rgba(0,0,0,0,0.75)"}}
-                   floatingLabelText={label}
-                   errorText={touched && error}
-                   underlineStyle={{width: 150}}
-                   type={type}
-                   style={addCardInputFields}
+        <TextField errorText={touched && !active && dirty && error}
                    errorStyle={errorText}
+                   floatingLabelStyle={{color: "teal"}}
+                   floatingLabelText={label}
+                   hintText={label}
+                   hintStyle={{color: "teal"}}
+                   multiLine={true}
+                   style={addCardInputFields}
+                   type={type}
                    {...input}
         />
     )
