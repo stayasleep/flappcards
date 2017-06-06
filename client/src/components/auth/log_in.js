@@ -34,7 +34,7 @@ class LogIn extends Component {
                         <div style={styles.center}>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
                         </div>
-                        <RaisedButton type="submit" label="Login"/>
+                        <RaisedButton primary={true} type="submit" label="Login"/>
                     </div>
                 </form>
             </div>

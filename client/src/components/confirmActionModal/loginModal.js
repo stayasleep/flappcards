@@ -6,11 +6,15 @@ import Login from '../auth/log_in';
 
 const styles = {
     center: {
-        textAlign: "center"
+        textAlign: "center",
     },
     button: {
         marginTop: 6,
         marginRight: 20
+    },
+    cancelBtn:{
+        color:"rgb(0, 121, 107)",
+        boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
     }
 };
 
@@ -53,6 +57,7 @@ export default class LoginModal extends React.Component {
                 >
                     <Login/>
                     <FlatButton
+                        style={styles.cancelBtn}
                         label="Cancel"
                         primary={true}
                         onTouchTap={this.handleClose}
