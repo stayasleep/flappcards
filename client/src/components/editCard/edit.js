@@ -27,7 +27,6 @@ class EditCard extends Component {
     state = {
         open: false,
     };
-
     handleEdit(cardObject){
         // Pass in the cardObject which contains the necessary information for the edit
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
@@ -40,17 +39,24 @@ class EditCard extends Component {
     }
 
     handleOpen = () => {
-        this.setState({open: true});
+        // When the component opens, set the initial values of the form to what the question and answer were
+        const {question, answer } = this.props.cardID; // pull off question and answer
+        this.props.initialValues.question = question;
+        this.props.initialValues.answer = answer;
+        this.setState({
+            open: true
+        });
     };
 
     handleClose = () => {
+        this.props.reset(); // reset the form. "this" = EditCard form
         this.setState({open: false});
     };
 
 
 
     render() {
-        const { handleSubmit} = this.props;
+        const { handleSubmit } = this.props;
         return (
             <div>
                 <EditorModeEdit style={editIconButton} label="Edit"  hoverColor={blue500} onTouchTap={this.handleOpen} />
@@ -71,6 +77,10 @@ class EditCard extends Component {
                         <div>
                             <Field name="answer" component={renderInput} label="Answer"/>
                         </div>
+                        <div>
+                            <p>Original question: {this.props.cardID.question}</p>
+                            <p>Original answer: {this.props.cardID.answer}</p>
+                        </div>
                         <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
                         <RaisedButton label="Edit" primary={true} type="submit"/>
                     </form>
@@ -80,14 +90,19 @@ class EditCard extends Component {
     }
 }
 
+
+// Form name = EditCard
+// Apply the validation function
 EditCard = reduxForm({
     form: 'EditCard',
+    initialValues: {"question": '', "answer": ''},
     validate
 })(EditCard);
 
 function mapStateToProps(state) {
     return {
         stackCards: state.stack.stackCards
+
     }
 }
 
