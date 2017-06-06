@@ -41,7 +41,8 @@ class Registration extends Component {
             color: 'black',
             boxShadow: "5px 5px 2.5px #888888",
             backgroundColor: "rgba(255,255,255,0.9",
-            position: "relative"
+            position: "relative",
+            padding:"0 1em"
         };
         const passWordInfo = {
             fontSize: 10,
@@ -64,6 +65,9 @@ class Registration extends Component {
         const subBtn = {
             marginRight: "5%",
         };
+        const clearBtn={
+            boxShadow:"0 0 0 1pt rgb(0,121,107)",
+        }
 
         return (
             <Paper style={regStyle}>
@@ -95,7 +99,7 @@ class Registration extends Component {
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
-                        <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
+                        <RaisedButton style={clearBtn} backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
                     </div>
                 </form>
             </Paper>

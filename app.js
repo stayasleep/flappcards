@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 
 //static folder
-// app.use(express.static(path.join(__dirname,'client', 'dist')));
+app.use(express.static(path.join(__dirname,'client', 'dist')));
 
 //Set up for our routes
 app.use('/api', users);
