@@ -18,21 +18,9 @@ class FlashCardsAppBar extends Component {
     }
     handleClose() { this.setState({open: false}); }
     render() {
-        const style = {
-            textAlign: "center",
-            margin: "1em auto",
-            display: "WebkitFlex",
-            display: "flex",
-            "flexFlow": "column",
-            "WebkitFlexFlow": "column",
-        };
-        const styles = {
-            title: {
-                cursor: 'pointer',
-            },
-            titleStyleClass: {
-                width: "10px"
-            }
+        const titleStyleClass = {
+            maxWidth: "20%",
+            overflow: "visible"
         };
         function handleTouchTap() {
             browserHistory.push("/home")
@@ -44,24 +32,24 @@ class FlashCardsAppBar extends Component {
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({open})}
                 >
-                    <MenuItem style={style} primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
+                    <MenuItem className="Navstyle" primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
+                    <MenuItem className="Navstyle" primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    <MenuItem className="Navstyle" primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <MenuItem className="Navstyle" primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                    <MenuItem className="Navstyle" primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
+                    <MenuItem className="Navstyle" primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                    <MenuItem className="Navstyle" primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
                 </Drawer>
 
                 <AppBar
-                    title={<span style={styles.title}>FlappCards</span>}
-                    titleStyle={styles.titleStyleClass}
+                    title={<span className="title">FlappCards</span>}
+                    titleStyle = {titleStyleClass}
                     onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />
