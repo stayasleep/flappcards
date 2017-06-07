@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 // Recent stacks query; This gets called for the home page.
-router.post('/home', (request,response,next)=> {
+router.post('/', (request,response,next)=> {
     let un = request.decoded.UserName;
     let ip = request.ip;
     console.log('my ip',ip);

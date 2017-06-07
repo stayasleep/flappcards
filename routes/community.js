@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 //COMMUNITY
-router.post('/community', (request,response,next) => {
+router.post('/', (request,response,next) => {
     // Query the database for all card stacks that do not belong to the user
     let uid = request.decoded.UserID;
     pool.getConnection((error,connection)=>{

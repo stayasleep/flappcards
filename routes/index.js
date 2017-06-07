@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const router = express.Router();
 const mysql = require('mysql');
 const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
@@ -19,20 +20,20 @@ let profile = require('./profile');
 let logOut = require('./logOut');
 
 //set up the subroutes for non-token based routes
-app.use('/',user);
+router.use('/',user);
 
 //middleware for token-based routes
 // VERIFY TOKEN
-app.use((request, response, next)=> {
-    // const token = request.body.token || request.query.token || request.headers['x-access-token'];
-    const token = request.body.token;
-    // decode token
+router.use((request, response, next)=> {
+    const token = request.body.token || request.query.token || request.headers['x-access-token'];
+    console.log('tok is',token);
     if (token) {
         // JWT verify method to check token information and secret
         jwt.verify(token, config.secret,(err, decoded)=> {
             if (err) {
                 return response.json({ success: false, message: 'Failed to authenticate.' });
             } else {
+                console.log('token is verified');
                 // if token signature was verified, decode the request and use next() to go to the next function
                 request.decoded = decoded;
                 next();
@@ -47,11 +48,14 @@ app.use((request, response, next)=> {
     }
 });
 //set up token-based subroutes
-app.use('/home',home);
-app.use('/community',community);
-app.use('/myShelf',myshelf);
-app.use('/stackOverview',stackOverview);
-app.use('/createCards',createCards);
-app.use('/search', searched);
-app.use('/profile',profile);
-app.use('/logout', logOut);
+router.use('/home',home);
+router.use('/community',community);
+router.use('/myShelf',myshelf);
+router.use('/stackOverview',stackOverview);
+router.use('/createCards',createCards);
+router.use('/search', searched);
+router.use('/profile',profile);
+router.use('/logout', logOut);
+
+module.exports = router;
+

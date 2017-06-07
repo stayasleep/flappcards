@@ -122,7 +122,7 @@ export function getMyStackOverview() {
 export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token, "stackID": stackID}).then((response) => {
+        axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -238,7 +238,7 @@ export function getCommunityStacksOverview() {
 export function createStack(stackObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.get(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
+        axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
             let stackID = response.data.stackID;
             dispatch({type: CREATE_STACK, payload: response.data});
             browserHistory.push(`stackOverview/${stackID}`);

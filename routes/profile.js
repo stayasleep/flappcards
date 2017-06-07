@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 //Profile retrieve some user information
-router.post('/profile',(request,response,next)=>{
+router.post('/',(request,response,next)=>{
     let un = request.decoded.UserID;
     pool.getConnection((error,connection)=>{
         if(error){

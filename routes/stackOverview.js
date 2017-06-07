@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 // Associated Axios call: getStack;
 // Made after clicking on view button on table
 router.get('/:sID',(request,response,next) => {
+    console.log('u got me',request);
     let uid = request.decoded.UserID;
     //if it exists and isnt empty
     if(request.params.sID) {

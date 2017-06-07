@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 //SEARCH,
-router.post('/search',(request,response,next)=>{
+router.post('/',(request,response,next)=>{
     let uid =request.decoded.UserID;
 
     //if there is no object in the body or an empty object
