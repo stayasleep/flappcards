@@ -4,6 +4,8 @@ import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import Subheader from 'material-ui/Subheader';
 import {List} from 'material-ui/List';
 import {subHeader} from '../utilities/stackSummaryStyle';
+import {Link} from 'react-router';
+import {emptyRecent} from '../home.css';
 
 import StackSummary from '../utilities/renderStackSummary';
 
@@ -17,8 +19,8 @@ class Recent extends Component {
             return (
                 <List>
                     <Subheader style={subHeader}>Recent Stacks:</Subheader>
-                    <div style={{fontFamily: "Roboto, sans-serif"}}>
-                        Oops! Looks like your shelf is empty. Create a stack or take a look at some of the community content below!
+                    <div className="emptyRecent" style={{fontFamily: "Roboto, sans-serif"}}>
+                        Oops! Looks like your shelf is empty. <Link to="/createCards">Create a stack</Link> or take a look at some of the community content below!
                     </div>
                 </List>
             )

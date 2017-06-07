@@ -12,6 +12,9 @@ import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
 
+import CircularProgress from 'material-ui/CircularProgress';
+import {loadingIcon} from './../myshelf.css';
+
 class Stacks extends Component {
 
     componentWillMount(){
@@ -23,12 +26,23 @@ class Stacks extends Component {
             return (
                 <List>
                     <Subheader style={subHeader}>My Shelf</Subheader>
-                    <div style={{fontFamily: "Roboto, sans-serif"}}>
-                        Loading...
+                    <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif"}}>
+                        <CircularProgress size={80} thickness={6} />
                     </div>
                 </List>
             )
         }
+        if (this.props.stacks.length === 0) {
+            return (
+                <List>
+                    <Subheader style={subHeader}>My Shelf</Subheader>
+                    <div className="emptyRecent" style={{fontFamily: "Roboto, sans-serif"}}>
+                        Looks like your shelf is empty. <Link to="/createCards">Create a stack</Link> or <Link to="/search">search the available community content</Link>
+                    </div>
+                </List>
+            )
+        }
+
         const stacksList = this.props.stacks.map((item, index) => {
             return (
                 <Card key={index} style={stackSummaryDisplay}>
