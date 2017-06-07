@@ -10,7 +10,6 @@ export default function renderInput({input, label, type, meta: {active, dirty, t
                    floatingLabelText={label}
                    hintText={label}
                    hintStyle={{color: "teal"}}
-                   multiLine={true}
                    style={addCardInputFields}
                    type={type}
                    {...input}
