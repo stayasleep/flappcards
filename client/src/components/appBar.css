@@ -1,0 +1,10 @@
+.Navstyle {
+    text-align: center;
+    margin: 1em auto;
+    display: flex;
+    flex-flow: column;
+    -webkit-flex-flow: column;
+}
+.title {
+    cursor: pointer
+}
