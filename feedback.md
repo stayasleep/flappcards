@@ -3,7 +3,7 @@
 ## Registration
  * ~~Padding for div~~
  * ~~Restyled buttons on registration form and modal (Brian)~~
- * Placeholder text needs to be different color than the input text color
+ * ~~Placeholder text needs to be different color than the input text color~~
  
 ## About Page
  * Styling
@@ -26,7 +26,7 @@
 ## ~~Edit Card~~
  * ~~Do not _**destroy**_ original input value: maybe the user just wanted to edit one word. Consider side by side layout of old and new text (Andres)~~
 
-## Study Mode 
-* Question and Answer text alignment are off
+## ~~Study Mode~~ 
+* ~~Question and Answer text alignment are off (Andres)~~
 
  
