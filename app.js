@@ -8,7 +8,8 @@ const cors = require('cors');
 const PORT = process.env.PORT || 1337;
 
 //routes
-const users = require('./routes/users');
+// const users = require('./routes/users');
+const api = require('./routes/index');
 
 //HTTP Request for Dev
 // app.use(morgan('dev'));
@@ -23,7 +24,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname,'client', 'dist')));
 
 //Set up for our routes
-app.use('/api', users);
+app.use('/',api);
 
 //Retrieve file when requested on client side and send it
 app.get('*',(req,res)=>{

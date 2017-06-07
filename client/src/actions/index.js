@@ -162,7 +162,7 @@ export function getMyRecentStacksOverview() {
 export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/deleteStack/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
+        axios.delete(`${BASE_URL}/myShelf/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -180,7 +180,7 @@ export function deleteStack(stackID) {
 export function deleteCard(cardID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/deleteCard/${cardID}`, {token: token, cardID: cardID}).then((response) => {
+        axios.delete(`${BASE_URL}/stackOverview/${cardID}`, {token: token, cardID: cardID}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -200,7 +200,7 @@ export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         let {cardID, question, answer} = cardObject; // cardObject.card_id, cardObject.question, cardObject.answer
-        axios.put(`${BASE_URL}/stack/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
+        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
             dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -238,7 +238,7 @@ export function getCommunityStacksOverview() {
 export function createStack(stackObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
+        axios.get(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
             let stackID = response.data.stackID;
             dispatch({type: CREATE_STACK, payload: response.data});
             browserHistory.push(`stackOverview/${stackID}`);
@@ -281,7 +281,7 @@ export function addSingleCard(cardObject) {
         // cardObject contains question and answer
         let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/addSingleCard/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
             dispatch({type: CREATE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
