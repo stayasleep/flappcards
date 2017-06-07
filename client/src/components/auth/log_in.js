@@ -32,7 +32,7 @@ class LogIn extends Component {
                         <Field name="userName" component={renderInput} label="Username"/>
                         </div>
                         <div style={styles.center}>
-                        <Field name="password" component={renderInput} label="Password" type="password"/>
+                            <Field name="password" component={renderInput} label="Password" type="password"/>
                         </div>
                         <RaisedButton primary={true} type="submit" label="Login"/>
                     </div>

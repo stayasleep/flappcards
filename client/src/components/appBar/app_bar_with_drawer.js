@@ -21,14 +21,17 @@ class FlashCardsAppBar extends Component {
         const style = {
             textAlign: "center",
             margin: "1em auto",
-            display: "-webkit-flex",
+            display: "WebkitFlex",
             display: "flex",
-            "flex-flow": "column",
-            "-webkit-flex-flow": "column",
+            "flexFlow": "column",
+            "WebkitFlexFlow": "column",
         };
         const styles = {
             title: {
                 cursor: 'pointer',
+            },
+            titleStyleClass: {
+                width: "10px"
             }
         };
         function handleTouchTap() {
@@ -58,6 +61,7 @@ class FlashCardsAppBar extends Component {
 
                 <AppBar
                     title={<span style={styles.title}>FlappCards</span>}
+                    titleStyle={styles.titleStyleClass}
                     onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />

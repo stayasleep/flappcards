@@ -55,6 +55,8 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
+    top: 35%;
+    padding: 1em;
 }
 #answer{
     backface-visibility: hidden;
@@ -64,17 +66,25 @@
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 35%;
+    padding: 1em;
 }
 #questionCard.flippedCard{
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
+    text-align: center;
 }
 #questionCard.flippedCard > .back {
     -webkit-transition: .3s;
     transition: .3s;
     visibility: hidden;
+    align-items: center;
+    justify-content: center;
 }
 #FlipMsg {
     -webkit-transform: rotateY( 180deg );
