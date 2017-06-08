@@ -202,7 +202,7 @@ router.post('/home', (request,response,next)=> {
         }
         connection.query("SELECT stacks.stack_id, stacks.subject, stacks.rating as 'stackRating', stacks.category, stacks.last_played as 'lastPlayed', DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating, cards.orig_source_stack AS 'createdBy',COUNT(*) as 'totalCards'" +
             "FROM stacks join cards ON stacks.stack_id=cards.stack_id " +
-            "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.stack_id DESC LIMIT 2 ", [un], (error, results) => {
+            "JOIN users ON stacks.user_id = users.user_id WHERE users.username =? GROUP BY stacks.stack_id DESC LIMIT 3 ", [un], (error, results) => {
             if (error) {
                 response.send({success: false, message: "There was a problem with your request"});
             } else if (results.length > 0) {

@@ -13,7 +13,7 @@ import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
 
 import CircularProgress from 'material-ui/CircularProgress';
-import {loadingIcon} from './../myshelf.css';
+import {loadingIcon, cards} from './../myshelf.css';
 
 class Stacks extends Component {
 
@@ -45,10 +45,15 @@ class Stacks extends Component {
 
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <Card key={index} style={stackSummaryDisplay}>
+                <div key={index} className="cards">
+                <Card style={{overflow: "hidden"}}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
-                        titleStyle={cardHeader}
+                        titleStyle={{
+                            fontSize: "1em",
+                            fontWeight: "bold",
+                            color: "white",
+                            overflow: "hidden"}}
                         subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar style={{float:"right"}}>{item.totalCards}</Avatar>}
@@ -63,10 +68,11 @@ class Stacks extends Component {
                     {/*<CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>*/}
                     <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>
                 </Card>
+                </div>
             )
         });
         return (
-            <List>
+            <List style={{textAlign: "center"}}>
                 <Subheader style={subHeader}>My Shelf</Subheader>
                     {stacksList}
             </List>
