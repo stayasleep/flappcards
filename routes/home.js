@@ -10,8 +10,7 @@ const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 // Recent stacks query; This gets called for the home page.
 router.post('/', (request,response,next)=> {
     let un = request.decoded.UserName;
-    let ip = request.ip;
-    console.log('my ip',ip);
+    console.log('my ip',request.ip);
     console.log('our ips', request.ips);
     console.log('reqcon',request.connection);
     console.log('header', request.headers);

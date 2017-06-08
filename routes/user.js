@@ -56,7 +56,6 @@ router.post('/register',(request,response,next)=>{
                 return response.json({success: false, userNameTaken: true});
             }
             // Use bcrypt to salt and hash the password.
-            // Use of salt + hash helps guard against use of rainbow tables
             bcrypt.genSalt(10, function (err, salt) {
                 bcrypt.hash(newUser.user_pw, salt, function (err, hash) {
                     newUser.user_pw = hash;
@@ -114,7 +113,6 @@ router.post('/login',function(request,response,next){
                         });
                         response.json({
                             success: true,
-                            // message: result,
                             token: token
                         });
                     } else {

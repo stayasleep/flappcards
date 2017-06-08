@@ -20,21 +20,18 @@ let profile = require('./profile');
 let logOut = require('./logOut');
 let copy = require('./copy');
 
-//set up the subroutes for non-token based routes
+//set up non-token based routes
 router.use('/',user);
 
-//middleware for token-based routes
-// VERIFY TOKEN
+//middleware verification for token-based routes
 router.use((request, response, next)=> {
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
-    console.log('tok is',token);
     if (token) {
         // JWT verify method to check token information and secret
         jwt.verify(token, config.secret,(err, decoded)=> {
             if (err) {
                 return response.json({ success: false, message: 'Failed to authenticate.' });
             } else {
-                console.log('token is verified');
                 // if token signature was verified, decode the request and use next() to go to the next function
                 request.decoded = decoded;
                 next();
@@ -48,6 +45,7 @@ router.use((request, response, next)=> {
         });
     }
 });
+
 //set up token-based subroutes
 router.use('/home',home);
 router.use('/community',community);

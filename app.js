@@ -8,7 +8,6 @@ const cors = require('cors');
 const PORT = process.env.PORT || 1337;
 
 //routes
-// const users = require('./routes/users');
 const api = require('./routes/index');
 
 //HTTP Request for Dev

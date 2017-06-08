@@ -201,7 +201,6 @@ export function deleteStack(stackID) {
 export function deleteCard(cardObj) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        console.log('card id',cardObj.cardID);
         axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {

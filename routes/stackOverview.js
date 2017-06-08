@@ -39,17 +39,12 @@ router.get('/:sID',(request,response,next) => {
                         }
                         if (results.length > 0) {
                             results[0].isOwned = true;
-                            // console.log('results', results);
-                            // console.log('res0', results[0]);
                             response.send(results);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
                             // console.log('shall not pass', results);
                             response.send(results);
                         }
-                        // results[0].isOwned = true;
-                        // console.log('one at a time',results);
-                        // response.send(results);
                     });
                 } else {
                     //If the stack is not initially in your collection
