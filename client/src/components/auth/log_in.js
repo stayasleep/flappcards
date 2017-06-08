@@ -23,13 +23,16 @@ class LogIn extends Component {
     }
 
     render (){
-        const { handleSubmit } = this.props;
+        const { handleSubmit, error } = this.props;
         return (
             <div>
+                <div id="loginForm">
+                    {/*Errors will go here*/}
+                </div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div style={styles.center}>
                         <div style={styles.center}>
-                        <Field name="userName" component={renderInput} label="Username"/>
+                        <Field name="userName" component={renderInput} label="Username" />
                         </div>
                         <div style={styles.center}>
                             <Field name="password" component={renderInput} label="Password" type="password"/>
@@ -53,6 +56,27 @@ function validate(values) {
     
     return errors
 }
+function mapStateToProps(state) {
+    if(state.auth.authError === "Username/Password Incorrect"){
+
+        function appendUserError(el, str) {
+            var div = document.createElement('div');
+            div.innerHTML = '';
+            el.innerHTML = '';
+            div.innerHTML = str;
+            el.appendChild(div.children[0]);
+        }
+        var userError = '<div style="color: red; padding: 12px">Username/Password Incorrect</div>';
+        appendUserError(document.getElementById("loginForm"), userError); // "body" has two more children - h1 and span.
+
+        state.auth.authError = null; // Reset the authError to null so the user can try registering again.
+
+    }
+    return {
+        authenticated: state.auth.authenticated,
+        error: state.auth.authError
+    };
+}
 
 LogIn = reduxForm({
     form: 'login',
@@ -60,4 +84,4 @@ LogIn = reduxForm({
 })(LogIn);
 
 
-export default connect(null, {userLogin})(LogIn);
+export default connect(mapStateToProps, {userLogin})(LogIn);
