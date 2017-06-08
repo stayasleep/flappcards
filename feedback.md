@@ -1,19 +1,19 @@
 # Feedback 
 
-## Registration
+## ~~Registration~~
  * ~~Padding for div~~
  * ~~Restyled buttons on registration form and modal (Brian)~~
  * ~~Placeholder text needs to be different color than the input text color~~
  
-## About Page
- * Styling
+## ~~About Page~~
+ * ~~Styling -> Added padding (Andres) and color to toolbar component~~
 
-## App bar: Not sure how to fix this
- * Entire app bar takes you home. Confusing for users. 
+## ~~App bar: Not sure how to fix this~~ Chalmers took care of it
+ * ~~Entire app bar takes you home. Confusing for users.~~ 
+  Title is given a finite width to avoid the issue. Material UI causes the issue/warrants the work around
 ## Search Page 
  * Drop down for suggested searches
-  
-  
+ 
 ## ~~My Shelf~~ 
  * ~~For new users, some type of message instead of blank~~
  
