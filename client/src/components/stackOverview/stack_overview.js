@@ -19,4 +19,13 @@ class Stacks extends Component {
     }
 }
 
-export default connect(null,{getStackOverview})(Stacks);
+
+
+function mapStateToProps(state) {
+    return {
+        stackCards: state.stack.stackCards,
+        newStackID: state.stack.newStackID
+    }
+}
+// export default connect(mapStateToProps, {getStackOverview, stackCopy})(StackViewStacks);
+export default connect(mapStateToProps,{getStackOverview})(Stacks);

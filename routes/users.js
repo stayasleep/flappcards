@@ -324,7 +324,7 @@ router.post('/copy/:stackId',(request,response,next)=>{
 
 
 //DELETE INDIVIDUAL card from your stack overview
-router.post('/deleteCard/:cId',(request,response,next)=>{
+router.delete('/stackOverview/:cId',(request,response,next)=>{
     let uid = request.decoded.UserID;
     if(request.body.cardID) {
         let singleID = request.body.cardID;
@@ -353,7 +353,7 @@ router.post('/deleteCard/:cId',(request,response,next)=>{
     }
 });
 //UPDATE INDIVIDUAL CARD FROM OVERVIEW
-router.put('/stack/:cId',(request,response,next)=>{
+router.put('/stackOverview/:cId',(request,response,next)=>{
     let singleID = request.params.cId;
     //check to see if body exists and then to see if values are empty
     if(Object.keys(request.body).length === 0){
@@ -505,7 +505,7 @@ router.post('/myShelf',(request,response,next)=> {
     })
 });
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
-router.post('/deleteStack/:sID',(request,response,next)=>{
+router.delete('/myShelf/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
     //check to see if the body is empty and if the value exists
     if(Object.keys(request.body).length === 0){

@@ -49,18 +49,18 @@ export function userLogin(values) {
     }
 }
 
-export function getCard() {
-    return function (dispatch) {
-        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-            dispatch({type: FETCH_CARD, payload: response.data});
-        }).catch(err => {
-            dispatch({
-                type: null,
-                error: err.response
-            });
-        })
-    }
-}
+// export function getCard() {
+//     return function (dispatch) {
+//         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
+//             dispatch({type: FETCH_CARD, payload: response.data});
+//         }).catch(err => {
+//             dispatch({
+//                 type: null,
+//                 error: err.response
+//             });
+//         })
+//     }
+// }
 export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
@@ -143,7 +143,7 @@ export function getMyStackOverview() {
 export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token, "stackID": stackID}).then((response) => {
+        axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -183,7 +183,7 @@ export function getMyRecentStacksOverview() {
 export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/deleteStack/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
+        axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -198,10 +198,10 @@ export function deleteStack(stackID) {
  * @param cardID {int}
  * @returns {Function}
  */
-export function deleteCard(cardID) {
+export function deleteCard(cardObj) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/deleteCard/${cardID}`, {token: token, cardID: cardID}).then((response) => {
+        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -221,7 +221,7 @@ export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         let {cardID, question, answer} = cardObject; // cardObject.card_id, cardObject.question, cardObject.answer
-        axios.put(`${BASE_URL}/stack/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
+        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
             dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -303,7 +303,7 @@ export function addSingleCard(cardObject) {
         // cardObject contains question and answer
         let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/addSingleCard/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
             dispatch({type: CREATE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({

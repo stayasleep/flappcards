@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCard, getStackOverview} from '../../actions/index'
+import {getStackOverview} from '../../actions/index'
 import RaisedButton from 'material-ui/RaisedButton';
 // this.context.router.push is what allows the URL to change without actually having to send requests
 import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
@@ -66,7 +66,7 @@ class SingleCard extends Component {
         const { sid } = this.props.params;
         const {cid} = this.props.params;
         this.props.getStackOverview(sid);
-        this.props.getCard(cid)
+        //this.props.getCard(cid)
     }
     componentDidUpdate(){
         var flip = true;
@@ -137,5 +137,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getCard, getStackOverview})(SingleCard);
+export default connect(mapStateToProps, {getStackOverview})(SingleCard);
 
