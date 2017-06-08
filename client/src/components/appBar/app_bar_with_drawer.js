@@ -5,6 +5,7 @@ import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
 import Divider from 'material-ui/Divider';
 import {browserHistory} from 'react-router';
+import {Navstyle} from './../appBar.css';
 
 class FlashCardsAppBar extends Component {
 
@@ -25,6 +26,15 @@ class FlashCardsAppBar extends Component {
         function handleTouchTap() {
             browserHistory.push("/home")
         }
+        const style = {
+            textAlign: "center",
+            margin: "1em auto",
+            display: "WebkitFlex",
+            display: "flex",
+            "flexFlow": "column",
+            "WebkitFlexFlow": "column",
+        };
+
         return (
             <div className="appBar">
                 <Drawer
@@ -32,19 +42,19 @@ class FlashCardsAppBar extends Component {
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({open})}
                 >
-                    <MenuItem className="Navstyle" primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
+                    <MenuItem style={style} primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
                     <Divider />
-                    <MenuItem className="Navstyle" primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
+                    <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
                     <Divider />
-                    <MenuItem className="Navstyle" primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
                     <Divider />
-                    <MenuItem className="Navstyle" primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <Divider />
-                    <MenuItem className="Navstyle" primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                     <Divider />
-                    <MenuItem className="Navstyle" primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
+                    <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
                     <Divider />
-                    <MenuItem className="Navstyle" primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                    <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
                 </Drawer>
 
                 <AppBar
