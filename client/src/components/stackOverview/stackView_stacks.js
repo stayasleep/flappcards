@@ -14,7 +14,8 @@ import Divider from 'material-ui/Divider';
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import Paper from 'material-ui/Paper';
 
-import {cardStackList, contentCopy} from '../stackOverview.css' // import CSS for styling
+import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
+import CircularProgress from 'material-ui/CircularProgress';
 
 class StackViewStacks extends Component{
 
@@ -48,7 +49,11 @@ class StackViewStacks extends Component{
 
     render() {
         if (!this.props.stackCards) {
-            return <div>Loading...</div>
+            return (
+                <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif", padding: 12}}>
+                    <CircularProgress size={80} thickness={6} />
+                </div>
+            );
         }
         let stackView;
         if(this.props.stackCards[0].isOwned) {

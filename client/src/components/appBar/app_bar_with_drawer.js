@@ -5,6 +5,7 @@ import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
 import Divider from 'material-ui/Divider';
 import {browserHistory} from 'react-router';
+import {Navstyle} from './../styles/appBar.css';
 
 class FlashCardsAppBar extends Component {
 
@@ -18,22 +19,22 @@ class FlashCardsAppBar extends Component {
     }
     handleClose() { this.setState({open: false}); }
     render() {
-        const style = {
-            textAlign: "center",
-            margin: "1em auto",
-            display: "-webkit-flex",
-            display: "flex",
-            "flex-flow": "column",
-            "-webkit-flex-flow": "column",
-        };
-        const styles = {
-            title: {
-                cursor: 'pointer',
-            }
+        const titleStyleClass = {
+            maxWidth: "20%",
+            overflow: "visible"
         };
         function handleTouchTap() {
             browserHistory.push("/home")
         }
+        const style = {
+            textAlign: "center",
+            margin: "1em auto",
+            display: "WebkitFlex",
+            display: "flex",
+            "flexFlow": "column",
+            "WebkitFlexFlow": "column",
+        };
+
         return (
             <div className="appBar">
                 <Drawer
@@ -57,7 +58,8 @@ class FlashCardsAppBar extends Component {
                 </Drawer>
 
                 <AppBar
-                    title={<span style={styles.title}>FlappCards</span>}
+                    title={<span className="title">FlappCards</span>}
+                    titleStyle = {titleStyleClass}
                     onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />

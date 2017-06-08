@@ -1,12 +1,26 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD, SEARCH_STACKS} from './types';
+import {
+    FETCH_MY_STACK_OVERVIEW,
+    FETCH_MY_COMMUNITY_STACKS,
+    FETCH_STACK_OVERVIEW,
+    FETCH_CARD,
+    FETCH_USER_META,
+    AUTH_ERROR,
+    AUTH_USER,
+    UNAUTH_USER,
+    DELETE_STACK,
+    DELETE_CARD,
+    EDIT_CARD,
+    AUTOCOMPLETE_SEARCH_STACKS,
+    SEARCH_STACKS
+} from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-// const BASE_URL = '/api'; // Uncomment for live version
+// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
 
@@ -260,6 +274,7 @@ export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
+
             dispatch({type: SEARCH_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -315,4 +330,25 @@ export function stackCopy(stackCopy) {
         })
     }
 }
+
+/**
+ * @name - populateAutoComplete
+ * @returns {Function}
+ * @description - Populates the autocomplete suggestions from data returned by the server
+ */
+export function populateAutoComplete() {
+    let token = localStorage.getItem('token');
+    return function(dispatch) {
+        axios.post(`${BASE_URL}/search/autocomplete`, {"token": token}).then((response) => {
+            // response.data = an array of strings
+            dispatch({type: AUTOCOMPLETE_SEARCH_STACKS, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: AUTOCOMPLETE_SEARCH_STACKS,
+                payload: [{"Issue": "There was a problem populating suggestions"}]
+            }); // The reducer does not have an error case for auto complete
+        })
+    }
+}
+
 // JSON is the default expected response type for axios calls
