@@ -1,4 +1,15 @@
-import {FETCH_STACKS, FETCH_CARD, FETCH_MY_STACK_OVERVIEW, FETCH_MY_RECENT_STACKS, FETCH_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, CREATE_STACK, SEARCH_STACKS, COPY_STACK} from '../actions/types';
+import {
+    FETCH_STACKS,
+    FETCH_CARD,
+    FETCH_MY_STACK_OVERVIEW,
+    FETCH_MY_RECENT_STACKS,
+    FETCH_STACK_OVERVIEW,
+    FETCH_MY_COMMUNITY_STACKS,
+    CREATE_STACK,
+    SEARCH_STACKS,
+    AUTOCOMPLETE_SEARCH_STACKS,
+    COPY_STACK
+} from '../actions/types';
 const default_state ={
     all: [],
     subj: "",
@@ -10,7 +21,15 @@ const default_state ={
     card: 0
 };
 
-
+/**
+ *
+ * @param state
+ * @param action
+ * @returns {*}
+ * @description -   The switch statement catches an action dispatched from an action creator
+ *                  (see actions/index.js) then returns an updated state containing the data from
+ *                  the Axios call.
+ */
 export default function (state = default_state, action) {
     switch (action.type){
         case(FETCH_STACKS):
@@ -32,6 +51,8 @@ export default function (state = default_state, action) {
             return {...state, stackCards: action.payload};
         case(CREATE_STACK):
             return {...state};
+        case(AUTOCOMPLETE_SEARCH_STACKS):
+            return {...state, autoCompleteSuggestions: action.payload};
         case (SEARCH_STACKS):
             return {...state, stacks: action.payload};
         case (COPY_STACK):

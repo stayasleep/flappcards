@@ -14,7 +14,7 @@ import Divider from 'material-ui/Divider';
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import Paper from 'material-ui/Paper';
 
-import {cardStackList, contentCopy, loadingIcon} from '../stackOverview.css' // import CSS for styling
+import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
 import CircularProgress from 'material-ui/CircularProgress';
 
 class StackViewStacks extends Component{

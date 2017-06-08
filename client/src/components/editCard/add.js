@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import renderInput from '../utilities/renderInput';
 import {addSingleCard, getStackOverview} from '../../actions/index';
-import {singleCardForm, singleCardAdd, singleCardAddDialog} from '../add_single_card.css';
+import {singleCardForm, singleCardAdd, singleCardAddDialog} from './../styles/add_single_card.css';
 const styler = {
     center: {
         textAlign: "center"

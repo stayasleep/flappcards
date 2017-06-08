@@ -3,10 +3,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import './landingPage.css';
-import './singleCard.css';
-import './search.css'
-import './appBar.css'
+import './styles/landingPage.css';
+import './styles/singleCard.css';
+import './styles/search.css'
+import './styles/appBar.css'
 import {
     teal700, teal500,
     indigo200,
