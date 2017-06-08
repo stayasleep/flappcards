@@ -5,7 +5,7 @@ import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
 import Divider from 'material-ui/Divider';
 import {browserHistory} from 'react-router';
-import {Navstyle} from './../appBar.css';
+import {Navstyle} from './../styles/appBar.css';
 
 class FlashCardsAppBar extends Component {
 

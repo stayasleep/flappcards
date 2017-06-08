@@ -5,7 +5,7 @@ import Subheader from 'material-ui/Subheader';
 import {List} from 'material-ui/List';
 import {subHeader} from '../utilities/stackSummaryStyle';
 import {Link} from 'react-router';
-import {emptyRecent} from '../home.css';
+import {emptyRecent} from './../styles/home.css';
 
 import StackSummary from '../utilities/renderStackSummary';
 

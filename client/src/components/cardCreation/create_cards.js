@@ -10,7 +10,7 @@ import renderInput from '../utilities/renderInput';
 import Paper from 'material-ui/Paper';
 import {cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
 import Close from 'material-ui/svg-icons/navigation/close';
-import {labelPlaceholder} from '../inputComponent.css';
+import {labelPlaceholder} from './../styles/inputComponent.css';
 
 
 class CreateCards extends Component {

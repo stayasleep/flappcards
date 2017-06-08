@@ -13,7 +13,7 @@ import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
 
 import CircularProgress from 'material-ui/CircularProgress';
-import {loadingIcon} from './../myshelf.css';
+import {loadingIcon} from './../styles/myshelf.css';
 
 class Stacks extends Component {
 

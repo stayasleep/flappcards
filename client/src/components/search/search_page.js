@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {Link} from 'react-router';
-import {Field, reduxForm} from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton'
-import {searchStacks} from '../../actions/index'
+
+import {searchStacks, populateAutoComplete} from '../../actions/index'
 import {connect} from 'react-redux'
 import Paper from 'material-ui/Paper';
 import {
@@ -17,16 +16,13 @@ import {
 import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
-import renderInput from '../utilities/renderInput';
+import SearchAutoComplete from './search_autocomplete';
 
 class Search extends Component {
 
-    handleSearch(search){
-        this.props.searchStacks(search);
-    }
 
     render(){
-        const { handleSubmit } = this.props;
+
             const stacksList = this.props.stacks.map((item, index) => {
                 return (
                     <TableRow key={index} className="tableStyle">
@@ -47,10 +43,9 @@ class Search extends Component {
             <div>
                 <FlashCardsAppBar/>
                 <Paper>
-                <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
-                    <Field name="Search" component={renderInput} label="Search Category or Subject"/>
-                    <RaisedButton type="submit" label="Search"/>
-                </form>
+                    <SearchAutoComplete />
+
+
                 <Table className="tableStyle">
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>
@@ -74,10 +69,8 @@ class Search extends Component {
                 <div>
                     <FlashCardsAppBar/>
                     <Paper>
-                    <form onSubmit={handleSubmit((values) => {this.handleSearch(values)})}>
-                        <Field name="Search" component={renderInput} label="Search Category or Subject"/>
-                        <RaisedButton type="submit" label="Search"/>
-                    </form>
+                        <SearchAutoComplete />
+
                     <Table>
                         <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>
                             <TableRow>
@@ -105,8 +98,6 @@ function mapStateToProps(state) {
     }
 }
 
-Search = reduxForm({
-    form: 'Search',
-})(Search);
 
-export default connect(mapStateToProps, {searchStacks})(Search);
+
+export default connect(mapStateToProps, {searchStacks, populateAutoComplete})(Search);
