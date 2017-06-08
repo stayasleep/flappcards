@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 //CREATE STACK
-router.post('/createCards',(request,response,next)=>{
+router.post('/',(request,response,next)=>{
     // had to remove :userID from url; they won't have the information, the token will
     if(Object.keys(request.body).length===0){
         return response.json({success:false,message:"Invalid Submission"})
