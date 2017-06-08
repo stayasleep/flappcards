@@ -27,11 +27,9 @@ class StackSummary extends Component {
                         subtitle={`Category: ${item.category}`}
                         avatar={<Avatar style={rightAvatar}>{item.totalCards}</Avatar>}
                         style={cardHeader}
-                        actAsExpander={true}
                     />
                     <CardText
                         style={cardText}
-                        expandable={true}
                     >
                         <div>
                         Created by: {item.createdBy}
@@ -56,10 +54,12 @@ class StackSummary extends Component {
         });
 
         return (
-            <List>
+            <div>
                 <Subheader style={subHeader}>{title}</Subheader>
-                {stackSummary}
-            </List>
+                <List>
+                    {stackSummary}
+                </List>
+            </div>
         )
     }
 }
