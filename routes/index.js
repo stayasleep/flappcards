@@ -18,6 +18,7 @@ let stackOverview = require('./stackOverview');
 let createCards = require('./createCards');
 let profile = require('./profile');
 let logOut = require('./logOut');
+let copy = require('./copy');
 
 //set up the subroutes for non-token based routes
 router.use('/',user);
@@ -56,6 +57,7 @@ router.use('/createCards',createCards);
 router.use('/search', searched);
 router.use('/profile',profile);
 router.use('/logout', logOut);
+router.use('/copy', copy);
 
 module.exports = router;
 

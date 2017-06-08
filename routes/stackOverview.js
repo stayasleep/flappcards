@@ -108,10 +108,11 @@ router.post('/:sID',(request,response,next)=>{
     })
 });
 //DELETE INDIVIDUAL card from your stack overview
-router.delete('/:sID/:cId',(request,response,next)=>{
+router.delete('/:sID/:cID',(request,response,next)=>{
     let uid = request.decoded.UserID;
-    if(request.body.cardID) {
-        let singleID = request.body.cardID;
+    if(request.params.cID) {
+        let singleID = request.params.cID;
+        let stackID = request.params.sID;
         pool.getConnection((error, connection) => {
             if (error) {
                 console.log("Error connecting to db", error);

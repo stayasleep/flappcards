@@ -40,14 +40,14 @@ router.post('/',(request,response,next)=> {
 router.delete('/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
     //check to see if the body is empty and if the value exists
-    if(Object.keys(request.body).length === 0){
+    if(Object.keys(request.params).length === 0){
         return response.json({success:false, message:"Invalid Submission"});
     }
-    if(!request.body.stackID){
+    if(!request.params.sID){
         return response.json({success:false, message:"Invalid Submission Type"});
     }
 
-    let stackID = request.body.stackID;
+    let stackID = request.params.sID;
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);

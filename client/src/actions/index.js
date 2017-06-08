@@ -28,18 +28,18 @@ export function userLogin(values) {
     }
 }
 
-export function getCard() {
-    return function (dispatch) {
-        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-            dispatch({type: FETCH_CARD, payload: response.data});
-        }).catch(err => {
-            dispatch({
-                type: null,
-                error: err.response
-            });
-        })
-    }
-}
+// export function getCard() {
+//     return function (dispatch) {
+//         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
+//             dispatch({type: FETCH_CARD, payload: response.data});
+//         }).catch(err => {
+//             dispatch({
+//                 type: null,
+//                 error: err.response
+//             });
+//         })
+//     }
+// }
 export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
@@ -162,7 +162,7 @@ export function getMyRecentStacksOverview() {
 export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.delete(`${BASE_URL}/myShelf/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
+        axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -180,8 +180,8 @@ export function deleteStack(stackID) {
 export function deleteCard(cardObj) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        console.log('card id',cardID);
-        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "cardID": cardID}}).then((response) => {
+        console.log('card id',cardObj.cardID);
+        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
