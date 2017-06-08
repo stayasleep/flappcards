@@ -108,7 +108,7 @@ router.post('/:sID',(request,response,next)=>{
     })
 });
 //DELETE INDIVIDUAL card from your stack overview
-router.delete('/:cId',(request,response,next)=>{
+router.delete('/:sID/:cId',(request,response,next)=>{
     let uid = request.decoded.UserID;
     if(request.body.cardID) {
         let singleID = request.body.cardID;
@@ -125,8 +125,10 @@ router.delete('/:cId',(request,response,next)=>{
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 } else if (result.length > 0) {
+                    console.log('am delted');
                     response.send("Card deleted from your stack.")
                 } else {
+                    console.log('maybe deleted');
                     response.send("Cannot be deleted at this time.");
                 }
             });
