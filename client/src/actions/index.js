@@ -26,12 +26,19 @@ export function userLogin(values) {
 
     return function (dispatch) {
         axios.post(`${BASE_URL}/login`, values).then((response) => {
+            console.log("userLogin", response);
             // I set response.data to true for the test
             // response.data.success is set to send true if successful
             if (response.data.success) {
                 dispatch({type: AUTH_USER});
                 localStorage.setItem('token', response.data.token);
                 browserHistory.push('/home')
+            } else {
+                dispatch({
+                    type: AUTH_ERROR,
+                    error: "Username/Password Incorrect"
+                });
+
             }
         }).catch(err => {
             dispatch({
