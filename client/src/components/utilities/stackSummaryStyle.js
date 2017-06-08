@@ -5,6 +5,7 @@ export const subHeader = {
     fontWeight: "bold",
     fontFamily: "Roboto, sans-serif",
     paddingLeft: 0,
+
     margin: "1em auto"
 };
 
@@ -13,7 +14,7 @@ export const cardHeader = {
     fontWeight: "bold",
     backgroundColor: "teal",
     color: "white",
-    padding: "12px"
+    padding: "12px",
 };
 
 export const cardActions ={
@@ -37,9 +38,9 @@ export const cardText = {
 };
 
 export const stackSummaryDisplay = {
-    width: "90vw",
-    margin: "1em auto"
-
+    minWidth: "30%",
+    display: "inline-block",
+    margin: "1em",
 };
 
 export const header = {

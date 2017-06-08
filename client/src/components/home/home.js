@@ -8,10 +8,10 @@ class Home extends Component {
         return(
             <div>
                 <FlashCardsAppBar/>
-                <div>
+                <div style={{textAlign: "center"}}>
                     <Recent/>
                 </div>
-                <div>
+                <div style={{textAlign: "center"}}>
                     <Community/>
                 </div>
             </div>
