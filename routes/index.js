@@ -7,6 +7,8 @@ const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
 const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
+const nodemailer = require('nodemailer');
+
 
 //route variables
 let user = require('./user');
@@ -19,9 +21,11 @@ let createCards = require('./createCards');
 let profile = require('./profile');
 let logOut = require('./logOut');
 let copy = require('./copy');
+let recovery = require('./recovery');
 
 //set up non-token based routes
 router.use('/',user);
+router.use('/recovery',recovery);
 
 //middleware verification for token-based routes
 router.use((request, response, next)=> {
