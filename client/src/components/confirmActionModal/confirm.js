@@ -3,8 +3,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
-
 export default class Confirm extends React.Component {
     state = {
         open: false,
@@ -26,7 +24,7 @@ export default class Confirm extends React.Component {
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
-                label="Yes"
+                label="Delete"
                 primary={true}
                 onTouchTap={this.handleClose}
             />,
@@ -36,7 +34,7 @@ export default class Confirm extends React.Component {
             <div>
                 <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
                 <Dialog
-                    title="Are You Sure?"
+                    title="Are you sure you want to delete this item?"
                     actions={actions}
                     modal={true}
                     open={this.state.open}

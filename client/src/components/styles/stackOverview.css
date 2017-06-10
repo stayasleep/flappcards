@@ -1,0 +1,238 @@
+@media all and (min-width: 768px) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    .cardStackList > div {
+        width: 33vh;
+        height: 20%;
+        min-height: 15%;
+        margin: 1em;
+        background-color: #E0F2F1;
+
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        /*padding: 0;*/
+    }
+    .stackActions {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: space-around;
+    }
+    .stackActions > div {
+        margin: 1em;
+    }
+    .cardHeader {
+        font-size: 1em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
+    }
+}
+
+
+@media (max-width: 667px) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    .cardStackList > div {
+        width: 25vh;
+        height: 20%;
+        min-height: 15%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: #E0F2F1;
+
+    }
+}
+
+/* PORTRAIT MODE: Media query for smaller screen sizes up to tablet (768 px) */
+@media (min-width: 375px) and (max-width: 768px) and (orientation: Portrait) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+
+    }
+
+    .cardStackList > div {
+        width: 20vh;
+        height: 6%;
+        min-height: 3%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: #E0F2F1;
+    }
+    .cardHeader {
+        font-size: 0.75em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
+    }
+}
+/* LANDSCAPE MODE + PORTRAIT W/ KEYBOARD OPENED */
+@media (min-width: 375px) and (max-width: 768px) and (orientation: Landscape) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+
+    }
+
+    .cardStackList > div {
+        width: 20vw;
+        height: 6%;
+        min-height: 3%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: #E0F2F1;
+    }
+    .cardHeader {
+        font-size: 0.75em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+
+    .cardStackList > div {
+        width: 20vh;
+        height: 6%;
+        min-height: 3%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: #E0F2F1;
+    }
+    .cardHeader {
+        font-size: 1em;
+        font-weight: bold;
+        background-color: teal;
+        color: white;
+        padding: 0.75em;
+        height: 10rem;
+    }
+}
+
+/* PORTRAIT MODE: NO KEYBOARD */
+@media (min-device-width: 320px) and (max-device-width: 480px) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+    .cardStackList > div {
+        width: 33vh;
+        height: 6%;
+        min-height: 3%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: #E0F2F1;
+    }
+}
+
+/* LANDSCAPE MODE + PORTRAIT MODE W/ KEYBOARD */
+@media (min-device-width: 320px) and (max-device-width: 480px) and (orientation: Landscape) {
+    .cardStackList {
+        display: -webkit-flex;
+        display: flex;
+        flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+    }
+    .cardStackList > div {
+        width: 50vw;
+        height: 6%;
+        min-height: 3%;
+        margin: 1em;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: #E0F2F1;
+    }
+}
+
+.stackActions {
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.stackActions > div  {
+    margin: 1em;
+}
+
+.studyButton > a {
+    background-color: #ffb499 !important;
+    color: #26A69A !important;
+}
+.stackActionsAdd > button {
+    background-color: #26A69A !important;
+}
+.contentCopy {
+    color: #26A69A !important;
+}
+
+.stackHeader {
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    font-size: 2em;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    background-color: #26A69A !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+
+.stackHeader > span {
+    margin: 0.2em;
+    color: white;
+}
+
+.chip {
+    background-color: white !important;
+}
+.chip > div {
+    background-color: #ffb499 !important;
+}
+
+.loadingIcon {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    align-items: center;
+}
+
+

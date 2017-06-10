@@ -1,0 +1,23 @@
+.tableStyle {
+    text-align: center !important;
+    padding: 0 !important;
+}
+.tableSubj {
+    text-align: center !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) {
+    /*.tableSubj {*/
+        /*white-space: nowrap !important;*/
+        /*word-wrap: normal !important;*/
+    /*}*/
+    .tableHidden{
+        display: none;
+    }
+}

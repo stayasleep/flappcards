@@ -1,61 +1,29 @@
 import React, {Component} from 'react';
-import {List, ListItem} from 'material-ui/List';
-import RaisedButton from 'material-ui/RaisedButton'
 import {connect} from 'react-redux';
 import {getCommunityStacksOverview, getStackOverview} from '../../actions/index'
-import {Link} from 'react-router'
-import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import {List} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import {subHeader} from '../utilities/stackSummaryStyle';
+import StackSummary from '../utilities/renderStackSummary';
 
 class Community extends Component {
     componentWillMount() {
         this.props.getCommunityStacksOverview();
     }
-
-    viewStack(stackInfo) {
-        console.log("stackID", stackInfo);
-        this.props.getStackOverview(stackInfo.stack_id);
-
-    }
-
     render() {
         if (!this.props.communityStacks) {
             return (
-                <div>
-                    <h1>Community Stacks:</h1>
-                    <div>
+                <List>
+                    <Subheader style={subHeader}>Community Stacks</Subheader>
+                    <div style={{fontFamily: "Roboto, sans-serif"}}>
                         Oops! Looks like you own all the community content!
                     </div>
-                </div>
+                </List>
             )
         }
-        const communityStacksList = this.props.communityStacks.map((item, index) => {
-            return (
-                <Card key={index}>
-                    <CardHeader
-                        title={item.subject}
-                        subtitle={item.category}
-                    />
-                    <CardText>
-                        Created by: {item.createdBy}
-                        Total Cards: {item.totalCards}
-                        Created On: {item.createdOn}
-                        {item.stackRating}
-                    </CardText>
-                    <CardActions>
-                        <RaisedButton
-                            containerElement={<Link to={`/stackOverview/${this.props.communityStacks[index].stack_id}`} name="stackOverview"/>}
-                            onClick={() => {this.viewStack(this.props.communityStacks[index])}}>
-                            View
-                        </RaisedButton>
-                    </CardActions>
-                </Card>
-            )
-        });
+
         return (
-            <div>
-                <h1>Community Stacks:</h1>
-                {communityStacksList}
-            </div>
+            <StackSummary cardStack={this.props.communityStacks} title={"Community Stacks"} />
         );
     }
 }

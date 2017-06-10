@@ -1,28 +1,20 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
 import {getMyStackOverview, getStackOverview} from '../../actions/index'
 import {Link} from 'react-router';
 import DeleteStackConfirm from '../confirmActionModal/deleteStack'
-import RaisedButton from 'material-ui/RaisedButton'
-import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
+import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-
 import Avatar from 'material-ui/Avatar';
-import ImageRemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from '../utilities/stackSummaryStyle';
+import IconButton from 'material-ui/IconButton';
+import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import {green500} from 'material-ui/styles/colors';
+
+import CircularProgress from 'material-ui/CircularProgress';
+
+import {loadingIcon} from './../styles/myshelf.css';
 
 
 class Stacks extends Component {
@@ -31,59 +23,62 @@ class Stacks extends Component {
         this.props.getMyStackOverview();
     }
 
-
     render() {
-        const subHeader = {
-            textAlign: "center",
-            fontSize: "2em",
-            fontWeight: "bold"
-        };
-        const cardHeader = {
-            fontSize: "1em",
-            fontWeight: "bold"
-        };
-        const cardActions = {
-            position: "relative",
-            display: "inline-flex",
-            float: "right",
-            marginRight: "1em"
-        };
-        const cardText = {
-            fontSize: "1em"
-        };
-
         if(!this.props.stacks){
-            return <div>Loading...</div>
+            return (
+                <List>
+                    <Subheader style={subHeader}>My Shelf</Subheader>
+                    <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif"}}>
+                        <CircularProgress size={80} thickness={6} />
+                    </div>
+                </List>
+            )
         }
+        if (this.props.stacks.length === 0) {
+            return (
+                <List>
+                    <Subheader style={subHeader}>My Shelf</Subheader>
+                    <div className="emptyRecent" style={{fontFamily: "Roboto, sans-serif"}}>
+                        Looks like your shelf is empty. <Link to="/createCards">Create a stack</Link> or <Link to="/search">search the available community content</Link>
+                    </div>
+                </List>
+            )
+        }
+
         const stacksList = this.props.stacks.map((item, index) => {
             return (
-                <Card key={index}>
+                <div key={index} className="cards">
+                <Card style={{overflow: "hidden"}}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
+                        titleStyle={{
+                            fontSize: "1em",
+                            fontWeight: "bold",
+                            color: "white",
+                            overflow: "hidden"}}
+                        subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar>{item.totalCards}</Avatar>}
+                        avatar={<Avatar style={{float:"right"}}>{item.totalCards}</Avatar>}
                         style={cardHeader}
                     />
                     <CardActions style={cardActions}>
-                        <RaisedButton
-                            containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
-                            View
-                        </RaisedButton>
+                        <IconButton containerElement={<Link to={`/stackOverview/${this.props.stacks[index].stack_id}`} name="stackOverview"/>}>
+                            <RemoveRedEye hoverColor={green500}/>
+                        </IconButton>
                         <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </CardActions>
+                    {/*<CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>*/}
                     <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>
                 </Card>
+                </div>
             )
         });
         return (
-            <List>
+            <List style={{textAlign: "center"}}>
                 <Subheader style={subHeader}>My Shelf</Subheader>
                     {stacksList}
             </List>
-
         );
-
-
     }
 }
 function mapStateToProps(state) {

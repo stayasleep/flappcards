@@ -1,12 +1,26 @@
 import axios from 'axios';
-import {FETCH_MY_STACK_OVERVIEW, FETCH_MY_COMMUNITY_STACKS, FETCH_STACK_OVERVIEW, FETCH_STACKS, FETCH_CARD, FETCH_USER_META, AUTH_ERROR, AUTH_USER, UNAUTH_USER, DELETE_STACK, DELETE_CARD, EDIT_CARD, SEARCH_STACKS} from './types';
-import {FETCH_MY_RECENT_STACKS} from './types';
+import {
+    FETCH_MY_STACK_OVERVIEW,
+    FETCH_MY_COMMUNITY_STACKS,
+    FETCH_STACK_OVERVIEW,
+    FETCH_CARD,
+    FETCH_USER_META,
+    AUTH_ERROR,
+    AUTH_USER,
+    UNAUTH_USER,
+    DELETE_STACK,
+    DELETE_CARD,
+    EDIT_CARD,
+    AUTOCOMPLETE_SEARCH_STACKS,
+    SEARCH_STACKS
+} from './types';
+import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:1337/users'; // For test purposes, listening on 8081 and listening on port 8081
-
+// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
 
@@ -16,10 +30,14 @@ export function userLogin(values) {
             // response.data.success is set to send true if successful
             if (response.data.success) {
                 dispatch({type: AUTH_USER});
-
                 localStorage.setItem('token', response.data.token);
-
                 browserHistory.push('/home')
+            } else {
+                dispatch({
+                    type: AUTH_ERROR,
+                    error: "Username/Password Incorrect"
+                });
+
             }
         }).catch(err => {
             dispatch({
@@ -30,18 +48,18 @@ export function userLogin(values) {
     }
 }
 
-export function getCard() {
-    return function (dispatch) {
-        axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-            dispatch({type: FETCH_CARD, payload: response.data});
-        }).catch(err => {
-            dispatch({
-                type: null,
-                error: err.response
-            });
-        })
-    }
-}
+// export function getCard() {
+//     return function (dispatch) {
+//         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
+//             dispatch({type: FETCH_CARD, payload: response.data});
+//         }).catch(err => {
+//             dispatch({
+//                 type: null,
+//                 error: err.response
+//             });
+//         })
+//     }
+// }
 export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
@@ -60,11 +78,31 @@ export function register({name, userName, password, email, birthday}) {
     return function (dispatch) {
         axios.post(`${BASE_URL}/register`, {name, userName, password, email, birthday}).then((resp) => {
 
-            dispatch({type: AUTH_USER});
+            // resp.data.success = true, register the user
+            if (resp.data.success) {
+                dispatch({type: AUTH_USER});
+                localStorage.setItem('token', resp.data.token);
+                browserHistory.push('/home')
+            }
 
-            localStorage.setItem('token', resp.data.token);
+            // added a boolean for userNameTaken
+            // Will dispatch an auth error to trigger that the username is taken
+            // dispatch a type of AUTH_ERROR, and make the error = to the string of "username"
+            if (resp.data.userNameTaken) {
+                dispatch({
+                    type: AUTH_ERROR,
+                    error: "userName"
+                });
+            }
 
-            browserHistory.push('/home')
+            // resp.data.success = false => the username was taken
+            // Push the user back to the home page
+            // if false -> !(false) -> true
+            if (!resp.data.success) {
+                browserHistory.push('/');
+
+            }
+
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
@@ -86,15 +124,12 @@ export function logout() {
 // Accessed by clicking on the 'My Shelf' link of the app drawer
 // stack_reducer.js
 export function getMyStackOverview() {
-    console.log("getMyStackOverview() called");
     // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
-            console.log("getMyStackOverview response", response);
             dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
-            console.log('ERROR:', err);
             dispatch({
                 type: FETCH_MY_STACK_OVERVIEW,
                 error: err.response
@@ -107,8 +142,7 @@ export function getMyStackOverview() {
 export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/stackOverview/${stackID}`,{'token':token, "stackID": stackID}).then((response) => {
-            console.log("getStackOverview", response.data);
+        axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -148,8 +182,7 @@ export function getMyRecentStacksOverview() {
 export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        console.log("deleteStack action creator", stackID);
-        axios.post(`${BASE_URL}/deleteStack/${stackID}`,{"token": token, "stackID": stackID}).then((response) => {
+        axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -164,11 +197,10 @@ export function deleteStack(stackID) {
  * @param cardID {int}
  * @returns {Function}
  */
-export function deleteCard(cardID) {
+export function deleteCard(cardObj) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        console.log("deleteCardID function", cardID);
-        axios.post(`${BASE_URL}/deleteCard/${cardID}`, {token: token, cardID: cardID}).then((response) => {
+        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -187,13 +219,8 @@ export function deleteCard(cardID) {
 export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        console.log("cardEditor function called");
         let {cardID, question, answer} = cardObject; // cardObject.card_id, cardObject.question, cardObject.answer
-        console.log("cardObject in cardEditor", cardObject);
-        console.log("question", question);
-        console.log("cardID", cardID);
-        axios.put(`${BASE_URL}/stack/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
-            console.log("getStackOverview", response.data);
+        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
             dispatch({type: EDIT_CARD, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -232,8 +259,9 @@ export function createStack(stackObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
+            let stackID = response.data.stackID;
             dispatch({type: CREATE_STACK, payload: response.data});
-            browserHistory.push("/myShelf/")
+            browserHistory.push(`stackOverview/${stackID}`);
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,
@@ -250,9 +278,8 @@ export function createStack(stackObject) {
 export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        console.log("searchStacks search parameter", search);
         axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
-            console.log("Search: ", response.data);
+
             dispatch({type: SEARCH_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -275,7 +302,7 @@ export function addSingleCard(cardObject) {
         // cardObject contains question and answer
         let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/addSingleCard/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
+        axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
             dispatch({type: CREATE_STACK, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -285,4 +312,48 @@ export function addSingleCard(cardObject) {
         })
     }
 }
+/**
+ * @name - stackCopy
+ * @param stackCopy {object}
+ * @returns {Function}
+ * @description - Used for copying a stack not owned by a user
+ */
+export function stackCopy(stackCopy) {
+    return function (dispatch){
+        let stackID = stackCopy.stack_id;
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
+            let newStackID = response.data.stackID;
+            dispatch({type: COPY_STACK, payload: newStackID});
+            browserHistory.push(`/myShelf`);
+            browserHistory.push(`/stackOverview/${newStackID}`);
+        }).catch(err => {
+            dispatch({
+                type: COPY_STACK,
+                error: err.response
+            });
+        })
+    }
+}
+
+/**
+ * @name - populateAutoComplete
+ * @returns {Function}
+ * @description - Populates the autocomplete suggestions from data returned by the server
+ */
+export function populateAutoComplete() {
+    let token = localStorage.getItem('token');
+    return function(dispatch) {
+        axios.post(`${BASE_URL}/search/autocomplete`, {"token": token}).then((response) => {
+            // response.data = an array of strings
+            dispatch({type: AUTOCOMPLETE_SEARCH_STACKS, payload: response.data});
+        }).catch(err => {
+            dispatch({
+                type: AUTOCOMPLETE_SEARCH_STACKS,
+                payload: [{"Issue": "There was a problem populating suggestions"}]
+            }); // The reducer does not have an error case for auto complete
+        })
+    }
+}
+
 // JSON is the default expected response type for axios calls

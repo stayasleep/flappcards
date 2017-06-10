@@ -1,8 +1,11 @@
-import React, {Component} from '../../../../node_modules/react';
-import { Drawer, AppBar, MenuItem} from '../../../../node_modules/material-ui'
+import React, {Component} from 'react';
+import { Drawer, AppBar, MenuItem} from 'material-ui';
 import {logout} from '../../actions/index';
 import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
+import Divider from 'material-ui/Divider';
+import {browserHistory} from 'react-router';
+import {Navstyle} from './../styles/appBar.css';
 
 class FlashCardsAppBar extends Component {
 
@@ -16,31 +19,54 @@ class FlashCardsAppBar extends Component {
     }
     handleClose() { this.setState({open: false}); }
     render() {
+        const titleStyleClass = {
+            maxWidth: "20%",
+            overflow: "visible"
+        };
+        function handleTouchTap() {
+            browserHistory.push("/home")
+        }
         const style = {
-            textAlign: "center"
+            textAlign: "center",
+            margin: "1em auto",
+            display: "WebkitFlex",
+            display: "flex",
+            "flexFlow": "column",
+            "WebkitFlexFlow": "column",
         };
 
         return (
-            <div>
+            <div className="appBar">
                 <Drawer
                     docked={false}
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({open})}
                 >
                     <MenuItem style={style} primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
-                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                    <Divider />
                     <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
-                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <Divider />
                     <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    <Divider />
+                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <Divider />
+                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                    <Divider />
+                    <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
+                    <Divider />
                     <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
                 </Drawer>
 
                 <AppBar
-                    title="Flash Cards"
+                    title={<span className="title">FlappCards</span>}
+                    titleStyle = {titleStyleClass}
+                    onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />
             </div>
         );
+
+
     }
 }
 

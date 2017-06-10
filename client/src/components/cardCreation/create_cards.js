@@ -1,74 +1,57 @@
 import React, {Component} from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import {browserHistory} from 'react-router'
+import {red500} from 'material-ui/styles/colors';
+import renderInput from '../utilities/renderInput';
+import Paper from 'material-ui/Paper';
+import {cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
+import Close from 'material-ui/svg-icons/navigation/close';
+import {labelPlaceholder} from './../styles/inputComponent.css';
 
 
 class CreateCards extends Component {
 
-    constructor(props){
-        super(props);
-        // bind this so renderInput is defined for renderCards
-        this.renderInput = this.renderInput.bind(this);
-        this.renderCards = this.renderCards.bind(this);
-    }
-
-    renderInput({input, label, type, meta: {touched, error}}) {
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
 
     renderCards({fields, meta: {touched, error, submitFailed}}) {
         return (
-            <ul>
-                <li>
-                    <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
-                    {(touched || submitFailed) && error && <span>{error}</span>}
-                </li>
+            <ul style={addCardList}>
                 {fields.map((stack, index) => (
-                    <li key={index}>
-                        <RaisedButton
-                            type="button"
-                            title="Remove Card"
-                            onClick={() => fields.remove(index)}
-                            label="Remove Card"
-                        />
-                        <h4>Card #{index + 1}</h4>
+                    <Paper style={cardToAdd} key={index}>
+                    <li>
+                        <Close style={closeIconButton} label="Remove Card" onTouchTap={()=> fields.remove(index)} hoverColor={red500}/>
+                        <div style={addCardInputFields}>
                         <Field
                             name={`${stack}.question`}
                             type="text"
-                            component={this.renderInput}
+                            component={renderInput}
                             label="Question"
+                            className="labelPlaceholder"
+
                         />
                         <Field
                             name={`${stack}.answer`}
                             type="text"
-                            component={this.renderInput}
+                            component={renderInput}
                             label="Answer"
                         />
+                        </div>
                     </li>
+                    </Paper>
                 ))}
+                <li style={{float: "right"}}>
+                    <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
+                    {(touched || submitFailed) && error && <span>{error}</span>}
+                </li>
             </ul>
         )
     }
 
     handleCreate(stackObject) {
-        console.log("handleCreate function called; stackObject:", stackObject);
         this.props.createStack(stackObject);
-        if(stackObject){
-            browserHistory.push("/stackOverview")
-        }
     }
 
     render() {
@@ -76,25 +59,30 @@ class CreateCards extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
+                <Paper style={cardToAddForm}>
                 <form onSubmit={handleSubmit((values) => {this.handleCreate(values)})}>
-                    <Field
-                        name="subject"
-                        type="text"
-                        component={this.renderInput}
-                        label="Subject"
-                    />
-                    <Field
-                        name="category"
-                        type="text"
-                        component={this.renderInput}
-                        label="Category"
-                    />
+                    <div style={cardToAddSubjectCategory}>
+                            <Field
+                                name="subject"
+                                type="text"
+                                component={renderInput}
+                                label="Subject"
+                                className="inputField"
+                            />
+                            <Field
+                                name="category"
+                                type="text"
+                                component={renderInput}
+                                label="Category"
+                            />
+                    </div>
                     <FieldArray name="stack" component={this.renderCards} />
                     <div>
                         <RaisedButton type="submit" label="Submit" disabled={pristine || submitting}/>
                         <RaisedButton type="button" label="Remove All" disabled={pristine || submitting} onClick={reset}/>
                     </div>
                 </form>
+                </Paper>
             </div>
         );
     }

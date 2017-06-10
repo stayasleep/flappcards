@@ -1,19 +1,27 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import {deleteCard} from '../../actions/index';
-import {Link} from 'react-router';
+import {deleteCard, getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import {red500} from 'material-ui/styles/colors';
+import {deleteIconButton} from '../utilities/stackSummaryStyle';
+
+const styler = {
+    center: {
+        textAlign: "center"
+    }
+};
 
 class DeleteCardConfirm extends React.Component {
     state = {
         open: false,
     };
 
-    handleDelete(cardID){
-        // this.props.cardID.card_id; the ID of the to be deleted
-        this.props.deleteCard(cardID);
+    handleDelete(card){
+        // this.props.card.card_id; the ID of the to be deleted
+        this.props.deleteCard({"stackID":card.stack_id, "cardID":card.card_id});
+        this.props.getStackOverview(this.props.cardID.stack_id)
     }
 
     handleOpen = () => {
@@ -32,20 +40,23 @@ class DeleteCardConfirm extends React.Component {
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
-                label="Remove Card"
+                label="Delete Card"
                 primary={true}
                 onTouchTap={this.handleClose}
-                onClick={() => {this.handleDelete(this.props.cardID.card_id)}}
+                onClick={() => {this.handleDelete(this.props.cardID)}}
+               // onClick={() => {this.handleDelete(this.props.cardID.card_id)}}
             />,
         ];
 
         return (
             <div>
-                <RaisedButton label="Delete" onTouchTap={this.handleOpen} />
+                <ActionDelete style={deleteIconButton} label="Delete" hoverColor={red500} onTouchTap={this.handleOpen} />
                 <Dialog
+                    style={styler.center}
                     title="Are you sure you want to remove this card from the stack?"
                     actions={actions}
                     modal={true}
+                    actionsContainerStyle={styler.center}
                     open={this.state.open}
                 >
                 </Dialog>
@@ -54,4 +65,4 @@ class DeleteCardConfirm extends React.Component {
     }
 }
 
-export default connect(null, {deleteCard})(DeleteCardConfirm);
+export default connect(null, {deleteCard, getStackOverview})(DeleteCardConfirm);

@@ -7,9 +7,6 @@ import thunk from 'redux-thunk';
 import {AUTH_USER} from './actions/types'
 
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-
 import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
@@ -28,23 +25,11 @@ import CreateCards from './components/cardCreation/create_cards';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
 import SingleCard from './components/singleCard/single_card';
-import landing from './components/auth/landing_page'
-
-const MaterializedApp = (props) => (
-    <MuiThemeProvider>
-        <App/>
-        {props.children}
-    </MuiThemeProvider>
-);
-console.log('  8888888888   88                     db             .d88888b.       88         88');
-console.log('  88           88                    d88b          d8         8b     88         88');
-console.log('  88           88                   d8  8b         88          88    88         88');
-console.log('  88           88                  d8    8b         d8               88         88');
-console.log('  8888888888   88                 d8      8b          "q88888b.      8888888888888');
-console.log('  88           88                d8888888888b                 88b    88         88');
-console.log('  88           88               d8          8b     88          88    88         88');
-console.log('  88           88              d8            8b     "8        8b     88         88');
-console.log('  88           8888888888888  88              88      "q8888p"       88         88');
+import landing from './components/auth/landing_page';
+import About from './components/auth/about';
+import PrivacyPolicy from './components/auth/privacy';
+import Disclaimer from './components/auth/disclaimer';
+import Error404 from './components/errors/404';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -58,7 +43,10 @@ ReactDOM.render(
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
                 <Route path="stackOverview/:sid/:cid" component={requireAuth(SingleCard)}/>
-
+                <Route path="about" component={About}/>
+                <Route path="disclaimer" component={Disclaimer}/>
+                <Route path="privacy" component={PrivacyPolicy}/>
+                <Route path="*" component={Error404}/>
             </Route>
         </Router>
     </Provider>,

@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types'; // Updated PropTypes import statement
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Link} from 'react-router'
 import {register} from '../../actions/index'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
+import renderInput from '../utilities/renderInputReg';
+import Paper from 'material-ui/Paper';
 
 class Registration extends Component {
 
@@ -16,21 +16,11 @@ class Registration extends Component {
     handleSignup(vals){
         this.props.register(vals);
     }
-    renderInput({input, label, type, meta: {touched, error}}){
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
 
     componentDidUpdate(event){
-        var dateField = document.body.firstElementChild.children["0"].childNodes[1].childNodes[3].childNodes[1].childNodes[6].childNodes["0"].childNodes[2];
-        if(dateField) {
-            dateField.onkeyup = bar;
+        var dateField = ReactDOM.findDOMNode(this);
+        if(dateField.children[1].children[6].children["0"].children.birthday) {
+            dateField.children[1].children[6].children["0"].children.birthday.onkeyup = bar;
             function bar(evt) {
                 var v = this.value;
                 if (v.match(/^\d{4}$/) !== null) {
@@ -48,39 +38,71 @@ class Registration extends Component {
         const regStyle = {
             float: "right",
             textAlign: "center",
-            paddingRight: "10%"
+            color: 'black',
+            boxShadow: "5px 5px 2.5px #888888",
+            backgroundColor: "rgba(255,255,255,0.9",
+            position: "relative",
+            padding:"0 1em"
         };
+        const passWordInfo = {
+            fontSize: 10,
+            marginTop: "1.3em"
+        };
+        const header = {
+            margin: 0,
+            fontFamily: "Roboto,sans-serif",
+
+        };
+        const fieldHeight = {
+            height: "4em"
+        };
+        const userError = {
+            height: "1em"
+        };
+        const buttons = {
+            margin: "2em .6em .6em .6em",
+        };
+        const subBtn = {
+            marginRight: "5%",
+        };
+        const clearBtn={
+            boxShadow:"0 0 0 1pt rgb(0,121,107)",
+        }
+
         return (
-            <div style={regStyle}>
-                <h1>Register</h1>
+            <Paper style={regStyle}>
+                <h1 style={header}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
-                    <div>
-                        <Field name="name" component={this.renderInput} label="First and Last Name"/>
+                    <div style={fieldHeight}>
+                        <Field name="name" component={renderInput} label="First and Last Name"/>
+                    </div>
+                    <div style={fieldHeight}>
+                        <Field name="userName" component={renderInput} label="Username"/>
+                        <div style={userError} id="takenUser"/>
                     </div>
                     <div>
-                        <Field name="userName" component={this.renderInput} label="Username"/>
+                        <Field name="password" component={renderInput} label="Password" type="password"/>
+                        <div style={passWordInfo}>
+                            Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
+                        </div>
                     </div>
                     <div>
-                        <Field name="password" component={this.renderInput} label="Password" type="password"/>
-                    </div>
-                    <div>
-                        <Field name="passwordConfirm" component={this.renderInput} label="Confirm Password" type="password"/>
+                        <Field name="passwordConfirm" component={renderInput} label="Confirm Password" type="password"/>
                     </div>
                     <div>
                     </div>
-                    <div>
-                        <Field name="email" component={this.renderInput} label="Email"/>
+                    <div style={fieldHeight}>
+                        <Field name="email" component={renderInput} label="Email"/>
                     </div>
-                    <div>
-                        <Field id="date" name="birthday" component={this.renderInput} label="Birthday(YYYY-MM-DD)"/>
+                    <div style={fieldHeight}>
+                        <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
                     </div>
-                    <div>
-                        <RaisedButton primary={true} type="submit" label="Submit"/>
-                        <RaisedButton backgroundColor="#a4c639" type="button" label="Clear Values" onClick={reset}/>
+                    <div style={buttons}>
+                        <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
+                        <RaisedButton style={clearBtn} backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
                     </div>
                 </form>
-                <Link to="/" name="Log In"><RaisedButton label="Return"/></Link>
-            </div>
+            </Paper>
         )
     }
 }
@@ -91,7 +113,7 @@ function validate(values) {
     var birth = '';
     if(values.birthday) {
         birth = values.birthday.replace(/[^0-9 ]/g, '');
-        console.log("Birthday: ", birth)
+
     }
     const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
     requiredFields.forEach(field => {
@@ -148,9 +170,31 @@ function validate(values) {
     return errors
 }
 
+function mapStateToProps(state) {
+    if(state.auth.authError === 'userName'){
+
+        function appendUserError(el, str) {
+            var div = document.createElement('div');
+            div.innerHTML = '';
+            el.innerHTML = '';
+            div.innerHTML = str;
+            el.appendChild(div.children[0]);
+        }
+        var userError = '<div style="color: red;">Username is taken</div>';
+        appendUserError(document.getElementById("takenUser"), userError); // "body" has two more children - h1 and span.
+
+        state.auth.authError = null; // Reset the authError to null so the user can try registering again.
+
+    }
+    return {
+        authenticated: state.auth.authenticated,
+        error: state.auth.authError
+    };
+}
+
 Registration = reduxForm({
     form: 'Registration',
     validate
 })(Registration);
 
-export default connect(null, {register})(Registration)
+export default connect(mapStateToProps, {register})(Registration)

@@ -1,25 +1,19 @@
 import React, {Component} from 'react'
 import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
-import {addSingleCard} from '../../actions/index';
-import {Link} from 'react-router'
+import renderInput from '../utilities/renderInput';
+import {addSingleCard, getStackOverview} from '../../actions/index';
+import {singleCardForm, singleCardAdd, singleCardAddDialog} from './../styles/add_single_card.css';
+const styler = {
+    center: {
+        textAlign: "center"
+    }
+};
 
 class AddCard extends Component {
-    renderInput({input, label, type, meta: {touched, error}}){
-        return (
-            <TextField hintText={label}
-                       floatingLabelText={label}
-                       errorText={touched && error}
-                       type={type}
-                       {...input}
-            />
-        )
-    }
-
     state = {
         open: false,
     };
@@ -30,7 +24,8 @@ class AddCard extends Component {
         cardObject.stack_id = this.props.stackCards[0].stack_id;
         this.props.addSingleCard(cardObject);
         if(cardObject){
-            this.setState({open: false})
+            this.setState({open: false});
+            this.props.getStackOverview(cardObject.stack_id);
         }
     }
 
@@ -47,24 +42,27 @@ class AddCard extends Component {
     render() {
         const { handleSubmit} = this.props;
         return (
-            <div>
-                <RaisedButton label="Add" onTouchTap={this.handleOpen} />
+            <div className="singleCardAdd">
+                <RaisedButton className="stackActionsAdd" label="Add" onTouchTap={this.handleOpen} />
                 <Dialog
+                    style={styler.center}
+                    className="singleCardAddDialog"
                     title="Are you sure you want to add a card to this stack?"
                     modal={true}
                     open={this.state.open}
+                    autoDetectWindowHeight={true}
+                    autoScrollBodyContent={true}
+                    bodyClassName="dialogBody"
                 >
 
                     {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleAdd function*/}
-                    <form onSubmit={handleSubmit((values) => {this.handleAdd(values)})} >
-                        <div>
-                            <Field name="question" component={this.renderInput} label="Question"/>
+                    <form className="singleCardForm" onSubmit={handleSubmit((values) => {this.handleAdd(values)})} >
+                            <Field name="question" component={renderInput} label="Question"/>
+                            <Field name="answer" component={renderInput} label="Answer"/>
+                        <div className="addCardConfirmationButtons">
+                            <RaisedButton label="Add Card" primary={true} type="submit"/>
+                            <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
                         </div>
-                        <div>
-                            <Field name="answer" component={this.renderInput} label="Answer"/>
-                        </div>
-                        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
-                        <RaisedButton label="Add Card" primary={true} type="submit"/>
                     </form>
                 </Dialog>
             </div>
@@ -84,4 +82,4 @@ function mapStateToProps(state) {
 }
 
 // Connecting the add card form values
-export default connect(mapStateToProps,{addSingleCard})(AddCard);
+export default connect(mapStateToProps,{addSingleCard, getStackOverview})(AddCard);

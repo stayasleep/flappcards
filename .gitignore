@@ -1,9 +1,5 @@
+.idea/
 /node_modules/
-
-/skeleton_server/
-/server/c217_fc.sql
-/server/config/config.js
-/server/config/secret.js
-
-
-
+/server/
+config/
+npm-debug.log

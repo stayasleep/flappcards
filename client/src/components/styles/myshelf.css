@@ -1,0 +1,50 @@
+.loadingIcon {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    align-items: center;
+}
+.cards {
+    min-width: 30vw;
+    max-width: 30vw;
+    margin: 1em;
+    display: inline-block;
+}
+.title{
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    max-height: 20px;
+    overflow: hidden;
+}
+
+/* ----------- iPhone 6 ----------- */
+
+/* Landscape */
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 668px)
+and (-webkit-min-device-pixel-ratio: 2)
+{
+    .cards {
+        min-width: 90vw;
+        max-width: 90vw;
+        display: block;
+    }
+}
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Landscape */
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px)
+and (-webkit-min-device-pixel-ratio: 3)
+{
+    .cards {
+        min-width: 90vw;
+        max-width: 90vw;
+        display: block;
+    }
+}
