@@ -48,18 +48,6 @@ export function userLogin(values) {
     }
 }
 
-// export function getCard() {
-//     return function (dispatch) {
-//         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-//             dispatch({type: FETCH_CARD, payload: response.data});
-//         }).catch(err => {
-//             dispatch({
-//                 type: null,
-//                 error: err.response
-//             });
-//         })
-//     }
-// }
 export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
