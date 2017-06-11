@@ -7,19 +7,19 @@
 
 ## Technologies 
 ### Client/Front-End
--HTML
--CSS
--ReactJS
--Material UI
--Redux
--Redux API
+-HTML  
+-CSS  
+-ReactJS  
+-Material UI  
+-Redux  
+-Redux API  
 -ECMAScript 6
 
-### Server/Back-End
--MySQL
--Node.js
--Express.js
--Bcryptjs
+### Server/Back-End 
+-MySQL  
+-Node.js  
+-Express.js  
+-Bcryptjs  
 -JSON Web Token
 
 
