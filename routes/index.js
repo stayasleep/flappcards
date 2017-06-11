@@ -22,10 +22,13 @@ let profile = require('./profile');
 let logOut = require('./logOut');
 let copy = require('./copy');
 let recovery = require('./recovery');
+let reset = require('./reset');
 
 //set up non-token based routes
 router.use('/',user);
 router.use('/recovery',recovery);
+//set up one-time token route
+router.use('/reset',reset);
 
 //middleware verification for token-based routes
 router.use((request, response, next)=> {
