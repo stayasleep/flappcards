@@ -42,11 +42,12 @@ router.use((request, response, next)=> {
             }
         });
     } else {
+        return response.redirect('/404');
         // If no token was received, send back a 403 error
-        return response.status(403).send({
-            success: false,
-            message: 'No token provided.'
-        });
+        // return response.status(403).send({
+        //     success: false,
+        //     message: 'No token provided.'
+        // });
     }
 });
 
