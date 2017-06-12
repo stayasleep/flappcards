@@ -3,10 +3,11 @@ const router =express.Router();
 const mysql = require('mysql');
 const pool = require('../config/config'); // connection credentials for database
 const path = require('path');
-const mailer = require('../notifications/sysmail');
+const mailer = require('../config/sysmail');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const special = require('../config/helena');
+const communications = require('../server/communications');
 
 router.post('/',(req,res,next)=>{
     let un = req.body.userName;
@@ -39,16 +40,21 @@ router.post('/',(req,res,next)=>{
                                 return res.send({success: false, message:"There was a problem with your request"});
                             }
                             //so there must be success
+                            //testing
+                            let transporter = nodemailer.createTransport(communications.credentials);
+                            //end test
+
                             //transporter is an obj that is able to send mail, only need to create this one
-                            let transporter = nodemailer.createTransport({
-                                host:'smtp.gmail.com',  // Specify main and backup SMTP servers
-                                port: 587,              // TCP port to connect to
-                                secure: false,         // secure:true for port 465, secure:false for port 587
-                                auth:{
-                                    user: mailer.user,
-                                    pass: mailer.pass
-                                }
-                            });
+                            // let transporter = nodemailer.createTransport({
+                            //     host:'smtp.gmail.com',  // Specify main and backup SMTP servers
+                            //     port: 587,              // TCP port to connect to
+                            //     secure: false,         // secure:true for port 465, secure:false for port 587
+                            //     auth:{
+                            //         user: mailer.user,
+                            //         pass: mailer.pass
+                            //     }
+                            // });
+
                             // verify connection configuration
                             transporter.verify(function(error, success) {
                                 if (error) {
@@ -57,18 +63,34 @@ router.post('/',(req,res,next)=>{
                                     console.log('Server is ready to take our messages');
                                 }
                             });
-                            //mail configuration
-                            let mailOptions = {
-                                from:'"FlappCard Support" <'+mailer.user+'>',  //us
-                                to: "",                                    //response from db
-                                subject:"Account Recovery",
-                                text:"Your account reset recovery link is below",
-                                html:"<b>Hello B!</b> Your account recovery link is <em>below</em>\n\n"+
-                                req.protocol+"://"+req.hostname+"/reset/"+token
+                            //test
+                            communications.mailOptions.to = recoveryEmail;
+                            communications.mailOptions.subject = "Password Reset - Account Recovery";
+                            communications.mailOptions.html="<h1>Hello "+recoveryName+",</h1>\n"+
+                                    "<p>You are receiving this email because you (or someone else attempting to access" +
+                                " your account) have requested a password reset.  In order to complete the process, please " +
+                                "click on the link below or copy and paste it into your browser.</p>\n\n"+
+                                    req.protocol+"://"+req.headers.host+"/reset/"+token+"\n"+
+                                    "<p>The password reset link expires after four (4) hours and can only be used once.  After that time,\n" +
+                                " the link will no longer be valid and the reset form will no longer appear to be active.</p>\n"+
+                                    "<p>If you didn&apos;t request a password reset, please ignore this email and your password " +
+                                "will remain unchanged.</p>\n\n"+
+                                    "<em>Thanks,</em>\n"+
+                                    "<p>The FlappCards Team</p>";
 
-                            };
+                            //end test
+                            //mail configuration
+                            // let mailOptions = {
+                            //     from:'"FlappCard Support" <'+mailer.user+'>',  //us
+                            //     to: "",                                    //response from db
+                            //     subject:"Account Recovery",
+                            //     text:"Your account reset recovery link is below",
+                            //     html:"<b>Hello B!</b> Your account recovery link is <em>below</em>\n\n"+
+                            //     req.protocol+"://"+req.hostname+"/reset/"+token
+                            //
+                            // };
                             //combine mail content with transporter obj and send
-                            transporter.sendMail(mailOptions,(err,info)=>{
+                            transporter.sendMail(communications.mailOptions,(err,info)=>{
                                 if(err){
                                     return res.json({success:false, message:"There was a problem with the delivery. Please try again later."});
                                 }
