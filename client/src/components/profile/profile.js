@@ -5,6 +5,8 @@ import {getUserData} from '../../actions/index'
 import AccountCircle from 'material-ui/svg-icons/action/account-circle'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
+import Avatar from 'material-ui/Avatar';
+
 class Profile extends Component{
     componentWillMount(){
         this.props.getUserData();
@@ -28,7 +30,10 @@ class Profile extends Component{
             <div>
                 <FlashCardsAppBar/>
                 <Card style={listStyle}>
-                    <AccountCircle style={profileImg}/>
+                    <Avatar style={profileImg}
+                            src={`data:image/jpeg; base64, ${this.props.avatar}`}
+
+                    />
                     <CardText>UserName: {this.props.username}</CardText>
                     <CardText>Name: {this.props.name}</CardText>
                     <CardText>Email: {this.props.email}</CardText>
@@ -46,7 +51,8 @@ function mapStateToProps(state) {
         email: state.profile.email,
         birthday: state.profile.birthday,
         name: state.profile.name,
-        joined: state.profile.joinDate
+        joined: state.profile.joinDate,
+        avatar: state.profile.avatar
     }
 }
 
