@@ -42,7 +42,7 @@ class Registration extends Component {
             boxShadow: "5px 5px 2.5px #888888",
             backgroundColor: "rgba(255,255,255,0.9",
             position: "relative",
-            padding:"0 1em"
+            padding:"1em"
         };
         const passWordInfo = {
             fontSize: 10,
