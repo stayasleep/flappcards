@@ -38,8 +38,6 @@ router.post('/', (request,response,next)=> {
                     let userAvatar = path.resolve(avatarDictionary[userAvatarKey]); // Pick off the file path from the dictionary and resolve
                     results[i].avatar = fs.readFileSync(userAvatar, 'base64'); // Synchronous readFile as it does not send too soon. Base64 encoded for minimum processing
                 }
-
-                console.log("results before sending", results);
                 response.send(results);
             } else {
                 response.send("Looks like your shelf is empty. Create a stack or take a look at some of the community content below!");
