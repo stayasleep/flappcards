@@ -1,10 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router';
 import Paper from 'material-ui/Paper';
 import about from '../imgs/about.JPG';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import RaisedButton from 'material-ui/RaisedButton';
-
+import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 
 const style={
     div:{
@@ -43,15 +41,14 @@ const style={
         padding: "12px"
     }
 };
+const titleStyleClass = {
+    maxWidth: "20%",
+    overflow: "visible"
+};
 
 export default ()=>(
   <div>
-      <Toolbar style={style.header}>
-          <ToolbarTitle text="FlappCards" />
-          <ToolbarGroup>
-              <RaisedButton label="Home" containerElement={<Link to="/home"/>}/>
-          </ToolbarGroup>
-      </Toolbar>
+      <FlashCardsAppBar/>
 
       <Paper  style={style.div} zDepth={1}>
           <div style={style.container}>
