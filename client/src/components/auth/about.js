@@ -41,10 +41,6 @@ const style={
         padding: "12px"
     }
 };
-const titleStyleClass = {
-    maxWidth: "20%",
-    overflow: "visible"
-};
 
 export default ()=>(
   <div>
