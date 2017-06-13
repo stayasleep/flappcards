@@ -19,8 +19,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-// const BASE_URL = '/api'; // Uncomment for live version
+// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
 
@@ -48,23 +48,10 @@ export function userLogin(values) {
     }
 }
 
-// export function getCard() {
-//     return function (dispatch) {
-//         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-//             dispatch({type: FETCH_CARD, payload: response.data});
-//         }).catch(err => {
-//             dispatch({
-//                 type: null,
-//                 error: err.response
-//             });
-//         })
-//     }
-// }
 export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
         axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
-            console.log("getUserData", response);
             dispatch({type: FETCH_USER_META, payload: response.data});
         }).catch(err => {
             dispatch({

@@ -15,6 +15,7 @@ router.post('/register',(request,response,next)=>{
         user_pw: request.body.password,
         user_email:request.body.email,
         user_bday: request.body.birthday,
+        avatar: Math.floor(Math.random()*10)
     };
     if(Object.keys(request.body).length===0){
         return response.json({success:false, error:"Invalid Submission"})

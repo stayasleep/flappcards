@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {connect} from 'react-redux'
 import {getUserData} from '../../actions/index'
-import AccountCircle from 'material-ui/svg-icons/action/account-circle'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 import Avatar from 'material-ui/Avatar';
@@ -12,12 +11,12 @@ class Profile extends Component{
         this.props.getUserData();
     }
     render(){
-        const Header = {
-            paddingRight: 0
-        };
+
         const profileImg = {
-            height: "25vh",
-            width: "50vw"
+            height: "15em",
+            width: "15em",
+            margin: "1em",
+            boxShadow: "rgba(0, 0, 0, 0.75) 0px 1px 6px, rgba(0, 0, 0, 1) 0px 1px 4px"
         };
         const listStyle = {
             textAlign: "center",
@@ -34,7 +33,7 @@ class Profile extends Component{
                             src={`data:image/jpeg; base64, ${this.props.avatar}`}
 
                     />
-                    <CardText>UserName: {this.props.username}</CardText>
+                    <CardText>Username: {this.props.username}</CardText>
                     <CardText>Name: {this.props.name}</CardText>
                     <CardText>Email: {this.props.email}</CardText>
                     <CardText>Join Date: {this.props.joined}</CardText>
