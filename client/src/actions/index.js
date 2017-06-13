@@ -12,7 +12,9 @@ import {
     DELETE_CARD,
     EDIT_CARD,
     AUTOCOMPLETE_SEARCH_STACKS,
-    SEARCH_STACKS
+    SEARCH_STACKS,
+    VALIDATE_ROUTE,
+    RESET_PW
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
@@ -355,5 +357,48 @@ export function populateAutoComplete() {
         })
     }
 }
+/**
+ * @name - isRouteValid
+ * @param - token
+ * @description - Verifies whether or not the reset link is still valid before the page loads
+ */
+export function isRouteValid(token){
+    return function(dispatch){
+        axios.get(`${BASE_URL}/reset/${token}`).then((response)=>{
+            console.log('ur response',response);
+            dispatch({type: VALIDATE_ROUTE, payload: response.data});
+        }).catch(err =>{
+            dispatch({
+                type: VALIDATE_ROUTE,
+                error: err.response
+            });
+        })
+    }
+}
 
+/**
+ * @name - submitResetPw
+ * @param - token
+ * @description - Completes the password reset request and redirects to the login
+ */
+export function submitResetPw(token){
+    return function(dispatch){
+        axios.post(`${BASE_URL}/reset/${token}`,{"resetPw": resetPw}).then((response)=>{
+            if(response.data.success){
+                dispatch({type: RESET_PW});
+                browserHistory.push('/');
+            }else{
+                dispatch({
+                    type: RESET_PW,
+                    error:"There was an error handling your request.  Please restart the reset password process"
+                });
+            }
+        }).catch(err =>{
+            dispatch({
+                type: RESET_PW,
+                error: err.response
+            })
+        })
+    }
+}
 // JSON is the default expected response type for axios calls

@@ -1,5 +1,18 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router';
+import {isRouteValid} from '../../actions/index';
+import {connect} from 'react-redux';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import RaisedButton from 'material-ui/RaisedButton';
+
+
+const style={
+    header: {
+        backgroundColor: "teal",
+        color: "white",
+        fontFamily: "Roboto, sans-serif"
+    }
+};
 
 
 class Reset extends Component{
@@ -10,7 +23,12 @@ class Reset extends Component{
     render(){
         return (
             <div>
-                YO MAMA
+                <Toolbar style={style.header}>
+                    <ToolbarTitle text="FlappCards"/>
+                    <ToolbarGroup>
+                        <RaisedButton label="Home" containerElement={<Link to="/"/>}/>
+                    </ToolbarGroup>
+                </Toolbar>
             </div>
         )
     }
@@ -18,4 +36,5 @@ class Reset extends Component{
 
 
 
-export default Reset;
+// export default Reset;
+export default connect(null,{isRouteValid})(Reset)

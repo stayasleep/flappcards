@@ -15,7 +15,8 @@ router.use('/:token',(req,res,next)=>{
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                return res.json({success: false, message: "Failed to authenticate."});
+                res.redirect('/404');
+                //return res.json({success: false, message: "Failed to authenticate."});
             } else {
                 //token is good, it should show the new pw confirmation page
                 //render route or something?
@@ -100,8 +101,8 @@ router.post('/:token',(req,res,next)=>{
                                         }
                                         console.log('log this mail',info);
                                     });
-                                    res.redirect('/');
-                                    //res.json({success:true, message:'we did it'})
+                                    // res.redirect('/');
+                                    res.json({success:true, message:'Congrats.  Password has been reset.  You will be redirected to the login page.'});
                                 }
                             }
                         )
