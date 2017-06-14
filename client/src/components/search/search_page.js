@@ -42,7 +42,7 @@ class Search extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Paper>
+                <Paper style={{"textAlign": "center", "padding": "1em"}}>
                     <SearchAutoComplete />
 
 
@@ -87,7 +87,7 @@ class Search extends Component {
                         <TableBody displayRowCheckbox={false}>
                         </TableBody>
                     </Table>
-                    Sorry, there are no Stacks by that name or category.
+                        <p>Sorry, there are no Stacks by that name or category.</p>
                     </Paper>
                 </div>
             )

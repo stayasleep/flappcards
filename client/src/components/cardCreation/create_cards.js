@@ -52,7 +52,6 @@ class CreateCards extends Component {
     }
 
     handleCreate(stackObject) {
-        debugger;
         this.props.createStack(stackObject);
     }
 
