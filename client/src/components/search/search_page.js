@@ -68,7 +68,10 @@ class Search extends Component {
             return (
                 <div>
                     <FlashCardsAppBar/>
-                    <Paper>
+                    <Paper style={{
+                        textAlign: "center",
+                        padding: "1em"
+                    }}>
                         <SearchAutoComplete />
 
                     <Table>
