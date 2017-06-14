@@ -30,13 +30,14 @@ class CreateCards extends Component {
                             component={renderInput}
                             label="Question"
                             className="labelPlaceholder"
-
+                            errorText={touched && error}
                         />
                         <Field
                             name={`${stack}.answer`}
                             type="text"
                             component={renderInput}
                             label="Answer"
+                            errorText={touched && error}
                         />
                         </div>
                     </li>
