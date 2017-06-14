@@ -17,7 +17,7 @@ router.post('/autocomplete', (request, response, next)=> {
             });
         }
         // Query the database to retrieve all available subject and categories
-        connection.query("SELECT category, subject FROM `stacks`", (error, result) => {
+        connection.query("SELECT DISTINCT category, subject FROM `stacks`", (error, result) => {
             if (error) {
                 // In case of error, it may be wise to send back an array of objects of sample searches.
                 // Alexa style. Though I think something has gone seriously wrong if a SELECT category + subject query fails.
@@ -27,10 +27,17 @@ router.post('/autocomplete', (request, response, next)=> {
 
                 // Front end needs an array of strings, so prepare the results of the query before sending the result.
                 const suggestions = []; // strange that the map function works despite suggestions being passed into convertToArrayOfStrings
-                // should really do the processing of results on the backend, but let's get this working first
+
                 function convertToArrayOfStrings(object) {
-                    suggestions.push(object.category);
-                    suggestions.push(object.subject);
+                    // only push an item into the suggestions array if it does not already exist
+                    // Performance for this likely only gets worse as the amount of content increases.
+
+                    if (suggestions.indexOf(object.category) === -1) {
+                        suggestions.push(object.category);
+                    }
+                    if (suggestions.indexOf(object.subject) === -1) {
+                        suggestions.push(object.subject);
+                    }
                 }
                 result.map(convertToArrayOfStrings); // ["JavaScript", "String Methods", ...]
                 response.send(suggestions); // Sends an array of objects; ex.: [{"category":"JavaScript", "subject": "String Methods"}, ... ]
@@ -68,8 +75,8 @@ router.post('/',(request,response,next)=>{
         connection.query(
             'SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.created, stacks.rating, cards.orig_source_stack, COUNT(*) as totalCards ' +
             'FROM stacks JOIN cards on stacks.stack_id=cards.stack_id ' +
-            'JOIN users ON stacks.user_id = users.user_id WHERE NOT users.user_id =? AND (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
-            'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[uid, fromSearch, fromSearch],(error,results)=>{
+            'JOIN users ON stacks.user_id = users.user_id WHERE (stacks.subject LIKE "%"?"%" OR stacks.category LIKE "%"?"%") ' +
+            'GROUP BY cards.stack_id ORDER BY stacks.created DESC;',[fromSearch, fromSearch],(error,results)=>{
                 if (error) {
                     response.send({success: false, message:"There was a problem with your request"});
                 } else {

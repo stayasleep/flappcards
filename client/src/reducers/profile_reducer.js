@@ -5,7 +5,8 @@ const default_state ={
     email: "",
     birthday: "",
     name: '',
-    joinDate: ''
+    joinDate: '',
+    avatar: ''
 };
 
 export default function (state = default_state, action) {
@@ -17,7 +18,8 @@ export default function (state = default_state, action) {
                 email: action.payload[0].user_email,
                 birthday: action.payload[0].user_bday,
                 name: action.payload[0].fullname,
-                joinDate: action.payload[0].user_join
+                joinDate: action.payload[0].user_join,
+                avatar: action.payload[0].avatar
             }
     }
     return state;

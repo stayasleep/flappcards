@@ -46,7 +46,8 @@ export default function (state = default_state, action) {
         case (FETCH_MY_RECENT_STACKS):
             return {...state, recentStacks: action.payload};
         case (FETCH_MY_COMMUNITY_STACKS):
-            return {...state, communityStacks: action.payload};
+            return {...state,
+                communityStacks: action.payload};
         case (FETCH_STACK_OVERVIEW):
             return {...state, stackCards: action.payload};
         case(CREATE_STACK):
