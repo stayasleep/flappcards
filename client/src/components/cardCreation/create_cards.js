@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {createStack} from '../../actions/index';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {red500} from 'material-ui/styles/colors';
-import renderInput from '../utilities/renderInput';
+import renderInputCreateCard from '../utilities/renderInputCreateCard';
 import Paper from 'material-ui/Paper';
 import {cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
 import Close from 'material-ui/svg-icons/navigation/close';
@@ -27,16 +27,17 @@ class CreateCards extends Component {
                         <Field
                             name={`${stack}.question`}
                             type="text"
-                            component={renderInput}
+                            component={renderInputCreateCard}
                             label="Question"
                             className="labelPlaceholder"
-
+                            errorText={touched && error}
                         />
                         <Field
                             name={`${stack}.answer`}
                             type="text"
-                            component={renderInput}
+                            component={renderInputCreateCard}
                             label="Answer"
+                            errorText={touched && error}
                         />
                         </div>
                     </li>
@@ -65,14 +66,14 @@ class CreateCards extends Component {
                             <Field
                                 name="subject"
                                 type="text"
-                                component={renderInput}
+                                component={renderInputCreateCard}
                                 label="Subject"
                                 className="inputField"
                             />
                             <Field
                                 name="category"
                                 type="text"
-                                component={renderInput}
+                                component={renderInputCreateCard}
                                 label="Category"
                             />
                     </div>
