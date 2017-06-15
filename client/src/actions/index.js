@@ -14,7 +14,8 @@ import {
     AUTOCOMPLETE_SEARCH_STACKS,
     SEARCH_STACKS,
     VALIDATE_ROUTE,
-    RESET_PW
+    RESET_PW,
+    RECOVER_PW
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
@@ -396,6 +397,30 @@ export function submitResetPw(token){
         }).catch(err =>{
             dispatch({
                 type: RESET_PW,
+                error: err.response
+            })
+        })
+    }
+}
+
+/**
+ * @description - begins the password recovery
+ */
+export function recoverPw(userInfo){
+    return function(dispatch){
+        axios.post(`${BASE_URL}/recovery`,{userName: userInfo.userName, userEmail: userInfo.userEmail}).then((response)=>{
+            if(response.data.success){
+                dispatch({type: RECOVER_PW});
+                browserHistory.push('/');
+            }else{
+                dispatch({
+                    type: RECOVER_PW,
+                    error: "Username/Email combination not found!"
+                });
+            }
+        }).catch(err =>{
+            dispatch({
+                type: RECOVER_PW,
                 error: err.response
             })
         })
