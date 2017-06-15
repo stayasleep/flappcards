@@ -7,6 +7,7 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
 import {deleteIconButton} from '../utilities/stackSummaryStyle';
 
+
 const styler = {
     center: {
         textAlign: "center"
@@ -21,7 +22,6 @@ class DeleteCardConfirm extends React.Component {
     handleDelete(card){
         // this.props.card.card_id; the ID of the to be deleted
         this.props.deleteCard({"stackID":card.stack_id, "cardID":card.card_id});
-        this.props.getStackOverview(this.props.cardID.stack_id)
     }
 
     handleOpen = () => {
@@ -44,7 +44,6 @@ class DeleteCardConfirm extends React.Component {
                 primary={true}
                 onTouchTap={this.handleClose}
                 onClick={() => {this.handleDelete(this.props.cardID)}}
-               // onClick={() => {this.handleDelete(this.props.cardID.card_id)}}
             />,
         ];
 
