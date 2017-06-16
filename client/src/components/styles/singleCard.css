@@ -53,10 +53,11 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    z-index: -1;
 }
 
 #question{
-    position: relative;
+    position: absolute;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -66,8 +67,8 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-    z-index: 50;
     display: inline-block;
+    z-index: 1;
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
@@ -78,7 +79,7 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    position: absolute;
+    position: relative;
     margin: 0;
 }
 #questionCard.flippedCard{
@@ -87,6 +88,9 @@
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
     text-align: center;
+}
+#questionCard.flippedCard > #question {
+    display: none;
 }
 #FlipMsg {
     -webkit-transform: rotateY( 180deg );
