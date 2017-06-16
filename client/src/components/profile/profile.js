@@ -30,10 +30,10 @@ class Profile extends Component{
                 <FlashCardsAppBar/>
                 <Card style={listStyle}>
                     <Avatar style={profileImg}
-                            src={`https://flappcards.com/api/avatars/${this.props.avatar}`}
+                            src={`https://localhost:1337/api/avatars/${this.props.avatar}`}
 
                     />
-                    <img src={`https://flappcards.com/api/avatars/${this.props.avatar}`} />
+                    <img src={`https://localhost:1337/api/avatars/${this.props.avatar}`} />
                     <CardText>Username: {this.props.username}</CardText>
                     <CardText>Name: {this.props.name}</CardText>
                     <CardText>Email: {this.props.email}</CardText>
