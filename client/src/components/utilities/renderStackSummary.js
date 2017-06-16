@@ -25,7 +25,7 @@ class StackSummary extends Component {
                         titleStyle={cardHeader}
                         subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar style={rightAvatar} src={`data:image/jpeg; base64, ${item.avatar}`}/>}
+                        avatar={<Avatar style={rightAvatar} src={`data:image/jpeg;base64,${item.avatar}`} crossOrigin="Anonymous"/>}
                         style={cardHeader}
 
                     />
