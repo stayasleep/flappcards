@@ -54,6 +54,7 @@
     -ms-flex-pack: center;
     justify-content: center;
     z-index: -1;
+    background-color: lightgrey;
 }
 
 #question{
@@ -82,7 +83,6 @@
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
     text-align: center;
-    background: transparent;
 }
 
 #questionCard.flippedCard > #question {
