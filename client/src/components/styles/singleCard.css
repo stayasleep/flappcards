@@ -63,6 +63,9 @@
     margin: 0;
 }
 #answer{
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
     visibility: visible;
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
