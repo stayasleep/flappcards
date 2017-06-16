@@ -354,10 +354,10 @@ export function populateAutoComplete() {
 export function isRouteValid(token){
     return function(dispatch){
         console.log('axios token ',token);
-        debugger;
         axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
             console.log('ur response',response);
             dispatch({type: VALIDATE_ROUTE, payload: response.data});
+            localStorage.setItem('token', token);
         }).catch(err =>{
             dispatch({
                 type: VALIDATE_ROUTE,
@@ -372,22 +372,26 @@ export function isRouteValid(token){
  * @param - token
  * @description - Completes the password reset request and redirects to the login
  */
-export function submitResetPw(token){
+export function submitResetPw(reset){
     return function(dispatch){
-        axios.post(`${BASE_URL}/reset/${token}`,{"resetPw": resetPw}).then((response)=>{
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": reset.resetPw}).then((response)=>{
             if(response.data.success){
                 dispatch({type: RESET_PW});
+
                 browserHistory.push('/');
-            }else{
+            }
+            if( response.data.resetPassword){
                 dispatch({
-                    type: RESET_PW,
-                    error:"There was an error handling your request.  Please restart the reset password process"
+                    type: AUTH_ERROR,
+                    error:"There was an error handling your request.  Please restart the reset password process."
                 });
+                browserHistory.push('/'); //if there is an error, push them back to home?
             }
         }).catch(err =>{
             dispatch({
-                type: RESET_PW,
-                error: err.response
+                type: AUTH_ERROR,
+                error: err.response.data.error
             })
         })
     }

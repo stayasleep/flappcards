@@ -8,10 +8,10 @@ const config = require('../config/helena');
 const communications = require('../server/communications');
 const nodemailer = require('nodemailer');
 
-router.get('/:token',(req,res,next)=>{
+router.use('/:token',(req,res,next)=>{
     //we begin by checking that the link they clicked hasnt expired yet
     //since this route has a shorter exp and a new secret, it will have sep middleware
-    const token = req.headers['x-access-token'];
+    const token = req.headers['x-access-token'] || req.body.token;
     console.log('server token ',token);
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
@@ -22,8 +22,8 @@ router.get('/:token',(req,res,next)=>{
                 //token is good, it should show the new pw confirmation page
                 //render route or something?
                 req.decoded = decoded;
-                // next();
-                res.json({success:true, message:"Continue"});
+                next();
+                // res.json({success:true, message:"Continue"});
 
             }
         })
@@ -33,9 +33,9 @@ router.get('/:token',(req,res,next)=>{
 });
 //this should check that if you click the link, the token is valid and page renders
 //this ensures check occurs before clicking submit new PW
-// router.get('/:token',(req,res)=>{
-//     res.json({success: true, message:"it worked!"});
-// });
+router.get('/:token',(req,res)=>{
+    res.json({success: true, message:"it worked!"});
+});
 //Page renders, new pw is entered and user hits submit
 router.post('/:token',(req,res,next)=>{
     //we should check to see if the token is still valid, on the chance that
@@ -52,7 +52,8 @@ router.post('/:token',(req,res,next)=>{
     let uEmail  = req.decoded.UserEmail;
     let newPw = req.body.resetPw;
     if (newPw && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(newPw)) {
-        return res.json({success: false, error: "Error.  Passwords must contain at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number, and 1 special character."});
+        // return res.json({success: false, error: "Error.  Passwords must contain at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number, and 1 special character."});
+        return res.json({success: false, resetPassword: true});
     }
     console.log('un',un);
     console.log('tok',checkToken);
@@ -110,8 +111,9 @@ router.post('/:token',(req,res,next)=>{
                     })
                 })
             }else{
-                //attempt query but there is no match
-                res.json({success: false, message:"Unable to perform request, no match found."})
+                //attempt query but there is no match bc token expired or maybe db column doesnt match token sent to us
+                // res.json({success: false, message:"Unable to perform request, no match found."})
+                res.json({success:false, resetPassword: true});
             }
         })
     })
