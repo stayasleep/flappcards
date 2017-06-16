@@ -58,7 +58,6 @@ function validate(values){
 }
 
 function mapStateToProps(state){
-    console.log('is state',state);
     if(state.auth.authError === "Username/Email combination not found!"){
         function appendUserError(el, str){
             var div = document.createElement('div');

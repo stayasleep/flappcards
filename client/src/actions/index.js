@@ -360,9 +360,7 @@ export function populateAutoComplete() {
  */
 export function isRouteValid(token){
     return function(dispatch){
-        console.log('axios token ',token);
         axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
-            console.log('ur response',response);
             dispatch({type: VALIDATE_ROUTE, payload: response.data});
             //localStorage.setItem('token', token);
         }).catch(err =>{

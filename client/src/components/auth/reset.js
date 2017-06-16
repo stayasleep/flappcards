@@ -27,9 +27,7 @@ class Reset extends Component{
     state={ token:"" };
 
     componentWillMount(){
-        console.log('reset comp', this.props);
         const {p1,p2,p3}= this.props.location.query; //Pull from the url
-        console.log('token get ',[p1,p2,p3]);
         const token = `${p1}.${p2}.${p3}`;
         this.setState=({ token: token});
         this.props.isRouteValid(token);
