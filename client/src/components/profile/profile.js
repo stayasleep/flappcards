@@ -33,6 +33,7 @@ class Profile extends Component{
                             src={`https://flappcards.com/api/avatars/${this.props.avatar}`}
 
                     />
+                    <img src={`https://flappcards.com/api/avatars/${this.props.avatar}`} />
                     <CardText>Username: {this.props.username}</CardText>
                     <CardText>Name: {this.props.name}</CardText>
                     <CardText>Email: {this.props.email}</CardText>
