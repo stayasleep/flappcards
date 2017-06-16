@@ -8,23 +8,17 @@
 .centered {
     text-align: center;
     display: inline-block;
-    margin-top: 2em;
+    margin: 2em;
     position: relative;
 }
 #previous{
-    margin: 1em;
-    float: left;
     height: 48px;
     width: 48px;
-    padding: 24px;
     cursor: pointer;
 }
 #next{
-    margin: 1em;
-    float: right;
     height: 48px;
     width: 48px;
-    padding: 24px;
     cursor: pointer;
 }
 #right {
