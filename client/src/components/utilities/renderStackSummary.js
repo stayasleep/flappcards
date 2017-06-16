@@ -3,9 +3,9 @@ import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Ca
 import Avatar from 'material-ui/Avatar';
 import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-// import {connect} from 'react-redux';
+
 import {Link} from 'react-router';
-// import {getStackOverview} from '../../actions/index'; // need connect for action creator
+
 import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from './stackSummaryStyle';
 import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
@@ -25,8 +25,9 @@ class StackSummary extends Component {
                         titleStyle={cardHeader}
                         subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar style={rightAvatar}>{item.totalCards}</Avatar>}
+                        avatar={<Avatar style={rightAvatar} src={`data:image/jpeg;base64,${item.avatar}`} crossOrigin="Anonymous"/>}
                         style={cardHeader}
+
                     />
                     <CardText
                         style={cardText}
@@ -64,5 +65,4 @@ class StackSummary extends Component {
     }
 }
 
-// export default connect(null,{getStackOverview})(StackSummary);
 export default StackSummary;

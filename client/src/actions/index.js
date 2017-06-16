@@ -133,8 +133,9 @@ export function getMyStackOverview() {
 export function getStackOverview(stackID) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
+        // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-            dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
@@ -175,6 +176,7 @@ export function deleteStack(stackID) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
+            browserHistory.push('/myShelf');
         }).catch(err => {
             dispatch({
                 type: DELETE_STACK,
@@ -191,15 +193,20 @@ export function deleteStack(stackID) {
 export function deleteCard(cardObj) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
-            dispatch({type: DELETE_CARD, payload: response.data});
+        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}})
+            .then((response) => {
+            dispatch({type: DELETE_CARD, payload: null});
+            browserHistory.push('/myShelf');
+            browserHistory.push(`/stackOverview/${cardObj.stackID}`); // Shame have I
         }).catch(err => {
             dispatch({
                 type: DELETE_CARD,
                 error: err.response
             });
-        })
+        });
+
     }
+
 }
 
 /**

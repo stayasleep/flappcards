@@ -105,14 +105,18 @@ class SingleCard extends Component {
             <div>
                 <FlashCardsAppBar/>
                     <div className="container">
-                        <Paper ref="comp" id="questionCard">
-                            <h2 id="question">
+                        <div ref="comp" id="questionCard">
+                            <div id="question">
+                                <div>
                                 Question: {card.question}
-                            </h2>
-                            <h2 id="answer">
+                                </div>
+                            </div>
+                            <div id="answer">
+                                <div>
                                 Answer: {card.answer}
-                            </h2>
-                        </Paper>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 <Paper style={{textAlign: "center"}}>
                 <div className="centered">

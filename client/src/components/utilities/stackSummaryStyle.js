@@ -70,7 +70,11 @@ export const chip = {
 };
 
 export const rightAvatar = {
-    float: "right"
+    float: "right",
+    margin: "0.5em",
+    height: "3em",
+    width: "3em",
+    boxShadow: "rgba(0, 0, 0, 0.75) 0px 1px 6px, rgba(0, 0, 0, 1) 0px 1px 4px"
 };
 
 export const cardDisplay = {
@@ -155,7 +159,8 @@ export const deleteIconButton = {
 
 
 export const addCardInputFields = {
-    margin: "0.5em"
+    margin: "0.5em",
+    width: "148px"
 };
 
 // Styling to prevent error text from re-/mis- aligning input fields

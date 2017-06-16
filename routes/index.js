@@ -24,6 +24,7 @@ let copy = require('./copy');
 let recovery = require('./recovery');
 let reset = require('./reset');
 
+
 //set up non-token based routes
 router.use('/',user);
 router.use('/recovery',recovery);
@@ -64,6 +65,7 @@ router.use('/search', searched);
 router.use('/profile',profile);
 router.use('/logout', logOut);
 router.use('/copy', copy);
+
 
 module.exports = router;
 

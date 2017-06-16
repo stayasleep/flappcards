@@ -8,7 +8,8 @@ import {
     CREATE_STACK,
     SEARCH_STACKS,
     AUTOCOMPLETE_SEARCH_STACKS,
-    COPY_STACK
+    COPY_STACK,
+    DELETE_CARD
 } from '../actions/types';
 const default_state ={
     all: [],
@@ -46,7 +47,8 @@ export default function (state = default_state, action) {
         case (FETCH_MY_RECENT_STACKS):
             return {...state, recentStacks: action.payload};
         case (FETCH_MY_COMMUNITY_STACKS):
-            return {...state, communityStacks: action.payload};
+            return {...state,
+                communityStacks: action.payload};
         case (FETCH_STACK_OVERVIEW):
             return {...state, stackCards: action.payload};
         case(CREATE_STACK):
@@ -57,6 +59,10 @@ export default function (state = default_state, action) {
             return {...state, stacks: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
+
+        case (DELETE_CARD):
+            return {...state}
+
     }
     return state;
 }

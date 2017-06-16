@@ -61,7 +61,6 @@ const styles = {
         position: "relative",
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover',
-        height: '89vh',
         backgroundAttachment:'fixed',
     }
 };

@@ -1,31 +1,25 @@
 .container {
     position: relative;
     -webkit-perspective: 800px;
-    -moz-perspective: 800px;
     perspective: 800px;
     height: 67vh;
+    background-color: rgb(240,240,240);
 }
 
 .centered {
     text-align: center;
     display: inline-block;
-    margin-top: 2em;
+    margin: 2em;
     position: relative;
 }
 #previous{
-    margin: 1em;
-    float: left;
     height: 48px;
     width: 48px;
-    padding: 24px;
     cursor: pointer;
 }
 #next{
-    margin: 1em;
-    float: right;
     height: 48px;
     width: 48px;
-    padding: 24px;
     cursor: pointer;
 }
 #right {
@@ -36,61 +30,81 @@
     background-color: red;
 }
 #questionCard{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    margin: 0;
     display: flex;
     text-align: center;
     height: 100%;
-    position: relative;
     -webkit-transition: -webkit-transform 1s;
     -webkit-transition: 1s;
     transition: 1s;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
     -webkit-transform-origin: 50% 50%;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    background-color: transparent;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 2px 12px, rgba(0, 0, 0, 0.12) 0 1px 4px;
 }
 
 #question{
-    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    position: relative;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-    top: 35%;
-    padding: 1em;
+    margin: 0;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+    border-radius: 2px;
 }
 #answer{
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 35%;
-    padding: 1em;
+    width: 100%;
+    display: none;
+    position: relative;
+    margin: 0;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+    border-radius: 2px;
 }
 #questionCard.flippedCard{
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
-    text-align: center;
 }
-#questionCard.flippedCard > .back {
-    -webkit-transition: .3s;
-    transition: .3s;
-    visibility: hidden;
-    align-items: center;
+
+#questionCard.flippedCard > #question {
+    display: none;
+}
+
+#questionCard.flippedCard > #answer {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    display: flex;
     justify-content: center;
-}
-#FlipMsg {
+    flex-flow: column;
+    transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
 }
 
 /* ----------- iPhone 6 ----------- */
