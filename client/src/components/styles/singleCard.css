@@ -63,9 +63,6 @@
     margin: 0;
 }
 #answer{
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
@@ -76,7 +73,7 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    position: absolute;
+    position: relative;
     margin: 0;
 }
 #questionCard.flippedCard{
