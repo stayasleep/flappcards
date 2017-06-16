@@ -17,7 +17,11 @@ const style={
 
 class Reset extends Component{
     componentWillMount(){
-        const {token} = this.props.params; //Pull from the url
+        console.log('reset comp', this.props);
+        // debugger;
+        const {p1,p2,p3}= this.props.location.query; //Pull from the url
+        console.log('token get ',[p1,p2,p3]);
+        const token = `${p1}.${p2}.${p3}`;
         this.props.isRouteValid(token);
     }
     render(){

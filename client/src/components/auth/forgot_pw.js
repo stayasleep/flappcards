@@ -18,8 +18,8 @@ class ForgotPw extends Component{
         router: PropTypes.object
     } ;
     handleLogin(values){
-        //Action creator recoverPW sends an axios call to the server
-        this.props.userInfo(values);
+        //Action creator recoverPw sends an axios call to the server
+        this.props.recoverPw(values);
     }
 
     render (){
@@ -37,7 +37,7 @@ class ForgotPw extends Component{
                         <div style={styles.center}>
                             <Field name="userEmail" component={renderInput} label="Email" type="email"/>
                         </div>
-                        <RaisedButton primary={true} type="submit" label="Login"/>
+                        <RaisedButton primary={true} type="submit" label="Recover"/>
                     </div>
                 </form>
             </div>
@@ -58,6 +58,7 @@ function validate(values){
 }
 
 function mapStateToProps(state){
+    console.log('is state',state);
     if(state.auth.authError === "Username/Email combination not found!"){
         function appendUserError(el, str){
             var div = document.createElement('div');

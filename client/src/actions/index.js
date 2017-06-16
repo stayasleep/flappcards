@@ -51,18 +51,6 @@ export function userLogin(values) {
     }
 }
 
-// export function getCard() {
-//     return function (dispatch) {
-//         axios.post(`${BASE_URL}/stackOverview`).then((response) => {
-//             dispatch({type: FETCH_CARD, payload: response.data});
-//         }).catch(err => {
-//             dispatch({
-//                 type: null,
-//                 error: err.response
-//             });
-//         })
-//     }
-// }
 export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
@@ -365,7 +353,9 @@ export function populateAutoComplete() {
  */
 export function isRouteValid(token){
     return function(dispatch){
-        axios.get(`${BASE_URL}/reset/${token}`).then((response)=>{
+        console.log('axios token ',token);
+        debugger;
+        axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
             console.log('ur response',response);
             dispatch({type: VALIDATE_ROUTE, payload: response.data});
         }).catch(err =>{
@@ -411,17 +401,18 @@ export function recoverPw(userInfo){
         axios.post(`${BASE_URL}/recovery`,{userName: userInfo.userName, userEmail: userInfo.userEmail}).then((response)=>{
             if(response.data.success){
                 dispatch({type: RECOVER_PW});
-                browserHistory.push('/');
-            }else{
+                browserHistory.push('/home');
+            }
+            if (response.data.noMatchFound){
                 dispatch({
-                    type: RECOVER_PW,
+                    type: AUTH_ERROR,
                     error: "Username/Email combination not found!"
                 });
             }
         }).catch(err =>{
             dispatch({
-                type: RECOVER_PW,
-                error: err.response
+                type: AUTH_ERROR,
+                error: err.response.data.error
             })
         })
     }

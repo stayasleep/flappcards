@@ -8,21 +8,22 @@ const config = require('../config/helena');
 const communications = require('../server/communications');
 const nodemailer = require('nodemailer');
 
-router.use('/:token',(req,res,next)=>{
+router.get('/:token',(req,res,next)=>{
     //we begin by checking that the link they clicked hasnt expired yet
     //since this route has a shorter exp and a new secret, it will have sep middleware
-    const token = req.params.token;
+    const token = req.headers['x-access-token'];
+    console.log('server token ',token);
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                res.redirect('/404');
+                res.send({success:false, message:"no go into reset"});
                 //return res.json({success: false, message: "Failed to authenticate."});
             } else {
                 //token is good, it should show the new pw confirmation page
                 //render route or something?
                 req.decoded = decoded;
-                next();
-                // res.json({success:true, message:"Continue"});
+                // next();
+                res.json({success:true, message:"Continue"});
 
             }
         })
@@ -32,9 +33,9 @@ router.use('/:token',(req,res,next)=>{
 });
 //this should check that if you click the link, the token is valid and page renders
 //this ensures check occurs before clicking submit new PW
-router.get('/:token',(req,res)=>{
-    res.json({success: true, message:"it worked!"});
-});
+// router.get('/:token',(req,res)=>{
+//     res.json({success: true, message:"it worked!"});
+// });
 //Page renders, new pw is entered and user hits submit
 router.post('/:token',(req,res,next)=>{
     //we should check to see if the token is still valid, on the chance that

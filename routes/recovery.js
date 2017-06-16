@@ -22,7 +22,7 @@ router.post('/',(req,res,next)=>{
                 return res.json({success:false, message:'There was a problem with your request'});
             }else{
                 if(results.length === 1){
-                    console.log('res ',results);
+                    // console.log('res ',results);
                     // console.log('req',req);
                     // console.log('proto',req.protocol);
                     // console.log('host',req.hostname);
@@ -63,14 +63,30 @@ router.post('/',(req,res,next)=>{
                                     console.log('Server is ready to take our messages');
                                 }
                             });
+                            console.log('token before choppo', token);
                             //test
+                            //pt 1
+                            let tokenFirstPeriod = token.indexOf('.');
+                            let t1 = token.slice(0,tokenFirstPeriod);
+                            token = token.slice(tokenFirstPeriod+1, token.length);
+                            //pt 2 of token
+                            let tokenSecPeriod = token.indexOf('.');
+                            let t2 = token.slice(0, tokenSecPeriod);
+                            //pt 3 of token
+                            token= token.slice(tokenSecPeriod+1,token.length);
+
+                            console.log('t1',t1);
+                            console.log('t2', t2);
+                            console.log('token 3', token);
+
+
                             communications.mailOptions.to = recoveryEmail;
                             communications.mailOptions.subject = "Password Reset - Account Recovery";
                             communications.mailOptions.html="<h1>Hello "+recoveryName+",</h1>\n"+
                                     "<p>You are receiving this email because you (or someone else attempting to access" +
                                 " your account) have requested a password reset.  In order to complete the process, please " +
                                 "click on the link below or copy and paste it into your browser.</p>\n\n"+
-                                    req.protocol+"://"+req.headers.host+"/reset/"+token+"\n"+
+                                    req.protocol+"://"+req.headers.host+"/reset/:?p1="+t1+"&p2="+t2+"&p3="+token+ "\n"+
                                     "<p>The password reset link expires after four (4) hours and can only be used once.  After that time,\n" +
                                 " the link will no longer be valid and the reset form will no longer appear to be active.</p>\n"+
                                     "<p>If you didn&apos;t request a password reset, please ignore this email and your password " +
@@ -137,7 +153,7 @@ router.post('/',(req,res,next)=>{
                     // });
                     // res.json({success:true, message:"An email has been sent to the provided email address, thank you."});
                 }else{
-                    res.json({success:false, message:"Username/Email not found"});
+                    res.json({success:false, noMatchFound:true});
                 }
             }
         });

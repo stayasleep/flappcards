@@ -68,9 +68,16 @@ const styles = {
 
 class landing extends Component {
     render (){
+        const rightButtons=(
+            <div>
+                <RecoverPw/>
+                <LoginModal/>
+            </div>
+        );
+
         return (
             <div>
-                <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={<RecoverPw/>} iconElementRight={<LoginModal/>}  />
+                <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={rightButtons}  />
                 <Paper style={styles.div2} zDepth={1}>
                     <div id="mobileIntro" style={styles.paperRight}>
                         {/*<h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>*/}
