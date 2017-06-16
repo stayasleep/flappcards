@@ -29,13 +29,10 @@ router.post('/',(request,response, next)=>{
             if (error) {
                 response.send({success: false, message:"There was a problem with your request"});
             } else {
-
-
-                let userAvatarKey = result[0].avatar; // grab the value to use for the dictionary
-                let userAvatar = path.resolve(avatarDictionary[userAvatarKey]); // Pick off the file path from the dictionary and resolve
-                result[0].avatar = fs.readFileSync(userAvatar, 'base64'); // Synchronous readFile as it does not send too soon. Base64 encoded for minimum processing
-
-                response.send(result);
+                let avatarKey = result[0].avatar;
+                let avatarPic = fs.readFileSync(path.resolve(avatarDictionary[avatarKey]), 'base64');
+                result[0].avatar = avatarPic; // Assign the pic
+                response.send(result); // Send the result
             }
         });
         connection.release();

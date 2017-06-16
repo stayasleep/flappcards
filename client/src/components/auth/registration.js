@@ -42,7 +42,8 @@ class Registration extends Component {
             boxShadow: "5px 5px 2.5px #888888",
             backgroundColor: "rgba(255,255,255,0.9",
             position: "relative",
-            padding:"1em"
+            padding:"1em",
+            height: "100%"
         };
         const passWordInfo = {
             fontSize: 10,

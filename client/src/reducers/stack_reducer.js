@@ -8,7 +8,8 @@ import {
     CREATE_STACK,
     SEARCH_STACKS,
     AUTOCOMPLETE_SEARCH_STACKS,
-    COPY_STACK
+    COPY_STACK,
+    DELETE_CARD
 } from '../actions/types';
 const default_state ={
     all: [],
@@ -58,6 +59,10 @@ export default function (state = default_state, action) {
             return {...state, stacks: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
+
+        case (DELETE_CARD):
+            return {...state}
+
     }
     return state;
 }

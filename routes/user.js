@@ -6,6 +6,8 @@ const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
 const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
+const avatars = require('./avatars');
+
 
 //Register, token is sent and when return from server...it should include the user_id # inside and the username
 router.post('/register',(request,response,next)=>{
@@ -128,5 +130,8 @@ router.post('/login',function(request,response,next){
         connection.release();
     });
 });
+
+router.get('/avatars/:avatarImage', avatars); // for serving the url. Front end makes a request to this URL
+
 
 module.exports = router;

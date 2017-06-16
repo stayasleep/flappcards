@@ -1,5 +1,5 @@
 const avatarDictionary = {
-    "0": './routes/avatars/pepe.jpg' ,
+    "0": './routes/avatars/awkward_seal.jpg' ,
     "1": './routes/avatars/roll_safe.jpg',
     "2": './routes/avatars/doge.jpg',
     "3": './routes/avatars/darth_kermit.jpg',

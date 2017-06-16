@@ -26,13 +26,12 @@ class StackViewStacks extends Component{
         expanded: false
     };
 
-
     handleCopy(copy){
         this.props.stackCopy(copy);
     };
 
     handleExpansion(cardIndex) {
-        // console.log("handleExpansion called");
+
         // console.log("cardIndex", cardIndex); // passed in via the key gotten from map
         // if !(F) => if T
         if (!this.state.expanded) {
