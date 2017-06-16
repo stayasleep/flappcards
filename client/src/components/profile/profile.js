@@ -29,11 +29,7 @@ class Profile extends Component{
             <div>
                 <FlashCardsAppBar/>
                 <Card style={listStyle}>
-                    <Avatar style={profileImg}
-                            src={`https://localhost:1337/api/avatars/${this.props.avatar}`}
-
-                    />
-                    <img src={`https://localhost:1337/api/avatars/${this.props.avatar}`} />
+                    <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
                     <CardText>Username: {this.props.username}</CardText>
                     <CardText>Name: {this.props.name}</CardText>
                     <CardText>Email: {this.props.email}</CardText>

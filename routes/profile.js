@@ -29,7 +29,10 @@ router.post('/',(request,response, next)=>{
             if (error) {
                 response.send({success: false, message:"There was a problem with your request"});
             } else {
-                response.send(result);
+                let avatarKey = result[0].avatar;
+                let avatarPic = fs.readFileSync(path.resolve(avatarDictionary[avatarKey]), 'base64');
+                result[0].avatar = avatarPic; // Assign the pic
+                response.send(result); // Send the result
             }
         });
         connection.release();
