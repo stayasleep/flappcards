@@ -40,7 +40,7 @@
     transition: 1s;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
-    /*-webkit-transform-origin: 50% 50%;*/
+    -webkit-transform-origin: 50% 50%;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -55,7 +55,7 @@
     display: flex;
     justify-content: center;
     flex-flow: column;
-    position: absolute;
+    position: relative;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
