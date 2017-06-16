@@ -12,15 +12,18 @@ import {
     DELETE_CARD,
     EDIT_CARD,
     AUTOCOMPLETE_SEARCH_STACKS,
-    SEARCH_STACKS
+    SEARCH_STACKS,
+    VALIDATE_ROUTE,
+    RESET_PW,
+    RECOVER_PW
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
 
@@ -350,5 +353,75 @@ export function populateAutoComplete() {
         })
     }
 }
+/**
+ * @name - isRouteValid
+ * @param - token
+ * @description - Verifies whether or not the reset link is still valid before the page loads
+ */
+export function isRouteValid(token){
+    return function(dispatch){
+        axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
+            dispatch({type: VALIDATE_ROUTE, payload: response.data});
+            //localStorage.setItem('token', token);
+        }).catch(err =>{
+            dispatch({
+                type: VALIDATE_ROUTE,
+                error: err.response
+            });
+        })
+    }
+}
 
+/**
+ * @name - submitResetPw
+ * @param - token
+ * @description - Completes the password reset request and redirects to the login
+ */
+export function submitResetPw(data){
+    return function(dispatch){
+        let {token} = data;
+        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw}).then((response)=>{
+            if(response.data.success){
+                dispatch({type: RESET_PW});
+                browserHistory.push('/');
+            }else{
+                dispatch({
+                    type: AUTH_ERROR,
+                    error:"This link has already expired.  Please try the password reset process again."
+                });
+                browserHistory.push('/'); //if there is an error, push them back to home?
+            }
+        }).catch(err =>{
+            dispatch({
+                type: AUTH_ERROR,
+                error: err.response.data.error
+            })
+        })
+    }
+}
+
+/**
+ * @description - begins the password recovery
+ */
+export function recoverPw(userInfo){
+    return function(dispatch){
+        axios.post(`${BASE_URL}/recovery`,{userName: userInfo.userName, userEmail: userInfo.userEmail}).then((response)=>{
+            if(response.data.success){
+                dispatch({type: RECOVER_PW});
+                browserHistory.push('/home');
+            }
+            if (response.data.noMatchFound){
+                dispatch({
+                    type: AUTH_ERROR,
+                    error: "Username/Email combination not found!"
+                });
+            }
+        }).catch(err =>{
+            dispatch({
+                type: AUTH_ERROR,
+                error: err.response.data.error
+            })
+        })
+    }
+}
 // JSON is the default expected response type for axios calls

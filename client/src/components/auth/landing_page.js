@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import Registration from './registration';
 import LoginModal from '../confirmActionModal/loginModal'
+import RecoverPw from '../confirmActionModal/recoverPW'
 import {GridList, GridTile} from 'material-ui/GridList';
 import home from '../imgs/home2.JPG'
 import AppBar from 'material-ui/AppBar';
@@ -66,9 +67,16 @@ const styles = {
 
 class landing extends Component {
     render (){
+        const rightButtons=(
+            <div>
+                <RecoverPw/>
+                <LoginModal/>
+            </div>
+        );
+
         return (
             <div>
-                <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={<LoginModal/>}/>
+                <AppBar style={styles.header} title={<span style={styles.title}>FlappCards</span>} showMenuIconButton={false} iconElementRight={rightButtons}  />
                 <Paper style={styles.div2} zDepth={1}>
                     <div id="mobileIntro" style={styles.paperRight}>
                         {/*<h1 style={styles.mTitle}>FL<span style={styles.midT}>APP</span>CARDS</h1>*/}

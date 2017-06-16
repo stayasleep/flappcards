@@ -16,4 +16,8 @@ export const SEARCH_STACKS = 'search_stacks';
 export const COPY_STACK = 'copy_stack';
 export const AUTOCOMPLETE_SEARCH_STACKS = 'autocomplete_search_stacks';
 
+export const VALIDATE_ROUTE = 'validate_route';
+export const RESET_PW = 'reset_pw';
+export const RECOVER_PW = 'recover_pw';
+
 // This file mainly exists to avoid typing errors.

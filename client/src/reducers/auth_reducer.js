@@ -1,4 +1,4 @@
-import {AUTH_USER, AUTH_ERROR, UNAUTH_USER} from '../actions/types';
+import {AUTH_USER, AUTH_ERROR, UNAUTH_USER, RESET_PW} from '../actions/types';
 
 const default_state = {authenticated: false, authError: null};
 
