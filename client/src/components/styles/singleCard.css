@@ -48,49 +48,62 @@
     -ms-flex-pack: center;
     justify-content: center;
     z-index: -1;
-    background-color: rgb(240, 240, 240);
-    box-sizing: border-box;
-    font-family: Roboto, sans-serif;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-    border-radius: 2px;
 }
 
 #question{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
     position: absolute;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     margin: 0;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+    border-radius: 2px;
 }
 #answer{
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    display: inline-block;
+    width: 100%;
+    display: none;
     z-index: 1;
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
     position: relative;
     margin: 0;
+    height: 100%;
+    background-color: rgb(240, 240, 240);
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+    border-radius: 2px;
 }
 #questionCard.flippedCard{
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
-    text-align: center;
 }
 
 #questionCard.flippedCard > #question {
     display: none;
 }
 
-#FlipMsg {
+#questionCard.flippedCard > #answer {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
-    transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
 }
 
 /* ----------- iPhone 6 ----------- */
