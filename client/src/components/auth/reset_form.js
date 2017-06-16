@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import {submitResetPw} from '../../actions/index';
 import ReactDom from 'react-dom';
-import renderInput from '../utilities/renderInput';
+import renderInputReg from '../utilities/renderInputReg';
 import Paper from 'material-ui/Paper';
 
 class ResetForm extends Component {
@@ -14,8 +14,12 @@ class ResetForm extends Component {
         router: PropTypes.object
     };
     handleReset(vals){
-        this.props.submitResetPw(vals);
+        const {p1,p2,p3}= this.props.token; //Pull from the url
+        const token = `${p1}.${p2}.${p3}`;
+        let data = {token: token, vals: vals};
+        this.props.submitResetPw(data);
     }
+
 
     render(){
         const {handleSubmit, reset} = this.props;
@@ -59,13 +63,13 @@ class ResetForm extends Component {
                 <h3 style={header}>Enter a new password for your account</h3>
                 <form onSubmit={handleSubmit((vals)=>{this.handleReset(vals)})}>
                     <div>
-                        <Field name="resetPw" component={renderInput} label="New Password" type="password"/>
+                        <Field name="resetPw" component={renderInputReg} label="New Password" type="password"/>
                         <div style={passWordInfo}>
                             Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
                         </div>
                     </div>
                     <div>
-                        <Field name="passwordConfirm" component={renderInput} label="Confirm New Password" type="password"/>
+                        <Field name="passwordConfirm" component={renderInputReg} label="Confirm New Password" type="password"/>
                     </div>
                     <div style={userError} id="resetFail">
                     </div>
@@ -109,7 +113,7 @@ function validate(values){
 
 }
 function mapStateToProps(state){
-    if(state.auth.authError === "There was an error handling your request.  Please restart the reset password process."){
+    if(state.auth.authError === "This link has already expired.  Please try the password reset process again."){
 
         function appendUserError(el,str){
             var div = document.createElement('div');

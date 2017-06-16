@@ -24,12 +24,14 @@ class Reset extends Component{
     static contextTypes = {
         router: PropTypes.object
     };
+    state={ token:"" };
 
     componentWillMount(){
         console.log('reset comp', this.props);
         const {p1,p2,p3}= this.props.location.query; //Pull from the url
         console.log('token get ',[p1,p2,p3]);
         const token = `${p1}.${p2}.${p3}`;
+        this.setState=({ token: token});
         this.props.isRouteValid(token);
     }
 
@@ -44,7 +46,7 @@ class Reset extends Component{
                     </ToolbarGroup>
                 </Toolbar>
                 <div>
-                    <ResetForm/>
+                    <ResetForm token={this.props.location.query}/>
                 </div>
 
 
@@ -52,8 +54,12 @@ class Reset extends Component{
         )
     }
 }
-
+function mapStateToProps(state){
+    return{
+        token: state.token,
+    };
+}
 // export default connect(mapStateToProps,{isRouteValid, submitResetPw})(Reset);
 
 // export default Reset;
-export default connect(null,{isRouteValid})(Reset)
+export default connect(mapStateToProps,{isRouteValid})(Reset)

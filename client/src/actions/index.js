@@ -357,7 +357,7 @@ export function isRouteValid(token){
         axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
             console.log('ur response',response);
             dispatch({type: VALIDATE_ROUTE, payload: response.data});
-            localStorage.setItem('token', token);
+            //localStorage.setItem('token', token);
         }).catch(err =>{
             dispatch({
                 type: VALIDATE_ROUTE,
@@ -372,19 +372,17 @@ export function isRouteValid(token){
  * @param - token
  * @description - Completes the password reset request and redirects to the login
  */
-export function submitResetPw(reset){
+export function submitResetPw(data){
     return function(dispatch){
-        let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": reset.resetPw}).then((response)=>{
+        let {token} = data;
+        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw}).then((response)=>{
             if(response.data.success){
                 dispatch({type: RESET_PW});
-
                 browserHistory.push('/');
-            }
-            if( response.data.resetPassword){
+            }else{
                 dispatch({
                     type: AUTH_ERROR,
-                    error:"There was an error handling your request.  Please restart the reset password process."
+                    error:"This link has already expired.  Please try the password reset process again."
                 });
                 browserHistory.push('/'); //if there is an error, push them back to home?
             }
