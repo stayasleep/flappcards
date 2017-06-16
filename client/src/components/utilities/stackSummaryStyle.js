@@ -159,7 +159,8 @@ export const deleteIconButton = {
 
 
 export const addCardInputFields = {
-    margin: "0.5em"
+    margin: "0.5em",
+    width: "148px"
 };
 
 // Styling to prevent error text from re-/mis- aligning input fields

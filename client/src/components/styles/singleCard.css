@@ -1,7 +1,6 @@
 .container {
     position: relative;
     -webkit-perspective: 800px;
-    -moz-perspective: 800px;
     perspective: 800px;
     height: 67vh;
 }
@@ -36,6 +35,8 @@
     background-color: red;
 }
 #questionCard{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     text-align: center;
     height: 100%;
@@ -46,7 +47,11 @@
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
     -webkit-transform-origin: 50% 50%;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
@@ -55,8 +60,7 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-    top: 35%;
-    padding: 1em;
+    margin: 0;
 }
 #answer{
     backface-visibility: hidden;
@@ -66,11 +70,14 @@
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     position: absolute;
-    top: 35%;
-    padding: 1em;
+    margin: 0;
 }
 #questionCard.flippedCard{
     transform: rotateY(180deg);
@@ -83,13 +90,15 @@
     -webkit-transition: .3s;
     transition: .3s;
     visibility: hidden;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 #FlipMsg {
     -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
     transform: rotateY( 180deg );
 }
 
