@@ -57,7 +57,7 @@
 }
 
 #question{
-    position: absolute;
+    position: relative;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -67,6 +67,7 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
+
     display: inline-block;
     z-index: 1;
     transform: rotateY(180deg);
@@ -89,9 +90,11 @@
     -o-transform: rotateY( 180deg );
     text-align: center;
 }
+
 #questionCard.flippedCard > #question {
     display: none;
 }
+
 #FlipMsg {
     -webkit-transform: rotateY( 180deg );
     transform: rotateY( 180deg );
