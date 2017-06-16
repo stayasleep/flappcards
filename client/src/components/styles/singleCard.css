@@ -57,7 +57,7 @@
 }
 
 #question{
-    position: relative;
+    position: absolute;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -67,19 +67,12 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-
     display: inline-block;
     z-index: 1;
     transform: rotateY(180deg);
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
     position: relative;
     margin: 0;
 }
@@ -89,6 +82,7 @@
     -moz-transform: rotateY( 180deg );
     -o-transform: rotateY( 180deg );
     text-align: center;
+    background: transparent;
 }
 
 #questionCard.flippedCard > #question {
