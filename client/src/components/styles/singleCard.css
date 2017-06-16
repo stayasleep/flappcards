@@ -40,17 +40,14 @@
     transition: 1s;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
-    -webkit-transform-origin: 50% 50%;
+    /*-webkit-transform-origin: 50% 50%;*/
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    z-index: -1;
-    background-color: rgb(240, 240, 240);
-    box-sizing: border-box;
-    border: red 6px solid;
+    background-color: transparent;
 }
 
 #question{
@@ -70,12 +67,10 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
     border-radius: 2px;
-    border: blue 6px solid;
 }
 #answer{
     width: 100%;
     display: none;
-    z-index: 1;
     position: relative;
     margin: 0;
     height: 100%;
@@ -85,7 +80,6 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
     border-radius: 2px;
-    border: green 6px solid;
 }
 #questionCard.flippedCard{
     transform: rotateY(180deg);
