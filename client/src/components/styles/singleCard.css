@@ -31,10 +31,10 @@
 #questionCard{
     display: -webkit-box;
     display: -ms-flexbox;
+    margin: 0;
     display: flex;
     text-align: center;
     height: 100%;
-    position: relative;
     -webkit-transition: -webkit-transform 1s;
     -webkit-transition: 1s;
     transition: 1s;
