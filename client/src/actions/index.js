@@ -380,7 +380,7 @@ export function isRouteValid(token){
 export function submitResetPw(data){
     return function(dispatch){
         let {token} = data;
-        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw}).then((response)=>{
+        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw, "passwordConfirm":data.vals.passwordConfirm}).then((response)=>{
             if(response.data.success){
                 dispatch({type: RESET_PW});
                 browserHistory.push('/');
