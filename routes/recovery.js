@@ -22,10 +22,7 @@ router.post('/',(req,res,next)=>{
                 return res.json({success:false, message:'There was a problem with your request'});
             }else{
                 if(results.length === 1){
-                    // console.log('res ',results);
-                    // console.log('req',req);
-                    // console.log('proto',req.protocol);
-                    // console.log('host',req.hostname);
+
                     //results from db
                     let recoveryEmail = results[0].user_email;
                     let recoveryName = results[0].username;
@@ -40,20 +37,7 @@ router.post('/',(req,res,next)=>{
                                 return res.send({success: false, message:"There was a problem with your request"});
                             }
                             //so there must be success
-                            //testing
                             let transporter = nodemailer.createTransport(communications.credentials);
-                            //end test
-
-                            //transporter is an obj that is able to send mail, only need to create this one
-                            // let transporter = nodemailer.createTransport({
-                            //     host:'smtp.gmail.com',  // Specify main and backup SMTP servers
-                            //     port: 587,              // TCP port to connect to
-                            //     secure: false,         // secure:true for port 465, secure:false for port 587
-                            //     auth:{
-                            //         user: mailer.user,
-                            //         pass: mailer.pass
-                            //     }
-                            // });
 
                             // verify connection configuration
                             transporter.verify(function(error, success) {
@@ -63,8 +47,6 @@ router.post('/',(req,res,next)=>{
                                     console.log('Server is ready to take our messages');
                                 }
                             });
-                            console.log('token before choppo', token);
-                            //test
                             //pt 1
                             let tokenFirstPeriod = token.indexOf('.');
                             let t1 = token.slice(0,tokenFirstPeriod);
@@ -75,11 +57,7 @@ router.post('/',(req,res,next)=>{
                             //pt 3 of token
                             token= token.slice(tokenSecPeriod+1,token.length);
 
-                            console.log('t1',t1);
-                            console.log('t2', t2);
-                            console.log('token 3', token);
-
-
+                            //token aquired, finish composing email
                             communications.mailOptions.to = recoveryEmail;
                             communications.mailOptions.subject = "Password Reset - Account Recovery";
                             communications.mailOptions.html="<h1>Hello "+recoveryName+",</h1>\n"+

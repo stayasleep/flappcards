@@ -41,7 +41,6 @@ router.post('/:token',(req,res,next)=>{
     //we should check to see if the token is still valid, on the chance that
     //the browser stayed open but had 0 activity, we check the exp
     let checkExp = req.decoded.exp;
-    console.log('decode nuts',req.decoded);
     let timeNow = Math.floor(Date.now()/1000);
     if(!(checkExp >=timeNow)){
         //token has expired so they should get an error message and then be redirected to landing page
@@ -50,13 +49,25 @@ router.post('/:token',(req,res,next)=>{
     let checkToken = req.params.token;
     let un = req.decoded.UserName;
     let uEmail  = req.decoded.UserEmail;
+    let passwordConf = req.body.passwordConfirm;
     let newPw = req.body.resetPw;
     if (newPw && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(newPw)) {
         // return res.json({success: false, error: "Error.  Passwords must contain at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number, and 1 special character."});
         return res.json({success: false, resetPassword: true});
     }
-    console.log('un',un);
-    console.log('tok',checkToken);
+    if (newPw && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(newPw)) {
+        return res.json({success: false, resetPassword: true});    }
+    if(newPw && !/^(?=.*[a-z])/i.test(newPw)){
+        return res.json({success: false, resetPassword: true});    }
+    if(newPw && !/^(?=.*[A-Z])/i.test(newPw)){
+        return res.json({success: false, resetPassword: true});    }
+    if(newPw && !/^(?=.*[0-9])/i.test(newPw)){
+        return res.json({success: false, resetPassword: true});    }
+    if(newPw && !/^(?=.*[!@#\$%\^&\*])/i.test(newPw)){
+        return res.json({success: false, resetPassword: true});    }
+    if (newPw !== passwordConf) {
+        return res.json({success: false, resetPassword: true});    }
+
     //token is still good to use lets check with the db to make sure it is the right user
     pool.getConnection((err,connection)=>{
         if (err){
