@@ -69,7 +69,6 @@ class landing extends Component {
     render (){
         const rightButtons=(
             <div>
-                <RecoverPw/>
                 <LoginModal/>
             </div>
         );
