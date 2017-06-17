@@ -49,6 +49,7 @@ export default class RecoverPw extends React.Component{
                     open={this.state.recoveryModal}
                     style={styles.center}
                 >
+                    <h3>Please enter the requested information.  After submission, an email will be sent to the specified email address.</h3>
                     <ForgotPw/>
                     <FlatButton
                         style={styles.cancelBtn}

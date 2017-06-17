@@ -24,7 +24,7 @@ class ResetForm extends Component {
     render(){
         const {handleSubmit, reset} = this.props;
         const regStyle = {
-            float: "right",
+            // float: "right",
             textAlign: "center",
             color: 'black',
             boxShadow: "5px 5px 2.5px #888888",
@@ -60,7 +60,8 @@ class ResetForm extends Component {
         return (
             <Paper style={regStyle}>
                 <h1 style={header}>Reset Password</h1>
-                <h3 style={header}>Enter a new password for your account</h3>
+                <h4 style={header}>Enter a new password for your account.</h4>
+                <h4 style={header}>After submission, you will be redirected to the landing page.  A confirmation email will be sent out shortly.</h4>
                 <form onSubmit={handleSubmit((vals)=>{this.handleReset(vals)})}>
                     <div>
                         <Field name="resetPw" component={renderInputReg} label="New Password" type="password"/>
