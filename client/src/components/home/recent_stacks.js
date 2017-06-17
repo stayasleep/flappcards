@@ -11,6 +11,7 @@ import StackSummary from '../utilities/renderStackSummary';
 
 class Recent extends Component {
     componentWillMount() {
+        debugger;
         this.props.getMyRecentStacksOverview();
     }
 

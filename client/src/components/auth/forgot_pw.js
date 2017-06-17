@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {recoverPw} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import renderInput from '../utilities/renderInput';
-import {Link} from 'react-router';
+
 
 const styles = {
     center: {
@@ -18,7 +18,7 @@ class ForgotPw extends Component{
     static contextTypes = {
         router: PropTypes.object
     } ;
-    handleLogin(values){
+    handleResetAuth(values){
         //Action creator recoverPw sends an axios call to the server
         this.props.recoverPw(values);
     }
@@ -30,7 +30,7 @@ class ForgotPw extends Component{
                 <div id="recoverForm">
                     {/*Errors Will go here*/}
                 </div>
-                <form onSubmit={handleSubmit((values)=>{this.handleLogin(values)})}>
+                <form onSubmit={handleSubmit((values)=>{this.handleResetAuth(values)})}>
                     <div style={styles.center}>
                         <div style={styles.center}>
                         <Field name="userName" component={renderInput} label="Username"/>
