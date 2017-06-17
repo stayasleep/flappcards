@@ -10,8 +10,12 @@ import {singleCardForm, singleCardAdd, singleCardAddDialog} from './../styles/ad
 const styler = {
     center: {
         textAlign: "center"
+    },
+    clearBtn:{
+        boxShadow: "0 0 0 1pt rgb(0, 121, 107)",
     }
 };
+
 
 class AddCard extends Component {
     state = {
@@ -43,7 +47,7 @@ class AddCard extends Component {
         const { handleSubmit} = this.props;
         return (
             <div className="singleCardAdd">
-                <RaisedButton className="stackActionsAdd" label="Add" onTouchTap={this.handleOpen} />
+                <RaisedButton className="stackActionsAdd" primary={true} label="Add" onTouchTap={this.handleOpen} />
                 <Dialog
                     style={styler.center}
                     className="singleCardAddDialog"
@@ -61,7 +65,7 @@ class AddCard extends Component {
                             <Field name="answer" component={renderInput} label="Answer"/>
                         <div className="addCardConfirmationButtons">
                             <RaisedButton label="Add Card" primary={true} type="submit"/>
-                            <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
+                            <RaisedButton label="Cancel" style={styler.clearBtn} labelColor="rgb(0, 121, 107)" onTouchTap={this.handleClose}/>
                         </div>
                     </form>
                 </Dialog>

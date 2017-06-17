@@ -54,7 +54,7 @@ class Reset extends Component{
                 <Toolbar style={style.header}>
                     <ToolbarTitle text="FlappCards"/>
                     <ToolbarGroup>
-                        <RaisedButton label="Home" labelColor="rgb(0, 121, 107)" containerElement={<Link to="/"/>}/>
+                        <RaisedButton label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <div style={style.resetContainer}>
