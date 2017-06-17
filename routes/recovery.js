@@ -137,7 +137,6 @@ router.post('/',(req,res,next)=>{
                     // //mail configuration
                     // let mailOptions = {
                     //     from:'"FlappCard Support" <'+mailer.user+'>',  //us
-                    //     to: "bernstein.brianj@gmail.com",                                    //response from db
                     //     subject:"Account Recovery",
                     //     text:"Your account reset recovery link is below",
                     //     html:"<b>Hello B!</b> Your account recovery link is <em>below</em>\n\n"+

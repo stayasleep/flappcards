@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {recoverPw} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import renderInput from '../utilities/renderInput';
+import {Link} from 'react-router';
 
 const styles = {
     center: {
@@ -66,7 +67,7 @@ function mapStateToProps(state){
             div.innerHTML = str;
             el.appendChild(div.children[0]);
         }
-        var recoverError='<div style="color: red; padding: 12px">Username/Email combination not found!</div>';
+        const recoverError='<div style="color: red; padding: 12px">Username/Email combination not found!</div>';
         appendUserError(document.getElementById("recoverForm"), recoverError);//"body" has 2 more children - h1 and span
 
         state.auth.authError = null;//reset the authError to null so the user can try recovery again

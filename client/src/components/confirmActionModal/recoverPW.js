@@ -20,36 +20,33 @@ const styles = {
 
 export default class RecoverPw extends React.Component{
     state = {
-        open: false,
+        loginModal: true,
+        recoveryModal: false
     };
+
     handleOpen = () =>{
-        this.setState({open:true});
+        debugger;
+        this.setState({
+            recoveryModal:true
+        });
     };
     handleClose = () =>{
-        this.setState({open: false});
+        this.setState({
+            recoveryModal: false
+        });
     };
 
     render(){
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />,
-            <FlatButton
-                label="Delete"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />,
-        ];
+
         return(
             <div>
-                <RaisedButton style = {styles.button} label="Forgot Password" onTouchTap={this.handleOpen} />
+                <RaisedButton style = {styles.button} label="Forgot Password?" onTouchTap={this.handleOpen}
+                />
                 <Dialog
                     title="Reset Password"
                     autoScrollBodyContent={true}
                     modal={true}
-                    open={this.state.open}
+                    open={this.state.recoveryModal}
                     style={styles.center}
                 >
                     <ForgotPw/>
