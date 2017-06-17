@@ -25,7 +25,6 @@ export default class RecoverPw extends React.Component{
     };
 
     handleOpen = () =>{
-        debugger;
         this.setState({
             recoveryModal:true
         });

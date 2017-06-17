@@ -4,9 +4,8 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import {submitResetPw} from '../../actions/index';
-import ReactDom from 'react-dom';
 import renderInputReg from '../utilities/renderInputReg';
-import Paper from 'material-ui/Paper';
+import {resetForm, header, passwordInfo} from './../styles/resetPasswordForm.css';
 
 class ResetForm extends Component {
 
@@ -23,27 +22,12 @@ class ResetForm extends Component {
 
     render(){
         const {handleSubmit, reset} = this.props;
-        const regStyle = {
-            float: "right",
-            textAlign: "center",
-            color: 'black',
-            boxShadow: "5px 5px 2.5px #888888",
-            backgroundColor: "rgba(255,255,255,0.9",
-            position: "relative",
-            padding:"0 1em"
-        };
+
         const passWordInfo = {
             fontSize: 10,
             marginTop: "1.3em"
         };
-        const header = {
-            margin: 0,
-            fontFamily: "Roboto,sans-serif",
 
-        };
-        const fieldHeight = {
-            height: "4em"
-        };
         const userError = {
             height: "1em"
         };
@@ -55,18 +39,19 @@ class ResetForm extends Component {
         };
         const clearBtn={
             boxShadow:"0 0 0 1pt rgb(0,121,107)",
-        }
+        };
 
         return (
-            <Paper style={regStyle}>
-                <h1 style={header}>Reset Password</h1>
-                <h3 style={header}>Enter a new password for your account</h3>
+            <div className="resetForm">
+                <h1 className="header">Reset Password</h1>
+                <h3 className="header">Enter a new password for your account</h3>
+                <div className="passwordInfo">
+                    <p>Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.</p>
+                </div>
                 <form onSubmit={handleSubmit((vals)=>{this.handleReset(vals)})}>
                     <div>
                         <Field name="resetPw" component={renderInputReg} label="New Password" type="password"/>
-                        <div style={passWordInfo}>
-                            Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
-                        </div>
+
                     </div>
                     <div>
                         <Field name="passwordConfirm" component={renderInputReg} label="Confirm New Password" type="password"/>
@@ -78,7 +63,7 @@ class ResetForm extends Component {
                         <RaisedButton style={clearBtn} backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
                     </div>
                 </form>
-            </Paper>
+            </div>
         )
     }
 }
