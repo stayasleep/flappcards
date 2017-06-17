@@ -10,7 +10,7 @@ import Paper from 'material-ui/Paper';
 
 class ResetForm extends Component {
 
-    static contectTypes = {
+    static contextTypes = {
         router: PropTypes.object
     };
     handleReset(vals){
@@ -20,17 +20,21 @@ class ResetForm extends Component {
         this.props.submitResetPw(data);
     }
 
+    // componentWillMount(){
+    //     document.getElementsByClassName("clearB")[0].style.color="rgb(0, 121, 107)";
+    //
+    // }
 
     render(){
         const {handleSubmit, reset} = this.props;
         const regStyle = {
-            // float: "right",
+            width: '80vw',
             textAlign: "center",
             color: 'black',
             boxShadow: "5px 5px 2.5px #888888",
             backgroundColor: "rgba(255,255,255,0.9",
-            position: "relative",
-            padding:"0 1em"
+            margin:'auto',
+            display:'block',
         };
         const passWordInfo = {
             fontSize: 10,
@@ -38,6 +42,7 @@ class ResetForm extends Component {
         };
         const header = {
             margin: 0,
+            padding:"12px",
             fontFamily: "Roboto,sans-serif",
 
         };
@@ -48,13 +53,18 @@ class ResetForm extends Component {
             height: "1em"
         };
         const buttons = {
-            margin: "2em .6em .6em .6em",
+            // margin: "2em .6em .6em .6em",
+             margin:"2em",
         };
         const subBtn = {
             marginRight: "5%",
         };
         const clearBtn={
-            boxShadow:"0 0 0 1pt rgb(0,121,107)",
+            color:"rgb(0, 121, 107)",
+            boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
+        };
+        const formBox={
+            padding:"1em",
         }
 
         return (
@@ -62,7 +72,7 @@ class ResetForm extends Component {
                 <h1 style={header}>Reset Password</h1>
                 <h4 style={header}>Enter a new password for your account.</h4>
                 <h4 style={header}>After submission, you will be redirected to the landing page.  A confirmation email will be sent out shortly.</h4>
-                <form onSubmit={handleSubmit((vals)=>{this.handleReset(vals)})}>
+                <form style={formBox} onSubmit={handleSubmit((vals)=>{this.handleReset(vals)})}>
                     <div>
                         <Field name="resetPw" component={renderInputReg} label="New Password" type="password"/>
                         <div style={passWordInfo}>
@@ -76,7 +86,7 @@ class ResetForm extends Component {
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
-                        <RaisedButton style={clearBtn} backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
+                        <RaisedButton style={clearBtn} className="clearB" labelColor="rgb(0, 121, 107)"  backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
                     </div>
                 </form>
             </Paper>

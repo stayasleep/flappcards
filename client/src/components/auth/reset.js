@@ -17,8 +17,12 @@ const style={
         backgroundColor: "teal",
         color: "white",
         fontFamily: "Roboto, sans-serif"
-    }
+    },
+    resetContainer:{
+      margin:'2em',
+    },
 };
+
 
 class Reset extends Component{
     static contextTypes = {
@@ -31,7 +35,17 @@ class Reset extends Component{
         const token = `${p1}.${p2}.${p3}`;
         this.setState=({ token: token});
         this.props.isRouteValid(token);
+        document.body.style.backgroundColor = "#f0f0f0";
+        //document.getElementsByClassName("clearB")[0].style.color="rgb(0, 121, 107)";
+
     }
+
+    componentWillUnmount(){
+        document.body.style.backgroundColor = null;
+    //   document.getElementsByClassName("clearB")[0].style.color="null";
+
+    }
+
 
 
     render(){
@@ -40,10 +54,10 @@ class Reset extends Component{
                 <Toolbar style={style.header}>
                     <ToolbarTitle text="FlappCards"/>
                     <ToolbarGroup>
-                        <RaisedButton label="Home" containerElement={<Link to="/"/>}/>
+                        <RaisedButton label="Home" labelColor="rgb(0, 121, 107)" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
-                <div>
+                <div style={style.resetContainer}>
                     <ResetForm token={this.props.location.query}/>
                 </div>
 
