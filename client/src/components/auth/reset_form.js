@@ -9,7 +9,7 @@ import {resetForm, header, passwordInfo} from './../styles/resetPasswordForm.css
 
 class ResetForm extends Component {
 
-    static contectTypes = {
+    static contextTypes = {
         router: PropTypes.object
     };
     handleReset(vals){
@@ -32,13 +32,15 @@ class ResetForm extends Component {
             height: "1em"
         };
         const buttons = {
-            margin: "2em .6em .6em .6em",
+            // margin: "2em .6em .6em .6em",
+             margin:"2em",
         };
         const subBtn = {
             marginRight: "5%",
         };
         const clearBtn={
-            boxShadow:"0 0 0 1pt rgb(0,121,107)",
+            color:"rgb(0, 121, 107)",
+            boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
         };
 
         return (
@@ -51,7 +53,6 @@ class ResetForm extends Component {
                 <form onSubmit={handleSubmit((vals)=>{this.handleReset(vals)})}>
                     <div>
                         <Field name="resetPw" component={renderInputReg} label="New Password" type="password"/>
-
                     </div>
                     <div>
                         <Field name="passwordConfirm" component={renderInputReg} label="Confirm New Password" type="password"/>
@@ -60,7 +61,7 @@ class ResetForm extends Component {
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
-                        <RaisedButton style={clearBtn} backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
+                        <RaisedButton style={clearBtn} className="clearB" labelColor="rgb(0, 121, 107)"  backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
                     </div>
                 </form>
             </div>
