@@ -9,6 +9,7 @@ import Avatar from 'material-ui/Avatar';
 class Profile extends Component{
     componentWillMount(){
         this.props.getUserData();
+        document.body.style.backgroundColor = "#f0f0f0";
     }
     render(){
 
@@ -22,12 +23,15 @@ class Profile extends Component{
             textAlign: "center",
             listStyleType: "none",
             fontFamily: "Roboto, sans-serif",
-            marginTop: "1em"
+            width:"80vw",
+            margin: "2em auto",
+            backgroundColor:"white",
         };
         // The list could be a map? But at this point, that feels like code golf
         return (
             <div>
                 <FlashCardsAppBar/>
+
                 <Card style={listStyle}>
                     <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
                     <CardText>Username: {this.props.username}</CardText>

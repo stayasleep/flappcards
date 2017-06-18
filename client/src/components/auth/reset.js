@@ -19,7 +19,7 @@ const style={
         fontFamily: "Roboto, sans-serif"
     },
     resetContainer:{
-      margin:'2em',
+        margin:'2em',
     },
 };
 
@@ -54,7 +54,7 @@ class Reset extends Component{
                 <Toolbar style={style.header}>
                     <ToolbarTitle text="FlappCards"/>
                     <ToolbarGroup>
-                        <RaisedButton label="Home" containerElement={<Link to="/"/>}/>
+                        <RaisedButton backgroundColor="#f0f0f0" labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <div style={style.resetContainer}>

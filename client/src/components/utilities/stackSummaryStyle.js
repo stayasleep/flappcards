@@ -122,8 +122,10 @@ export const singleCard = {
 };
 
 export const cardToAddForm = {
-    margin: "1em auto",
-    padding: "1em"
+    margin: "2em auto",
+    padding: "1em",
+    width:"80vw",
+    backgroundColor:"white",
 };
 
 export const addCardList = {
@@ -168,4 +170,10 @@ export const errorText  = {
     float: "left",
     margin: "0.5em"
 
+};
+
+//button for createCards
+export const removeAll = {
+    boxShadow:"0 0 0 1pt rgb(0,121,107)",
+    marginLeft:"5%",
 };
