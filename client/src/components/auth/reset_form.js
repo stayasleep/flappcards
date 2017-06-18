@@ -42,9 +42,12 @@ class ResetForm extends Component {
             color:"rgb(0, 121, 107)",
             boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
         };
+        const resetContainer={
+            backgroundColor:"white",
+        };
 
         return (
-            <div className="resetForm">
+            <div className="resetForm" style={resetContainer}>
                 <h1 className="header">Reset Password</h1>
                 <h3 className="header">Enter a new password for your account</h3>
                 <div className="passwordInfo">

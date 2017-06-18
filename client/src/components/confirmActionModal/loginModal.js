@@ -14,7 +14,7 @@ const styles = {
         marginRight: 20
     },
     cancelBtn:{
-        color:"rgb(0, 121, 107)",
+       // color:"rgb(0, 121, 107)",
         boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
     }
 };
