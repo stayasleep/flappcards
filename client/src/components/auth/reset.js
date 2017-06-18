@@ -60,8 +60,6 @@ class Reset extends Component{
                 <div style={style.resetContainer}>
                     <ResetForm token={this.props.location.query}/>
                 </div>
-
-
             </div>
         )
     }
