@@ -31,7 +31,7 @@ import PrivacyPolicy from './components/auth/privacy';
 import Disclaimer from './components/auth/disclaimer';
 import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
-import ForgotPw from './components/auth/forgot_pw';
+
 
 ReactDOM.render(
     <Provider store={store}>
@@ -49,7 +49,6 @@ ReactDOM.render(
                 <Route path="disclaimer" component={Disclaimer}/>
                 <Route path="privacy" component={PrivacyPolicy}/>
                 <Route path="reset/:token" component={Reset}/>
-                <Route path="forgotPassword" component={ForgotPw}/>
                 <Route path="*" component={Error404}/>
             </Route>
         </Router>
