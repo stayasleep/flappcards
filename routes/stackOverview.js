@@ -10,7 +10,6 @@ const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 // Associated Axios call: getStack;
 // Made after clicking on view button on table
 router.get('/:sID',(request,response,next) => {
-    console.log('u got me',request);
     let uid = request.decoded.UserID;
     //if it exists and isnt empty
     if(request.params.sID) {
@@ -28,7 +27,6 @@ router.get('/:sID',(request,response,next) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 }
-                // console.log('click stack', result.length);
                 if (result.length > 0) {
                     //Stack is in your collection
                     connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
@@ -42,7 +40,6 @@ router.get('/:sID',(request,response,next) => {
                             response.send(results);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
-                            // console.log('shall not pass', results);
                             response.send(results);
                         }
                     });
@@ -54,7 +51,6 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        console.log('not urs at first', results);
                         response.send(results);
                     });
                 }
@@ -121,10 +117,8 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 } else if (result.length > 0) {
-                    console.log('am delted');
                     response.send("Card deleted from your stack.")
                 } else {
-                    console.log('maybe deleted');
                     response.send("Cannot be deleted at this time.");
                 }
             });

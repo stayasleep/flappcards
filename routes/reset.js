@@ -12,7 +12,6 @@ router.use('/:token',(req,res,next)=>{
     //we begin by checking that the link they clicked hasnt expired yet
     //since this route has a shorter exp and a new secret, it will have sep middleware
     const token = req.headers['x-access-token'] || req.body.token;
-    console.log('server token ',token);
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
