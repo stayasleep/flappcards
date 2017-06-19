@@ -15,8 +15,9 @@ router.use('/:token',(req,res,next)=>{
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                res.send({success:false, message:"no go into reset"});
-                //return res.json({success: false, message: "Failed to authenticate."});
+                // res.send({success:false, message:"no go into reset"});
+                //if this triggers, chances are token is invalid or fake...send em back
+                res.redirect('/pagenotfound');
             } else {
                 //token is good, it should show the new pw confirmation page
                 //render route or something?
