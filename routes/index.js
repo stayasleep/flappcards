@@ -7,6 +7,8 @@ const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
 const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
 const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
+const nodemailer = require('nodemailer');
+
 
 //route variables
 let user = require('./user');
@@ -19,10 +21,15 @@ let createCards = require('./createCards');
 let profile = require('./profile');
 let logOut = require('./logOut');
 let copy = require('./copy');
+let recovery = require('./recovery');
+let reset = require('./reset');
 
 
 //set up non-token based routes
 router.use('/',user);
+router.use('/recovery',recovery);
+//set up one-time token route
+router.use('/reset',reset);
 
 //middleware verification for token-based routes
 router.use((request, response, next)=> {
@@ -39,11 +46,12 @@ router.use((request, response, next)=> {
             }
         });
     } else {
+        return response.redirect('/404');
         // If no token was received, send back a 403 error
-        return response.status(403).send({
-            success: false,
-            message: 'No token provided.'
-        });
+        // return response.status(403).send({
+        //     success: false,
+        //     message: 'No token provided.'
+        // });
     }
 });
 

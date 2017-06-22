@@ -8,12 +8,20 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {red500} from 'material-ui/styles/colors';
 import renderInputCreateCard from '../utilities/renderInputCreateCard';
 import Paper from 'material-ui/Paper';
-import {cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
+import {removeAll, cardToAdd, cardToAddForm, addCardList, closeIconButton, addCardInputFields, cardToAddSubjectCategory} from '../utilities/stackSummaryStyle';
 import Close from 'material-ui/svg-icons/navigation/close';
 import {labelPlaceholder} from './../styles/inputComponent.css';
 
 
 class CreateCards extends Component {
+
+    componentWillMount(){
+        document.body.style.backgroundColor="#f0f0f0";
+    }
+
+    componentWillUnmount(){
+        document.body.style.backgroundColor=null;
+    }
 
 
     renderCards({fields, meta: {touched, error, submitFailed}}) {
@@ -79,8 +87,8 @@ class CreateCards extends Component {
                     </div>
                     <FieldArray name="stack" component={this.renderCards} />
                     <div>
-                        <RaisedButton type="submit" label="Submit" disabled={pristine || submitting}/>
-                        <RaisedButton type="button" label="Remove All" disabled={pristine || submitting} onClick={reset}/>
+                        <RaisedButton type="submit" primary={true} label="Submit" disabled={pristine || submitting}/>
+                        <RaisedButton type="button" style={removeAll} labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" label="Remove All" disabled={pristine || submitting} onClick={reset}/>
                     </div>
                 </form>
                 </Paper>

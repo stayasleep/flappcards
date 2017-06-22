@@ -5,6 +5,7 @@ const mysql=require('mysql');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 const PORT = process.env.PORT || 1337;
 
 //routes

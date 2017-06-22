@@ -34,7 +34,7 @@ class SearchAutoComplete extends Component {
                     onNewRequest={(searchText) => this.handleSearch(searchText)}
                     onUpdateInput={(searchText) => {this.setState({searchText: searchText})}}
                 />
-                <RaisedButton type="button" label="Search" onClick={()=> {this.handleSearch(this.state.searchText)}} />
+                <RaisedButton type="button" label="Search" style={{margin:"0 2em"}} primary={true} onClick={()=> {this.handleSearch(this.state.searchText)}} />
             </div>
         )
     }

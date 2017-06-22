@@ -100,7 +100,7 @@ class Registration extends Component {
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
-                        <RaisedButton style={clearBtn} backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
+                        <RaisedButton style={clearBtn} labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" type="button" label="Clear" onClick={reset}/>
                     </div>
                 </form>
             </Paper>

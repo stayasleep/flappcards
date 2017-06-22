@@ -52,7 +52,6 @@ router.post('/register',(request,response,next)=>{
                 response.send("Error handling request");
                 console.log("Error handling request",err);
             }
-            console.log('res', result[0].taken);
             if (result[0].taken === 1) { //UN exists
                 // use return statement to jump out of the function to avoid setting headers after they've been sent
                 // If the username is taken, send back userNameTaken: true; Now, would be a good time to consider status codes.
@@ -82,7 +81,6 @@ router.post('/register',(request,response,next)=>{
 });
 //test login comparison
 router.post('/login',function(request,response,next){
-    console.log('reqcon',request.connection);
     if(Object.keys(request.body).length===0){
         return response.json({success:false, msg: "Invalid Submission"})
     }

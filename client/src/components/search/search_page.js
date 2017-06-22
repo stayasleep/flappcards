@@ -20,6 +20,10 @@ import SearchAutoComplete from './search_autocomplete';
 
 class Search extends Component {
 
+    componentWillMount(){
+        document.body.style.backgroundColor="#f0f0f0";
+    }
+
 
     render(){
 
@@ -42,13 +46,13 @@ class Search extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Paper style={{"textAlign": "center", "padding": "1em"}}>
+                <Paper style={{"textAlign": "center" ,"padding": "1em", "margin":"2em","backgroundColor":"white"}}>
                     <SearchAutoComplete />
 
 
                 <Table className="tableStyle">
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                        <TableRow>
+                        <TableRow style={{backgroundColor:"white"}}>
                             <TableHeaderColumn style={{textAlign:"center"}}>Subject</TableHeaderColumn>
                             <TableHeaderColumn className="tableHidden" style={{textAlign:"center"}}>Creator</TableHeaderColumn>
                             <TableHeaderColumn style={{textAlign:"center"}}>Card #</TableHeaderColumn>
@@ -56,7 +60,7 @@ class Search extends Component {
                             <TableHeaderColumn style={{textAlign:"center"}}>View</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false}>
+                    <TableBody style={{backgroundColor:"white"}} displayRowCheckbox={false}>
                         {stacksList}
                     </TableBody>
                 </Table>
@@ -70,13 +74,15 @@ class Search extends Component {
                     <FlashCardsAppBar/>
                     <Paper style={{
                         textAlign: "center",
-                        padding: "1em"
+                        padding: "1em",
+                        margin: "2em",
+                        backgroundColor:"white",
                     }}>
                         <SearchAutoComplete />
 
                     <Table>
                         <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>
-                            <TableRow>
+                            <TableRow style={{backgroundColor:"white"}}>
                                 <TableHeaderColumn style={{textAlign:"center"}}>Subject</TableHeaderColumn>
                                 <TableHeaderColumn style={{textAlign:"center"}}>Creator</TableHeaderColumn>
                                 <TableHeaderColumn style={{textAlign:"center"}}>Card #</TableHeaderColumn>
@@ -87,8 +93,7 @@ class Search extends Component {
                         <TableBody displayRowCheckbox={false}>
                         </TableBody>
                     </Table>
-                        <p>Sorry, there are no Stacks by that name or category.</p>
-                    </Paper>
+                        <p>Sorry, there are no Stacks by that name or category.</p>                    </Paper>
                 </div>
             )
         }

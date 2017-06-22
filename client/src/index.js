@@ -30,6 +30,8 @@ import About from './components/auth/about';
 import PrivacyPolicy from './components/auth/privacy';
 import Disclaimer from './components/auth/disclaimer';
 import Error404 from './components/errors/404';
+import Reset from './components/auth/reset';
+
 
 ReactDOM.render(
     <Provider store={store}>
@@ -46,6 +48,7 @@ ReactDOM.render(
                 <Route path="about" component={About}/>
                 <Route path="disclaimer" component={Disclaimer}/>
                 <Route path="privacy" component={PrivacyPolicy}/>
+                <Route path="reset/:token" component={Reset}/>
                 <Route path="*" component={Error404}/>
             </Route>
         </Router>

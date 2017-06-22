@@ -61,11 +61,9 @@ router.delete('/:sID',(request,response,next)=>{
             if (error){
                 response.send({success: false, message:"There was a problem with your request"});
             }else if (results>0){ //ask
-                console.log('deleting stack',results);
                 response.send(results);
             }else{
                 //if i copy a stack and delete it from myshelf, this is what is sent.
-                console.log('deleting the clone',results);
                 response.send(results);
             }
         });

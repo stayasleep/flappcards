@@ -3,6 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Login from '../auth/log_in';
+import RecoverPw from './recoverPW';
 
 const styles = {
     center: {
@@ -13,46 +14,34 @@ const styles = {
         marginRight: 20
     },
     cancelBtn:{
-        color:"rgb(0, 121, 107)",
+       // color:"rgb(0, 121, 107)",
         boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
     }
 };
 
 export default class LoginModal extends React.Component {
     state = {
-        open: false,
+        loginModal: false,
     };
 
     handleOpen = () => {
-        this.setState({open: true});
+        this.setState({loginModal: true});
     };
 
     handleClose = () => {
-        this.setState({open: false});
+        this.setState({loginModal: false});
     };
 
     render() {
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />,
-            <FlatButton
-                label="Delete"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />,
-        ];
 
         return (
             <div>
-                <RaisedButton style={styles.button} label="Login" onTouchTap={this.handleOpen} />
+                <RaisedButton style={styles.button} label="Login" labelColor="rgb(0, 121, 107)" onTouchTap={this.handleOpen} />
                 <Dialog
                     title="Login"
                     autoScrollBodyContent = {true}
                     modal={true}
-                    open={this.state.open}
+                    open={this.state.loginModal}
                     style={styles.center}
                 >
                     <Login/>
@@ -62,6 +51,7 @@ export default class LoginModal extends React.Component {
                         primary={true}
                         onTouchTap={this.handleClose}
                     />
+                    <RecoverPw/>
                 </Dialog>
             </div>
         );
