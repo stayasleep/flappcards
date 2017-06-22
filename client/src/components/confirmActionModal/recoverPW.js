@@ -10,7 +10,8 @@ const styles = {
     },
     button: {
         marginTop: 6,
-        marginRight: 20
+        marginRight: 20,
+        color: "teal"
     },
     cancelBtn:{
         color:"rgb(0, 121, 107)",
@@ -24,7 +25,8 @@ export default class RecoverPw extends React.Component{
         recoveryModal: false
     };
 
-    handleOpen = () =>{
+    handleOpen = (e) =>{
+        e.preventDefault();
         this.setState({
             recoveryModal:true
         });
@@ -39,8 +41,8 @@ export default class RecoverPw extends React.Component{
 
         return(
             <div>
-                <RaisedButton style = {styles.button} label="Forgot Password?" onTouchTap={this.handleOpen}
-                />
+                <a style = {styles.button} href="" onClick={this.handleOpen}>Forgot Password
+                </a>
                 <Dialog
                     title="Reset Password"
                     autoScrollBodyContent={true}

@@ -36,7 +36,7 @@ class ResetForm extends Component {
              margin:"2em",
         };
         const subBtn = {
-            marginRight: "5%",
+            margin: "5%",
         };
         const clearBtn={
             color:"rgb(0, 121, 107)",
@@ -50,6 +50,7 @@ class ResetForm extends Component {
             <div className="resetForm" style={resetContainer}>
                 <h1 className="header">Reset Password</h1>
                 <h3 className="header">Enter a new password for your account</h3>
+                <h3 className="header">Afterwards, you will be redirected to the home page</h3>
                 <div className="passwordInfo">
                     <p>Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.</p>
                 </div>
