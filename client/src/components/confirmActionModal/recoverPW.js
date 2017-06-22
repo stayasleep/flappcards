@@ -9,13 +9,14 @@ const styles = {
         textAlign: "center",
     },
     button: {
-        marginTop: 6,
-        marginRight: 20,
         color: "teal"
     },
     cancelBtn:{
         color:"rgb(0, 121, 107)",
         boxShadow:"0 0 0 1pt rgb(0, 121, 107)",
+    },
+    margin: {
+      margin: "1em"
     }
 };
 
@@ -40,7 +41,7 @@ export default class RecoverPw extends React.Component{
     render(){
 
         return(
-            <div>
+            <div style={styles.margin}>
                 <a style = {styles.button} href="" onClick={this.handleOpen}>Forgot Password
                 </a>
                 <Dialog
