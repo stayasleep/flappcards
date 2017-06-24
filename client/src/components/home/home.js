@@ -4,6 +4,19 @@ import Recent from './recent_stacks'
 import Community from './community_stacks'
 
 class Home extends Component {
+
+    componentWillMount(){
+        document.body.style.backgroundColor = "#f0f0f0";
+    }
+
+    componentWillUnmount(){
+        document.body.style.backgroundColor = null;
+    }
+
+
+
+
+
     render(){
         return(
             <div>

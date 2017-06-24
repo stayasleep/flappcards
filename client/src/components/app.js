@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './styles/landingPage.css';
 import './styles/singleCard.css';
+import './styles/footer.css';
 import './styles/search.css'
 import './styles/appBar.css'
 import {
@@ -15,6 +16,7 @@ import {
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 import spacing from 'material-ui/styles/spacing';
+import Footer from './nav/index';
 // getMuiTheme() computes a "valid" muiTheme object
 const muiTheme = getMuiTheme({
     spacing: spacing,
@@ -39,7 +41,10 @@ const muiTheme = getMuiTheme({
 });
 const App = (props) => (
     <MuiThemeProvider muiTheme={muiTheme}>
+        <div>
         {props.children}
+        <Footer/>
+        </div>
     </MuiThemeProvider>
 );
 

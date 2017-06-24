@@ -31,11 +31,12 @@ import PrivacyPolicy from './components/auth/privacy';
 import Disclaimer from './components/auth/disclaimer';
 import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
+import Footer from './components/nav/index';
 
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
+        <Router onUpdate={ () => window.scroll(0, 0)} history={browserHistory}>
             <Route path="/" component={App}>
                 <IndexRoute component={landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
