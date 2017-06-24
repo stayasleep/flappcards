@@ -2,9 +2,21 @@ import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import Recent from './recent_stacks'
 import Community from './community_stacks'
-// import Footer from '../nav/index'
 
 class Home extends Component {
+
+    componentWillMount(){
+        document.body.style.backgroundColor = "#f0f0f0";
+    }
+
+    componentWillUnmount(){
+        document.body.style.backgroundColor = null;
+    }
+
+
+
+
+
     render(){
         return(
             <div>
