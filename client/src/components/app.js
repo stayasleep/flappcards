@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './styles/landingPage.css';
 import './styles/singleCard.css';
 import './styles/footer.css';
+import './styles/log_in.css';
 import './styles/search.css'
 import './styles/appBar.css'
 import {

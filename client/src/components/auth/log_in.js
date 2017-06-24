@@ -32,10 +32,10 @@ class LogIn extends Component {
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div style={styles.center}>
                         <div style={styles.center}>
-                        <Field name="userName" component={renderInput} label="Username" />
+                            <Field className="chromeAuto" name="userName" component={renderInput} label="Username" />
                         </div>
                         <div style={styles.center}>
-                            <Field name="password" component={renderInput} label="Password" type="password"/>
+                            <Field className="chromeAuto" name="password" component={renderInput} label="Password" type="password"/>
                         </div>
                         <RaisedButton primary={true} type="submit" label="Login"/>
                     </div>

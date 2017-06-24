@@ -50,6 +50,7 @@ export default class RecoverPw extends React.Component{
                     modal={true}
                     open={this.state.recoveryModal}
                     style={styles.center}
+                    //onRequestClose={this.handleClose}
                 >
                     <h3>Please enter the requested information.</h3>
                     <h4>After submission, an email will be sent to the specified email address.</h4>
