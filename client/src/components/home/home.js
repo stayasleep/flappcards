@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import Recent from './recent_stacks'
 import Community from './community_stacks'
+// import Footer from '../nav/index'
 
 class Home extends Component {
     render(){
