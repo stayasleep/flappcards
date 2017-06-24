@@ -1,0 +1,11 @@
+/*This removes Chromes yellow autofill bg*/
+@-webkit-keyframes autofill {
+    to {
+        color: #000000;
+        background: transparent;
+    }
+}
+input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}

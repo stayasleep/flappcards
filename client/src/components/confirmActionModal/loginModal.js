@@ -40,9 +40,11 @@ export default class LoginModal extends React.Component {
                 <Dialog
                     title="Login"
                     autoScrollBodyContent = {true}
-                    modal={true}
+                    modal={false}
                     open={this.state.loginModal}
                     style={styles.center}
+                    onRequestClose={this.handleClose}
+
                 >
                     <Login/>
                     <FlatButton
