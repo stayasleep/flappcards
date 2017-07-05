@@ -41,6 +41,7 @@ export const stackSummaryDisplay = {
     minWidth: "30%",
     display: "inline-block",
     margin: "1em",
+    backgroundColor:"white",
 };
 
 export const header = {
