@@ -6,16 +6,7 @@ import Login from './log_in';
 import {userLogin} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const style = {
-    div:{
-        width: '80vw',
-        textAlign:'center',
-        display:'block',
-        margin:'auto',
-        // padding:'5%',
-    },
 
-};
 let d = new Date();
 d = d.getFullYear();
 
@@ -27,13 +18,13 @@ export default ()=>(
                 <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
             </ToolbarGroup>
         </Toolbar>
-        <Paper className="paperBody" style={style.div} zDepth={2}>
+        <Paper className="paperBody" zDepth={2}>
             <div className="innerPaper">
                 <h1 className="titleUnderline">Privacy Policy</h1>
 
                 <h3>SECTION 1 - WHAT DO WE DO WITH YOUR INFORMATION?</h3>
 
-                <p>When you sign-up with our site, as part of the registration
+                <p className="pNotice">When you sign-up with our site, as part of the registration
                 process, we collect the personal information you give us such as your name, address
                 and email address.
 
@@ -46,7 +37,7 @@ export default ()=>(
 
                 <h3>SECTION 2 - CONSENT</h3>
 
-                <p>How do you get my consent?
+                <p className="pNotice">How do you get my consent?
 
                 By using the Site, or any other website, online service or mobile application
                 where this Privacy Policy is posted, you agree to our collection, use, disclosure,
@@ -65,12 +56,12 @@ export default ()=>(
 
                 <h3>SECTION 3 - DISCLOSURE</h3>
 
-                <p>We may disclose your personal information if we are required by law to do so or if
+                <p className="pNotice">We may disclose your personal information if we are required by law to do so or if
                     you violate our Terms of Service.</p>
 
                 <h3>SECTION 4 - THIRD-PARTY SERVICES</h3>
 
-                <p>In general, the third-party providers used by us will only collect, use and disclose
+                <p className="pNotice">In general, the third-party providers used by us will only collect, use and disclose
                 your information to the extent necessary to allow them to perform the services they
                 provide to us.
 
@@ -99,7 +90,7 @@ export default ()=>(
 
                 <h3>SECTION 5 - SECURITY</h3>
 
-                <p>To protect your personal information, we take reasonable precautions and follow industry
+                <p className="pNotice">To protect your personal information, we take reasonable precautions and follow industry
                 best practices to make sure it is not inappropriately lost, misused, accessed, disclosed,
                 altered or destroyed.
 
@@ -143,14 +134,14 @@ export default ()=>(
 
                 <h3>SECTION 6 - AGE OF CONSENT</h3>
 
-                <p>By using this site, you represent that you are at least the age of majority in
+                <p className="pNotice">By using this site, you represent that you are at least the age of majority in
                 your state or province of residence, or that you are the age of majority in your
                 state or province of residence and you have given us your consent to allow any of
                     your minor dependents to use this site.</p>
 
                 <h3>SECTION 7 - CHANGES TO THIS PRIVACY POLICY</h3>
 
-                <p>We reserve the right to modify this privacy policy at any time, so please review
+                <p className="pNotice">We reserve the right to modify this privacy policy at any time, so please review
                 it frequently. Changes and clarifications will take effect immediately upon their
                 posting on the website. If we make material changes to this policy, we will notify
                 you here that it has been updated, so that you are aware of what information we collect,

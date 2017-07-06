@@ -5,17 +5,12 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 
 const style={
-    div:{
-        width:'80vw',
-        textAlign: 'center',
-        display:'block',
-        margin:'auto',
-    },
     container:{
         width:'100%',
     },
     paperR:{
         flex: 1,
+        padding:"0 1em 0 0",
     },
     paperL:{
         flex: 1,
@@ -26,16 +21,14 @@ const style={
     container2:{
         display:'flex',
         flexDirection:'row wrap',
-        // padding:20,
-        width: '100%',
+        padding:"1em",
+        margin:"1em",
+        // width: '100%',
     },
     header: {
         backgroundColor: "teal",
         color: "white",
         fontFamily: "Roboto, sans-serif"
-    },
-    h1: {
-        padding: "12px"
     },
     pText: {
         padding: "12px"
@@ -46,9 +39,9 @@ export default ()=>(
   <div>
       <FlashCardsAppBar/>
 
-      <Paper  style={style.div} zDepth={1}>
-          <div style={style.container}>
-              <h1 style={style.h1}>Welcome to FlappCards</h1>
+      <Paper className="paperBody"  zDepth={2}>
+          <div className="innerPaper">
+              <h1 className="titleUnderline">Welcome to FlappCards</h1>
               <h2>Our Mission</h2>
               <p style={style.pText}>We believe learning can be made easier for everyone, anywhere.
                 From students to teachers, and the curious alike, FlappCards provides
@@ -58,10 +51,10 @@ export default ()=>(
                today!</p>
           </div>
       </Paper>
-      <Paper style={style.div} zDepth={1}>
+      <Paper className="paperBody" zDepth={2}>
           <div style={style.container2}>
               <div style={style.paperR}>
-                  <h1>Our Story</h1>
+                  <h1 className="titleUnderline">Our Story</h1>
                   <p style={style.pText}>FlappCards was founded in 2017 by LearningFuze students Brian Bernstein, Kevin Chalmers, and Andres Gasper
                    as a tool that started out as a way to help us study each other's class notes while also being able to customize them
                   individually.</p>

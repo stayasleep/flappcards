@@ -16,9 +16,13 @@ body{
 }
 .paperBody{
     background: white !important;
+    width: 80vw;
+    text-align:center;
+    display:block;
+    margin:0em auto;
 }
 
-p{
+.pNotice{
     font-size: small;
 }
 

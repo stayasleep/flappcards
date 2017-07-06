@@ -4,33 +4,24 @@ import {Link} from 'react-router';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const style={
-    div:{
-        width: '80vw',
-        textAlign:'center',
-        display:'block',
-        margin:'0em auto',
 
-    },
-
-};
 let d = new Date();
 d = d.getFullYear();
 
 export default ()=>(
     <div>
-        <Toolbar className="navHeader" style={style.header}>
+        <Toolbar className="navHeader">
             <ToolbarTitle text={<a  className="navTitleBar" href="https://flappcards.com">FlappCards</a>}/>
             <ToolbarGroup>
                 <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
             </ToolbarGroup>
         </Toolbar>
-        <Paper className="paperBody" style={style.div} zDepth={2}>
+        <Paper className="paperBody" zDepth={2}>
             <div className="innerPaper">
                 <h1 className="titleUnderline">FlappCards: General Disclaimer</h1>
                 <h4>1. Acceptance of our Terms</h4>
 
-                <p>By visiting the website FlappCards.com, hereon referred to as "FlappCards", viewing, accessing or
+                <p className="pNotice">By visiting the website FlappCards.com, hereon referred to as "FlappCards", viewing, accessing or
                     otherwise using any of the services
                     or information created, collected, compiled or submitted to FlappCards, you agree
                     to be bound by the following Terms and Conditions of Service. If you do not want to be bound
@@ -41,7 +32,7 @@ export default ()=>(
 
                 <h4>2. Provision of Services</h4>
 
-                <p>You agree and acknowledge that FlappCards is entitled to modify, improve or discontinue
+                <p className="pNotice">You agree and acknowledge that FlappCards is entitled to modify, improve or discontinue
                     any of its services at its sole discretion and without notice to you even if it may result
                     in you being prevented from accessing any information contained in it. Furthermore, you agree
                     and acknowledge that FlappCards is entitled to provide services to you through
@@ -49,7 +40,7 @@ export default ()=>(
 
                 <h4>3. Proprietary Rights</h4>
 
-                <p>You acknowledge and agree that FlappCards may contain proprietary and confidential information
+                <p className="pNotice">You acknowledge and agree that FlappCards may contain proprietary and confidential information
                     including trademarks, service marks and patents protected by intellectual property laws and
                     international intellectual property treaties. FlappCards authorizes you to view and
                     make a single copy of portions of its content for offline, personal, non-commercial use. Our
@@ -59,20 +50,20 @@ export default ()=>(
 
                 <h4>4. Submitted Content</h4>
 
-                <p>When you submit content to FlappCards you simultaneously grant FlappCards an irrevocable,
+                <p className="pNotice">When you submit content to FlappCards you simultaneously grant FlappCards an irrevocable,
                     worldwide, royalty free license to publish, display, modify, distribute and syndicate
                     your content worldwide. You confirm and warrant that you have the required authority to
                     grant the above license to FlappCards.</p>
 
                 <h4>5. Termination of Agreement</h4>
 
-                <p>The Terms of this agreement will continue to apply in perpetuity until terminated by either
+                <p className="pNotice">The Terms of this agreement will continue to apply in perpetuity until terminated by either
                     party without notice at any time for any reason. Terms that are to continue in perpetuity
                     shall be unaffected by the termination of this agreement.</p>
 
                 <h4>6. Disclaimer of Warranties</h4>
 
-                <p>You understand and agree that your use of FlappCards is entirely at your own risk
+                <p className="pNotice">You understand and agree that your use of FlappCards is entirely at your own risk
                     and that our services are provided "As Is" and "As Available". FlappCards does not
                     make any express or implied warranties, endorsements or representations whatsoever
                     as to the operation of the FlappCards website, information, content, materials, or
@@ -85,7 +76,7 @@ export default ()=>(
 
                 <h4>7. Limitation of Liability</h4>
 
-                <p>You understand and agree that FlappCards and any of its subsidiaries or affiliates shall in
+                <p className="pNotice">You understand and agree that FlappCards and any of its subsidiaries or affiliates shall in
                     no event be liable for any direct, indirect, incidental, consequential, or exemplary
                     damages. This shall include, but not be limited to damages for loss of profits, business
                     interruption, business reputation or goodwill, loss of programs or information or other
@@ -100,13 +91,13 @@ export default ()=>(
 
                 <h4>8. External Content</h4>
 
-                <p>FlappCards may include hyperlinks to third-party content, advertising or websites.
+                <p className="pNotice">FlappCards may include hyperlinks to third-party content, advertising or websites.
                     You acknowledge and agree that FlappCards is not responsible for and does not
                     endorse any advertising, products or resource available from such resources or websites.</p>
 
                 <h4>9. Jurisdiction</h4>
 
-                <p>You expressly understand and agree to submit to the personal and exclusive jurisdiction
+                <p className="pNotice">You expressly understand and agree to submit to the personal and exclusive jurisdiction
                     of the courts of the country, state, province or territory determined solely by
                     FlappCards to resolve any legal matter arising from this agreement or related to
                     your use of FlappCards. If the court of law having jurisdiction, rules that any
@@ -115,14 +106,14 @@ export default ()=>(
 
                 <h4>10. Entire Agreement</h4>
 
-                <p>You understand and agree that the above Terms constitute the entire general agreement
+                <p className="pNotice">You understand and agree that the above Terms constitute the entire general agreement
                     between you and FlappCards. You may be subject to additional Terms and conditions
                     when you use, purchase or access other services, affiliate services or third-party
                     content or material.</p>
 
                 <h4>11. Changes to the Terms</h4>
 
-                <p>FlappCards reserves the right to modify these Terms from time to time at our sole
+                <p className="pNotice">FlappCards reserves the right to modify these Terms from time to time at our sole
                     discretion and without any notice. Changes to our Terms become effective on the
                     date they are posted and your continued use of FlappCards after any changes to
                     Terms will signify your agreement to be bound by them.</p>
