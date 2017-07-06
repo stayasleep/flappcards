@@ -1,0 +1,28 @@
+.navHeader{
+    background-color: rgb(0,121,107) !important;
+    color: white;
+    font-family: Roboto, sans-serif;
+}
+.navTitleBar{
+    text-decoration: none;
+    color: white;
+}
+
+body{
+    background: #f0f0f0;
+}
+.titleUnderline{
+    border-bottom: 2px solid black;
+}
+.paperBody{
+    background: white !important;
+}
+
+p{
+    font-size: small;
+}
+
+.innerPaper{
+    padding: 1em;
+    margin: 1em;
+}

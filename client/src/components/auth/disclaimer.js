@@ -12,22 +12,22 @@ const style={
         margin:'0em auto',
 
     },
-    div2:{
-        margin:'1em',
-    }
+
 };
+let d = new Date();
+d = d.getFullYear();
 
 export default ()=>(
     <div>
-        <Toolbar style={style.header}>
-            <ToolbarTitle text="FlappCards" />
+        <Toolbar className="navHeader" style={style.header}>
+            <ToolbarTitle text={<a  className="navTitleBar" href="https://flappcards.com">FlappCards</a>}/>
             <ToolbarGroup>
-                <RaisedButton label="Home" containerElement={<Link to="/home"/>}/>
+                <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
             </ToolbarGroup>
         </Toolbar>
-        <Paper style={style.div} zDepth={1}>
-            <div style={style.div2}>
-                <h1>FlappCards.com: General Disclaimer</h1>
+        <Paper className="paperBody" style={style.div} zDepth={2}>
+            <div className="innerPaper">
+                <h1 className="titleUnderline">FlappCards: General Disclaimer</h1>
                 <h4>1. Acceptance of our Terms</h4>
 
                 <p>By visiting the website FlappCards.com, hereon referred to as "FlappCards", viewing, accessing or
@@ -127,7 +127,7 @@ export default ()=>(
                     date they are posted and your continued use of FlappCards after any changes to
                     Terms will signify your agreement to be bound by them.</p>
 
-                <h5>Disclaimer © 2017 FlappCards.com</h5>
+                <h6>Disclaimer © {d} FlappCards.com</h6>
             </div>
         </Paper>
     </div>
