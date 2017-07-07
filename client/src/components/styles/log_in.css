@@ -9,3 +9,13 @@ input:-webkit-autofill {
     -webkit-animation-name: autofill;
     -webkit-animation-fill-mode: both;
 }
+
+@media (max-width: 500px) {
+    .loginFormFieldsDiv {
+        display: flex;
+        display: -webkit-flex !important;
+        flex-flow: row nowrap;
+        -webkit-flex-flow: row nowrap;
+
+    }
+}

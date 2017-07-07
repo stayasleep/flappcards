@@ -25,7 +25,7 @@ import CreateCards from './components/cardCreation/create_cards';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
 import SingleCard from './components/singleCard/single_card';
-import landing from './components/auth/landing_page';
+import Landing from './components/auth/landing_page';
 import About from './components/auth/about';
 import PrivacyPolicy from './components/auth/privacy';
 import Disclaimer from './components/auth/disclaimer';
@@ -38,7 +38,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router onUpdate={ () => window.scroll(0, 0)} history={browserHistory}>
             <Route path="/" component={App}>
-                <IndexRoute component={landing}/>
+                <IndexRoute component={Landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>

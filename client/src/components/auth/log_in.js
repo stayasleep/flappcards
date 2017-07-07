@@ -25,12 +25,12 @@ class LogIn extends Component {
     render (){
         const { handleSubmit, error } = this.props;
         return (
-            <div>
+            <div className="loginFormOuterDiv">
                 <div id="loginForm">
                     {/*Errors will go here*/}
                 </div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
-                    <div style={styles.center}>
+                    <div style={styles.center} className="loginFormFieldsDiv">
                         <div style={styles.center}>
                             <Field className="chromeAuto" name="userName" component={renderInput} label="Username" />
                         </div>
