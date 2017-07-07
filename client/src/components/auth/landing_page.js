@@ -104,4 +104,4 @@ class landing extends Component {
 }
 
 
-export default landing
+export default landing;

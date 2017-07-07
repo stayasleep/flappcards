@@ -3,17 +3,27 @@
     color: white;
     font-family: Roboto, sans-serif;
     text-align: center;
+    display: block;
+
 }
 .link-container{
+    margin: 0.25em;
     display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    -webkit-flex-flow: row nowrap;
     justify-content: center;
 }
 
 
 .foot-link{
-    margin: 1em 1em 0 1em;
+    margin: 1em 1em 0.2em 1em; /*top, right, bottom, left*/
     text-decoration: none;
     color:white;
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    flex-flow: column nowrap;
+    -webkit-flex-flow: column nowrap;
 }
 
 
@@ -24,4 +34,9 @@
 
 .bottom-menu{
     font-size: x-small;
+    padding-bottom: 1em;
+    display: inline;
+    display: -webkit-inline-block;
+    flex-flow: column nowrap;
+    -webkit-flex-flow: column nowrap;
 }
