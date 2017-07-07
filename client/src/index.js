@@ -32,6 +32,7 @@ import Disclaimer from './components/auth/disclaimer';
 import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
 import Footer from './components/nav/index';
+// I think you were on the right track with making the footer a component with links
 
 
 ReactDOM.render(

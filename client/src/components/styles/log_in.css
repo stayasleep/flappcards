@@ -16,6 +16,10 @@ input:-webkit-autofill {
         display: -webkit-flex !important;
         flex-flow: row nowrap;
         -webkit-flex-flow: row nowrap;
-
+    }
+    .loginFormFieldsDiv > div {
+        display: flex;
+        display: -webkit-flex !important;
+        flex-flow: row nowrap;
     }
 }

@@ -20,11 +20,7 @@ const styles = {
         margin: 10,
         textAlign: 'center',
     },
-    loginStyle:{
-        position: "relative",
-        width: "70%",
-        height: "100%"
-    },
+
     inputStyle:{
         height: "50%"
     },
