@@ -8,8 +8,8 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const special = require('../config/helena');
 const communications = require('../server/communications');
-const email = require('../server/emailTemplate');
-const textMail = require('../server/emailTemplateText');
+const email = require('../server/layout/emailTemplate');
+const textMail = require('../server/layout/emailTemplateText');
 
 router.post('/',(req,res,next)=>{
     let un = req.body.userName;
@@ -64,7 +64,7 @@ router.post('/',(req,res,next)=>{
                                 token:token,
                             };
 
-                            //token aquired, finish composing email
+                            //token acquired, finish composing email
                             communications.mailOptions.to = recoveryEmail;
                             communications.mailOptions.subject = "Password Reset - Account Recovery";
                             communications.mailOptions.html=email(req,recoveryToken);
