@@ -20,14 +20,6 @@ const styles = {
         margin: 10,
         textAlign: 'center',
     },
-
-    inputStyle:{
-        height: "50%"
-    },
-    mesgStyle:{
-        textAlign: "center",
-        fontSize: "4vh"
-    },
     subs:{
         margin:"5%",
         color: 'black',
