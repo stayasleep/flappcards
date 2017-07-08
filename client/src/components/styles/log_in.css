@@ -9,3 +9,42 @@ input:-webkit-autofill {
     -webkit-animation-name: autofill;
     -webkit-animation-fill-mode: both;
 }
+
+@media (max-height: 310px) {
+    .loginFormFieldsDiv {
+        display: flex;
+        display: -webkit-flex !important;
+        flex-flow: row nowrap;
+        -webkit-flex-flow: row nowrap !important;
+        margin: 0em !important;
+    }
+    .loginFormFieldsDiv > div {
+        display: flex;
+        display: -webkit-flex !important;
+        flex-flow: row nowrap;
+        -webkit-flex-flow: row nowrap !important;
+    }
+    .loginDialogTitle {
+        padding-top: 8px !important;
+        padding-bottom: 12px !important;
+    }
+    .loginDialogBody {
+        padding: 0px;
+    }
+    .loginButton {
+        display: flex !important;
+        display: -webkit-flex !important;
+        flex-flow: column nowrap !important;
+        -webkit-flex-flow: column nowrap !important;
+        margin-bottom: 0.35em;
+    }
+
+}
+
+.cancelBtn {
+    box-shadow: 0 0 0 1pt rgb(0, 121, 107);
+}
+
+span {
+    text-align: center;
+}

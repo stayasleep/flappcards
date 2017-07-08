@@ -13,9 +13,7 @@ const Footer  = () =>(
             <Link className="foot-link" to="/privacy"> Privacy </Link>
             <Link className="foot-link" to="/disclaimer"> Disclaimer </Link>
         </nav>
-        <div>
-            <p className="bottom-menu" >&copy; {d} FlappCards.  All rights reserved.</p>
-        </div>
+        <p className="bottom-menu" >&copy; {d} FlappCards.  All rights reserved.</p>
     </div>
 );
 

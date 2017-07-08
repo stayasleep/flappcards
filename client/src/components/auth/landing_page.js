@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import Registration from './registration';
 import LoginModal from '../confirmActionModal/loginModal'
-import RecoverPw from '../confirmActionModal/recoverPW'
-import {GridList, GridTile} from 'material-ui/GridList';
 import home from '../imgs/home2.JPG'
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
@@ -22,18 +19,6 @@ const styles = {
         flex: 4,
         margin: 10,
         textAlign: 'center',
-    },
-    loginStyle:{
-        position: "relative",
-        width: "70%",
-        height: "100%"
-    },
-    inputStyle:{
-        height: "50%"
-    },
-    mesgStyle:{
-        textAlign: "center",
-        fontSize: "4vh"
     },
     subs:{
         margin:"5%",
@@ -65,10 +50,10 @@ const styles = {
     }
 };
 
-class landing extends Component {
+class Landing extends Component {
     render (){
         const rightButtons=(
-            <div>
+            <div className="loginModalContainerDiv">
                 <LoginModal/>
             </div>
         );
@@ -104,4 +89,4 @@ class landing extends Component {
 }
 
 
-export default landing
+export default Landing;
