@@ -1,5 +1,7 @@
 .idea/
 /node_modules/
-/server/
+
 config/
+/server/communications.js
+/server/c217_fc.sql
 npm-debug.log

@@ -8,6 +8,8 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const special = require('../config/helena');
 const communications = require('../server/communications');
+const email = require('../server/layout/emailTemplate');
+const textMail = require('../server/layout/emailTemplateText');
 
 router.post('/',(req,res,next)=>{
     let un = req.body.userName;
@@ -56,21 +58,17 @@ router.post('/',(req,res,next)=>{
                             let t2 = token.slice(0, tokenSecPeriod);
                             //pt 3 of token
                             token= token.slice(tokenSecPeriod+1,token.length);
+                            let recoveryToken={
+                                t1:t1,
+                                t2:t2,
+                                token:token,
+                            };
 
-                            //token aquired, finish composing email
+                            //token acquired, finish composing email
                             communications.mailOptions.to = recoveryEmail;
                             communications.mailOptions.subject = "Password Reset - Account Recovery";
-                            communications.mailOptions.html="<h1>Hello "+recoveryName+",</h1>\n"+
-                                    "<p>You are receiving this email because you (or someone else attempting to access" +
-                                " your account) have requested a password reset.  In order to complete the process, please " +
-                                "click on the link below or copy and paste it into your browser.</p>\n\n"+
-                                    req.protocol+"://"+req.headers.host+"/reset/:?p1="+t1+"&p2="+t2+"&p3="+token+ "\n"+
-                                    "<p>The password reset link expires after four (4) hours and can only be used once.  After that time,\n" +
-                                " the link will no longer be valid and the reset form will no longer appear to be active.</p>\n"+
-                                    "<p>If you didn&apos;t request a password reset, please ignore this email and your password " +
-                                "will remain unchanged.</p>\n\n"+
-                                    "<em>Thanks,</em>\n"+
-                                    "<p>The FlappCards Team</p>";
+                            communications.mailOptions.html=email(req,recoveryToken);
+                            communications.mailOptions.text = textMail(req,recoveryToken);
                             transporter.sendMail(communications.mailOptions,(err,info)=>{
                                 if(err){
                                     return res.json({success:false, message:"There was a problem with the delivery. Please try again later."});
