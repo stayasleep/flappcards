@@ -106,7 +106,7 @@ router.post('/:token',(req,res,next)=>{
                                     communications.mailOptions.subject = "Alert: Your Password Has Been Reset";
                                     communications.mailOptions.html = template(req);
                                     communications.mailOptions.text = templateText(req);
-                                    
+
                                     transporter.sendMail(communications.mailOptions,(err,info)=>{
                                         if(err){
                                             return res.json({success:false, message:"There was a problem with the delivery. Please try again later"});
