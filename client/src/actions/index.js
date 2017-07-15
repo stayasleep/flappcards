@@ -15,15 +15,16 @@ import {
     SEARCH_STACKS,
     VALIDATE_ROUTE,
     RESET_PW,
-    RECOVER_PW
+    RECOVER_PW,
+    INITIATE_GUEST_BROWSING
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
 
@@ -47,6 +48,17 @@ export function userLogin(values) {
                 type: AUTH_ERROR,
                 error: err.response
             });
+        })
+    }
+}
+
+export function initiateGuestBrowsing() {
+    return function(dispatch) {
+        // hit some back end endpoint for generating guest tokens
+        axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
+            dispatch({type: AUTH_USER});
+            browserHistory.push('/'); // May not actually need to push them anywhere, but just as a placeholder/rough draft
+
         })
     }
 }

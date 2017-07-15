@@ -25,13 +25,13 @@ import CreateCards from './components/cardCreation/create_cards';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
 import SingleCard from './components/singleCard/single_card';
-import Landing from './components/auth/landing_page';
+import Landing from './components/landingPage/landing_page';
 import About from './components/auth/about';
 import PrivacyPolicy from './components/auth/privacy';
 import Disclaimer from './components/auth/disclaimer';
 import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
-import Footer from './components/nav/index';
+
 // I think you were on the right track with making the footer a component with links
 
 

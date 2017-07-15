@@ -20,4 +20,6 @@ export const VALIDATE_ROUTE = 'validate_route';
 export const RESET_PW = 'reset_pw';
 export const RECOVER_PW = 'recover_pw';
 
+export const INITIATE_GUEST_BROWSING = 'initiate_guest_browsing';
+
 // This file mainly exists to avoid typing errors.
