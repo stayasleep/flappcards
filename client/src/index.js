@@ -32,6 +32,7 @@ import Disclaimer from './components/auth/disclaimer';
 import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
 import SignIn from './components/login/login';
+import Register from './components/register/register';
 import Footer from './components/nav/index';
 // I think you were on the right track with making the footer a component with links
 
@@ -43,6 +44,7 @@ ReactDOM.render(
                 <IndexRoute component={Landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
                 <Route path="login" component={SignIn}/>
+                <Router path="register" component={Register}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>
                 <Route path="Search" component={requireAuth(Search)}/>
