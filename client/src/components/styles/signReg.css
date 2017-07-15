@@ -1,0 +1,9 @@
+.fieldContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logResetContainer{
+    margin: 1em;
+}

@@ -10,6 +10,7 @@ import './styles/disclaimer.css';
 import './styles/log_in.css';
 import './styles/search.css'
 import './styles/appBar.css'
+import './styles/signReg.css';
 import {
     teal700, teal500,
     indigo200,
