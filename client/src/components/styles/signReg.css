@@ -15,4 +15,8 @@
     .paperContainer{
         width: 100% !important;
     }
+
+    .loginComponentOnly{
+        width: 100% !important;
+    }
 }

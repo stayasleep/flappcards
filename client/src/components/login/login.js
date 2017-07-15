@@ -21,11 +21,20 @@ class SignIn extends Component{
         //Action creator userLogin sends an axios call to the server
         this.props.userLogin(values);
     }
+    componentWillMount(){
+        console.log('check auth',this.props);
+        //if you logged on, closed tab, come back you already have a token so skip this page
+        //for persistent login...the only problem i can think of is if you are authenticated as guest
+        //and you head to login, youll always be pushed. so maybe think about it.
+        if(this.props.authenticated){
+            this.context.router.push('/home');
+        }
+    }
+    //Inquire as to whetehr or not componentWillUpdate(nextProps) is needed here
 
     componentDidMount(){
         //this page has less content so the footer is naturally high up until we manually change that
         let footer = document.getElementsByClassName("footer")[0];
-        console.log('foot',footer);
         footer.style.position = "absolute";
         footer.style.bottom = "10px";
         footer.style.left="8px";
@@ -56,7 +65,7 @@ class SignIn extends Component{
                         <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
-                <Paper className="paperBody" zDepth={2}>
+                <Paper className="paperBody loginComponentOnly" zDepth={2}>
                     <div className="innerPaper">
                         <h1 className="titleUnderline">Log In</h1>
                         <div id="loginForm">
