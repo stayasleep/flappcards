@@ -21,7 +21,7 @@ class SignIn extends Component{
         //Action creator userLogin sends an axios call to the server
         this.props.userLogin(values);
     }
-  
+
     componentDidMount(){
         //this page has less content so the footer is naturally high up until we manually change that
         let footer = document.getElementsByClassName("footer")[0];
@@ -36,7 +36,13 @@ class SignIn extends Component{
     }
 
     componentWillUnmount(){
-        console.log("hi");
+        let footer = document.getElementsByClassName("footer")[0];
+        footer.style.position="";
+        footer.style.bottom="";
+        footer.style.left="";
+        footer.style.right="";
+        let paperBody = document.getElementsByClassName("paperBody")[0];
+        paperBody.style.marginTop="";
     }
 
 
