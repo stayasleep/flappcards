@@ -7,6 +7,11 @@ import Registration from '../auth/registration';
 
 class Register extends Component{
 
+    componentWillMount(){
+        //title
+        document.title="FlappCards - Sign Up Today!";
+    }
+
     componentDidMount(){
         //Reg component floats right, but this page needs it differently so we modify the property for this case
         let div = document.getElementsByClassName("paperContainer")[0];
@@ -19,6 +24,8 @@ class Register extends Component{
         div.style.float="";
         div.style.width="";
         div.style.margin="";
+        //necessary or...
+        document.title="FlappCards";
     }
 
 

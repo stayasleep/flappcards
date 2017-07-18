@@ -10,6 +10,10 @@ class Profile extends Component{
     componentWillMount(){
         this.props.getUserData();
         document.body.style.backgroundColor = "#f0f0f0";
+        document.title="FlappCards - Profile";
+    }
+    componentWillUnmount(){
+        document.title="FlappCards";
     }
     render(){
 

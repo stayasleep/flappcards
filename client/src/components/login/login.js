@@ -29,6 +29,8 @@ class SignIn extends Component{
         if(this.props.authenticated){
             this.context.router.push('/home');
         }
+        //set title after figuring auth
+        document.title="FlappCards - Sign In";
     }
     //Inquire as to whetehr or not componentWillUpdate(nextProps) is needed here
 
@@ -52,6 +54,8 @@ class SignIn extends Component{
         footer.style.right="";
         let paperBody = document.getElementsByClassName("paperBody")[0];
         paperBody.style.marginTop="";
+        //necessary?
+        document.title="FlappCards";
     }
 
 

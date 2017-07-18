@@ -22,6 +22,10 @@ class Search extends Component {
 
     componentWillMount(){
         document.body.style.backgroundColor="#f0f0f0";
+        document.title="FlappCards - Search Page";
+    }
+    componentWillUnmount(){
+        document.title="FlappCards";
     }
 
 
