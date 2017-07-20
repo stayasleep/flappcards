@@ -17,10 +17,14 @@ class CreateCards extends Component {
 
     componentWillMount(){
         document.body.style.backgroundColor="#f0f0f0";
+        //set title
+        document.title="FlappCards - Create A Study Stack!";
     }
 
     componentWillUnmount(){
         document.body.style.backgroundColor=null;
+        document.title="FlappCards";
+
     }
 
 

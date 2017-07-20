@@ -5,9 +5,14 @@ import {getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 
 class Stacks extends Component {
+
     componentWillMount() {
     const { sid } = this.props.params; // To pull from the url
     this.props.getStackOverview(sid);
+    document.title="FlappCards - Stack Overview";
+    }
+    componentWillUnmount(){
+        document.title="FlappCards";
     }
 
     render() {

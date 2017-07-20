@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import Paper from 'material-ui/Paper';
 import about from '../imgs/about.JPG';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
@@ -35,36 +35,52 @@ const style={
     }
 };
 
-export default ()=>(
-  <div>
-      <FlashCardsAppBar/>
+class About extends Component{
 
-      <Paper className="paperBody"  zDepth={2}>
-          <div className="innerPaper">
-              <h1 className="titleUnderline">Welcome to FlappCards</h1>
-              <h2>Our Mission</h2>
-              <p style={style.pText}>We believe learning can be made easier for everyone, anywhere.
-                From students to teachers, and the curious alike, FlappCards provides
-              an engaging platform to make learning new things an easy task.  Create
-              customizable stacks of digital-flashcards or search through the community
-               page and check out the contributions from people everywhere.  Get started
-               today!</p>
-          </div>
-      </Paper>
-      <Paper className="paperBody" zDepth={2}>
-          <div style={style.container2}>
-              <div style={style.paperR}>
-                  <h1 className="titleUnderline">Our Story</h1>
-                  <p style={style.pText}>FlappCards was founded in 2017 by LearningFuze students Brian Bernstein, Kevin Chalmers, and Andres Gasper
-                   as a tool that started out as a way to help us study each other's class notes while also being able to customize them
-                  individually.</p>
-                  <p style={style.pText}>Since then, we've gone on to create a platform that welcomes anyone interested in expanding their horizon.  Create your
-                   own stacks, share them with friends, or search through other member's contributions and pick up a new topic.  There's no
-                   limit to your learning with FlappCard's innovative approach to making learning fun and easy.</p>
-              </div>
-              <div style={style.paperL}>
-              </div>
-          </div>
-      </Paper>
-  </div>
-);
+    componentWillMount(){
+        //change the title for the page
+        document.title="FlappCards - About";
+    }
+    componentWillUnmount(){
+        //reset title
+        document.title="FlappCards";
+    }
+
+    render(){
+        return(
+            <div>
+                <FlashCardsAppBar/>
+
+                <Paper className="paperBody"  zDepth={2}>
+                    <div className="innerPaper">
+                        <h1 className="titleUnderline">Welcome to FlappCards</h1>
+                        <h2>Our Mission</h2>
+                        <p style={style.pText}>We believe learning can be made easier for everyone, anywhere.
+                            From students to teachers, and the curious alike, FlappCards provides
+                            an engaging platform to make learning new things an easy task.  Create
+                            customizable stacks of digital-flashcards or search through the community
+                            page and check out the contributions from people everywhere.  Get started
+                            today!</p>
+                    </div>
+                </Paper>
+                <Paper className="paperBody" zDepth={2}>
+                    <div style={style.container2}>
+                        <div style={style.paperR}>
+                            <h1 className="titleUnderline">Our Story</h1>
+                            <p style={style.pText}>FlappCards was founded in 2017 by LearningFuze students Brian Bernstein, Kevin Chalmers, and Andres Gasper
+                                as a tool that started out as a way to help us study each other's class notes while also being able to customize them
+                                individually.</p>
+                            <p style={style.pText}>Since then, we've gone on to create a platform that welcomes anyone interested in expanding their horizon.  Create your
+                                own stacks, share them with friends, or search through other member's contributions and pick up a new topic.  There's no
+                                limit to your learning with FlappCard's innovative approach to making learning fun and easy.</p>
+                        </div>
+                        <div style={style.paperL}>
+                        </div>
+                    </div>
+                </Paper>
+            </div>
+        )
+    }
+};
+
+export default About;

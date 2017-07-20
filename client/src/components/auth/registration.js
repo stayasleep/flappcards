@@ -71,7 +71,7 @@ class Registration extends Component {
         }
 
         return (
-            <Paper style={regStyle}>
+            <Paper className="paperContainer" style={regStyle}>
                 <h1 style={header}>Register</h1>
                 <form onSubmit={handleSubmit((vals) => {this.handleSignup(vals)})}>
                     <div style={fieldHeight}>
