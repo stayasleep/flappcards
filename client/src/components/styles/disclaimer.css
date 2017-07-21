@@ -49,3 +49,18 @@ body{
     margin: 1em;
 }
 
+.sOne{
+    background-image: url('../imgs/flappcards_1a.svg');
+    background-repeat: no-repeat;
+    background-size: contain ;
+}
+.sTwo{
+    background-image: url('../imgs/flappcards_2a.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.sThree{
+    background-image: url('../imgs/flappcards_3a.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}

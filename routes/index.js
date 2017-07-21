@@ -12,6 +12,7 @@ const nodemailer = require('nodemailer');
 
 //route variables
 let user = require('./user');
+let guest = require('./guest');
 let myshelf = require('./myshelf');
 let searched = require('./search');
 let home = require('./home');
@@ -26,6 +27,7 @@ let reset = require('./reset');
 
 
 //set up non-token based routes
+router.use('/guest',guest);
 router.use('/',user);
 router.use('/recovery',recovery);
 //set up one-time token route
@@ -46,12 +48,7 @@ router.use((request, response, next)=> {
             }
         });
     } else {
-        return response.redirect('/404');
-        // If no token was received, send back a 403 error
-        // return response.status(403).send({
-        //     success: false,
-        //     message: 'No token provided.'
-        // });
+        return response.redirect('/404')();
     }
 });
 

@@ -15,14 +15,14 @@ class WhyFlappCards extends Component{
                 <div className="innerPaper">
                     <h1 className="titleUnderline">Why Use FlappCards?</h1>
                     <div className="svgContainer">
-                        <div className="svgBox">
-                            <img className="svgImg" src={IndexSVG} />
+                        <div className="svgBox sOne">
+                            {/*<img className="svgImg" src={IndexSVG} />*/}
                         </div>
-                        <div className="svgBox">
-                            <img className="svgImg" src={Index2SVG} />
+                        <div className="svgBox sTwo">
+                            {/*<img className="svgImg" src={Index2SVG} />*/}
                         </div>
-                        <div className="svgBox">
-                            <img className="svgImg" src={Index3SVG} />
+                        <div className="svgBox sThree">
+                            {/*<img className="svgImg" src={Index3SVG} />*/}
                         </div>
                     </div>
                 </div>
