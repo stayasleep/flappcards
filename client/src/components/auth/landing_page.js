@@ -4,6 +4,8 @@ import LoginModal from '../confirmActionModal/loginModal'
 import home from '../imgs/home2.JPG'
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
+//temporary...might not go here
+import WhyFlappCards from '../home/whyFlapp';
 
 
 const styles = {
@@ -83,6 +85,7 @@ class Landing extends Component {
                         </div>
                     </div>
                 </Paper>
+                <WhyFlappCards/>
             </div>
         )
     }

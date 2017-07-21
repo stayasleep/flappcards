@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import {Router, Route, IndexRoute, browserHistory, Redirect} from 'react-router';
 import thunk from 'redux-thunk';
 import {AUTH_USER} from './actions/types'
 
@@ -55,6 +55,7 @@ ReactDOM.render(
                 <Route path="disclaimer" component={Disclaimer}/>
                 <Route path="privacy" component={PrivacyPolicy}/>
                 <Route path="reset/:token" component={Reset}/>
+                <Redirect from="signin" to="/login" />
                 <Route path="*" component={Error404}/>
             </Route>
         </Router>

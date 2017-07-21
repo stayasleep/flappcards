@@ -14,12 +14,16 @@ body{
 .titleUnderline{
     border-bottom: 2px solid black;
 }
+/*This is used a few times in disclaimer, about, privacy*/
 .paperBody{
     background: white !important;
     width: 80vw;
     text-align:center;
     display:block;
     margin:0em auto;
+}
+.whyFlapp{
+    width: 90vw;
 }
 
 .pNotice{
@@ -30,3 +34,18 @@ body{
     padding: 1em;
     margin: 1em;
 }
+
+/*This is for the WhyFlapp svgs*/
+
+.svgContainer{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.svgImg{
+    width: 28em;
+    height: 15em;
+    margin: 1em;
+}
+
