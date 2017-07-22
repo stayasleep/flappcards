@@ -62,6 +62,8 @@ router.get('/:sID',(request,response,next) => {
     }
 });
 //ADD CARD TO EXISTING STACK
+//...this might need Authentication check, but technically you only ever get this request is isOwned = true from above...which will always be false if your token = guest
+//and then the api/copy requires auth so it will already send a error response back if they arent validated
 router.post('/:sID',(request,response,next)=>{
     let un = request.decoded.UserName;
     let stackID = request.params.sID;

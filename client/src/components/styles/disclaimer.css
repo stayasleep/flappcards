@@ -38,6 +38,7 @@ body{
 /*This is for the WhyFlapp svgs*/
 
 .svgContainer{
+    display: -webkit-flex;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -53,14 +54,20 @@ body{
     background-image: url('../imgs/flappcards_1a.svg');
     background-repeat: no-repeat;
     background-size: contain ;
+    flex: 1;
 }
 .sTwo{
     background-image: url('../imgs/flappcards_2a.svg');
     background-repeat: no-repeat;
     background-size: contain;
+    flex: 1;
 }
 .sThree{
     background-image: url('../imgs/flappcards_3a.svg');
     background-repeat: no-repeat;
     background-size: contain;
+    flex:1;
+}
+.svgBox{
+    margin: 1em;
 }
