@@ -58,7 +58,7 @@ class Stacks extends Component {
                             overflow: "hidden"}}
                         subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar style={{float:"right"}}>{item.totalCards}</Avatar>}
+                        avatar={<Avatar style={{float:"right",color:"black",background:"#797979",boxShadow:"rgba(0, 0, 0, 0.75) 0px 1px 6px, rgb(0, 0, 0) 0px 1px 4px"}}>{item.totalCards}</Avatar>}
                         style={cardHeader}
                     />
                     <CardActions style={cardActions}>

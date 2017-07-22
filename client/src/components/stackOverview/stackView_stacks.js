@@ -82,9 +82,9 @@ class StackViewStacks extends Component{
             stackView=
                 <div>
                     <div className="stackActions">
-                    <RaisedButton className="studyButton" containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
+                    <RaisedButton style={{fontWeight:"700"}} className="studyButton" containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                         <AddCard/>
-                        <Chip className="chip" style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>
+                        <Chip className="chip" style={chip}><Avatar style={{boxShadow:"rgba(0, 0, 0, 0.75) 0px 1px 6px"}} size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>
                     </div>
                     <div className="cardStackList">
                     {cardStackList}

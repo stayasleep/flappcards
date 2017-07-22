@@ -129,7 +129,7 @@ class SingleCard extends Component {
                     <div>click card to flip</div>
                     {/*<RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>*/}
                     <SkipPrevious id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</SkipPrevious>
-                    <RaisedButton className="centered" id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
+                    <RaisedButton buttonStyle={{color:"white"}} primary={true} className="centered" id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
                     <SkipNext id="next" onClick={() => {this.nextCard()}}>NEXT</SkipNext>
                     {/*<RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>*/}
                 </div>

@@ -68,7 +68,8 @@ export const medium = {
 export const chip = {
     paddingRight: 0,
     height: "2em",
-    margin: "1em"
+    margin: "1em",
+    boxShadow:"rgb(0, 0, 0) 0px 1px 3px",
 };
 
 export const rightAvatar = {
