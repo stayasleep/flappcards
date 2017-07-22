@@ -48,7 +48,7 @@ class Stacks extends Component {
         const stacksList = this.props.stacks.map((item, index) => {
             return (
                 <div key={index} className="cards">
-                <Card style={{overflow: "hidden"}}>
+                <Card style={{overflow: "hidden",background:"white"}} zDepth={2}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         titleStyle={{
