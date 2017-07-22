@@ -111,7 +111,7 @@ class StackViewStacks extends Component{
             stackView =
                 <div>
                     <div className="stackActions">
-                        <ContentContentCopy className="contentCopy" style={{height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>
+                        <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>
                     {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                         <Chip className="chip" style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>
                     </div>
