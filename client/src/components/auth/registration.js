@@ -68,7 +68,7 @@ class Registration extends Component {
         };
         const clearBtn={
             boxShadow:"0 0 0 1pt rgb(0,121,107)",
-        }
+        };
 
         return (
             <Paper className="paperContainer" style={regStyle}>

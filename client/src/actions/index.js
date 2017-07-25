@@ -15,7 +15,8 @@ import {
     SEARCH_STACKS,
     VALIDATE_ROUTE,
     RESET_PW,
-    RECOVER_PW
+    RECOVER_PW,
+    INITIATE_GUEST_BROWSING
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
 import {CREATE_STACK} from './types';
@@ -46,6 +47,24 @@ export function userLogin(values) {
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response
+            });
+        })
+    }
+}
+
+export function initiateGuestBrowsing() {
+    return function(dispatch) {
+        // hit some back end endpoint for generating guest tokens
+        axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
+            dispatch({type: AUTH_USER});
+            localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
+            browserHistory.push('/'); // May not actually need to push them anywhere, but just as a placeholder/rough draft
+
+        }).catch(err =>{
+            //i am not sure if this is the appropriate error, but if you cant get a guest token then it means an error in authenticating guest creds just c=occured...
+            dispatch({
+                type: AUTH_ERROR,
+                error: err.response,
             });
         })
     }
