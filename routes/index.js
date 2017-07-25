@@ -12,6 +12,7 @@ const nodemailer = require('nodemailer');
 
 //route variables
 let user = require('./user');
+let guest = require('./guest');
 let myshelf = require('./myshelf');
 let searched = require('./search');
 let home = require('./home');
@@ -27,6 +28,7 @@ let reset = require('./reset');
 
 //set up non-token based routes
 router.use('/',user);
+router.use('/guest',guest);
 router.use('/recovery',recovery);
 //set up one-time token route
 router.use('/reset',reset);
@@ -46,26 +48,44 @@ router.use((request, response, next)=> {
             }
         });
     } else {
-        return response.redirect('/404');
-        // If no token was received, send back a 403 error
-        // return response.status(403).send({
-        //     success: false,
-        //     message: 'No token provided.'
-        // });
+        return response.redirect('/404')();
     }
 });
 
 //set up token-based subroutes
-router.use('/home',home);
-router.use('/community',community);
-router.use('/myShelf',myshelf);
-router.use('/stackOverview',stackOverview);
-router.use('/createCards',createCards);
-router.use('/search', searched);
-router.use('/profile',profile);
-router.use('/logout', logOut);
-router.use('/copy', copy);
 
+// router.use('/home',home);
+router.use('/community',community);
+// router.use('/myShelf',myshelf);
+router.use('/stackOverview',stackOverview);
+// router.use('/createCards',createCards);
+router.use('/search', searched);
+// router.use('/profile',profile);
+// router.use('/logout', logOut);
+// router.use('/copy', copy);
+
+//middleware for token based sub routes where authentication is needed
+router.use((request,response,next) =>{
+    const user = request.decoded.UserName;
+    const scope = request.decoded.scope;
+    //dont want guest and guest privileges to be allowed to go beyond here
+    if(user === "guest" || scope===1000){
+        return response.json({
+            success:false,
+            message:"You need to log in or register before you can continue.",
+            guestToken: true
+        })
+    }
+    //theoretically, this means the username is NOT guest and they have slightly better scope privilege than guest->continue
+    next();
+});
+
+router.use('/home',home);
+router.use('/myShelf',myshelf);
+router.use('/createCards',createCards);
+router.use('/profile',profile);
+router.use('/copy',copy);
+router.use('/logout',logOut);
 
 module.exports = router;
 

@@ -22,7 +22,7 @@ export const cardActions ={
     display: "inline-flex",
     float: "right",
     marginRight: "0.25em",
-    marginLeft: "1em"
+    marginLeft: "1em",
 };
 
 
@@ -34,7 +34,8 @@ export const stackOverviewCardActions = {
 };
 
 export const cardText = {
-        fontSize: "1em"
+    fontSize: "1em",
+
 };
 
 export const stackSummaryDisplay = {
@@ -67,7 +68,8 @@ export const medium = {
 export const chip = {
     paddingRight: 0,
     height: "2em",
-    margin: "1em"
+    margin: "1em",
+    boxShadow:"rgb(0, 0, 0) 0px 1px 3px",
 };
 
 export const rightAvatar = {
