@@ -31,19 +31,25 @@
 }
 
 .landingPageContentContainerDiv {
-    flex: 1;
-    margin: 10px;
+    /*flex: 1;*/
+    /*margin: 10px;*/
     text-align: center;
+    background-image: url('../imgs/home2.JPG');
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
 }
 
 .infoTextExtendedDiv {
-    flex: 4;
-    margin: 10px;
+    /*flex: 4;*/
+    /*margin: 10px;*/
     text-align: center;
 }
 
 .infoText {
-    margin:5%;
+    /*margin:5%;*/
     color: black;
     font-weight: 900;
     font-size: 1.5em;
@@ -51,26 +57,34 @@
     text-shadow:2px 0 2px rgba(255,255,255,0.7);
     /*  opacity:0.7 */
 }
+.noMarginTop{
+    margin-top: 0 !important;
+}
 .login{
     width: 500px;
     margin: 0px;
 }
 .registrationPaper{
+    /*flex: 4;*/
     width:100%;
     text-align: center;
     display: block;
     margin: auto;
+    background: none !important;
 }
-.infoTextExtendedContainerDiv .landingPageContainerDiv {
-    display: flex;
-    display: -webkit-flex;
-    flex-flow: row wrap;
-    -webkit-flex-flow: row wrap;
-    background-image: url('../imgs/home2.JPG');
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+.landingPageContainerDiv {
+    /*display: flex;*/
+    /*display: -webkit-flex;*/
+    /*flex-flow: row wrap;*/
+    /*-webkit-flex-flow: row wrap;*/
+    /*background-image: url('../imgs/home2.JPG');*/
+    /*position: relative;*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+    /*background-attachment: fixed;*/
+}
+.landingPageContentContainerDiv{
+    border-radius: 0 !important;
 }
 
 /* CSS to make the div containing the registration form look "right"*/
@@ -83,3 +97,7 @@ div.landingPageContentContainerDiv > div {
     padding-bottom: 0.2em;
 }
 
+.paperContainer{
+    flex: 1 1 0;
+    margin: 1em;
+}

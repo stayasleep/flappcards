@@ -4,15 +4,18 @@ import LoginModal from '../confirmActionModal/loginModal';
 import LandingPageInfoText from './landing_page_text';
 import {landingPageContentContainerDiv, landingPageContainerDiv, title} from '../styles/landing_page.css';
 import AppBar from 'material-ui/AppBar';
-
+import Paper from 'material-ui/Paper';
 import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {initiateGuestBrowsing} from '../../actions/index';
 
+import WhyFlappCards from '../home/whyFlapp';
+import Community from '../home/community_stacks'; //this doesnt work thoooo
+
 class Landing extends Component {
 
 
-    componentDidMount() {
+    componentWillMount() {
 
         // check to see if the user already has a token
         // if they do not have a token, initiate the non-member browsing procedures
@@ -20,6 +23,7 @@ class Landing extends Component {
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/home')); //if token = guest...then display recent stacks should not occur?
     }
     render (){
+        console.log('props',this.props);
         const rightButtons=(
             <div className="loginModalContainerDiv">
                 <LoginModal/>
@@ -27,12 +31,14 @@ class Landing extends Component {
         );
 
         return (
-            <div className="landingPageContainerDiv">
-                <AppBar className="header" title={<span className="title">FlappCards</span>} showMenuIconButton={false} iconElementRight={rightButtons}  />
-                <div className="landingPageContentContainerDiv">
-                    <Registration/>
+            <div className="">
+                <AppBar className="" title={<span className="title">FlappCards</span>} showMenuIconButton={false} iconElementRight={rightButtons}  />
+                <Paper className="landingPageContentContainerDiv" zDepth={2}>
                     <LandingPageInfoText/>
-                </div>
+                    <Registration/>
+                </Paper>
+                <WhyFlappCards />
+                <Community />
             </div>
         )
     }

@@ -48,7 +48,7 @@ router.use((request, response, next)=> {
             }
         });
     } else {
-        return response.redirect('/404')();
+        return response.redirect('/404');
     }
 });
 

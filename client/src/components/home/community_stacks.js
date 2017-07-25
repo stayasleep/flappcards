@@ -11,6 +11,7 @@ class Community extends Component {
         this.props.getCommunityStacksOverview();
     }
     render() {
+        console.log('comm props',this.props);
         if (!this.props.communityStacks) {
             return (
                 <List>
