@@ -11,8 +11,8 @@ class WhyFlappCards extends Component{
 
     render(){
         return(
-            <Paper className="paperBody whyFlapp"  zDepth={2}>
-                <div className="innerPaper">
+            <Paper className="whyFlapp"  zDepth={2}>
+                <div className="innerWhyContainer">
                     <h1 className="titleUnderline">Why Use FlappCards?</h1>
                     <div className="svgContainer">
                         <div className="svgBox sOne">
