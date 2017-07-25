@@ -57,8 +57,15 @@ export function initiateGuestBrowsing() {
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
             dispatch({type: AUTH_USER});
+            localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
             browserHistory.push('/'); // May not actually need to push them anywhere, but just as a placeholder/rough draft
 
+        }).catch(err =>{
+            //i am not sure if this is the appropriate error, but if you cant get a guest token then it means an error in authenticating guest creds just c=occured...
+            dispatch({
+                type: AUTH_ERROR,
+                error: err.response,
+            });
         })
     }
 }

@@ -17,7 +17,7 @@ class Landing extends Component {
         // check to see if the user already has a token
         // if they do not have a token, initiate the non-member browsing procedures
         // if they do have a token, push the user to the home component
-        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/home'));
+        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/home')); //if token = guest...then display recent stacks should not occur?
     }
     render (){
         const rightButtons=(
