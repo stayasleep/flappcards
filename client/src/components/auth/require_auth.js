@@ -17,6 +17,7 @@ export default function(ComposedComponent) {
         }
 
         componentWillUpdate(nextProps) {
+            console.log('next prpppps',nextProps);
             if(!nextProps.authenticated){
                 this.context.router.push('/');
             }
@@ -28,7 +29,7 @@ export default function(ComposedComponent) {
     }
 
     function mapStateToProps(state) {
-        return { authenticated: state.auth.authenticated };
+        return { authenticated: state.auth.authenticated, authorized: state.auth.authorized }; //added authorization for guest, hang with me here
     }
 
     return connect(mapStateToProps)(Auth);

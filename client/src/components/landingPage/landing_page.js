@@ -20,7 +20,7 @@ class Landing extends Component {
         // check to see if the user already has a token
         // if they do not have a token, initiate the non-member browsing procedures
         // if they do have a token, push the user to the home component
-        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/home')); //if token = guest...then display recent stacks should not occur?
+        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); //if token = guest...then display recent stacks should not occur? Well I removed 'home' and it works better now..
     }
     render (){
         console.log('props',this.props);

@@ -33,8 +33,9 @@ export function userLogin(values) {
             // I set response.data to true for the test
             // response.data.success is set to send true if successful
             if (response.data.success) {
-                dispatch({type: AUTH_USER});
+                dispatch({type: AUTH_USER, payload: true}); //added payload true..this can become obj resp from server if works
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('guest',false);
                 browserHistory.push('/home')
             } else {
                 dispatch({
@@ -56,8 +57,10 @@ export function initiateGuestBrowsing() {
     return function(dispatch) {
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
-            dispatch({type: AUTH_USER});
+            console.log('axios guest',response);
+            dispatch({type: AUTH_USER, payload: false}); //added payload false, this can become obj response from server
             localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
+            localStorage.setItem('guest',true);
             browserHistory.push('/'); // May not actually need to push them anywhere, but just as a placeholder/rough draft
 
         }).catch(err =>{
@@ -90,8 +93,9 @@ export function register({name, userName, password, email, birthday}) {
 
             // resp.data.success = true, register the user
             if (resp.data.success) {
-                dispatch({type: AUTH_USER});
+                dispatch({type: AUTH_USER, payload: true}); //added this for guest testing
                 localStorage.setItem('token', resp.data.token);
+                localStorage.setItem('guest',false);
                 browserHistory.push('/home')
             }
 
@@ -124,6 +128,7 @@ export function register({name, userName, password, email, birthday}) {
 
 export function logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('guest');
 
     return{
         type: UNAUTH_USER

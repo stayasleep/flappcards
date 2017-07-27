@@ -12,8 +12,13 @@ import reducers from './reducers';
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
-if(token){
-    store.dispatch({type: AUTH_USER})
+const guest = localStorage.getItem("guest");
+
+if(token && JSON.parse(guest)){
+    store.dispatch({type: AUTH_USER,payload: false});
+} else if(token ){
+    store.dispatch({type: AUTH_USER, payload: true});
+
 }
 
 import App from './components/app';

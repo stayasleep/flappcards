@@ -23,10 +23,11 @@ class SignIn extends Component{
     }
     componentWillMount(){
         console.log('check auth',this.props);
+        console.log('check authorized',this.props.authorized);
         //if you logged on, closed tab, come back you already have a token so skip this page
         //for persistent login...the only problem i can think of is if you are authenticated as guest
         //and you head to login, youll always be pushed. so maybe think about it.
-        if(this.props.authenticated){
+        if(this.props.authorized){
             this.context.router.push('/home');
         }
         //set title after figuring auth
@@ -120,6 +121,7 @@ function mapStateToProps(state){
         state.auth.authError = null; // Reset the authError to null so the user can try registering again.
     }
     return {
+        authorized: state.auth.authorized,
         authenticated: state.auth.authenticated,
         error: state.auth.authError
     };
