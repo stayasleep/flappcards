@@ -27,7 +27,7 @@ class LogIn extends Component {
         return (
             <div className="loginFormOuterDiv">
                 <div id="loginForm">
-                    {/*Errors will go here*/}
+                    {/*Errors will go here || THIS SHOULD BE JSX*/}
                 </div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div style={styles.center} className="loginFormFieldsDiv">
@@ -73,6 +73,7 @@ function mapStateToProps(state) {
 
     }
     return {
+        authorized: state.auth.authorized,
         authenticated: state.auth.authenticated,
         error: state.auth.authError
     };

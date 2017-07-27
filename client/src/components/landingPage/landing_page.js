@@ -10,40 +10,52 @@ import {connect} from 'react-redux';
 import {initiateGuestBrowsing} from '../../actions/index';
 
 import WhyFlappCards from '../home/whyFlapp';
-import Community from '../home/community_stacks'; //this doesnt work thoooo
+import Community from '../home/community_stacks'; //state needs to come higher for this to work or simply a new component and function
+import Home from '../home/home';
 
 class Landing extends Component {
 
 
-    componentWillMount() {
-
-        // check to see if the user already has a token
+    componentDidMount() {
+        console.log('am a component will');
         // if they do not have a token, initiate the non-member browsing procedures
-        // if they do have a token, push the user to the home component
-        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); //if token = guest...then display recent stacks should not occur? Well I removed 'home' and it works better now..
+        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); //if token = guest...then display recent stacks should not occur?
     }
-    render (){
-        console.log('props',this.props);
-        const rightButtons=(
+    render () {
+        console.log('props', this.props);
+        const rightButtons = (
             <div className="loginModalContainerDiv">
                 <LoginModal/>
             </div>
         );
-
-        return (
-            <div className="">
-                <AppBar className="" title={<span className="title">FlappCards</span>} showMenuIconButton={false} iconElementRight={rightButtons}  />
-                <Paper className="landingPageContentContainerDiv" zDepth={2}>
-                    <LandingPageInfoText/>
-                    <Registration/>
-                </Paper>
-                <WhyFlappCards />
-                <Community />
-            </div>
-        )
+        //if they are a real user, they wont see the same welcome screen and such..once this can see the state it works
+        if (this.props.authorized) {
+            return (
+                <Home/>
+            )
+        } else {
+            return (
+                <div className="">
+                    <AppBar className="" title={<span className="title">FlappCards</span>} showMenuIconButton={false}
+                            iconElementRight={rightButtons}/>
+                    <Paper className="landingPageContentContainerDiv" zDepth={2}>
+                        <LandingPageInfoText/>
+                        <Registration/>
+                    </Paper>
+                    <WhyFlappCards />
+                    <Community />
+                </div>
+            );
+        }
     }
 }
-
+// function mapStateToProps(state){
+//     return{
+//         authenticated: state.auth.authenticated,
+//         authorized: state.auth.authorized
+//     }
+// }
+// export default connect(mapStateToProps,{initiateGuestBrowsing})(Landing); //when this is uncommented, things break. Just want to see state at start of app
 
 export default connect(null, {initiateGuestBrowsing})(Landing);
 

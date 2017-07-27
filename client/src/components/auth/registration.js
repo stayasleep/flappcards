@@ -188,6 +188,7 @@ function mapStateToProps(state) {
 
     }
     return {
+        authorized: state.auth.authorized,
         authenticated: state.auth.authenticated,
         error: state.auth.authError
     };
