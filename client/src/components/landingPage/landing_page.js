@@ -21,12 +21,12 @@ class Landing extends Component {
 
     componentDidMount() {
         // if they do not have a token, initiate the non-member browsing procedures
-        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); //if token = guest...then display recent stacks should not occur?
+        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); 
     }
     render () {
         const props = this.props;
         const {store} =this.context;
-        const state= store.getState(); //this seems to do the trick.
+        const state= store.getState(); //this is a very round about way to accomplish this task
 
         const rightButtons = (
             <div className="loginModalContainerDiv">
