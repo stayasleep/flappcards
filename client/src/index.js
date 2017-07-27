@@ -14,7 +14,6 @@ const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
 
-//what if on page load we check if token undefined and then set authorized-false and authentication-true
 console.log('before token check');
 if(token && JSON.parse(guest)){
     console.log('token is guest');

@@ -12,24 +12,29 @@ import {initiateGuestBrowsing} from '../../actions/index';
 import WhyFlappCards from '../home/whyFlapp';
 import Community from '../home/community_stacks'; //state needs to come higher for this to work or simply a new component and function
 import Home from '../home/home';
+import PropTypes from 'prop-types';
 
 class Landing extends Component {
-
+    static contextTypes = {
+        store: PropTypes.object
+    };
 
     componentDidMount() {
-        console.log('am a component will');
         // if they do not have a token, initiate the non-member browsing procedures
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); //if token = guest...then display recent stacks should not occur?
     }
     render () {
-        console.log('props', this.props);
+        const props = this.props;
+        const {store} =this.context;
+        const state= store.getState(); //this seems to do the trick.
+
         const rightButtons = (
             <div className="loginModalContainerDiv">
                 <LoginModal/>
             </div>
         );
         //if they are a real user, they wont see the same welcome screen and such..once this can see the state it works
-        if (this.props.authorized) {
+        if (state.auth.authorized) {
             return (
                 <Home/>
             )
@@ -49,12 +54,7 @@ class Landing extends Component {
         }
     }
 }
-// function mapStateToProps(state){
-//     return{
-//         authenticated: state.auth.authenticated,
-//         authorized: state.auth.authorized
-//     }
-// }
+
 // export default connect(mapStateToProps,{initiateGuestBrowsing})(Landing); //when this is uncommented, things break. Just want to see state at start of app
 
 export default connect(null, {initiateGuestBrowsing})(Landing);
