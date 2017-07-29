@@ -18,6 +18,7 @@ class FlashCardsAppBar extends Component {
         this.setState({open: !this.state.open});
     }
     handleClose() { this.setState({open: false}); }
+
     render() {
         const titleStyleClass = {
             maxWidth: "20%",
@@ -52,9 +53,15 @@ class FlashCardsAppBar extends Component {
                     <Divider />
                     <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
-                    <Divider />
-                    <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                    {/*<MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>*/}
+                    {/*<Divider />*/}
+                    {this.props.authorized ? (
+                            <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                        ) : (
+                            <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/login" name="Log In"/>}/>
+
+                        )
+                    }
                 </Drawer>
 
                 <AppBar
@@ -72,7 +79,8 @@ class FlashCardsAppBar extends Component {
 
 function mapStateToProps(state) {
     return {
-        auth: state.auth.authenticated
+        auth: state.auth.authenticated,
+        authorized: state.auth.authorized,
     }
 }
 

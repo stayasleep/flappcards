@@ -21,7 +21,7 @@ class Landing extends Component {
 
     componentDidMount() {
         // if they do not have a token, initiate the non-member browsing procedures
-        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/')); 
+        !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing()) : (browserHistory.push('/'));
     }
     render () {
         const props = this.props;
