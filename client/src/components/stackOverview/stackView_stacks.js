@@ -27,7 +27,9 @@ class StackViewStacks extends Component{
     };
 
     handleCopy(copy){
-        this.props.stackCopy(copy);
+        console.log('props of authorized bein passsed down',this.props.authCopy);
+        this.props.authCopy ? this.props.stackCopy(copy): window.alert('ur not auth to copy'); //if you arent a logged on user you cant copy a stack...pop up window instead
+        // this.props.stackCopy(copy);
     };
 
     handleExpansion(cardIndex) {

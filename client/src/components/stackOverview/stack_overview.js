@@ -14,12 +14,12 @@ class Stacks extends Component {
     componentWillUnmount(){
         document.title="FlappCards";
     }
-
+    //sending props with stack so we can check state of users authorized bool
     render() {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <StackViewStacks/>
+                <StackViewStacks authCopy={this.props.authorized} />
             </div>
         )
     }
@@ -30,7 +30,8 @@ class Stacks extends Component {
 function mapStateToProps(state) {
     return {
         stackCards: state.stack.stackCards,
-        newStackID: state.stack.newStackID
+        newStackID: state.stack.newStackID,
+        authorized: state.auth.authorized
     }
 }
 // export default connect(mapStateToProps, {getStackOverview, stackCopy})(StackViewStacks);

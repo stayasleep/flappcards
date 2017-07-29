@@ -17,7 +17,13 @@ class FlashCardsAppBar extends Component {
     handleToggle() {
         this.setState({open: !this.state.open});
     }
-    handleClose() { this.setState({open: false}); }
+    handleClose() {
+        this.setState({open: false});
+    }
+    //because only profile, myshelf, and create cards should require authorization right
+    handleAuthClose(){
+        window.alert('pls log in');
+    }
 
     render() {
         const titleStyleClass = {
@@ -51,15 +57,25 @@ class FlashCardsAppBar extends Component {
                     <Divider />
                     <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
-                    <Divider />
-                    {/*<MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>*/}
+                    {/*{this.props.authorized ? (*/}
+                            {/*<MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>*/}
+                        {/*) : (*/}
+                            {/*<MenuItem style={style} primaryText="Profile" onTouchTap={this.handleAuthClose.bind(this)}/>*/}
+                        {/*)*/}
+                    {/*}*/}
                     {/*<Divider />*/}
                     {this.props.authorized ? (
+                        <div>
+                            <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                            <Divider />
                             <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                        </div>
                         ) : (
+                        <div>
+                            <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleAuthClose.bind(this)}/>
+                            <Divider />
                             <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/login" name="Log In"/>}/>
-
+                        </div>
                         )
                     }
                 </Drawer>
