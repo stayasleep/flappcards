@@ -15,10 +15,16 @@ export default function(ComposedComponent) {
             if(!this.props.authenticated){
                 this.context.router.push('/');
             }
+            //if not authorized, cant access the routes below
+            if(!this.props.authorized){
+                if(['createCards','myShelf','profile'].indexOf(this.props.route.path)!== -1){
+                    this.context.router.push('/');
+                }
+            }
         }
 
         componentWillUpdate(nextProps) {
-            console.log('next prpppps',nextProps);
+            console.log('reqauth next props',nextProps);
             if(!nextProps.authenticated){
                 this.context.router.push('/');
             }

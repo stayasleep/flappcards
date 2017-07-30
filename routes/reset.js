@@ -12,7 +12,7 @@ const templateText = require('../server/layout/resetTemplateText');
 
 router.use('/:token',(req,res,next)=>{
     //we begin by checking that the link they clicked hasnt expired yet
-    //since this route has a shorter exp and a new secret, it will have sep middleware
+    //since this route has a shorter exp and a new secret, it will have sep middleware and a diff kind of token
     const token = req.headers['x-access-token'] || req.body.token;
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
@@ -22,7 +22,6 @@ router.use('/:token',(req,res,next)=>{
                 res.redirect('/pagenotfound');
             } else {
                 //token is good, it should show the new pw confirmation page
-                //render route or something?
                 req.decoded = decoded;
                 next();
                 // res.json({success:true, message:"Continue"});

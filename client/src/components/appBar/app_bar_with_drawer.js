@@ -51,9 +51,22 @@ class FlashCardsAppBar extends Component {
                 >
                     <MenuItem style={style} primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
-                    <Divider />
-                    <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    {this.props.authorized ? (
+                        <div>
+                            <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
+                            <Divider />
+                            <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                        </div>
+                        ) : (
+                        <div>
+                            <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleAuthClose.bind(this)} />
+                            <Divider />
+                            <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleAuthClose.bind(this)} />
+                        </div>
+                        )}
+                    {/*<MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>*/}
+                    {/*<Divider />*/}
+                    {/*<MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>*/}
                     <Divider />
                     <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <Divider />
