@@ -17,7 +17,7 @@ export default function(ComposedComponent) {
             }
             //if not authorized, cant access the routes below
             if(!this.props.authorized){
-                if(['createCards','myShelf','profile'].indexOf(this.props.route.path)!== -1){
+                if(['home','createCards','myShelf','profile'].indexOf(this.props.route.path)!== -1){
                     this.context.router.push('/');
                 }
             }

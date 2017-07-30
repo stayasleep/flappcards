@@ -28,7 +28,7 @@ class StackViewStacks extends Component{
 
     handleCopy(copy){
         console.log('props of authorized bein passsed down',this.props.authCopy);
-        this.props.authCopy ? this.props.stackCopy(copy): window.alert('ur not auth to copy'); //if you arent a logged on user you cant copy a stack...pop up window instead
+        this.props.authCopy ? this.props.stackCopy(copy): window.alert('ur not auth to copy') ,console.log('copy',this.props); //if you arent a logged on user you cant copy a stack...pop up window instead
         // this.props.stackCopy(copy);
     };
 
@@ -94,11 +94,11 @@ class StackViewStacks extends Component{
                 </div>
         }
         else if(this.props.stackCards){
-
+            //added handleExp back onto the className=cardHeader so now you can browse other pplz answers before you copy the stack eh?
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
                             <div key={index} style={singleCard}>
-                                <div className="cardHeader">
+                                <div className="cardHeader" onClick={() => {this.handleExpansion(index)}}>
                                     {`Question: ${item.question}`}
                                 </div>
                                 <Divider style={cardDivider} />
@@ -114,7 +114,8 @@ class StackViewStacks extends Component{
                 <div>
                     <div className="stackActions">
                         <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>
-                    {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
+                        <RaisedButton style={{fontWeight:"700"}} className="studyButton" containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
+                        {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                         <Chip className="chip" style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>
                     </div>
                     <div className="cardStackList">

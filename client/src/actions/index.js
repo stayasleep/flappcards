@@ -432,6 +432,7 @@ export function recoverPw(userInfo){
             if(response.data.success){
                 dispatch({type: RECOVER_PW});
                 browserHistory.push('/home');
+                // window.location.reload()
             }
             if (response.data.noMatchFound){
                 dispatch({
