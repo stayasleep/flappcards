@@ -178,8 +178,10 @@ export function getMyRecentStacksOverview() {
     return function(dispatch) {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/home`,{'token':token}).then((response) => {
+            console.log('new user home axios call',response);
             dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
         }).catch(err => {
+            console.log('catch for home axios',err);
             dispatch({
                 type: FETCH_MY_RECENT_STACKS,
                 error: err.response

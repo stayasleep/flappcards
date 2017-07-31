@@ -17,7 +17,8 @@ class Recent extends Component {
     render() {
         console.log('am recent stack',this.props);
         if(this.props.authorized) {
-            if (!this.props.recentStacks) {
+            if (!this.props.recentStacks || typeof this.props.recentStacks==="string" ) { //ugly, but it catches our promise which originally returns a string,this only worked before bc the dispatch in catch threw it back and saved us
+                console.log('recent stacks prop check',this.props.recentStacks);
                 return (
                     <List>
                         <Subheader style={subHeader}>Recent Stacks:</Subheader>
@@ -27,10 +28,11 @@ class Recent extends Component {
                         </div>
                     </List>
                 )
+            }else {
+                return (
+                    <StackSummary cardStack={this.props.recentStacks} title={"Recent Stacks"}/>
+                );
             }
-            return (
-                <StackSummary cardStack={this.props.recentStacks} title={"Recent Stacks"}/>
-            );
         }else{
             return null;
         }
