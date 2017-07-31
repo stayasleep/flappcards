@@ -12,6 +12,8 @@ const avatarDictionary = require('./avatar_dictionary');
 // Recent stacks query; This gets called for the home page.
 router.post('/', (request,response,next)=> {
     let un = request.decoded.UserName;
+    console.log('ip',request.headers['x-forwarded-for']);
+    console.log('or ip',request.connection.remoteAddress);
     pool.getConnection((error, connection) => {
         if (error) {
             console.log("Error connecting to db", error);

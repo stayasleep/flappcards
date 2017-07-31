@@ -260,10 +260,13 @@ export function cardEditor(cardObject) {
  */
 export function getCommunityStacksOverview() {
     return function(dispatch) {
+        console.log('community axios start');
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/community`,{'token':token}).then((response) => {
+            console.log('comm axios resp',response);
             dispatch({type: FETCH_MY_COMMUNITY_STACKS, payload: response.data});
         }).catch(err => {
+            console.log('community catch',err);
             dispatch({
                 type: FETCH_MY_COMMUNITY_STACKS,
                 error: err.response
@@ -385,10 +388,16 @@ export function populateAutoComplete() {
  */
 export function isRouteValid(token){
     return function(dispatch){
+        console.log('reset isroutevalid axios');
         axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
-            dispatch({type: VALIDATE_ROUTE, payload: response.data});
-            //localStorage.setItem('token', token);
+            console.log('route valid resp',response);
+            if(response.data.success) {
+                dispatch({type: VALIDATE_ROUTE, payload: true});
+            }else{
+                dispatch({type: VALIDATE_ROUTE,payload: false});
+            }
         }).catch(err =>{
+            console.log('route error',err);
             dispatch({
                 type: VALIDATE_ROUTE,
                 error: err.response
