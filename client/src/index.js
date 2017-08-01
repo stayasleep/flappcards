@@ -41,6 +41,7 @@ import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
 import SignIn from './components/login/login';
 import Register from './components/register/register';
+import Forgot from './components/login/forgot';
 
 
 ReactDOM.render(
@@ -50,6 +51,7 @@ ReactDOM.render(
                 <IndexRoute component={Landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
                 <Route path="login" component={SignIn}/>
+                <Route path="login/forgotpassword" component={Forgot} />
                 <Router path="register" component={Register}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>

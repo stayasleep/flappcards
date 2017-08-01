@@ -13,6 +13,9 @@ const config = require('./config/secret');
 //routes
 const api = require('./routes/index');
 
+//Express best practice for security; disable header
+app.disable('x-powered-by');
+
 //HTTP Request for Dev
 // app.use(morgan('dev'));
 

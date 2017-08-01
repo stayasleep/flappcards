@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {submitResetPw} from '../../actions/index';
 import renderInputReg from '../utilities/renderInputReg';
 import {resetForm, header, passwordInfo} from './../styles/resetPasswordForm.css';
+import {Link} from 'react-router';
 
 class ResetForm extends Component {
 
@@ -62,6 +63,7 @@ class ResetForm extends Component {
                         <Field name="passwordConfirm" component={renderInputReg} label="Confirm New Password" type="password"/>
                     </div>
                     <div style={userError} id="resetFail">
+                        {this.props.error ?  <Link to="/login/forgotpassword"/>: null}
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
@@ -112,7 +114,8 @@ function mapStateToProps(state){
             div.innerHTML = str;
             el.appendChild(div.children[0]);
         }
-        var userError = '<div style="color: red;">There was an error handling your request.  Please restart the reset password process</div>'; //this should be error from axios call bc token/databse arent the same or time expired
+        //uhh figure out how to add link to the resetpassword component bc the link has expired by now.
+        var userError = '<div style="color: red;">The Reset Password Link Has Expired. Please Start The Process Over Again At: </div>'; //this should be error from axios call bc token time expired
         appendUserError(document.getElementById("resetFail"),userError);
 
         state.auth.authError = null; //Reset the authError to null so the user can try resetting again?? Prob need to fix this .

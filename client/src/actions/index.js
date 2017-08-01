@@ -423,7 +423,7 @@ export function submitResetPw(data){
                     type: AUTH_ERROR,
                     error:"This link has already expired.  Please try the password reset process again."
                 });
-                browserHistory.push('/'); //if there is an error, push them back to home?
+                //browserHistory.push('/'); //if there is an error, push them back to home?
             }
         }).catch(err =>{
             dispatch({

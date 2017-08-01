@@ -40,7 +40,7 @@ class Reset extends Component{
 
     componentWillMount(){
         const {p1,p2,p3}= this.props.location.query; //Pull from the url
-        const token = `${p1}.${p2}.${p3}`;
+        const token = `${p1}.${p2}.${p3}`;//assemble the token
         this.setState=({ token: token});
         console.log('reset comp will mount',this.props);
         this.props.isRouteValid(token);
