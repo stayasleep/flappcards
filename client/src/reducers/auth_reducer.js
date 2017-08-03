@@ -8,7 +8,8 @@ export default function (state = default_state, action) {
             console.log('action type',action);
             return {... state, authenticated: true, authError: null, authorized: action.payload};
         case AUTH_ERROR:
-            return {... state, authenticated: false, authError: action.error, authorized: false};
+            console.log('log err',action.payload);
+            return {... state, authenticated: false, authError: action.payload, authorized: false};
         case UNAUTH_USER:
             return default_state;
     }

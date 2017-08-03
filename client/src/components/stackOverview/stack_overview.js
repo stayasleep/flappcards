@@ -10,12 +10,14 @@ class Stacks extends Component {
     const { sid } = this.props.params; // To pull from the url
     this.props.getStackOverview(sid);
     document.title="FlappCards - Stack Overview";
+    console.log('stack_ov parent comp will mount',this.props);
     }
     componentWillUnmount(){
         document.title="FlappCards";
     }
     //sending props with stack so we can check state of users authorized bool
     render() {
+        console.log('stack_ov parent comp render',this.props);
         return (
             <div>
                 <FlashCardsAppBar/>

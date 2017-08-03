@@ -40,7 +40,7 @@ export function userLogin(values) {
             } else {
                 dispatch({
                     type: AUTH_ERROR,
-                    error: "Username/Password Incorrect"
+                    payload: "Username/Password Incorrect"
                 });
 
             }
@@ -104,7 +104,7 @@ export function register({name, userName, password, email, birthday}) {
             if (resp.data.userNameTaken) {
                 dispatch({
                     type: AUTH_ERROR,
-                    error: "userName"
+                    payload: "userName"
                 });
             }
 
@@ -158,7 +158,7 @@ export function getStackOverview(stackID) {
         let token = localStorage.getItem('token');
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
@@ -266,7 +266,7 @@ export function getCommunityStacksOverview() {
             console.log('comm axios resp',response);
             dispatch({type: FETCH_MY_COMMUNITY_STACKS, payload: response.data});
         }).catch(err => {
-            console.log('community catch',err);
+            console.log('community catch',err.response);
             dispatch({
                 type: FETCH_MY_COMMUNITY_STACKS,
                 error: err.response
@@ -329,8 +329,13 @@ export function addSingleCard(cardObject) {
         let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
+            console.log('added card axios disp',response);
             dispatch({type: CREATE_STACK, payload: response.data});
+            console.log('before',stackID);
+            // getStackOverview(stackID);
+            // console.log('stack id',stackID);
         }).catch(err => {
+            console.log('card add err',err);
             dispatch({
                 type: CREATE_STACK,
                 error: err.response
@@ -419,11 +424,11 @@ export function submitResetPw(data){
                 dispatch({type: RESET_PW});
                 browserHistory.push('/');
             }else{
+                //if error with link validation, let them know to try again
                 dispatch({
                     type: AUTH_ERROR,
-                    error:"This link has already expired.  Please try the password reset process again."
+                    payload:"This link has already expired.  Please try the password reset process again."
                 });
-                //browserHistory.push('/'); //if there is an error, push them back to home?
             }
         }).catch(err =>{
             dispatch({
@@ -448,7 +453,7 @@ export function recoverPw(userInfo){
             if (response.data.noMatchFound){
                 dispatch({
                     type: AUTH_ERROR,
-                    error: "Username/Email combination not found!"
+                    payload: "Username/Email combination not found!"
                 });
             }
         }).catch(err =>{

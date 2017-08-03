@@ -78,8 +78,9 @@ class Registration extends Component {
                         <Field name="name" component={renderInput} label="First and Last Name"/>
                     </div>
                     <div style={fieldHeight}>
-                        <Field name="userName" component={renderInput} label="Username"/>
                         <div style={userError} id="takenUser"/>
+                        <Field name="userName" component={renderInput} label="Username"/>
+                        {/*<div style={userError} id="takenUser"/>*/}
                     </div>
                     <div>
                         <Field name="password" component={renderInput} label="Password" type="password"/>

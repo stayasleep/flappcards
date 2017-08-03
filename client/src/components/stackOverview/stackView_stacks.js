@@ -59,6 +59,7 @@ class StackViewStacks extends Component{
         }
         let stackView;
         if(this.props.stackCards[0].isOwned) {
+            console.log('render child stacks owned',this.props);
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
 
