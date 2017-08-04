@@ -154,10 +154,12 @@ export function getMyStackOverview() {
 // Triggered after hitting view button on list
 // Meant to return the cards available after clicking view
 export function getStackOverview(stackID) {
+    console.log('yolo before axios');
     return function (dispatch) {
         let token = localStorage.getItem('token');
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
+            console.log('inside the dispatch');
             (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             dispatch({
@@ -201,7 +203,15 @@ export function deleteStack(stackID) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
             dispatch({type: DELETE_STACK, payload: response.data});
-            browserHistory.push('/myShelf');
+            axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
+                dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
+            }).catch(err => {
+                dispatch({
+                    type: FETCH_MY_STACK_OVERVIEW,
+                    error: err.response
+                });
+            });
+            // browserHistory.push('/myShelf'); //this push never works, the above is ugly but accomplishes the updating of myshelf
         }).catch(err => {
             dispatch({
                 type: DELETE_STACK,
@@ -218,11 +228,20 @@ export function deleteStack(stackID) {
 export function deleteCard(cardObj) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
-        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}})
-            .then((response) => {
+        axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: null});
-            browserHistory.push('/myShelf');
-            browserHistory.push(`/stackOverview/${cardObj.stackID}`); // Shame have I
+            // browserHistory.push('/myShelf');
+            // browserHistory.push(`/stackOverview/${cardObj.stackID}`); // Shame have I
+            //attempting to fix our shame from above
+            axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
+                console.log('inside the dispatch for del getstack');
+                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            }).catch(err => {
+                dispatch({
+                    type: FETCH_STACK_OVERVIEW,
+                    error: err.response
+                });
+            })
         }).catch(err => {
             dispatch({
                 type: DELETE_CARD,
@@ -330,10 +349,18 @@ export function addSingleCard(cardObject) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
             console.log('added card axios disp',response);
-            dispatch({type: CREATE_STACK, payload: response.data});
-            console.log('before',stackID);
+            // dispatch({type: CREATE_STACK, payload: response.data});
+            // console.log('before',stackID);
             // getStackOverview(stackID);
-            // console.log('stack id',stackID);
+            axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
+                console.log('inside the dispatch');
+                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            }).catch(err => {
+                dispatch({
+                    type: FETCH_STACK_OVERVIEW,
+                    error: err.response
+                });
+            })
         }).catch(err => {
             console.log('card add err',err);
             dispatch({

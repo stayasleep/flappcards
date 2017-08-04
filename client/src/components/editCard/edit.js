@@ -81,8 +81,9 @@ class EditCard extends Component {
                             <p>Original question: {this.props.cardID.question}</p>
                             <p>Original answer: {this.props.cardID.answer}</p>
                         </div>
-                        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
-                        <RaisedButton label="Edit" primary={true} type="submit"/>
+                        {/*<RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>*/}
+                        <RaisedButton style={{"boxShadow":"0 0 0 1pt rgb(0,121,107)","margin":"2em"}} labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" type="button" label="Cancel" onTouchTap={this.handleClose}/>
+                        <RaisedButton style={{"margin":"2em"}} label="Edit" primary={true} type="submit"/>
                     </form>
                 </Dialog>
             </div>
