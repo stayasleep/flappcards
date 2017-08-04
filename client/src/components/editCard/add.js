@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
@@ -28,6 +28,7 @@ class AddCard extends Component {
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
         cardObject.stack_id = this.props.stackCards[0].stack_id;
         this.props.addSingleCard(cardObject);
+        this.props.dispatch(reset('AddCard')); //clears the form
         this.setState({open: false});
         // if(cardObject){
         //     console.log('inside handleAdd cardOb',cardObject);
@@ -43,8 +44,6 @@ class AddCard extends Component {
     handleClose = () => {
         this.setState({open: false});
     };
-
-
 
     render() {
         console.log('render add card');
@@ -80,7 +79,7 @@ class AddCard extends Component {
 
 AddCard = reduxForm({
     form: 'AddCard',
-    validate
+    validate,
 })(AddCard);
 
 function mapStateToProps(state) {
