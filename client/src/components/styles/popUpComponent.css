@@ -1,0 +1,8 @@
+.popUpTitle{
+    text-align: center  ;
+}
+.popUpBtnContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import Divider from 'material-ui/Divider';
 import {browserHistory} from 'react-router';
 import {Navstyle} from './../styles/appBar.css';
+import PopUp from '../login/popUpReminder';
 
 class FlashCardsAppBar extends Component {
 
@@ -19,10 +20,6 @@ class FlashCardsAppBar extends Component {
     }
     handleClose() {
         this.setState({open: false});
-    }
-    //because only profile, myshelf, and create cards should require authorization right
-    handleAuthClose(){
-        window.alert('pls log in');
     }
 
     render() {
@@ -59,24 +56,15 @@ class FlashCardsAppBar extends Component {
                         </div>
                         ) : (
                         <div>
-                            <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleAuthClose.bind(this)} />
+                            <PopUp style={style} menuTitle="My Shelf" onTouchTap={this.handleClose.bind(this)}/>
                             <Divider />
-                            <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleAuthClose.bind(this)} />
+                            <PopUp style={style} menuTitle="Create Cards" onTouchTap={this.handleClose.bind(this)}/>
                         </div>
-                        )}
-                    {/*<MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>*/}
-                    {/*<Divider />*/}
-                    {/*<MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>*/}
+                        )
+                    }
                     <Divider />
                     <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <Divider />
-                    {/*{this.props.authorized ? (*/}
-                            {/*<MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>*/}
-                        {/*) : (*/}
-                            {/*<MenuItem style={style} primaryText="Profile" onTouchTap={this.handleAuthClose.bind(this)}/>*/}
-                        {/*)*/}
-                    {/*}*/}
-                    {/*<Divider />*/}
                     {this.props.authorized ? (
                         <div>
                             <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
@@ -85,9 +73,9 @@ class FlashCardsAppBar extends Component {
                         </div>
                         ) : (
                         <div>
-                            <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleAuthClose.bind(this)}/>
+                            <PopUp style={style} menuTitle="Profile" onTouchTap={this.handleClose.bind(this)} />
                             <Divider />
-                            <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/login" name="Log In"/>}/>
+                            <MenuItem style={style} primaryText="Log In" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/login" name="Log In"/>}/>
                         </div>
                         )
                     }

@@ -13,7 +13,6 @@ import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 import Divider from 'material-ui/Divider';
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import Paper from 'material-ui/Paper';
-
 import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
 import CircularProgress from 'material-ui/CircularProgress';
 
@@ -28,7 +27,7 @@ class StackViewStacks extends Component{
 
     handleCopy(copy){
         console.log('props of authorized bein passsed down',this.props.authCopy);
-        this.props.authCopy ? this.props.stackCopy(copy): window.alert('ur not auth to copy') ,console.log('copy',this.props); //if you arent a logged on user you cant copy a stack...pop up window instead
+        this.props.authCopy ? this.props.stackCopy(copy): window.alert('please log in'),console.log('copy',this.props); //if you arent a logged on user you cant copy a stack...pop up window instead
         // this.props.stackCopy(copy);
     };
 

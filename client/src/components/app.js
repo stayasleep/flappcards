@@ -12,6 +12,7 @@ import './styles/search.css'
 import './styles/appBar.css'
 import './styles/signReg.css';
 import './styles/whyFlappsComp.css';
+import './styles/popUpComponent.css';
 import './styles/landing_page.css'; //for andres'
 import {
     teal700, teal500,
