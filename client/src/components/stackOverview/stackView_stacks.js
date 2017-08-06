@@ -15,25 +15,50 @@ import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOvervi
 import Paper from 'material-ui/Paper';
 import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
 import CircularProgress from 'material-ui/CircularProgress';
+import PopUpD from '../login/temp';
+
 
 class StackViewStacks extends Component{
-
     static contextTypes = {
         router: PropTypes.object
     };
-    state = {
-        expanded: false
-    };
 
+    state = {
+        expanded: false,
+        opens: false
+    };
+    //determines copy icons function if logged in or not
+    renderCopy() {
+        console.log('bout get renderCopy');
+       return (this.props.authCopy ? (
+                <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>
+            ):
+               (
+                <div>
+                    <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>{this.handleNoCopy.bind(this)()}}/>
+                    <PopUpD stateIs={this.state.opens} onClick={()=>this.handleClose.bind(this)()} />
+                </div>
+            )
+       )
+    }
+    //occurs when the unauthorized copy icon is clicked, allowing the dialog to open
+    handleNoCopy(){
+        console.log('handleNoCopy');
+        this.setState({opens:!this.state.opens});
+
+    }
+    //passed down to the dialog so that it can close when clicking outside the component
+    handleClose(){
+        console.log('amm open for copy');
+        this.setState({opens:!this.state.opens});
+    }
+    //authorized users can copy stacks via axios call;
     handleCopy(copy){
         console.log('props of authorized bein passsed down',this.props.authCopy);
-        this.props.authCopy ? this.props.stackCopy(copy): window.alert('please log in'),console.log('copy',this.props); //if you arent a logged on user you cant copy a stack...pop up window instead
-        // this.props.stackCopy(copy);
+        this.props.stackCopy(copy);
     };
 
     handleExpansion(cardIndex) {
-
-
         // console.log("cardIndex", cardIndex); // passed in via the key gotten from map
         // if !(F) => if T
         if (!this.state.expanded) {
@@ -46,7 +71,6 @@ class StackViewStacks extends Component{
             document.getElementsByClassName("expandable")[cardIndex].style.display = 'none';
         }
     }
-
 
     render() {
         if (!this.props.stackCards) {
@@ -113,7 +137,8 @@ class StackViewStacks extends Component{
             stackView =
                 <div>
                     <div className="stackActions">
-                        <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>
+                        {this.renderCopy()}
+                        {/*<ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>*/}
                         <RaisedButton style={{fontWeight:"700"}} className="studyButton" containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                         {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                         <Chip className="chip" style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>

@@ -392,7 +392,7 @@ export function stackCopy(stackCopy) {
         axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
             let newStackID = response.data.stackID;
             dispatch({type: COPY_STACK, payload: newStackID});
-            browserHistory.push(`/myShelf`);
+            browserHistory.push(`/myShelf`); //one day we will figure this one out
             browserHistory.push(`/stackOverview/${newStackID}`);
         }).catch(err => {
             dispatch({
@@ -424,8 +424,8 @@ export function populateAutoComplete() {
 }
 /**
  * @name - isRouteValid
- * @param - token
- * @description - Verifies whether or not the reset link is still valid before the page loads
+ * @param {Object} token
+ * @description - Verifies whether or not the reset link is still valid before the page loads and displays view accordingly
  */
 export function isRouteValid(token){
     return function(dispatch){
@@ -449,7 +449,7 @@ export function isRouteValid(token){
 
 /**
  * @name - submitResetPw
- * @param - token
+ * @param {Object} data - takes in user token as an argument 
  * @description - Completes the password reset request and redirects to the login
  */
 export function submitResetPw(data){
