@@ -27,7 +27,6 @@ const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
 // const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
-
     return function (dispatch) {
         axios.post(`${BASE_URL}/login`, values).then((response) => {
             // I set response.data to true for the test
@@ -53,7 +52,7 @@ export function userLogin(values) {
     }
 }
 
-export function initiateGuestBrowsing() {
+export function initiateGuestBrowsing(location) {
     return function(dispatch) {
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
@@ -61,7 +60,7 @@ export function initiateGuestBrowsing() {
             dispatch({type: AUTH_USER, payload: false}); //added payload false, this can become obj response from server
             localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
             localStorage.setItem('guest',true);
-            browserHistory.push('/'); // May not actually need to push them anywhere, but just as a placeholder/rough draft
+            browserHistory.push(location); // May not actually need to push them anywhere, but just as a placeholder/rough draft
 
         }).catch(err =>{
             dispatch({
@@ -449,7 +448,7 @@ export function isRouteValid(token){
 
 /**
  * @name - submitResetPw
- * @param {Object} data - takes in user token as an argument 
+ * @param {Object} data - takes in user token as the argument
  * @description - Completes the password reset request and redirects to the login
  */
 export function submitResetPw(data){
@@ -476,7 +475,9 @@ export function submitResetPw(data){
 }
 
 /**
- * @description - begins the password recovery
+ * @name recoverPW
+ * @description - success: match is found and user will be sent email, error: un/email not found
+ * @param {Object} userInfo - user info object to validate the request
  */
 export function recoverPw(userInfo){
     return function(dispatch){

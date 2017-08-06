@@ -6,31 +6,24 @@ import {Link} from 'react-router'
 
 
 //the popup a user will see if they try to perform an action that requires them to be logged in first
-export default class PopUpD extends React.Component{
+export default class PopDialog extends React.Component{
 
-
+    //parent component passes function as prop so we can close dialog
     handleClose(){
-        // this.setState({opens: false});
-        console.log('tryna close');
         this.props.onClick();
     };
 
-    // handleOpen() {
-    //     this.props.onClick(true);
-    // }
-
-
     render(){
         console.log('temp dialoog');
+
         return(
-            <div>
                 <Dialog
-                    ref="dialog"
                     title="Please login or register to continue!"
                     titleClassName="popUpTitle"
+                    actionsContainerClassName="loginContainer"
                     bodyClassName="popUpBody"
-                    contentClassName="popUpContent"
-                    overlayClassName="popUpOverlay"
+                    contentClassName="loginContent"
+                    overlayClassName="loginOverlay"
                     autoScrollBodyContent={false}
                     open={this.props.stateIs}
                     modal={false}
@@ -42,7 +35,6 @@ export default class PopUpD extends React.Component{
                         <RaisedButton label="Register" style={{"boxShadow":"0 0 0 1pt rgb(0,121,107)"}} labelColor="rgb(0, 121, 107)" containerElement={<Link to={`/register`} name="register"/>} />
                     </div>
                 </Dialog>
-            </div>
         );
     }
 };

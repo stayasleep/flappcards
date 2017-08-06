@@ -15,7 +15,7 @@ import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOvervi
 import Paper from 'material-ui/Paper';
 import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
 import CircularProgress from 'material-ui/CircularProgress';
-import PopUpD from '../login/temp';
+import PopDialog from '../login/popUpDialog';
 
 
 class StackViewStacks extends Component{
@@ -27,34 +27,30 @@ class StackViewStacks extends Component{
         expanded: false,
         opens: false
     };
-    //determines copy icons function if logged in or not
+    //determines copy icons rendering depending on if user is logged in or not
     renderCopy() {
-        console.log('bout get renderCopy');
        return (this.props.authCopy ? (
                 <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>
-            ):
+            )://this div below really makes the CSS look weird for the studyButton, patched in the stackOv.css
                (
-                <div>
+                <div className="copyDialogBox">
                     <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>{this.handleNoCopy.bind(this)()}}/>
-                    <PopUpD stateIs={this.state.opens} onClick={()=>this.handleClose.bind(this)()} />
+                    <PopDialog stateIs={this.state.opens} onClick={()=>this.handleClose.bind(this)()} />
                 </div>
             )
        )
     }
     //occurs when the unauthorized copy icon is clicked, allowing the dialog to open
     handleNoCopy(){
-        console.log('handleNoCopy');
         this.setState({opens:!this.state.opens});
 
     }
     //passed down to the dialog so that it can close when clicking outside the component
     handleClose(){
-        console.log('amm open for copy');
         this.setState({opens:!this.state.opens});
     }
     //authorized users can copy stacks via axios call;
     handleCopy(copy){
-        console.log('props of authorized bein passsed down',this.props.authCopy);
         this.props.stackCopy(copy);
     };
 
@@ -71,7 +67,6 @@ class StackViewStacks extends Component{
             document.getElementsByClassName("expandable")[cardIndex].style.display = 'none';
         }
     }
-
     render() {
         if (!this.props.stackCards) {
             return (
@@ -117,28 +112,28 @@ class StackViewStacks extends Component{
                     </div>
                 </div>
         }
+        //if the stack being observed doesnt belong to you..
         else if(this.props.stackCards){
             //added handleExp back onto the className=cardHeader so now you can browse other pplz answers before you copy the stack eh?
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
-                            <div key={index} style={singleCard}>
-                                <div className="cardHeader" onClick={() => {this.handleExpansion(index)}}>
-                                    {`Question: ${item.question}`}
-                                </div>
-                                <Divider style={cardDivider} />
-                                <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>
-                                    <div style={answerText}>
-                                        {`Answer: ${item.answer}`}
-                                    </div>
+                        <div key={index} style={singleCard}>
+                            <div className="cardHeader" onClick={() => {this.handleExpansion(index)}}>
+                                {`Question: ${item.question}`}
+                            </div>
+                            <Divider style={cardDivider} />
+                            <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>
+                                <div style={answerText}>
+                                    {`Answer: ${item.answer}`}
                                 </div>
                             </div>
+                        </div>
                 )
             });
             stackView =
                 <div>
-                    <div className="stackActions">
+                    <div className="stackActionsGuest">
                         {this.renderCopy()}
-                        {/*<ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={() => {this.handleCopy(this.props.stackCards[0])}}/>*/}
                         <RaisedButton style={{fontWeight:"700"}} className="studyButton" containerElement={<Link to={`/stackOverview/${this.props.stackCards[0].stack_id}/${this.props.stackCards[0].card_id}`} name="SingleCard"/>}>Study</RaisedButton>
                         {/*Was sent back an array of objects, so pull the length of the array to know how many cards are present*/}
                         <Chip className="chip" style={chip}><Avatar size={32}>{this.props.stackCards.length}</Avatar>Cards</Chip>

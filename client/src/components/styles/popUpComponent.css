@@ -1,3 +1,8 @@
+/*
+Used for dialog components on menuItem clicks and copying stacks in
+the login folder
+*/
+
 .popUpTitle{
     text-align: center  ;
 }
@@ -5,4 +10,13 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+
+.loginContent{
+    border:5px solid black;
+}
+
+.loginOverlay,.popUpOverlay{
+    background: transparent !important;
 }
