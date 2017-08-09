@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {initiateGuestBrowsing} from '../../actions/index';
 
 import WhyFlappCards from '../home/whyFlapp';
+import FlappFeatured from '../home/flapp_feat';
 import Community from '../home/community_stacks'; //state needs to come higher for this to work or simply a new component and function
 import Home from '../home/home';
 import PropTypes from 'prop-types';
@@ -24,6 +25,7 @@ class Landing extends Component {
         console.log('landing did mount',this.props);
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing('/')) : (browserHistory.push('/'));
     }
+
     render () {
         console.log('landing will render',this.props);
         const props = this.props;
@@ -51,9 +53,10 @@ class Landing extends Component {
                     </Paper>
                     <WhyFlappCards />
                     {state.auth.authenticated ? (
-                        <Community/>
+                        <FlappFeatured/>
                         ): null
                     }
+                    {/*<FlappFeatured/>*/}
                     {/* Above Conditional rendering prevents the uncaught promise from occurring*/}
                 </div>
             );

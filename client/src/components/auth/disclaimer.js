@@ -29,7 +29,7 @@ class Disclaimer extends Component{
                 <Toolbar className="navHeader">
                     <ToolbarTitle text={<a  className="navTitleBar" href="/">FlappCards</a>}/>
                     <ToolbarGroup>
-                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
+                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <Paper className="paperBody" zDepth={2}>

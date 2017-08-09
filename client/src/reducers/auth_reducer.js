@@ -11,6 +11,7 @@ export default function (state = default_state, action) {
             console.log('log err',action.payload);
             return {... state, authenticated: false, authError: action.payload, authorized: false};
         case UNAUTH_USER:
+            console.log('logged out');
             return default_state;
     }
     return state;

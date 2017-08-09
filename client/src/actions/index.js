@@ -2,6 +2,8 @@ import axios from 'axios';
 import {
     FETCH_MY_STACK_OVERVIEW,
     FETCH_MY_COMMUNITY_STACKS,
+    FETCH_FEATURED_STACKS,
+    FETCH_FEATURED_ERR,
     FETCH_STACK_OVERVIEW,
     FETCH_CARD,
     FETCH_USER_META,
@@ -32,9 +34,9 @@ export function userLogin(values) {
             // I set response.data to true for the test
             // response.data.success is set to send true if successful
             if (response.data.success) {
-                dispatch({type: AUTH_USER, payload: true}); //added payload true..this can become obj resp from server if works
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('guest',false);
+                dispatch({type: AUTH_USER, payload: true}); //added payload true..this can become obj resp from server if works
                 browserHistory.push('/home')
             } else {
                 dispatch({
@@ -305,7 +307,22 @@ export function getCommunityStacksOverview() {
         })
     }
 }
-
+export function getFeaturedStackOverview(){
+    return function(dispatch){
+        console.log('getting flapp feat');
+        let token = localStorage.getItem('token');
+        axios.post(`${BASE_URL}/community/featured`,{"token":token}).then((response)=>{
+            console.log('featured disp',response);
+            dispatch({type:FETCH_FEATURED_STACKS, payload: response.data});
+        }).catch(err =>{
+            console.log('feat stack err',err);
+            dispatch({
+                type: FETCH_FEATURED_ERR,
+                error:err.response
+            });
+        })
+    }
+}
 
 /**
  * @name - createStack

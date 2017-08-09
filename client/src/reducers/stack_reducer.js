@@ -5,6 +5,8 @@ import {
     FETCH_MY_RECENT_STACKS,
     FETCH_STACK_OVERVIEW,
     FETCH_MY_COMMUNITY_STACKS,
+    FETCH_FEATURED_STACKS,
+    FETCH_FEATURED_ERR,
     CREATE_STACK,
     SEARCH_STACKS,
     AUTOCOMPLETE_SEARCH_STACKS,
@@ -62,7 +64,10 @@ export default function (state = default_state, action) {
             return {...state, stacks: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
-
+        case (FETCH_FEATURED_STACKS):
+            return {...state,featStack:action.payload};
+        case (FETCH_FEATURED_ERR):
+            return {...state,featErr: action.payload};
         case (DELETE_CARD):
             return {...state}
 

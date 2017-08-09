@@ -43,4 +43,36 @@ router.post('/', (request,response,next) => {
         connection.release();
     })
 });
+
+//open for suggestions here
+router.post('/featured',(req,res,next)=>{
+    let uid = req.decoded.UserID;
+    let un = "FlappCards";
+    pool.getConnection((error,connection)=>{
+        if(error){
+            return res.json({
+                success: false,
+                message:"Problem connecting to DB"
+            });
+        }
+        connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, DATE_FORMAT(stacks.created,'%Y/%m/%d %H:%i') as 'createdOn', stacks.rating as 'stackRating', cards.orig_source_stack AS 'createdBy', users.avatar as 'avatar', COUNT(*) as 'totalCards' FROM stacks JOIN cards on stacks.stack_id=cards.stack_id JOIN users ON stacks.user_id = users.user_id WHERE users.username = ? GROUP BY cards.stack_id;",[un],(error,results)=>{
+            if(error){
+                res.json({success:false, message:"There was a problem with your request"});
+            }else if(results.length>0){
+                for(let i=0;i<results.length;i++){
+                    let userAvatarKey = results[i].avatar;
+                    let userAvatar = path.resolve(avatarDictionary[userAvatarKey]);
+                    results[i].avatar=fs.readFileSync(userAvatar,"base64");
+                }
+                res.send(results);
+            }else{
+                res.json({
+                    success:false,
+                    message:"No featured stacks found"
+                })
+            }
+        });
+        connection.release();
+    })
+});
 module.exports = router;
