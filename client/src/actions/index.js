@@ -51,7 +51,11 @@ export function userLogin(values) {
         })
     }
 }
-
+/**
+ * @name initiateGuestBrowsing
+ * @description initiates guest browsing by checking to see if token already exists, if it doesnt then user is given one
+ * @param {String} location - accepts a location so the user can continue [[may not actually need]]
+ * */
 export function initiateGuestBrowsing(location) {
     return function(dispatch) {
         // hit some back end endpoint for generating guest tokens

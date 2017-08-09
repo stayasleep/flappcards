@@ -25,6 +25,7 @@ class Landing extends Component {
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing('/')) : (browserHistory.push('/'));
     }
     render () {
+        console.log('landing will render',this.props);
         const props = this.props;
         const {store} =this.context;
         const state= store.getState(); //this is a very round about way to accomplish this task
@@ -49,7 +50,11 @@ class Landing extends Component {
                         <Registration/>
                     </Paper>
                     <WhyFlappCards />
-                    <Community />
+                    {state.auth.authenticated ? (
+                        <Community/>
+                        ): null
+                    }
+                    {/* Above Conditional rendering prevents the uncaught promise from occurring*/}
                 </div>
             );
         }
