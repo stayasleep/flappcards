@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {browserHistory} from 'react-router';
+import {connect} from 'react-redux';
+import AppBar from 'material-ui/AppBar';
+import Paper from 'material-ui/Paper';
+import {initiateGuestBrowsing} from '../../actions/index';
 import Registration from '../auth/registration';
 import LoginModal from '../confirmActionModal/loginModal';
 import LandingPageInfoText from './landing_page_text';
 import {landingPageContentContainerDiv, landingPageContainerDiv, title} from '../styles/landing_page.css';
-import AppBar from 'material-ui/AppBar';
-import Paper from 'material-ui/Paper';
-import {browserHistory} from 'react-router';
-import {connect} from 'react-redux';
-import {initiateGuestBrowsing} from '../../actions/index';
 
 import WhyFlappCards from '../home/whyFlapp';
 import FlappFeatured from '../home/flapp_feat';
-import Community from '../home/community_stacks'; //state needs to come higher for this to work or simply a new component and function
 import Home from '../home/home';
-import PropTypes from 'prop-types';
 
 class Landing extends Component {
     static contextTypes = {
@@ -24,6 +23,12 @@ class Landing extends Component {
         // if they do not have a token, initiate the non-member browsing procedures
         console.log('landing did mount',this.props);
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing('/')) : (browserHistory.push('/'));
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log('landing received',nextProps);
+        // nextProps.initiateGuestBrowsing();
+        !(localStorage.getItem("token")) ? nextProps.initiateGuestBrowsing('/') : null;
     }
 
     render () {
@@ -63,8 +68,5 @@ class Landing extends Component {
         }
     }
 }
-
-// export default connect(mapStateToProps,{initiateGuestBrowsing})(Landing); //when this is uncommented, things break. Just want to see state at start of app
-
 export default connect(null, {initiateGuestBrowsing})(Landing);
 

@@ -63,9 +63,9 @@ export function initiateGuestBrowsing(location) {
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
             console.log('axios guest',response);
-            dispatch({type: AUTH_USER, payload: false}); //added payload false, this can become obj response from server
             localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
             localStorage.setItem('guest',true);
+            dispatch({type: AUTH_USER, payload: false}); //added payload false, this can become obj response from server
             browserHistory.push(location); // May not actually need to push them anywhere, but just as a placeholder/rough draft
 
         }).catch(err =>{
@@ -97,9 +97,9 @@ export function register({name, userName, password, email, birthday}) {
 
             // resp.data.success = true, register the user
             if (resp.data.success) {
-                dispatch({type: AUTH_USER, payload: true}); //added this for guest testing
                 localStorage.setItem('token', resp.data.token);
                 localStorage.setItem('guest',false);
+                dispatch({type: AUTH_USER, payload: true}); //added this for guest testing
                 browserHistory.push('/home')
             }
 
@@ -159,14 +159,15 @@ export function getMyStackOverview() {
 // Triggered after hitting view button on list
 // Meant to return the cards available after clicking view
 export function getStackOverview(stackID) {
-    console.log('yolo before axios');
+    console.log('getStackOV before axios');
     return function (dispatch) {
         let token = localStorage.getItem('token');
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             console.log('inside the dispatch');
-            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
+            console.log('stack OV DNW',err);
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
                 error: err.response

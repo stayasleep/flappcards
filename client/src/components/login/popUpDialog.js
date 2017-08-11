@@ -22,8 +22,8 @@ export default class PopDialog extends React.Component{
                     titleClassName="popUpTitle"
                     actionsContainerClassName="loginContainer"
                     bodyClassName="popUpBody"
-                    contentClassName="loginContent"
-                    overlayClassName="loginOverlay"
+                    contentClassName="miniLoginContent"
+                    overlayClassName="miniLogInOverlay"
                     autoScrollBodyContent={false}
                     open={this.props.stateIs}
                     modal={false}

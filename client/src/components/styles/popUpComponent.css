@@ -13,10 +13,10 @@ the login folder
 }
 
 
-.loginContent{
+.miniLoginContent{
     border:5px solid black;
 }
 
-.loginOverlay,.popUpOverlay{
+.miniLoginOverlay,.popUpOverlay{
     background: transparent !important;
 }

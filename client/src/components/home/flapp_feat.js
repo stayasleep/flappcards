@@ -1,14 +1,21 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import {browserHistory, Link} from 'react-router';
 import {getFeaturedStackOverview} from '../../actions/index';
 import {List} from 'material-ui';
 import Subheader from 'material-ui/Subheader';
 import {subHeader} from '../utilities/stackSummaryStyle';
 import StackSummary from '../utilities/renderStackSummary';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 class FlappFeatured extends Component{
     componentWillMount(){
         this.props.getFeaturedStackOverview();
+    }
+    handleClick(){
+        browserHistory.push('/search');
     }
 
     render(){
@@ -16,7 +23,31 @@ class FlappFeatured extends Component{
         if(this.props.featuredStacks){
             console.log('stackSumm is true');
             return(
-                <StackSummary cardStack={this.props.featuredStacks} title={"Popular Stacks"}/>
+                <div className="flappFeaturedParent">
+                    <Paper className="flappFeatPaper" zDepth={2}>
+                        <div>
+                            <h2>Our Featured Stacks</h2>
+                        </div>
+                        <StackSummary cardStack={this.props.featuredStacks}/>
+                        <div className="flappFeatContainer">
+                            <div>Check out the rest!</div>
+                            <RaisedButton
+                                label={<Link className="featFlappBtn" to="/search">Search the community stacks</Link>}
+                                style={{"height":"100%","width":"100%"}}
+                            className="featuredButton"
+                            labelColor="white"
+                            secondary={true}
+                           // onTouchTap={this.handleClick.bind(this)}
+                            >
+
+                            </RaisedButton>
+
+                        </div>
+                    </Paper>
+                    <div>
+
+                    </div>
+                </div>
             )
         }else if(this.props.featuredErr){
             console.log('feat err is true');
@@ -24,13 +55,13 @@ class FlappFeatured extends Component{
                 <List>
                     <Subheader style={subHeader}>Popular Stacks</Subheader>
                     <div className="emptyRecent" style={{fontFamily: "Roboto, sans-serif"}}>
-                        There's tons of neat stacks to checkout. <Link to="/Search">Search</Link> around the
+                        There's tons of neat stacks to checkout. <Link to="/search">Search</Link> around the
                         community and checkout what's happening today!
                     </div>
                 </List>
             )
         }else{
-            console.log('null being returned');
+            console.log('null being returned from Featured');
             return null;
         }
     }
