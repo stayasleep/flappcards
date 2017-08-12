@@ -51,7 +51,6 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        console.log('stack 666 aint real');
                         response.send(results);
                     });
                 }
