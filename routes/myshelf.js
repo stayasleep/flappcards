@@ -4,8 +4,8 @@ const router = express.Router();
 const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
-const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
-const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
+// const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
+// const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 
 //clicking myShelf and getting your overview,
@@ -19,7 +19,6 @@ router.post('/',(request,response,next)=> {
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            // return next(error);
         }
         // Query the database for all the user's stacks
         connection.query("SELECT stacks.stack_id, stacks.subject, stacks.category, stacks.last_played as 'lastPlayed', stacks.created, stacks.rating as 'stackRating', " +
@@ -30,6 +29,7 @@ router.post('/',(request,response,next)=> {
             if (error) {
                 response.send({success: false, message:"There was a problem with your request"});
             } else {
+                console.log('is this printing 2x');
                 response.send(results);
             }
         });
@@ -55,15 +55,14 @@ router.delete('/:sID',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            // return next(error);
         }
+        //result returned is Object where affectedRows is either yes, no, or we have an error with mysql
         connection.query("DELETE FROM stacks WHERE user_id = ? AND stack_id = ?",[uid,stackID],(error,results)=>{
             if (error){
                 response.send({success: false, message:"There was a problem with your request"});
-            }else if (results>0){ //ask
-                response.send(results);
+            }else if (results.affectedRows){
+                response.end(); //this happens 2x
             }else{
-                //if i copy a stack and delete it from myshelf, this is what is sent.
                 response.send(results);
             }
         });

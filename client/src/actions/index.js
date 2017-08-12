@@ -25,8 +25,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -208,7 +208,6 @@ export function deleteStack(stackID) {
     return function(dispatch) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
-            dispatch({type: DELETE_STACK, payload: response.data});
             axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
                 dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
@@ -217,7 +216,6 @@ export function deleteStack(stackID) {
                     error: err.response
                 });
             });
-            // browserHistory.push('/myShelf'); //this push never works, the above is ugly but accomplishes the updating of myshelf
         }).catch(err => {
             dispatch({
                 type: DELETE_STACK,
@@ -228,7 +226,7 @@ export function deleteStack(stackID) {
 }
 /**
  * @name - deleteCard
- * @param cardID {int}
+ * @param cardObj {int}
  * @returns {Function}
  */
 export function deleteCard(cardObj) {
@@ -238,7 +236,7 @@ export function deleteCard(cardObj) {
             dispatch({type: DELETE_CARD, payload: null});
             //attempting to fix our shame from above
             axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                console.log('inside the dispatch for del getstack');
+                console.log('inside the dispatch for del getstack',response);
                 (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
                 dispatch({

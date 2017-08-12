@@ -115,14 +115,14 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                 });
                 // return next(error);
             }
+            //result is an object where affectedRows is either true, false, or there is mysql error
             connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?", [uid, singleID], (error, result) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
-                } else if (result.length > 0) {
-                    response.send("Card deleted from your stack.")
+                } else if (result.affectedRows) {
+                    response.end();
                 } else {
-                    console.log('cannot be deleted result',Object.keys(result).length);
-                    response.send("Cannot be deleted at this time."); ///this is an object
+                    response.end(); ///this is
                 }
             });
             connection.release();
