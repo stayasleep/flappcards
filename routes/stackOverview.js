@@ -121,7 +121,8 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                 } else if (result.length > 0) {
                     response.send("Card deleted from your stack.")
                 } else {
-                    response.send("Cannot be deleted at this time.");
+                    console.log('cannot be deleted result',Object.keys(result).length);
+                    response.send("Cannot be deleted at this time."); ///this is an object
                 }
             });
             connection.release();

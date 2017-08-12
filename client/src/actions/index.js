@@ -236,12 +236,10 @@ export function deleteCard(cardObj) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: null});
-            // browserHistory.push('/myShelf');
-            // browserHistory.push(`/stackOverview/${cardObj.stackID}`); // Shame have I
             //attempting to fix our shame from above
             axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
                 console.log('inside the dispatch for del getstack');
-                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
                 dispatch({
                     type: FETCH_STACK_OVERVIEW,
@@ -310,7 +308,6 @@ export function getCommunityStacksOverview() {
 }
 export function getFeaturedStackOverview(){
     return function(dispatch){
-        console.log('getting flapp feat');
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/community/featured`,{"token":token}).then((response)=>{
             console.log('featured disp',response);
@@ -380,11 +377,9 @@ export function addSingleCard(cardObject) {
         axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
             console.log('added card axios disp',response);
             // dispatch({type: CREATE_STACK, payload: response.data});
-            // console.log('before',stackID);
-            // getStackOverview(stackID);
             axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
                 console.log('inside the dispatch');
-                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : console.log('getstackOV disp',response);dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
                 dispatch({
                     type: FETCH_STACK_OVERVIEW,
@@ -414,7 +409,7 @@ export function stackCopy(stackCopy) {
             let newStackID = response.data.stackID;
             dispatch({type: COPY_STACK, payload: newStackID});
             browserHistory.push(`/myShelf`); //one day we will figure this one out
-            browserHistory.push(`/stackOverview/${newStackID}`);
+            browserHistory.push(`/stackOverview/${newStackID}`); //maybe in the respons we get ID of last insert, and do axios
         }).catch(err => {
             dispatch({
                 type: COPY_STACK,
@@ -507,7 +502,6 @@ export function recoverPw(userInfo){
             if(response.data.success){
                 dispatch({type: RECOVER_PW});
                 browserHistory.push('/home');
-                // window.location.reload()
             }
             if (response.data.noMatchFound){
                 dispatch({

@@ -68,6 +68,7 @@ class StackViewStacks extends Component{
         }
     }
     render() {
+        console.log('stackview stacks rendering',this.props);
         if (!this.props.stackCards) {
             return (
                 <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif", padding: 12}}>
@@ -76,6 +77,8 @@ class StackViewStacks extends Component{
             );
         }
         let stackView;
+        //check to see if length exists before render
+        // if(this.props.stackCards.length>0){
         if(this.props.stackCards[0].isOwned) {
             console.log('render child stacks owned',this.props);
             const cardStackList = this.props.stackCards.map((item, index) => {
