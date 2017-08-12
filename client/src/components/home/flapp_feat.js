@@ -15,7 +15,8 @@ class FlappFeatured extends Component{
         this.props.getFeaturedStackOverview();
     }
     handleClick(){
-        browserHistory.push('/search');
+        //browserHistory.push('/search');
+        const x = <Link to={`/search`} name="search">Search</Link>;
     }
 
     render(){
@@ -32,12 +33,13 @@ class FlappFeatured extends Component{
                         <div className="flappFeatContainer">
                             <div>Check out the rest!</div>
                             <RaisedButton
-                                label={<Link className="featFlappBtn" to="/search">Search the community stacks</Link>}
-                                style={{"height":"100%","width":"100%"}}
+                                label="Search2"
+                                containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
+                                //style={{"height":"100%","width":"100%"}}
                             className="featuredButton"
                             labelColor="white"
                             secondary={true}
-                           // onTouchTap={this.handleClick.bind(this)}
+                            //onTouchTap={this.handleClick.bind(this)}
                             >
 
                             </RaisedButton>
