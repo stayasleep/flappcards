@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import {browserHistory, Link} from 'react-router';
+import {Link} from 'react-router';
 import {getFeaturedStackOverview} from '../../actions/index';
 import {List} from 'material-ui';
 import Subheader from 'material-ui/Subheader';
@@ -14,13 +14,8 @@ class FlappFeatured extends Component{
     componentWillMount(){
         this.props.getFeaturedStackOverview();
     }
-    handleClick(){
-        //browserHistory.push('/search');
-        const x = <Link to={`/search`} name="search">Search</Link>;
-    }
 
     render(){
-        console.log('feat props',this.props);
         if(this.props.featuredStacks){
             console.log('stackSumm is true');
             return(
@@ -29,21 +24,16 @@ class FlappFeatured extends Component{
                         <div>
                             <h2>Our Featured Stacks</h2>
                         </div>
-                        <StackSummary cardStack={this.props.featuredStacks}/>
+                        <StackSummary className="featStackSumm" cardStack={this.props.featuredStacks}/>
                         <div className="flappFeatContainer">
                             <div>Check out the rest!</div>
                             <RaisedButton
-                                label="Search2"
+                                label="Search More Stacks"
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
-                                //style={{"height":"100%","width":"100%"}}
-                            className="featuredButton"
-                            labelColor="white"
-                            secondary={true}
-                            //onTouchTap={this.handleClick.bind(this)}
-                            >
-
-                            </RaisedButton>
-
+                                className="featuredButton"
+                                labelColor="white"
+                                secondary={true}
+                            />
                         </div>
                     </Paper>
                     <div>
