@@ -27,7 +27,6 @@ class Landing extends Component {
 
     componentWillReceiveProps(nextProps){
         console.log('landing received',nextProps);
-        // nextProps.initiateGuestBrowsing();
         !(localStorage.getItem("token")) ? nextProps.initiateGuestBrowsing('/') : null;
     }
 
@@ -61,7 +60,6 @@ class Landing extends Component {
                         <FlappFeatured/>
                         ): null
                     }
-                    {/*<FlappFeatured/>*/}
                     {/* Above Conditional rendering prevents the uncaught promise from occurring*/}
                 </div>
             );
