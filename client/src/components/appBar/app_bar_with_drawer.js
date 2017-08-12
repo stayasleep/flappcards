@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import Divider from 'material-ui/Divider';
 import {browserHistory} from 'react-router';
 import {Navstyle} from './../styles/appBar.css';
+import PopUp from '../login/popUpReminder';
 
 class FlashCardsAppBar extends Component {
 
@@ -17,7 +18,10 @@ class FlashCardsAppBar extends Component {
     handleToggle() {
         this.setState({open: !this.state.open});
     }
-    handleClose() { this.setState({open: false}); }
+    handleClose() {
+        this.setState({open: false});
+    }
+
     render() {
         const titleStyleClass = {
             maxWidth: "20%",
@@ -44,17 +48,37 @@ class FlashCardsAppBar extends Component {
                 >
                     <MenuItem style={style} primaryText="Home" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/home" name="Home"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
-                    <Divider />
-                    <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                    {this.props.authorized ? (
+                        <div>
+                            <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
+                            <Divider />
+                            <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                        </div>
+                        ) : (
+                        <div>
+                            <PopUp style={style} menuTitle="My Shelf" onTouchTap={this.handleClose.bind(this)}/>
+                            <Divider />
+                            <PopUp style={style} menuTitle="Create Cards" onTouchTap={this.handleClose.bind(this)}/>
+                        </div>
+                        )
+                    }
                     <Divider />
                     <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
                     <Divider />
-                    <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
-                    <Divider />
-                    <MenuItem style={style} primaryText="About" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/about" name="About"/>}/>
-                    <Divider />
-                    <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                    {this.props.authorized ? (
+                        <div>
+                            <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
+                            <Divider />
+                            <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                        </div>
+                        ) : (
+                        <div>
+                            <PopUp style={style} menuTitle="Profile" onTouchTap={this.handleClose.bind(this)} />
+                            <Divider />
+                            <MenuItem style={style} primaryText="Log In" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/login" name="Log In"/>}/>
+                        </div>
+                        )
+                    }
                 </Drawer>
 
                 <AppBar
@@ -72,7 +96,8 @@ class FlashCardsAppBar extends Component {
 
 function mapStateToProps(state) {
     return {
-        auth: state.auth.authenticated
+        auth: state.auth.authenticated,
+        authorized: state.auth.authorized,
     }
 }
 

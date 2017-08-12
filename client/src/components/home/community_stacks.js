@@ -8,9 +8,11 @@ import StackSummary from '../utilities/renderStackSummary';
 
 class Community extends Component {
     componentWillMount() {
+        console.log('community will mount');
         this.props.getCommunityStacksOverview();
     }
     render() {
+        console.log('comm props',this.props);
         if (!this.props.communityStacks) {
             return (
                 <List>

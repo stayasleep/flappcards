@@ -11,6 +11,8 @@ import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
 import {medium, mediumIcon, rightAvatar} from '../utilities/stackSummaryStyle';
+import Paper from 'material-ui/Paper';
+
 // When using the component, you'll pass in the name of the cardStack that is in this.props
 class StackSummary extends Component {
 
@@ -18,7 +20,7 @@ class StackSummary extends Component {
         const {cardStack, title} = this.props;
         const stackSummary = cardStack.map((item, index) => {
             return (
-
+                //<Paper style={{display:"inline-block",margin:"1em"}}>
                 <Card key={index} style={stackSummaryDisplay}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
@@ -51,6 +53,7 @@ class StackSummary extends Component {
                         </IconButton>
                     </CardActions>
                 </Card>
+                //</Paper>
             )
         });
 

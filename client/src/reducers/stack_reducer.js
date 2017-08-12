@@ -5,6 +5,8 @@ import {
     FETCH_MY_RECENT_STACKS,
     FETCH_STACK_OVERVIEW,
     FETCH_MY_COMMUNITY_STACKS,
+    FETCH_FEATURED_STACKS,
+    FETCH_FEATURED_ERR,
     CREATE_STACK,
     SEARCH_STACKS,
     AUTOCOMPLETE_SEARCH_STACKS,
@@ -42,24 +44,30 @@ export default function (state = default_state, action) {
                 number: action.payload.totalCards};
         case(FETCH_CARD):
             return{...state, single: action.payload.cards};
-        case(FETCH_MY_STACK_OVERVIEW):
+        case FETCH_MY_STACK_OVERVIEW:
+            console.log('fetch stack ov',action);
             return{...state, stacks: action.payload};
         case (FETCH_MY_RECENT_STACKS):
             return {...state, recentStacks: action.payload};
         case (FETCH_MY_COMMUNITY_STACKS):
             return {...state,
                 communityStacks: action.payload};
-        case (FETCH_STACK_OVERVIEW):
+        case FETCH_STACK_OVERVIEW:
+            console.log('reducer for clicking eyeball on stack',action);
             return {...state, stackCards: action.payload};
-        case(CREATE_STACK):
+        case CREATE_STACK:
+            console.log('create stack',action);
             return {...state};
-        case(AUTOCOMPLETE_SEARCH_STACKS):
+        case (AUTOCOMPLETE_SEARCH_STACKS):
             return {...state, autoCompleteSuggestions: action.payload};
         case (SEARCH_STACKS):
             return {...state, stacks: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
-
+        case (FETCH_FEATURED_STACKS):
+            return {...state,featStack:action.payload};
+        case (FETCH_FEATURED_ERR):
+            return {...state,featErr: action.payload};
         case (DELETE_CARD):
             return {...state}
 

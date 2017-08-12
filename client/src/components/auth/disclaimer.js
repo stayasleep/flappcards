@@ -1,10 +1,12 @@
 import React,{Component} from 'react';
-import Paper from 'material-ui/Paper';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
+import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
+import {initiateGuestBrowsing} from '../../actions/index';
 
-
+//set the year dynamically for the bottom of page
 let d = new Date();
 d = d.getFullYear();
 
@@ -14,17 +16,20 @@ class Disclaimer extends Component{
         //set the title
         document.title="FlappCards - Terms of Service"
     }
-    componentWillUnmount(){
-        document.title="FlappCards";
+    componentDidMount() {
+        // if they do not have a token, initiate the non-member browsing procedures
+        if(!(localStorage.getItem('token'))){
+            this.props.initiateGuestBrowsing('/disclaimer');
+        }
     }
 
     render(){
         return(
             <div>
                 <Toolbar className="navHeader">
-                    <ToolbarTitle text={<a  className="navTitleBar" href="https://flappcards.com">FlappCards</a>}/>
+                    <ToolbarTitle text={<a  className="navTitleBar" href="/">FlappCards</a>}/>
                     <ToolbarGroup>
-                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
+                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <Paper className="paperBody" zDepth={2}>
@@ -137,4 +142,4 @@ class Disclaimer extends Component{
     }
 }
 
-export default Disclaimer;
+export default connect(null,{initiateGuestBrowsing})(Disclaimer);

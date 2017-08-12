@@ -12,6 +12,8 @@ import './styles/search.css'
 import './styles/appBar.css'
 import './styles/signReg.css';
 import './styles/whyFlappsComp.css';
+import './styles/popUpComponent.css';
+import './styles/landing_page.css'; //for andres'
 import {
     teal700, teal500,
     indigo200,
@@ -35,7 +37,8 @@ const muiTheme = getMuiTheme({
         accent3Color: grey500,
         textColor: fullBlack,
         alternateTextColor: white,
-        canvasColor: "#f0f0f0",
+        canvasColor: "#fff",
+        // canvasColor: "#f0f0f0",
         borderColor: grey300,
         disabledColor: fade(darkBlack, 0.3),
         pickerHeaderColor: teal700,

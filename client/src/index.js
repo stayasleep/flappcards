@@ -12,9 +12,17 @@ import reducers from './reducers';
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
-if(token){
-    store.dispatch({type: AUTH_USER})
+const guest = localStorage.getItem("guest");
+
+console.log('before token check');
+if(token && JSON.parse(guest)){
+    console.log('token is guest');
+    store.dispatch({type: AUTH_USER,payload: false});
+} else if(token ){
+    console.log('token isnt guest');
+    store.dispatch({type: AUTH_USER, payload: true});
 }
+console.log('after token check');
 
 import App from './components/app';
 import Home from './components/home/home';
@@ -33,6 +41,7 @@ import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
 import SignIn from './components/login/login';
 import Register from './components/register/register';
+import Forgot from './components/login/forgot';
 
 
 ReactDOM.render(
@@ -42,6 +51,7 @@ ReactDOM.render(
                 <IndexRoute component={Landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
                 <Route path="login" component={SignIn}/>
+                <Route path="login/forgotpassword" component={Forgot} />
                 <Router path="register" component={Register}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>

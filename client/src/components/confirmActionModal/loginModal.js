@@ -79,7 +79,7 @@ export default class LoginModal extends Component {
                         className="cancelBtn"
                         label="Cancel"
                         primary={true}
-                        fullWidth={true}
+                        fullWidth={false}
                         onTouchTap={this.handleClose}
                     />
                     <RecoverPw/>

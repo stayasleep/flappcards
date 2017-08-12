@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
+import {initiateGuestBrowsing} from '../../actions/index';
 import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import Login from './log_in';
-import {userLogin} from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 
-//Get that Year
+//Get that Year for bottom of page
 let d = new Date();
 d = d.getFullYear();
 
@@ -16,18 +16,20 @@ class PrivacyPolicy extends Component{
         //set title
         document.title="FlappCards - Privacy Policy";
     }
-    componentWillUnmount(){
-        //ask if this part is even necessary
-        document.title="FlappCards";
+    componentDidMount() {
+        // if they do not have a token, initiate the non-member browsing procedures
+        if(!(localStorage.getItem('token'))){
+            this.props.initiateGuestBrowsing('/privacy');
+        }
     }
 
     render(){
         return(
             <div>
                 <Toolbar className="navHeader">
-                    <ToolbarTitle text={<a  className="navTitleBar" href="https://flappcards.com">FlappCards</a>} />
+                    <ToolbarTitle text={<a  className="navTitleBar" href="/">FlappCards</a>} />
                     <ToolbarGroup>
-                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
+                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <Paper className="paperBody" zDepth={2}>
@@ -181,4 +183,4 @@ class PrivacyPolicy extends Component{
     }
 }
 
-export default PrivacyPolicy;
+export default connect(null,{initiateGuestBrowsing})(PrivacyPolicy);

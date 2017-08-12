@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
 import {connect} from 'react-redux';
@@ -23,14 +23,18 @@ class AddCard extends Component {
     };
 
     handleAdd(cardObject){
+        console.log('before axios handleadd',this.props);
         // Pass in the cardObject which contains the necessary information for the add
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
         cardObject.stack_id = this.props.stackCards[0].stack_id;
         this.props.addSingleCard(cardObject);
-        if(cardObject){
-            this.setState({open: false});
-            this.props.getStackOverview(cardObject.stack_id);
-        }
+        this.props.dispatch(reset('AddCard')); //clears the form
+        this.setState({open: false});
+        // if(cardObject){
+        //     console.log('inside handleAdd cardOb',cardObject);
+        //     this.setState({open: false});
+        //     this.props.getStackOverview(cardObject.stack_id);
+        // }
     }
 
     handleOpen = () => {
@@ -41,9 +45,8 @@ class AddCard extends Component {
         this.setState({open: false});
     };
 
-
-
     render() {
+        console.log('render add card');
         const { handleSubmit} = this.props;
         return (
             <div className="singleCardAdd">
@@ -76,7 +79,7 @@ class AddCard extends Component {
 
 AddCard = reduxForm({
     form: 'AddCard',
-    validate
+    validate,
 })(AddCard);
 
 function mapStateToProps(state) {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
 import renderInput from '../utilities/renderInput';
 import RaisedButton from 'material-ui/RaisedButton';
 import validate from './validate';
@@ -28,14 +28,18 @@ class EditCard extends Component {
         open: false,
     };
     handleEdit(cardObject){
+        console.log('handle edit',this.props);
         // Pass in the cardObject which contains the necessary information for the edit
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
         cardObject.cardID = this.props.cardID.card_id;
+        cardObject.stackID = this.props.cardID.stack_id;
         this.props.cardEditor(cardObject);
-        if(cardObject){
-            this.setState({open: false});
-            this.props.getStackOverview(this.props.cardID.stack_id);
-        }
+        this.props.dispatch(reset('EditCard')); //clears the form
+        this.setState({open:false});
+        // if(cardObject){
+        //     this.setState({open: false});
+        //     this.props.getStackOverview(this.props.cardID.stack_id);
+        // }
     }
 
     handleOpen = () => {
@@ -81,8 +85,9 @@ class EditCard extends Component {
                             <p>Original question: {this.props.cardID.question}</p>
                             <p>Original answer: {this.props.cardID.answer}</p>
                         </div>
-                        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>
-                        <RaisedButton label="Edit" primary={true} type="submit"/>
+                        {/*<RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>*/}
+                        <RaisedButton style={{"boxShadow":"0 0 0 1pt rgb(0,121,107)","margin":"2em"}} labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" type="button" label="Cancel" onTouchTap={this.handleClose}/>
+                        <RaisedButton style={{"margin":"2em"}} label="Edit" primary={true} type="submit"/>
                     </form>
                 </Dialog>
             </div>

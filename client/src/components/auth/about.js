@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux'
 import Paper from 'material-ui/Paper';
 import about from '../imgs/about.JPG';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
+import {initiateGuestBrowsing} from '../../actions/index';
+
 
 const style={
     container:{
@@ -38,12 +40,15 @@ const style={
 class About extends Component{
 
     componentWillMount(){
-        //change the title for the page
         document.title="FlappCards - About";
     }
-    componentWillUnmount(){
-        //reset title
-        document.title="FlappCards";
+
+    componentDidMount() {
+        // if they do not have a token, initiate the non-member browsing procedures
+        console.log('about did mount',this.props);
+        if(!(localStorage.getItem('token'))){
+            this.props.initiateGuestBrowsing('/about');
+        }
     }
 
     render(){
@@ -81,6 +86,6 @@ class About extends Component{
             </div>
         )
     }
-};
+}
 
-export default About;
+export default connect(null,{initiateGuestBrowsing})(About);

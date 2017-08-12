@@ -30,6 +30,7 @@ let reset = require('./reset');
 router.use('/',user);
 router.use('/guest',guest);
 router.use('/recovery',recovery);
+
 //set up one-time token route
 router.use('/reset',reset);
 
@@ -48,7 +49,7 @@ router.use((request, response, next)=> {
             }
         });
     } else {
-        return response.redirect('/404')();
+        return response.redirect('/404');
     }
 });
 
@@ -64,7 +65,8 @@ router.use('/search', searched);
 // router.use('/logout', logOut);
 // router.use('/copy', copy);
 
-//middleware for token based sub routes where authentication is needed
+
+//middleware for token based sub routes where authorization is needed
 router.use((request,response,next) =>{
     const user = request.decoded.UserName;
     const scope = request.decoded.scope;
@@ -76,7 +78,6 @@ router.use((request,response,next) =>{
             guestToken: true
         })
     }
-    //theoretically, this means the username is NOT guest and they have slightly better scope privilege than guest->continue
     next();
 });
 
