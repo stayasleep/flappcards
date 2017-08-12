@@ -38,7 +38,7 @@ class LogIn extends Component {
                             <Field className="chromeAuto" name="password" component={renderInput} label="Password" type="password"/>
                         </div>
                     </div>
-                        <RaisedButton primary={true} type="submit" fullWidth={true} className="loginButton" label="Login"/>
+                        <RaisedButton style={{margin:"1em"}} primary={true} type="submit" fullWidth={false} className="loginButton" label="Login"/>
                 </form>
             </div>
         )
