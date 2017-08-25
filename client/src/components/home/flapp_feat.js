@@ -22,13 +22,13 @@ class FlappFeatured extends Component{
                 <div className="flappFeaturedParent">
                     <Paper className="flappFeatPaper" zDepth={2}>
                         <div>
-                            <h2>Our Featured Stacks</h2>
+                            <h1 className="featStackTitle">Our Featured Stacks</h1>
                         </div>
                         <StackSummary className="featStackSumm" cardStack={this.props.featuredStacks}/>
                         <div className="flappFeatContainer">
-                            <div>Check out the rest!</div>
+                            <div className="containerText">Or search more of what you&apos;re looking for today!</div>
                             <RaisedButton
-                                label="Search More Stacks"
+                                label="Search Stacks"
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
                                 className="featuredButton"
                                 labelColor="white"
@@ -36,9 +36,6 @@ class FlappFeatured extends Component{
                             />
                         </div>
                     </Paper>
-                    <div>
-
-                    </div>
                 </div>
             )
         }else if(this.props.featuredErr){

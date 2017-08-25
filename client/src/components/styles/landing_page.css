@@ -101,3 +101,26 @@ div.landingPageContentContainerDiv > div {
     flex: 1 1 0;
     margin: 1em;
 }
+
+
+/*Featured Stacks*/
+.flappFeaturedParent{
+    text-align: center;
+}
+
+.flappFeatPaper{
+    padding: 1em;
+}
+.featStackTitle{
+    border-bottom: 2px solid black;
+}
+
+.flappFeatContainer{
+    border: 1px dashed black;
+    width: 300px;
+    padding: 1em;
+    margin: 0 auto;
+}
+.containerText{
+    margin-bottom: 10px;
+}
