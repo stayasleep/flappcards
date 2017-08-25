@@ -39,6 +39,7 @@ export function userLogin(values) {
                 dispatch({type: AUTH_USER, payload: true}); //added payload true..this can become obj resp from server if works
                 browserHistory.push('/home')
             } else {
+                console.log('error in auth',response);
                 dispatch({
                     type: AUTH_ERROR,
                     payload: "Username/Password Incorrect"
@@ -46,6 +47,7 @@ export function userLogin(values) {
 
             }
         }).catch(err => {
+            console.log('log err',err);
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response

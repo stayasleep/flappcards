@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
+import {browserHistory, Link} from 'react-router';
 
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
@@ -15,13 +15,22 @@ import {medium, mediumIcon, rightAvatar} from '../utilities/stackSummaryStyle';
 
 // When using the component, you'll pass in the name of the cardStack that is in this.props
 class StackSummary extends Component {
+
     render() {
         const {cardStack, title} = this.props;
         const stackSummary = cardStack.map((item, index) => {
+
+            function handleClick(){
+                browserHistory.push(`/stackoverview/${cardStack[index].stack_id}`)
+            }
+
             return (
-                <Card key={index} className={`card${index}`} style={stackSummaryDisplay}>
+                <Card zDepth={3} onClick={handleClick} key={index} className={`card${index}`} style={stackSummaryDisplay}>
                         <style>
                             {`
+                            .card${index}{
+                                cursor: pointer;
+                            }
                             .card${index}:hover{
                                 box-shadow: 10px 10px 5px #888888 !important;
                             }

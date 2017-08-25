@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import Subheader from 'material-ui/Subheader';
 import {List} from 'material-ui/List';
+import CircularProgress from 'material-ui/CircularProgress';
 import {subHeader} from '../utilities/stackSummaryStyle';
-import {Link} from 'react-router';
 import {emptyRecent} from './../styles/home.css';
 
 import StackSummary from '../utilities/renderStackSummary';
 
 class Recent extends Component {
     componentWillMount() {
+        console.log('recent will mount',this.props);
         this.props.getMyRecentStacksOverview();
+    }
+    componentDidMount(){
+        console.log('recent did mount',this.props);
     }
 
     render() {
@@ -28,7 +33,13 @@ class Recent extends Component {
                         </div>
                     </List>
                 )
-            }else {
+            } else if(this.props.recentStacks.success === false){
+                return (
+                    <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif"}}>
+                        <CircularProgress size={80} thickness={6} />
+                    </div>
+                )
+            } else if (this.props.recentStacks) {
                 return (
                     <StackSummary cardStack={this.props.recentStacks} title={"Recent Stacks"}/>
                 );
