@@ -28,6 +28,7 @@ class StackSummary extends Component {
                             {`
                             .card${index}{
                                 cursor: pointer;
+                                border: 2px solid black;
                             }
                             .card${index}:hover{
                                 box-shadow: 10px 10px 5px #888888 !important;
@@ -56,15 +57,19 @@ class StackSummary extends Component {
                         <div>
                         Created On: {item.createdOn}
                         </div>
-                        <div>
-                            {`Rating: ${item.stackRating} %`}
+                        <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} className="viewEye">
+                            <IconButton iconStyle={mediumIcon} style= {medium} >
+                                <RemoveRedEye hoverColor={green500} />
+
+                            </IconButton>
+                            {item.stackRating}
                         </div>
                     </CardText>
-                    <CardActions>
-                        <IconButton iconStyle={mediumIcon} style= {medium} containerElement={<Link to={`/stackOverview/${cardStack[index].stack_id}`} name="stackOverview"/>}>
-                            <RemoveRedEye hoverColor={green500} />
-                        </IconButton>
-                    </CardActions>
+                    {/*<CardActions>*/}
+                        {/*<IconButton iconStyle={mediumIcon} style= {medium} containerElement={<Link to={`/stackOverview/${cardStack[index].stack_id}`} name="stackOverview"/>}>*/}
+                            {/*<RemoveRedEye hoverColor={green500} />*/}
+                        {/*</IconButton>*/}
+                    {/*</CardActions>*/}
                 </Card>
             )
         });

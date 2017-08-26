@@ -29,29 +29,38 @@ router.get('/:sID',(request,response,next) => {
                 }
                 if (result.length > 0) {
                     //Stack is in your collection
-                    connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                    connection.query(
+                        "BEGIN;" +
+                        "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
+                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                        "WHERE `stacks`.`stack_id`=?;", [sid], (error, results) => {
+                        "WHERE `stacks`.`stack_id`=?;" +
+                        "COMMIT;", [sid, sid], (error, results) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
                         if (results.length > 0) {
                             results[0].isOwned = true;
-                            response.send(results);
+                            response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
-                            response.send(results);
+                            response.send(results[2]);
                         }
                     });
                 } else {
                     //If the stack is not initially in your collection
-                    connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                    connection.query(
+                        "BEGIN;" +
+                        "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
+                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                        "WHERE `stacks`.`stack_id`=?;", [sid], (error, results) => {
+                        "WHERE `stacks`.`stack_id`=?;" +
+                        "COMMIT;", [sid, sid], (error, results) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        response.send(results);
+                        console.log('results from the update shit',results);
+                        response.send(results[2]);
                     });
                 }
             });
