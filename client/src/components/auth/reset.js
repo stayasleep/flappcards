@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {isRouteValid} from '../../actions/index';
-// import ReactDom from 'react-dom';
 // import renderInput from '../utilities/renderInputReg';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';

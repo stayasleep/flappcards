@@ -19,7 +19,7 @@ class Landing extends Component {
         store: PropTypes.object
     };
 
-    componentDidMount() {
+    componentWillMount() {
         // if they do not have a token, initiate the non-member browsing procedures
         console.log('landing did mount',this.props);
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing('/')) : (browserHistory.push('/'));
@@ -50,15 +50,16 @@ class Landing extends Component {
             return (
                 <div className="">
                     <AppBar className="" title={<span className="title">FlappCards</span>} showMenuIconButton={false}
-                            iconElementRight={rightButtons}/>
+                            iconElementRight={rightButtons}
+                    />
                     <Paper className="landingPageContentContainerDiv" zDepth={2}>
                         <LandingPageInfoText/>
                         <Registration/>
                     </Paper>
                     <WhyFlappCards />
-                    {state.auth.authenticated ? (
+                    { state.auth.authenticated ? (
                         <FlappFeatured/>
-                        ): null
+                        ) : null
                     }
                     {/* Above Conditional rendering prevents the uncaught promise from occurring*/}
                 </div>
