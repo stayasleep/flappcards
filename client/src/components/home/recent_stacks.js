@@ -1,29 +1,22 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
-import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import Subheader from 'material-ui/Subheader';
 import {List} from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
+import {getMyRecentStacksOverview, getStackOverview} from '../../actions/index'
 import {subHeader} from '../utilities/stackSummaryStyle';
 import {emptyRecent} from './../styles/home.css';
-
 import StackSummary from '../utilities/renderStackSummary';
 
 class Recent extends Component {
     componentWillMount() {
-        console.log('recent will mount',this.props);
         this.props.getMyRecentStacksOverview();
-    }
-    componentDidMount(){
-        console.log('recent did mount',this.props);
     }
 
     render() {
-        console.log('am recent stack',this.props);
         if(this.props.authorized) {
-            if (!this.props.recentStacks || typeof this.props.recentStacks==="string" ) { //ugly, but it catches our promise which originally returns a string,this only worked before bc the dispatch in catch threw it back and saved us
-                console.log('recent stacks prop check',this.props.recentStacks);
+            if (!this.props.recentStacks || typeof this.props.recentStacks === "string" ) { //ugly, but it catches our promise which originally returns a string,this only worked before bc the dispatch in catch threw it back and saved us
                 return (
                     <List>
                         <Subheader style={subHeader}>Recent Stacks:</Subheader>
@@ -33,7 +26,7 @@ class Recent extends Component {
                         </div>
                     </List>
                 )
-            } else if(this.props.recentStacks.success === false){
+            } else if (this.props.recentStacks.success === false){
                 return (
                     <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif"}}>
                         <CircularProgress size={80} thickness={6} />
@@ -41,7 +34,7 @@ class Recent extends Component {
                 )
             } else if (this.props.recentStacks) {
                 return (
-                    <StackSummary cardStack={this.props.recentStacks} title={"Recent Stacks"}/>
+                    <StackSummary cardStack={this.props.recentStacks} title={"Recent Stacks"} />
                 );
             }
         }else{

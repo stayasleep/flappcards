@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import {browserHistory, Link} from 'react-router';
-
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import {List} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-
-import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from './stackSummaryStyle';
 import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
+import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from './stackSummaryStyle';
 import {medium, mediumIcon, rightAvatar} from '../utilities/stackSummaryStyle';
 
 

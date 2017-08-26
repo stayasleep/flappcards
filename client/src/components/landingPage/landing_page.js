@@ -57,9 +57,9 @@ class Landing extends Component {
                         <Registration/>
                     </Paper>
                     <WhyFlappCards />
-                    {state.auth.authenticated ? (
+                    { state.auth.authenticated ? (
                         <FlappFeatured/>
-                        ): null
+                        ) : null
                     }
                     {/* Above Conditional rendering prevents the uncaught promise from occurring*/}
                 </div>

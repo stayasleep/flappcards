@@ -20,13 +20,13 @@ class FlappFeatured extends Component{
             console.log('stackSumm is true');
             return(
                 <div className="flappFeaturedParent">
-                    <Paper className="flappFeatPaper" zDepth={2}>
+                    <Paper className="flappFeatPaper">
                         <div>
                             <h1 className="featStackTitle">Our Featured Stacks</h1>
                         </div>
                         <StackSummary className="featStackSumm" cardStack={this.props.featuredStacks}/>
                         <div className="flappFeatContainer">
-                            <div className="containerText">Or search more of what you&apos;re looking for today!</div>
+                            <div className="containerText">Search more of what you&apos;re looking for today!</div>
                             <RaisedButton
                                 label="Search Stacks"
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
@@ -45,7 +45,7 @@ class FlappFeatured extends Component{
                     <Subheader style={subHeader}>Popular Stacks</Subheader>
                     <div className="emptyRecent" style={{fontFamily: "Roboto, sans-serif"}}>
                         There's tons of neat stacks to checkout. <Link to="/search">Search</Link> around the
-                        community and checkout what's happening today!
+                        community and checkout what&apos;s happening today!
                     </div>
                 </List>
             )
