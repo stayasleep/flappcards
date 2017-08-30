@@ -3,7 +3,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import './styles/landingPage.css';
 import './styles/singleCard.css';
 import './styles/footer.css';
 import './styles/disclaimer.css';
