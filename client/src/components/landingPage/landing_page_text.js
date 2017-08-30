@@ -1,5 +1,4 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
 // import {infoText, infoTextExtendedContainerDiv, infoExtendedTextDiv, mobileIntro, paperRight, registrationPaper} from '../styles/landing_page.css';
 
 const LandingPageInfoText = function() {
