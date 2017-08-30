@@ -26,14 +26,13 @@ class FlappFeatured extends Component{
                         </div>
                         <StackSummary className="featStackSumm" cardStack={this.props.featuredStacks}/>
                         <div className="flappFeatContainer">
-                            <div className="containerText">Search more of what you&apos;re looking for today!</div>
+                            <div className="containerText">Find more of what you&apos;re looking for today!</div>
                             <RaisedButton
                                 label="Search Stacks"
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
                                 className="featuredButton"
                                 labelColor={"#ffffff"}
-                                //secondary={true}
-                                backgroundColor={"#2c2f34"}
+                                backgroundColor={"#5c69ff"}
                             />
                         </div>
                     </Paper>
