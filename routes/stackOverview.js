@@ -59,7 +59,6 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        console.log('results from the update shit',results);
                         response.send(results[2]);
                     });
                 }

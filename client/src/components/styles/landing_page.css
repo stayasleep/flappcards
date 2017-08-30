@@ -5,13 +5,16 @@
 }
 
 @media (max-width: 768px) {
-    #Intro{
-        display: none;
+    .infoTextExtendedContainerDiv, #Intro{
+        display: none !important;
     }
     #mobileIntro{
-        display: block;
+        display: flex;
         font-size: 0.5em;
-        padding-top: 0.5em;
+        padding-top: 1em;
+        flex-direction: column;
+        margin: 1em;
+        width: 100%;
     }
     .landingPageContentContainerDiv {
         flex: 1;
@@ -20,9 +23,6 @@
         display: flex;
         display: -webkit-flex;
         -webkit-flex-flow: column-reverse;
-    }
-    div.landingPageContentContainerDiv > div {
-        width: 100%;
     }
 }
 
@@ -41,11 +41,17 @@
     background-attachment: fixed;
     display: flex;
 }
-
+.infoTextExtendedContainerDiv{
+    margin: 2em 1em;
+    display: flex;
+}
 .infoTextExtendedDiv {
     /*flex: 4;*/
     /*margin: 10px;*/
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .infoText {
@@ -55,7 +61,6 @@
     font-size: 1.5em;
     font-family: Roboto,sans-serif;
     text-shadow:2px 0 2px rgba(255,255,255,0.7);
-    /*  opacity:0.7 */
 }
 .noMarginTop{
     margin-top: 0 !important;
@@ -65,12 +70,10 @@
     margin: 0px;
 }
 .registrationPaper{
-    /*flex: 4;*/
     width:100%;
     text-align: center;
-    display: block;
-    margin: auto;
     background: none !important;
+    display: flex;
 }
 .landingPageContainerDiv {
     /*display: flex;*/
@@ -88,10 +91,10 @@
 }
 
 /* CSS to make the div containing the registration form look "right"*/
-div.landingPageContentContainerDiv > div {
-    box-shadow: rgb(136, 136, 136) 0px 5px 2.5px !important;
+/*div.landingPageContentContainerDiv > div {*/
+    /*box-shadow: rgb(136, 136, 136) 0px 5px 2.5px !important;*/
 
-}
+/*}*/
 
 .infoText:last-child {
     padding-bottom: 0.2em;
@@ -99,7 +102,7 @@ div.landingPageContentContainerDiv > div {
 
 .paperContainer{
     flex: 1 1 0;
-    margin: 1em;
+    /*margin: 1em;*/
 }
 
 
@@ -118,8 +121,8 @@ div.landingPageContentContainerDiv > div {
 .flappFeatContainer{
     border: 1px dashed black;
     width: 300px;
-    padding: 1em;
     margin: 0 auto;
+    padding: 1em 0;
 }
 .containerText{
     margin-bottom: 10px;

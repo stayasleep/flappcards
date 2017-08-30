@@ -31,8 +31,9 @@ class FlappFeatured extends Component{
                                 label="Search Stacks"
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
                                 className="featuredButton"
-                                labelColor="white"
-                                secondary={true}
+                                labelColor={"#ffffff"}
+                                //secondary={true}
+                                backgroundColor={"#2c2f34"}
                             />
                         </div>
                     </Paper>
