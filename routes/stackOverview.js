@@ -40,7 +40,9 @@ router.get('/:sID',(request,response,next) => {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
                         if (results.length > 0) {
-                            results[0].isOwned = true;
+                            results[2][0].isOwned = true;
+                            console.log('results',results);
+                            console.log('my res',results[2]);
                             response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
