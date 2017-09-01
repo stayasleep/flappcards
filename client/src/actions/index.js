@@ -5,6 +5,7 @@ import {
     FETCH_FEATURED_STACKS,
     FETCH_FEATURED_ERR,
     FETCH_STACK_OVERVIEW,
+    FETCH_STACK_OVERVIEW_TITLES,
     FETCH_CARD,
     FETCH_USER_META,
     AUTH_ERROR,
@@ -18,6 +19,7 @@ import {
     VALIDATE_ROUTE,
     RESET_PW,
     RECOVER_PW,
+
     INITIATE_GUEST_BROWSING
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
@@ -373,12 +375,23 @@ export function editStackHeaders(headerObj){
         let token = localStorage.getItem("token");
         let stackID = headerObj.stackID;
         axios.put(`${BASE_URL}/stackOverview/${stackID}/headers`,{"token": token, "subject": headerObj.subject, "category":headerObj.category}).then((response) => {
-            console.log('header response', response);
+            console.log('header response', response.data.results[0]);
+            if(response.data.success){
+                dispatch({
+                    type: FETCH_STACK_OVERVIEW_TITLES,
+                    payload: response.data.results[0],
+                })
+            }else{
+                //handle success false here eventually
+            }
+
         }).catch( err => {
             //handle error
         })
     }
 }
+
+
 
 /**
  * @name - addSingleCard

@@ -63,7 +63,6 @@ class StackViewStacks extends Component{
     };
 
     handleExpansion(cardIndex) {
-        // console.log("cardIndex", cardIndex); // passed in via the key gotten from map
         // if !(F) => if T
         if (!this.state.expanded) {
             this.setState({expanded: true});
@@ -277,7 +276,9 @@ StackViewStacks = reduxForm({
 function mapStateToProps(state) {
     return {
         stackCards: state.stack.stackCards,
-        newStackID: state.stack.newStackID
+        newStackID: state.stack.newStackID,
+        stackSubj: state.stack.subj,
+        stackCat: state.stack.course,
     }
 }
 

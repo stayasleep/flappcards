@@ -191,9 +191,21 @@ router.put("/:stackID/headers", (req, res,next) => {
             if(error){
                 return res.json({success: false, message:"There was a problem with your request"});
             }
-            
+
             if(results.affectedRows === 1){
-                res.end();
+
+                connection.query("SELECT `subject`, `category` FROM `stacks` WHERE `stack_id` = ?;", [stackID],(error, results) => {
+                    if(error){
+                        return res.json({success:false, message: "There was a problem with your request"});
+                    }
+                    console.log('fetch results',results.length);
+                    if(results.length === 1){
+                        res.json({success:true, results: results});
+                    }else{
+                        res.json({success:false, message:"Cannot fetch stack headers"});
+                    }
+                });
+
             } else {
                 res.json({success: false, message:"Stack does not exist!"});
             }

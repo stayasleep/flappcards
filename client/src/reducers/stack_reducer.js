@@ -4,6 +4,7 @@ import {
     FETCH_MY_STACK_OVERVIEW,
     FETCH_MY_RECENT_STACKS,
     FETCH_STACK_OVERVIEW,
+    FETCH_STACK_OVERVIEW_TITLES,
     FETCH_MY_COMMUNITY_STACKS,
     FETCH_FEATURED_STACKS,
     FETCH_FEATURED_ERR,
@@ -42,6 +43,7 @@ export default function (state = default_state, action) {
                 course: action.payload.category,
                 creator: action.payload.createdBy,
                 number: action.payload.totalCards};
+            console.log("fetch_stacks");
         case(FETCH_CARD):
             return{...state, single: action.payload.cards};
         case FETCH_MY_STACK_OVERVIEW:
@@ -55,6 +57,8 @@ export default function (state = default_state, action) {
         case FETCH_STACK_OVERVIEW:
             console.log('reducer for clicking eyeball on stack',action);
             return {...state, stackCards: action.payload};
+        case FETCH_STACK_OVERVIEW_TITLES:
+            return {...state, subj: action.payload.subject, course: action.payload.category};
         case CREATE_STACK:
             console.log('create stack',action);
             return {...state};
