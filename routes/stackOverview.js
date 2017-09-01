@@ -41,8 +41,6 @@ router.get('/:sID',(request,response,next) => {
                         }
                         if (results.length > 0) {
                             results[2][0].isOwned = true;
-                            console.log('results',results);
-                            console.log('my res',results[2]);
                             response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
@@ -173,4 +171,35 @@ router.put('/:cId',(request,response,next)=>{
         connection.release();
     })
 });
+
+router.put("/:stackID/headers", (req, res,next) => {
+    console.log('req body',req.body);
+    let stackID = req.params.stackID;
+    let userID = req.decoded.UserID;
+    let newSub = req.body.subject;
+    let newCat = req.body.category;
+
+    if(Object.keys(req.body).length === 0){
+        return res.json({success: false, message:"Subject and Category may not be blank"});
+    }
+
+    pool.getConnection((error, connection) =>{
+        if(error){
+            res.json({success: false, message: "Problem Connecting to DB"});
+        }
+        connection.query("UPDATE `stacks` SET `subject` = ?, `category` = ? WHERE `stack_id` = ? AND `user_id` = ?",[newSub, newCat, stackID, userID], (error, results) =>{
+            if(error){
+                return res.json({success: false, message:"There was a problem with your request"});
+            }
+            
+            if(results.affectedRows === 1){
+                res.end();
+            } else {
+                res.json({success: false, message:"Stack does not exist!"});
+            }
+        });
+        connection.release();
+    })
+});
+
 module.exports = router;

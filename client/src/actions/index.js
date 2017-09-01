@@ -25,8 +25,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -359,6 +359,23 @@ export function searchStacks(search) {
 
                 error: err.response
             });
+        })
+    }
+}
+/**
+ * @name - editStackHeaders
+ * @description - allows user to change the stack Subject and/or Category in the overview page
+ * @param {Object} headerObj - function takes in an object containing both the subject and category values
+ * @returns {Function}
+ * */
+export function editStackHeaders(headerObj){
+    return function (dispatch){
+        let token = localStorage.getItem("token");
+        let stackID = headerObj.stackID;
+        axios.put(`${BASE_URL}/stackOverview/${stackID}/headers`,{"token": token, "subject": headerObj.subject, "category":headerObj.category}).then((response) => {
+            console.log('header response', response);
+        }).catch( err => {
+            //handle error
         })
     }
 }

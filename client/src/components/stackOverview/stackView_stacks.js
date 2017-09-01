@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
+import { Field, reduxForm } from 'redux-form';
+import renderInput from '../utilities/renderInputStackOV';
 import {Link} from 'react-router'
-import {getStackOverview, stackCopy} from '../../actions/index'
+import { editStackHeaders, getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
@@ -15,6 +17,7 @@ import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOvervi
 import Paper from 'material-ui/Paper';
 import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
 import CircularProgress from 'material-ui/CircularProgress';
+import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import PopDialog from '../login/popUpDialog';
 
 
@@ -25,7 +28,12 @@ class StackViewStacks extends Component{
 
     state = {
         expanded: false,
-        opens: false
+        opens: false,
+        enableEditSubj: false,
+        enableEditCat: false,
+        editModeSubj: false,
+        editModeCat: false,
+
     };
     //determines copy icons rendering depending on if user is logged in or not
     renderCopy() {
@@ -67,8 +75,70 @@ class StackViewStacks extends Component{
             document.getElementsByClassName("expandable")[cardIndex].style.display = 'none';
         }
     }
+    mouseEnterSubj(){
+        console.log('sub mouse');
+        this.setState({editModeSubj: true});
+    }
+    mouseLeaveSubj(){
+        console.log('sub mouse leave');
+        this.setState({editModeSubj: false});
+    }
+    mouseEnterCat(){
+        this.setState({editModeCat: true});
+    }
+    mouseLeaveCat(){
+        this.setState({editModeCat: false});
+
+    }
+    //click to switch to redux form and edit stack subject
+    handleEditSubj(){
+        console.log('click on div',this.props);
+        this.setState({enableEditSubj: !this.state.enableEditSubj});
+    }
+    //click to switch to redux form and edit stack category
+    handleEditCat(){
+        this.setState({enableEditCat: !this.state.enableEditCat});
+    }
+    //one form, two functions, but they both will send subj and category as an object
+    //that way the user doesnt have to modify both at the same time, can be one or the other
+    handleFormSubject(values){
+        let headers = {...values, stackID: this.props.stackCards[0].stack_id};
+        this.props.editStackHeaders(headers);
+        //axios goes here
+        this.setState({enableEditSubj: !this.state.enableEditSubj});
+    }
+    handleFormCategory(vals){
+        //axios goes here
+        this.setState({enableEditCat: !this.state.enableEditCat});
+    }
+    //reusability for either subject or category title cancellation
+    handleEditCancel(str){
+        if (str === "subject"){
+            this.setState({enableEditSubj: !this.state.enableEditSubj});
+            this.props.reset("stackHeaders");
+        } else {
+            console.log('not tru', str);
+            this.setState({enableEditCat: !this.state.enableEditCat});
+            this.props.reset("stackHeaders");
+        }
+    }
+
     render() {
-        console.log('stackview stacks rendering',this.props);
+        const { handleSubmit } = this.props;
+        let displayEditSubj = "none";
+        let displayEditCat = "none";
+
+        if(this.state.editModeSubj){
+            displayEditSubj = "inline-block";
+        } else if(this.state.editModeCat){
+            displayEditCat = "inline-block";
+        }
+
+        if(this.props.stackCards){
+            this.props.initialValues.subject = this.props.stackCards[0].subject;
+            this.props.initialValues.category = this.props.stackCards[0].category;
+        }
+
         if (!this.props.stackCards) {
             return (
                 <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif", padding: 12}}>
@@ -77,10 +147,8 @@ class StackViewStacks extends Component{
             );
         }
         let stackView;
-        //check to see if length exists before render
-        // if(this.props.stackCards.length>0){
+
         if(this.props.stackCards[0].isOwned) {
-            console.log('render child stacks owned',this.props);
             const cardStackList = this.props.stackCards.map((item, index) => {
                 return (
 
@@ -149,8 +217,29 @@ class StackViewStacks extends Component{
         return (
             <div>
                 <Paper className="stackHeader">
-                    <span>{`Subject: ${this.props.stackCards[0].subject}`}</span>
-                    <span>{`Category: ${this.props.stackCards[0].category}`}</span>
+                    {!this.state.enableEditSubj ? (
+                            <div onMouseEnter={this.mouseEnterSubj.bind(this)} onMouseLeave={this.mouseLeaveSubj.bind(this)} onClick={this.handleEditSubj.bind(this)}>{`Subject: ${this.props.stackCards[0].subject}`}<EditMode style={{display: displayEditSubj}}/> </div>
+                        ) : (
+                            <div>
+                                <form onSubmit={handleSubmit((values) => {this.handleFormSubject(values)})}>
+                                    <Field className="editSubj" name="subject" component={renderInput} />
+                                    <RaisedButton primary={true} type="submit" label="Submit" />
+                                    <RaisedButton type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")} label="Cancel" />
+                                </form>
+                            </div>
+                        )
+                    }
+                    {!this.state.enableEditCat ? (
+                            <div onMouseEnter={this.mouseEnterCat.bind(this)} onMouseLeave={this.mouseLeaveCat.bind(this)} onClick={this.handleEditCat.bind(this)}>{`Category: ${this.props.stackCards[0].category}`}<EditMode style={{display: displayEditCat}} /></div>
+                        ) : (
+                            <div>
+                                <form onSubmit={handleSubmit((vals) => {this.handleFormCategory(vals)})} >
+                                    <Field className="editCat" name="category" component={renderInput} />
+                                    <RaisedButton primary={true} type="submit" label="Submit" />
+                                    <RaisedButton type="button" onClick={(str)=>this.handleEditCancel.bind(this)("category")} label="Cancel"/>
+                                </form>
+                            </div>
+                        )}
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
                 </Paper>
                 {stackView}
@@ -158,6 +247,33 @@ class StackViewStacks extends Component{
         );
     }
 }
+
+function validate(values){
+    const errors = {};
+
+    if(!values.subject){
+        errors.subject = "Subject is required";
+    }else if(values.subject.length > 40){
+        errors.subject ="Subject must be shorter than 40 characters";
+    }
+
+    if(!values.category){
+        errors.category= "Category is required";
+    } else if(values.category.length > 40){
+        errors.category = "Category must be shorter than 40 characters";
+    }
+
+    return errors;
+}
+
+StackViewStacks = reduxForm({
+    form: 'stackHeaders',
+    initialValues: {"subject":"", "category": ""},
+    enableReinitialize: true,
+    overwriteOnInitialValuesChange: false,
+    validate
+})(StackViewStacks);
+
 function mapStateToProps(state) {
     return {
         stackCards: state.stack.stackCards,
@@ -165,4 +281,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getStackOverview, stackCopy})(StackViewStacks);
+export default connect(mapStateToProps, {editStackHeaders, getStackOverview, stackCopy})(StackViewStacks);
