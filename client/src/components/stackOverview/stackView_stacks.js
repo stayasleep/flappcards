@@ -48,6 +48,28 @@ class StackViewStacks extends Component{
             )
        )
     }
+
+    renderSubjectCategory(){
+        if(this.props.stackCards[0].isOwned){
+            return (!this.state.enableEditSubj ? (
+                    <div onMouseEnter={this.mouseEnterSubj.bind(this)} onMouseLeave={this.mouseLeaveSubj.bind(this)} onClick={this.handleEditSubj.bind(this)}>{`Subject: ${this.props.stackSubj}`}<EditMode style={{display: displayEditSubj}}/> </div>
+                ) : (
+                    <div>
+                        <form onSubmit={handleSubmit((values) => {this.handleFormSubject(values)})}>
+                            <Field className="editSubj" name="subject" component={renderInput} />
+                            <RaisedButton primary={true} type="submit" label="Submit" />
+                            <RaisedButton type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")} label="Cancel" />
+                        </form>
+                    </div>
+                )
+
+            )
+        }else{
+            return(
+                <div>{`Subject: ${this.props.stackSubj}`}</div>
+            )
+        }
+    }
     //occurs when the unauthorized copy icon is clicked, allowing the dialog to open
     handleNoCopy(){
         this.setState({opens:!this.state.opens});
@@ -107,6 +129,8 @@ class StackViewStacks extends Component{
         this.setState({enableEditSubj: !this.state.enableEditSubj});
     }
     handleFormCategory(vals){
+        let headers = {...vals, stackID: this.props.stackCards[0].stack_id};
+        this.props.editStackHeaders(headers);
         //axios goes here
         this.setState({enableEditCat: !this.state.enableEditCat});
     }
@@ -123,6 +147,7 @@ class StackViewStacks extends Component{
     }
 
     render() {
+        console.log("bottu");
         const { handleSubmit } = this.props;
         let displayEditSubj = "none";
         let displayEditCat = "none";
@@ -134,8 +159,8 @@ class StackViewStacks extends Component{
         }
 
         if(this.props.stackCards){
-            this.props.initialValues.subject = this.props.stackCards[0].subject;
-            this.props.initialValues.category = this.props.stackCards[0].category;
+            this.props.initialValues.subject = this.props.stackSubj;
+            this.props.initialValues.category = this.props.stackCat;
         }
 
         if (!this.props.stackCards) {
@@ -145,7 +170,10 @@ class StackViewStacks extends Component{
                 </div>
             );
         }
+
         let stackView;
+        let subjMode;
+        let catMode;
 
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
@@ -181,6 +209,32 @@ class StackViewStacks extends Component{
                     {cardStackList}
                     </div>
                 </div>
+
+            subjMode =
+                !this.state.enableEditSubj ? (
+                    <div onMouseEnter={this.mouseEnterSubj.bind(this)} onMouseLeave={this.mouseLeaveSubj.bind(this)} onClick={this.handleEditSubj.bind(this)}>{`Subject: ${this.props.stackSubj}`}<EditMode style={{display: displayEditSubj}}/> </div>
+                ) : (
+                    <div>
+                        <form onSubmit={handleSubmit((values) => {this.handleFormSubject(values)})}>
+                            <Field className="editSubj" name="subject" component={renderInput} />
+                            <RaisedButton primary={true} type="submit" label="Submit" />
+                            <RaisedButton type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")} label="Cancel" />
+                        </form>
+                    </div>
+                );
+
+            catMode =
+                !this.state.enableEditCat ? (
+                        <div onMouseEnter={this.mouseEnterCat.bind(this)} onMouseLeave={this.mouseLeaveCat.bind(this)} onClick={this.handleEditCat.bind(this)}>{`Category: ${this.props.stackCat}`}<EditMode style={{display: displayEditCat}} /></div>
+                    ) : (
+                        <div>
+                            <form onSubmit={handleSubmit((vals) => {this.handleFormCategory(vals)})} >
+                                <Field className="editCat" name="category" component={renderInput} />
+                                <RaisedButton primary={true} type="submit" label="Submit" />
+                                <RaisedButton type="button" onClick={(str)=>this.handleEditCancel.bind(this)("category")} label="Cancel"/>
+                            </form>
+                        </div>
+                    )
         }
         //if the stack being observed doesnt belong to you..
         else if(this.props.stackCards){
@@ -212,33 +266,15 @@ class StackViewStacks extends Component{
                     {cardStackList}
                     </div>
                 </div>
+
+            subjMode = <div>{`Subject: ${this.props.stackSubj}`}</div>;
+            catMode = <div>{`Category: ${this.props.stackCat}`}</div>;
         }
         return (
             <div>
                 <Paper className="stackHeader">
-                    {!this.state.enableEditSubj ? (
-                            <div onMouseEnter={this.mouseEnterSubj.bind(this)} onMouseLeave={this.mouseLeaveSubj.bind(this)} onClick={this.handleEditSubj.bind(this)}>{`Subject: ${this.props.stackCards[0].subject}`}<EditMode style={{display: displayEditSubj}}/> </div>
-                        ) : (
-                            <div>
-                                <form onSubmit={handleSubmit((values) => {this.handleFormSubject(values)})}>
-                                    <Field className="editSubj" name="subject" component={renderInput} />
-                                    <RaisedButton primary={true} type="submit" label="Submit" />
-                                    <RaisedButton type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")} label="Cancel" />
-                                </form>
-                            </div>
-                        )
-                    }
-                    {!this.state.enableEditCat ? (
-                            <div onMouseEnter={this.mouseEnterCat.bind(this)} onMouseLeave={this.mouseLeaveCat.bind(this)} onClick={this.handleEditCat.bind(this)}>{`Category: ${this.props.stackCards[0].category}`}<EditMode style={{display: displayEditCat}} /></div>
-                        ) : (
-                            <div>
-                                <form onSubmit={handleSubmit((vals) => {this.handleFormCategory(vals)})} >
-                                    <Field className="editCat" name="category" component={renderInput} />
-                                    <RaisedButton primary={true} type="submit" label="Submit" />
-                                    <RaisedButton type="button" onClick={(str)=>this.handleEditCancel.bind(this)("category")} label="Cancel"/>
-                                </form>
-                            </div>
-                        )}
+                    { subjMode }
+                    { catMode }
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
                 </Paper>
                 {stackView}

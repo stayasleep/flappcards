@@ -12,6 +12,9 @@ class Stacks extends Component {
     document.title="FlappCards - Stack Overview";
     console.log('stack_ov parent comp will mount',this.props);
     }
+    componentWillReceiveProps(nextProps){
+        console.log('stack_ov will receive nextprop',this.props);
+    }
     componentWillUnmount(){
         document.title="FlappCards";
     }
@@ -32,6 +35,8 @@ class Stacks extends Component {
 function mapStateToProps(state) {
     return {
         stackCards: state.stack.stackCards,
+        stackSubj: state.stack.subj,
+        stackCaat: state.stack.course,
         newStackID: state.stack.newStackID,
         authorized: state.auth.authorized
     }
