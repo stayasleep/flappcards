@@ -43,6 +43,7 @@ import Reset from './components/auth/reset';
 import SignIn from './components/login/login';
 import Register from './components/register/register';
 import Forgot from './components/login/forgot';
+import StacksNotFound from './components/stackOverview/stack_does_not_exist';
 
 
 ReactDOM.render(
@@ -59,6 +60,7 @@ ReactDOM.render(
                 <Route path="Search" component={requireAuth(Search)}/>
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
+                <Route path="stackOverview/:sid/notfound" component={requireAuth(StacksNotFound)} />
                 <Route path="stackOverview/:sid/:cid" component={requireAuth(SingleCard)}/>
                 <Route path="about" component={About}/>
                 <Route path="disclaimer" component={Disclaimer}/>

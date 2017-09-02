@@ -169,7 +169,7 @@ export function getStackOverview(stackID) {
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             console.log('inside the dispatch');
-            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('stack OV DNW',err);
             dispatch({
@@ -383,6 +383,7 @@ export function editStackHeaders(headerObj){
                 })
             }else{
                 //handle success false here eventually
+                //maybe with a dialog saying task cannot be completed right now
             }
 
         }).catch( err => {

@@ -50,6 +50,7 @@ class Profile extends Component{
 }
 
 function mapStateToProps(state) {
+    console.log('profile state',state.profile);
     return {
         username: state.profile.userName,
         email: state.profile.email,
