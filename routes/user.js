@@ -19,6 +19,7 @@ router.post('/register',(request,response,next)=>{
         user_bday: request.body.birthday,
         avatar: Math.floor(Math.random()*10)
     };
+    console.log('register', newUser.user_bday);
     if(Object.keys(request.body).length===0){
         return response.json({success:false, error:"Invalid Submission"})
     }

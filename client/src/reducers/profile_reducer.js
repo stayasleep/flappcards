@@ -1,4 +1,4 @@
-import {FETCH_USER_META} from '../actions/types';
+import {FETCH_USER_META, UPDATE_USER_META} from '../actions/types';
 
 const default_state ={
     userName: "",
@@ -10,6 +10,7 @@ const default_state ={
 };
 
 export default function (state = default_state, action) {
+    console.log('profile action',action);
     switch (action.type){
         case(FETCH_USER_META):
             return {
@@ -20,7 +21,9 @@ export default function (state = default_state, action) {
                 name: action.payload[0].fullname,
                 joinDate: action.payload[0].user_join,
                 avatar: action.payload[0].avatar
-            }
+            };
+        case UPDATE_USER_META:
+            return {...state, name: action.payload[0].fullname, email: action.payload[0].user_email, birthday: action.payload[0].user_bday};
     }
     return state;
 }

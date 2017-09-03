@@ -19,6 +19,7 @@ import {
     VALIDATE_ROUTE,
     RESET_PW,
     RECOVER_PW,
+    UPDATE_USER_META,
 
     INITIATE_GUEST_BROWSING
 } from './types';
@@ -91,6 +92,24 @@ export function getUserData() {
                 type: null,
                 error: err.response
             });
+        })
+    }
+}
+
+export function updateUserData(info){
+    console.log('axios orofile',info);
+    let token = localStorage.getItem("token");
+    info = {...info, "token":token};
+    console.log('after', info);
+    return function (dispatch){
+        axios.put(`${BASE_URL}/profile`,{"token": token, "name": info.name, "email": info.email, "birthday": info.birthday}).then((response) => {
+            console.log('res update profile', response);
+            dispatch({
+                type: UPDATE_USER_META,
+                payload: response.data.results,
+            })
+        }).catch( err => {
+            //handle errors
         })
     }
 }

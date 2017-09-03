@@ -147,7 +147,6 @@ class StackViewStacks extends Component{
     }
 
     render() {
-        console.log("bottu");
         const { handleSubmit } = this.props;
         let displayEditSubj = "none";
         let displayEditCat = "none";

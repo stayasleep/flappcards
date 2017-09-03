@@ -3,7 +3,7 @@ import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import {connect} from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 import renderInput from '../utilities/renderInputStackOV';
-import {getUserData} from '../../actions/index'
+import {getUserData, updateUserData} from '../../actions/index'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import EditMode from 'material-ui/svg-icons/editor/mode-edit';
@@ -54,15 +54,34 @@ class Profile extends Component{
         this.setState({formBirthday: !this.state.formBirthday});
     }
 
-    handleNameCancel(){
-        this.setState({formName: !this.state.formName});
+    handleFormCancel(str){
+        if(str === "name"){
+            this.setState({formName: !this.state.formName});
+        }else if (str === "email"){
+            this.setState({formEmail: !this.state.formEmail});
+        }else{
+            this.setState({formBirthday: !this.state.formBirthday});
+        }
+        this.props.reset("generalInfo");
     }
-    handleEmailCancel(){
-        this.setState({formEmail: !this.state.formEmail});
+    handleFormSubmit(values, str){
+        console.log('vals',values);
+        if(str === "name"){
+            //make axios
+            this.props.updateUserData(values);
+            this.setState({formName: !this.state.formName});
+        }else if(str === "email"){
+            //axios
+            this.props.updateUserData(values);
+            this.setState({formEmail: !this.state.formEmail});
+        }else{
+            this.props.updateUserData(values);
+            this.setState({formBirthday: !this.state.formBirthday});
+            //axios
+
+        }
     }
-    handleBirthdayCancel(){
-        
-    }
+
     componentWillMount(){
         this.props.getUserData();
         document.body.style.backgroundColor = "#f0f0f0";
@@ -80,9 +99,11 @@ class Profile extends Component{
 
         if(this.state.hoverName){
             hoverName = "inline-block";
-        }else if(this.state.hoverEmail){
+        }
+        if(this.state.hoverEmail){
             hoverEmail = "inline-block";
-        }else if(this.state.hoverBirthday){
+        }
+        if(this.state.hoverBirthday){
             hoverBirthday = "inline-block";
         }
 
@@ -111,6 +132,11 @@ class Profile extends Component{
                 </div>
             )
         }
+        const { handleSubmit, initialValues } = this.props;
+        initialValues.name = this.props.name;
+        initialValues.email = this.props.email;
+        initialValues.birthday = this.props.birthday;
+
         // The list could be a map? But at this point, that feels like code golf [lol]
         return (
             <div>
@@ -124,9 +150,9 @@ class Profile extends Component{
                             <CardText><div className="name" onMouseEnter={this.mouseEnterName.bind(this)} onMouseLeave={this.mouseLeaveName.bind(this)} onClick={this.handleNameClick.bind(this)}>Name: {this.props.name} <EditMode style={{display: hoverName}} /></div> </CardText>
                         ) : (
                             <CardText>
-                                <form>
+                                <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
                                     <Field className="editName" name="name" component={renderInput} />
-                                    <RaisedButton onClick={this.handleNameCancel.bind(this)} label="Cancel"/>
+                                    <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("name")} label="Cancel"/>
 
                                 </form>
                             </CardText>
@@ -136,9 +162,9 @@ class Profile extends Component{
                             <CardText><div className="email" onMouseEnter={this.mouseEnterEmail.bind(this)} onMouseLeave={this.mouseLeaveEmail.bind(this)} onClick={this.handleEmailClick.bind(this)}>Email: {this.props.email} <EditMode style={{display: hoverEmail}} /></div> </CardText>
                         ) : (
                             <CardText>
-                                <form>
+                                <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
                                     <Field className = "editEmail" name="email" component={renderInput} />
-                                    <RaisedButton onClick={this.handleEmailCancel.bind(this)} label="Cancel" />
+                                    <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("email")} label="Cancel" />
                                 </form>
                             </CardText>
                         )
@@ -147,9 +173,9 @@ class Profile extends Component{
                             <CardText><div className="birthday" onMouseEnter={this.mouseEnterBirthday.bind(this)} onMouseLeave={this.mouseLeaveBirthday.bind(this)} onClick={this.handleBirthdayClick.bind(this)}>Birthday: {this.props.birthday} <EditMode style={{display: hoverBirthday}} /></div> </CardText>
                         ) : (
                             <CardText>
-                                <form>
+                                <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
                                     <Field className="editBirthday" name="birthday" component={renderInput} />
-                                    <RaisedButton onClick={this.handleBirthdayCancel.bind(this)} label="Cancel" />
+                                    <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("birthday")} label="Cancel" />
                                 </form>
                             </CardText>
                         )
@@ -182,16 +208,17 @@ function validate(values){
         errors.birthday = "Required";
     }
 
+    return errors;
 
 }
 
 Profile = reduxForm({
     form: "generalInfo",
+    initialValues:{"name":"", "email": "", "birthday": ""},
     validate
 })(Profile);
 
 function mapStateToProps(state) {
-    console.log('profile state',state.profile);
     return {
         username: state.profile.userName,
         email: state.profile.email,
@@ -202,4 +229,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getUserData})(Profile);
+export default connect(mapStateToProps, {getUserData, updateUserData})(Profile);

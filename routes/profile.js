@@ -37,5 +37,41 @@ router.post('/',(request,response, next)=>{
         });
         connection.release();
     })
+})
+    .put("/", (req, res, next) => {
+        let userID = req.decoded.UserID;
+        let userName= req.decoded.UserName;
+
+        let name = req.body.name;
+        let email = req.body.email;
+        let bday = req.body.birthday;
+
+        console.log('pro req',req.body);
+
+        pool.getConnection((error, connection) => {
+            if(error){
+                return res.json({success: false, message: "Error connecting to db"});
+            }
+            connection.query("UPDATE `users` SET `fullname`= ?, `user_email` = ?, `user_bday` = ? WHERE `user_id` = ? AND `username` = ?;",[name, email, bday, userID, userName], (error, results) =>{
+                console.log('res from profile',results);
+                if (results.affectedRows === 1){
+                    connection.query("SELECT `fullname`, `user_email`, DATE_FORMAT(users.user_bday,'%Y/%m/%d') as `user_bday` FROM `users` where `user_id` = ?;",[userID],(error, results) =>{
+                        console.log('new new profile', results);
+                        if(error){
+                            return res.json({success: false, message: "There was a problem with your request"});
+                        }
+                        if(results.length !== 0){
+                            res.json({success: true, results: results});
+                        }else{
+                            res.json({success: false, message:"User information not found"});
+                        }
+
+                    })
+                }else{
+                    res.json({success: false, message: "Cannot update user's information"});
+                }
+            })
+        })
+
 });
 module.exports = router;
