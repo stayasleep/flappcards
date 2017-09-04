@@ -45,7 +45,6 @@ router.post('/',(request,response, next)=>{
         let name = req.body.name;
         let email = req.body.email;
         let bday = req.body.birthday;
-
         console.log('pro req',req.body);
 
         pool.getConnection((error, connection) => {
@@ -72,6 +71,46 @@ router.post('/',(request,response, next)=>{
                 }
             })
         })
+});
 
+router.post("/change-password",(req,res,next) => {
+    let userID = req.decoded.UserID;
+    let userName = req.decoded.UserName;
+
+    if(Object.keys(req.body).length === 0){
+        return res.json({success: false, message: "Password field must be filled out before submitting"});
+    }
+    let newPW = req.body.pass;
+    let confirmPW =req.body.confirm;
+
+    if (newPW && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(newPW)) {
+        return res.json({success: false, error: "Password does not meet our requirements"});
+    }
+    if(newPW !== confirmPW){
+        return res.json({success:false, message:"Passwords do not match!"});
+    }
+
+    pool.getConnection((err, connection) => {
+        if(err){
+            return res.json({success: false, message:"Problem Connecting to DB"});
+        }
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(newPW, salt, function (err, hash) {
+                newPW = hash;
+                connection.query("UPDATE `users` SET `user_pw` = ? WHERE `username` = ? AND `user_id` = ?;",[newPW, userName, userID], (err, results) =>{
+                    if(err){
+                        return res.json({success:false, message:"Problem with your request"});
+                    }
+                    if(results.affectedRows === 1){
+                        console.log('update worked', results);
+                        res.json({success: true});
+                    }else{
+                        res.json({success:false});
+                    }
+                })
+            })
+        });
+        connection.release();
+    })
 });
 module.exports = router;

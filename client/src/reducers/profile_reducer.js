@@ -1,4 +1,10 @@
-import {FETCH_USER_META, UPDATE_USER_META} from '../actions/types';
+import {
+    FETCH_USER_META,
+    UPDATE_USER_META,
+    UPDATE_USER_ERRORS,
+    UPDATE_USER_PASS,
+    UPDATE_USER_PASS_ERROR,
+} from '../actions/types';
 
 const default_state ={
     userName: "",

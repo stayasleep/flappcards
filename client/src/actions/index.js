@@ -20,6 +20,9 @@ import {
     RESET_PW,
     RECOVER_PW,
     UPDATE_USER_META,
+    UPDATE_USER_ERRORS,
+    UPDATE_USER_PASS,
+    UPDATE_USER_PASS_ERROR,
 
     INITIATE_GUEST_BROWSING
 } from './types';
@@ -104,11 +107,36 @@ export function updateUserData(info){
     return function (dispatch){
         axios.put(`${BASE_URL}/profile`,{"token": token, "name": info.name, "email": info.email, "birthday": info.birthday}).then((response) => {
             console.log('res update profile', response);
-            dispatch({
-                type: UPDATE_USER_META,
-                payload: response.data.results,
-            })
+            if(response.data.success) {
+                dispatch({
+                    type: UPDATE_USER_META,
+                    payload: response.data.results,
+                })
+            }else{
+                dispatch({
+                    type: UPDATE_USER_ERRORS,
+                    payload: response.data.message,
+                })
+            }
         }).catch( err => {
+            //handle errors
+        })
+    }
+}
+export function updateUserPassword(password){
+    let token = localStorage.getItem("token");
+    return function (dispatch){
+        axios.post(`${BASE_URL}/profile/change-password`,{"token": token, pass: password.password, confirm: password.passwordConfirm}).then((response) => {
+            console.log('return change pw', response);
+            dispatch({
+                type: UPDATE_USER_PASS,
+                payload: true,
+            })
+        }).catch ( err => {
+            dispatch({
+                type: UPDATE_USER_PASS_ERROR,
+                payload: false,
+            });
             //handle errors
         })
     }

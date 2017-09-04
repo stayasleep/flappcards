@@ -8,6 +8,7 @@ import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Ca
 import CircularProgress from 'material-ui/CircularProgress';
 import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import RaisedButton from 'material-ui/RaisedButton';
+import ChangePassword from './profile_change_pw';
 
 
 import Avatar from 'material-ui/Avatar';
@@ -180,6 +181,7 @@ class Profile extends Component{
                             </CardText>
                         )
                     }
+                    <ChangePassword/>
                 </Card>
             </div>
         )
@@ -206,6 +208,26 @@ function validate(values){
 
     if(!values.birthday){
         errors.birthday = "Required";
+    }else if(values.birthday){
+        let birth = values.birthday.replace(/[^0-9]/g, "");
+        console.log('birthhhh',birth);
+        if(!/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
+            errors.birthday = "Date must follow YYYY-MM-DD format";
+        }
+        let year  = parseInt(birth.slice(0,4));
+        let month = parseInt(birth.slice(4,6));
+        let day = parseInt(birth.slice(6,8));
+        if(month > 12){
+            errors.birthday = "Month is not valid";
+        }
+        if(day >31){
+            errors.birthday =" Day is not valid";
+        }
+        let theirDate = new Date((year+min_age), month, day);
+        let today = new Date;
+        if((today.getTime() - theirDate.getTime()) < 0) {
+            errors.birthday = "You must be 13 years or older to use FlappCards.";
+        }
     }
 
     return errors;
