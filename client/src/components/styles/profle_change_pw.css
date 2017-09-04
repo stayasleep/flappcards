@@ -1,0 +1,12 @@
+.changeContainer {
+    text-align: center;
+    height: 600px;
+}
+
+.profileBtnContainer {
+    margin: 1em;
+}
+
+.passSubmitContainer, .passClearContainer {
+    padding: 1em;
+}

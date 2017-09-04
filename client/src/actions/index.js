@@ -23,6 +23,7 @@ import {
     UPDATE_USER_ERRORS,
     UPDATE_USER_PASS,
     UPDATE_USER_PASS_ERROR,
+    UPDATE_USER_PASS_CLEAR,
 
     INITIATE_GUEST_BROWSING
 } from './types';
@@ -128,16 +129,33 @@ export function updateUserPassword(password){
     return function (dispatch){
         axios.post(`${BASE_URL}/profile/change-password`,{"token": token, pass: password.password, confirm: password.passwordConfirm}).then((response) => {
             console.log('return change pw', response);
-            dispatch({
-                type: UPDATE_USER_PASS,
-                payload: true,
-            })
+            if(response.data.success === false){
+                console.log('false pw',response);
+                dispatch({
+                    type: UPDATE_USER_PASS_ERROR,
+                    payload: response.data.message,
+                })
+            }else {
+                dispatch({
+                    type: UPDATE_USER_PASS,
+                    payload: true,
+                })
+            }
         }).catch ( err => {
+            console.log('err',err);
             dispatch({
                 type: UPDATE_USER_PASS_ERROR,
                 payload: false,
             });
             //handle errors
+        })
+    }
+}
+export function clearUserPasswordNotice(){
+    return function (dispatch){
+        dispatch({
+            type: UPDATE_USER_PASS_CLEAR,
+            payload: false,
         })
     }
 }

@@ -103,9 +103,10 @@ router.post("/change-password",(req,res,next) => {
                     }
                     if(results.affectedRows === 1){
                         console.log('update worked', results);
-                        res.json({success: true});
+                        // res.json({success: true});
+                        res.end();
                     }else{
-                        res.json({success:false});
+                        res.json({success:false, message: "User password not updated, please try again in a few moments"});
                     }
                 })
             })

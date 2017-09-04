@@ -5,6 +5,7 @@ export const UPDATE_USER_META = "update_user_meta";
 export const UPDATE_USER_ERRORS = "update_user_errors";
 export const UPDATE_USER_PASS = "update_user_pass";
 export const UPDATE_USER_PASS_ERROR = "update_user_pass_error";
+export const UPDATE_USER_PASS_CLEAR = "update_user_pass_clear";
 export const AUTH_USER = 'auth_user';
 export const AUTH_ERROR = 'auth_error';
 export const UNAUTH_USER = 'unauth_user';

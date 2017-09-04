@@ -9,6 +9,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import RaisedButton from 'material-ui/RaisedButton';
 import ChangePassword from './profile_change_pw';
+import { Tab, Tabs } from 'material-ui/Tabs';
 
 
 import Avatar from 'material-ui/Avatar';
@@ -23,7 +24,13 @@ class Profile extends Component{
             formName: false,
             formEmail: false,
             formBirthday: false,
+            value: "general",
         };
+    }
+
+    handleChange(value){
+        console.log('handle new val',value);
+        this.setState({value: value});
     }
 
     mouseEnterName(){
@@ -94,6 +101,7 @@ class Profile extends Component{
     }
 
     render(){
+        console.log('profile is rendered',this.props);
         let hoverName = "none";
         let hoverEmail = "none";
         let hoverBirthday = "none";
@@ -144,6 +152,9 @@ class Profile extends Component{
                 <FlashCardsAppBar/>
 
                 <Card style={listStyle}>
+
+                    <Tabs value={this.state.value} onChange={this.handleChange.bind(this)}>
+                        <Tab label="General Info" value="general">
                     <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
                     <CardText><div className="join">Join Date: {this.props.joined}</div></CardText>
                     <CardText><div className="username">Username: {this.props.username}</div></CardText>
@@ -181,8 +192,14 @@ class Profile extends Component{
                             </CardText>
                         )
                     }
-                    <ChangePassword/>
+                        </Tab>
+                        <Tab label="Change Password" value="changePassword">
+                            <ChangePassword updated={this.props.update} errTxt={this.props.errorText} />
+                        </Tab>
+                    </Tabs>
                 </Card>
+
+
             </div>
         )
     }
@@ -247,7 +264,9 @@ function mapStateToProps(state) {
         birthday: state.profile.birthday,
         name: state.profile.name,
         joined: state.profile.joinDate,
-        avatar: state.profile.avatar
+        avatar: state.profile.avatar,
+        update: state.profile.update,
+        errorText: state.profile.errorText,
     }
 }
 

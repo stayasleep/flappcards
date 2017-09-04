@@ -13,6 +13,7 @@ import './styles/signReg.css';
 import './styles/whyFlappsComp.css';
 import './styles/popUpComponent.css';
 import './styles/landing_page.css'; //for andres'
+import './styles/profle_change_pw.css';
 import {
     teal700, teal500,
     indigo200,

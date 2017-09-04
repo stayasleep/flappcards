@@ -7,8 +7,8 @@ export default function renderInputReg({input, label, type, value, meta: {touche
                    floatingLabelText={label}
                    floatingLabelStyle={{color: "teal"}}
                    //errorText={touched && !active && dirty && error}
-                   errorText={touched && (error && <span>{error}</span>)}
-                   errorStyle={{float: "left"}}
+                   errorText={touched && (error && <span className="errorMsg">{error}</span>)}
+                   //errorStyle={{float: "left"}}
                    type={type}
                    value={value}
                    {...input}

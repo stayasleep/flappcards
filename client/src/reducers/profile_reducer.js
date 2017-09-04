@@ -4,6 +4,8 @@ import {
     UPDATE_USER_ERRORS,
     UPDATE_USER_PASS,
     UPDATE_USER_PASS_ERROR,
+    UPDATE_USER_PASS_CLEAR,
+
 } from '../actions/types';
 
 const default_state ={
@@ -12,7 +14,9 @@ const default_state ={
     birthday: "",
     name: '',
     joinDate: '',
-    avatar: ''
+    avatar: '',
+    update: false,
+    errorText: {error: false}
 };
 
 export default function (state = default_state, action) {
@@ -30,6 +34,12 @@ export default function (state = default_state, action) {
             };
         case UPDATE_USER_META:
             return {...state, name: action.payload[0].fullname, email: action.payload[0].user_email, birthday: action.payload[0].user_bday};
+        case UPDATE_USER_PASS:
+            return {...state, update: action.payload};
+        case UPDATE_USER_PASS_CLEAR:
+            return {...state, update: action.payload, errorText:{error: false}};
+        case UPDATE_USER_PASS_ERROR:
+            return {...state, errorText: {message: action.payload, error: true}};
     }
     return state;
 }
