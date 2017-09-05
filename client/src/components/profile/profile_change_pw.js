@@ -5,27 +5,91 @@ import renderInput from '../utilities/renderInputStackOV';
 import { updateUserPassword, clearUserPasswordNotice } from '../../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
+import CheckCircle from 'material-ui/svg-icons/action/check-circle'
+import CheckBoxOut from 'material-ui/svg-icons/navigation/check';
+import CheckBox from 'material-ui/svg-icons/toggle/check-box';
 
 
 class ChangePassword extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            upper: "red",
+            lower: "red",
+            num: "red",
+            special: "red",
+            len: "red"
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        console.log('these enxt ptops bb',nextProps);
+        if(nextProps.shouldReset){
+            this.props.reset("changePassword");
+            this.setState({upper:"red",lower:"red",num:"red",special:"red",len:"red"}); //wonder if this could be done with a HOF and see what state is green
+        }
+    }
 
     handleSubmit(values){
         console.log('change pw handle submit', values);
         this.props.updateUserPassword(values);
         this.props.reset("changePassword");
+        this.setState({
+            upper:"red",
+            lower:"red",
+            num:"red",
+            special:"red",
+            len:"red"
+        })
     }
 
     handleRequestClose(){
         this.props.clearUserPasswordNotice();
     }
 
+    handleChange(event){
+        console.log('handle change',event.target.value);
+        if(event.target.value.length >= 8 && event.target.value.length <= 15){
+            this.setState({len:"green"});
+        }else if(event.target.value.length < 8 || event.target.value.length > 15){
+            this.setState({len:"red"});
+        }
+        if(event.target.value && /^(?=.*[!@#\$%\^&\*])/i.test(event.target.value)){
+            this.setState({special:"green"});
+        }else if(!/^(?=.*[!@#\$%\^&\*])/i.test(event.target.value)){
+            this.setState({special:"red"});
+        }
+        if(event.target.value && /^(?=.*[0-9])/i.test(event.target.value)){
+            this.setState({num:"green"});
+        }else if(!/^(?=.*[0-9])/i.test(event.target.value)){
+            this.setState({num:"red"});
+        }
+        if(event.target.value && /[A-Z]/g.test(event.target.value)){
+            this.setState({upper:"green"});
+        }else if(!/[A-Z]/g.test(event.target.value)){
+            this.setState({upper:"red"});
+        }
+        if(event.target.value && /[a-z]/g.test(event.target.value)){
+            this.setState({lower:"green"});
+        }else if(!/[a-z]/g.test(event.target.value)){
+            this.setState({lower:"red"});
+        }
+    }
+
     render(){
-        const { handleSubmit } = this.props;
+        const { handleSubmit, reset } = this.props;
         return (
             <div className="changeContainer">
+                <h2>Remember, New Password Must Contain:</h2>
+
+                <CheckBoxOut color={this.state.upper}/>At least one (1) uppercase letter
+                <CheckBoxOut color={this.state.lower}/>At least one (1) lowercase letter
+                <CheckBoxOut color={this.state.num}/>At least one (1) number
+                <CheckBoxOut color={this.state.special}/>At least one (1) special character
+                <CheckBoxOut color={this.state.len}/>Must be between 8 and 15 characters
+
                 <form onSubmit={handleSubmit((values) => {this.handleSubmit(values)})}>
                     <div className="passwordContainer">
-                        <Field name="password" label = "Password" type="password" component={renderInput} />
+                        <Field name="password" label = "Password" type="password" component={renderInput} onChange={this.handleChange.bind(this)} />
                     </div>
                     <div className="confirmContainer">
                         <Field name="passwordConfirm" label="Confirm Password" type="password" component={renderInput} />
@@ -35,7 +99,7 @@ class ChangePassword extends Component{
                             <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={false} />
                         </div>
                         <div className="passClearContainer">
-                            <RaisedButton className="passClear" label="Clear" type="button" fullWidth={false} />
+                            <RaisedButton className="passClear" label="Clear" type="button" fullWidth={false} onClick={reset} />
                         </div>
                     </div>
                 </form>
@@ -43,7 +107,7 @@ class ChangePassword extends Component{
                     <div>
                         <Snackbar
                             open={this.props.updated}
-                            message={"Password has been updated and will take into effect the next time you log in"}
+                            message={"New Password will take into effect the next time you log in"}
                             autoHideDuration={5000}
                             onRequestClose={this.handleRequestClose.bind(this)}
                             action="Close"
@@ -73,6 +137,7 @@ class ChangePassword extends Component{
 }
 function validate(values){
     const errors ={};
+
     if(!values.password){
         errors.password = "Required";
     }

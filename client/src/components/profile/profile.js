@@ -10,8 +10,7 @@ import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import RaisedButton from 'material-ui/RaisedButton';
 import ChangePassword from './profile_change_pw';
 import { Tab, Tabs } from 'material-ui/Tabs';
-
-
+import DatePicker from 'material-ui/DatePicker';
 import Avatar from 'material-ui/Avatar';
 
 class Profile extends Component{
@@ -25,12 +24,30 @@ class Profile extends Component{
             formEmail: false,
             formBirthday: false,
             value: "general",
+            resetPass: false,
+            // controlledDate: this.props.birthday,
         };
     }
-
+    //For the Tab
     handleChange(value){
-        console.log('handle new val',value);
-        this.setState({value: value});
+        console.log('val',value);
+        if(value === "changePassword"){
+            this.setState({
+                hoverName: false,
+                hoverEmail: false,
+                hoverBirthday: false,
+                formName: false,
+                formEmail: false,
+                formBirthday: false,
+                value: value,
+                resetPass: false,
+            })
+        }else{
+            this.setState({
+                value: value,
+                resetPass: true,
+            });
+        }
     }
 
     mouseEnterName(){
@@ -60,6 +77,11 @@ class Profile extends Component{
     }
     handleBirthdayClick(){
         this.setState({formBirthday: !this.state.formBirthday});
+    }
+    handleDateChange(event, date){
+        console.log('an event',event);
+        console.log('an date',date);
+        this.setState({controlledDate: date})
     }
 
     handleFormCancel(str){
@@ -96,12 +118,9 @@ class Profile extends Component{
         document.title="FlappCards - Profile";
     }
 
-    componentWillUnmount(){
-        document.title="FlappCards";
-    }
-
     render(){
         console.log('profile is rendered',this.props);
+        console.log('state',this.state);
         let hoverName = "none";
         let hoverEmail = "none";
         let hoverBirthday = "none";
@@ -146,55 +165,81 @@ class Profile extends Component{
         initialValues.email = this.props.email;
         initialValues.birthday = this.props.birthday;
 
-        // The list could be a map? But at this point, that feels like code golf [lol]
         return (
             <div>
                 <FlashCardsAppBar/>
 
                 <Card style={listStyle}>
-
                     <Tabs value={this.state.value} onChange={this.handleChange.bind(this)}>
                         <Tab label="General Info" value="general">
-                    <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
-                    <CardText><div className="join">Join Date: {this.props.joined}</div></CardText>
-                    <CardText><div className="username">Username: {this.props.username}</div></CardText>
-                    {!this.state.formName ? (
-                            <CardText><div className="name" onMouseEnter={this.mouseEnterName.bind(this)} onMouseLeave={this.mouseLeaveName.bind(this)} onClick={this.handleNameClick.bind(this)}>Name: {this.props.name} <EditMode style={{display: hoverName}} /></div> </CardText>
-                        ) : (
-                            <CardText>
-                                <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
-                                    <Field className="editName" name="name" component={renderInput} />
-                                    <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("name")} label="Cancel"/>
-
-                                </form>
-                            </CardText>
-                        )
-                    }
-                    {!this.state.formEmail ? (
-                            <CardText><div className="email" onMouseEnter={this.mouseEnterEmail.bind(this)} onMouseLeave={this.mouseLeaveEmail.bind(this)} onClick={this.handleEmailClick.bind(this)}>Email: {this.props.email} <EditMode style={{display: hoverEmail}} /></div> </CardText>
-                        ) : (
-                            <CardText>
-                                <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
-                                    <Field className = "editEmail" name="email" component={renderInput} />
-                                    <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("email")} label="Cancel" />
-                                </form>
-                            </CardText>
-                        )
-                    }
-                    {!this.state.formBirthday ? (
-                            <CardText><div className="birthday" onMouseEnter={this.mouseEnterBirthday.bind(this)} onMouseLeave={this.mouseLeaveBirthday.bind(this)} onClick={this.handleBirthdayClick.bind(this)}>Birthday: {this.props.birthday} <EditMode style={{display: hoverBirthday}} /></div> </CardText>
-                        ) : (
-                            <CardText>
-                                <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
-                                    <Field className="editBirthday" name="birthday" component={renderInput} />
-                                    <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("birthday")} label="Cancel" />
-                                </form>
-                            </CardText>
-                        )
-                    }
+                            <div style={{textAlign:"center"}}>
+                                <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
+                                <CardText><div className="join">Join Date: {this.props.joined}</div></CardText>
+                                <CardText><div className="username">Username: {this.props.username}</div></CardText>
+                                {!this.state.formName ? (
+                                        <CardText>
+                                            <div className="name"
+                                                 onMouseEnter={this.mouseEnterName.bind(this)}
+                                                 onMouseLeave={this.mouseLeaveName.bind(this)}
+                                                 onClick={this.handleNameClick.bind(this)}
+                                            >
+                                                Name: {this.props.name}
+                                                <EditMode style={{display: hoverName}} />
+                                            </div>
+                                        </CardText>
+                                    ) : (
+                                        <CardText>
+                                            <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
+                                                <Field className="editName" name="name" component={renderInput} />
+                                                <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("name")} label="Cancel"/>
+                                            </form>
+                                        </CardText>
+                                    )
+                                }
+                                {!this.state.formEmail ? (
+                                        <CardText>
+                                            <div className="email"
+                                                 onMouseEnter={this.mouseEnterEmail.bind(this)}
+                                                 onMouseLeave={this.mouseLeaveEmail.bind(this)}
+                                                 onClick={this.handleEmailClick.bind(this)}
+                                            >
+                                                Email: {this.props.email}
+                                                <EditMode style={{display: hoverEmail}} />
+                                            </div>
+                                        </CardText>
+                                    ) : (
+                                        <CardText>
+                                            <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
+                                                <Field className = "editEmail" name="email" component={renderInput} />
+                                                <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("email")} label="Cancel" />
+                                            </form>
+                                        </CardText>
+                                    )
+                                }
+                                {!this.state.formBirthday ? (
+                                        <CardText>
+                                            <div className="birthday"
+                                                 onMouseEnter={this.mouseEnterBirthday.bind(this)}
+                                                 onMouseLeave={this.mouseLeaveBirthday.bind(this)}
+                                                 onClick={this.handleBirthdayClick.bind(this)}
+                                            >
+                                                Birthday: {this.props.birthday}
+                                                <EditMode style={{display: hoverBirthday}} />
+                                            </div>
+                                        </CardText>
+                                    ) : (
+                                        <CardText>
+                                            <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
+                                                <Field className="editBirthday" name="birthday" component={renderInput} />
+                                                <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("birthday")} label="Cancel" />
+                                            </form>
+                                        </CardText>
+                                    )
+                                }
+                            </div>
                         </Tab>
                         <Tab label="Change Password" value="changePassword">
-                            <ChangePassword updated={this.props.update} errTxt={this.props.errorText} />
+                            <ChangePassword updated={this.props.update} errTxt={this.props.errorText} shouldReset={this.state.resetPass} />
                         </Tab>
                     </Tabs>
                 </Card>
@@ -236,10 +281,19 @@ function validate(values){
         let day = parseInt(birth.slice(6,8));
         if(month > 12){
             errors.birthday = "Month is not valid";
+        }else if(month < 10){
+            month = parseInt("0"+month);
         }
+
         if(day >31){
             errors.birthday =" Day is not valid";
+        }else if(day < 10){
+            day = parseInt("0"+day);
         }
+        if(!/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
+            errors.birthday = "Date must follow YYYY-MM-DD format";
+        }
+
         let theirDate = new Date((year+min_age), month, day);
         let today = new Date;
         if((today.getTime() - theirDate.getTime()) < 0) {

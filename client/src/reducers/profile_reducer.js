@@ -20,7 +20,6 @@ const default_state ={
 };
 
 export default function (state = default_state, action) {
-    console.log('profile action',action);
     switch (action.type){
         case(FETCH_USER_META):
             return {
