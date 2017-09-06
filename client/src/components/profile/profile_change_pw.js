@@ -80,13 +80,13 @@ class ChangePassword extends Component{
         return (
             <div className="changeContainer">
                 <h2>Remember, New Password Must Contain:</h2>
-
-                <CheckBoxOut color={this.state.upper}/>At least one (1) uppercase letter
-                <CheckBoxOut color={this.state.lower}/>At least one (1) lowercase letter
-                <CheckBoxOut color={this.state.num}/>At least one (1) number
-                <CheckBoxOut color={this.state.special}/>At least one (1) special character
-                <CheckBoxOut color={this.state.len}/>Must be between 8 and 15 characters
-
+                <div className="passwordReqs">
+                    <div className="reqOne"><CheckBoxOut color={this.state.upper}/>At least one (1) uppercase letter</div>
+                    <div className="reqTwo"><CheckBoxOut color={this.state.lower}/>At least one (1) lowercase letter</div>
+                    <div className="reqThree"><CheckBoxOut color={this.state.num}/>At least one (1) number</div>
+                    <div className="reqFour"><CheckBoxOut color={this.state.special}/>At least one (1) special character</div>
+                    <div className="reqFive"><CheckBoxOut color={this.state.len}/>Must be between 8 and 15 characters</div>
+                </div>
                 <form onSubmit={handleSubmit((values) => {this.handleSubmit(values)})}>
                     <div className="passwordContainer">
                         <Field name="password" label = "Password" type="password" component={renderInput} onChange={this.handleChange.bind(this)} />
@@ -96,10 +96,10 @@ class ChangePassword extends Component{
                     </div>
                     <div className="profileBtnContainer">
                         <div className="passSubmitContainer">
-                            <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={false} />
+                            <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={true} />
                         </div>
                         <div className="passClearContainer">
-                            <RaisedButton className="passClear" label="Clear" type="button" fullWidth={false} onClick={reset} />
+                            <RaisedButton className="passClear" label="Clear" type="button" fullWidth={true} onClick={reset} />
                         </div>
                     </div>
                 </form>

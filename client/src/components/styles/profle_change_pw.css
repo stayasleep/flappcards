@@ -10,3 +10,14 @@
 .passSubmitContainer, .passClearContainer {
     padding: 1em;
 }
+.passwordReqs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.reqOne, .reqTwo, .reqThree, .reqFour, .reqFive {
+    margin: 8px;
+}
