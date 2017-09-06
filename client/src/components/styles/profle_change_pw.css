@@ -20,4 +20,6 @@
 
 .reqOne, .reqTwo, .reqThree, .reqFour, .reqFive {
     margin: 8px;
+    display: flex;
+    align-items: center;
 }

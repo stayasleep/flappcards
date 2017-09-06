@@ -30,7 +30,9 @@ class ChangePassword extends Component{
     }
 
     handleSubmit(values){
-        console.log('change pw handle submit', values);
+        if(Object.keys(values).length !== 2){
+            return event.preventDefault();
+        }
         this.props.updateUserPassword(values);
         this.props.reset("changePassword");
         this.setState({
@@ -99,7 +101,7 @@ class ChangePassword extends Component{
                             <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={true} />
                         </div>
                         <div className="passClearContainer">
-                            <RaisedButton className="passClear" label="Clear" type="button" fullWidth={true} onClick={reset} />
+                            <RaisedButton className="passClear" label="Clear" type="button" labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" fullWidth={true} onClick={reset} />
                         </div>
                     </div>
                 </form>
@@ -136,6 +138,7 @@ class ChangePassword extends Component{
     }
 }
 function validate(values){
+    console.log('val',values);
     const errors ={};
 
     if(!values.password){
