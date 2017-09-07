@@ -28,7 +28,7 @@ class SearchAutoComplete extends Component {
         return(
             <div>
                 <AutoComplete
-                    hintText="Search categories or subject "
+                    hintText="Search By Category or Subject"
                     dataSource={this.props.autoCompleteSuggestions}
                     filter={AutoComplete.fuzzyFilter}
                     onNewRequest={(searchText) => this.handleSearch(searchText)}
