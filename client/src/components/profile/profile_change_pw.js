@@ -97,12 +97,8 @@ class ChangePassword extends Component{
                         <Field name="passwordConfirm" label="Confirm Password" type="password" component={renderInput} />
                     </div>
                     <div className="profileBtnContainer">
-                        <div className="passSubmitContainer">
                             <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={true} />
-                        </div>
-                        <div className="passClearContainer">
                             <RaisedButton className="passClear" label="Clear" type="button" labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" fullWidth={true} onClick={reset} />
-                        </div>
                     </div>
                 </form>
                 {this.props.updated ? (

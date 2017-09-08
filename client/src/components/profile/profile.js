@@ -174,68 +174,78 @@ class Profile extends Component{
                         <Tab label="General Info" value="general">
                             <div style={{textAlign:"center"}}>
                                 <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
-                                <CardText><div className="join">Join Date: {this.props.joined}</div></CardText>
-                                <CardText><div className="username">Username: {this.props.username}</div></CardText>
-                                {!this.state.formName ? (
-                                        <CardText>
-                                            <div className="name"
-                                                 onMouseEnter={this.mouseEnterName.bind(this)}
-                                                 onMouseLeave={this.mouseLeaveName.bind(this)}
-                                                 onClick={this.handleNameClick.bind(this)}
-                                            >
-                                                Name: {this.props.name}
-                                                <EditMode style={{display: hoverName}} />
-                                            </div>
-                                        </CardText>
-                                    ) : (
-                                        <CardText>
-                                            <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
-                                                <Field className="editName" name="name" component={renderInput} />
-                                                <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("name")} label="Cancel"/>
-                                            </form>
-                                        </CardText>
-                                    )
-                                }
-                                {!this.state.formEmail ? (
-                                        <CardText>
-                                            <div className="email"
-                                                 onMouseEnter={this.mouseEnterEmail.bind(this)}
-                                                 onMouseLeave={this.mouseLeaveEmail.bind(this)}
-                                                 onClick={this.handleEmailClick.bind(this)}
-                                            >
-                                                Email: {this.props.email}
-                                                <EditMode style={{display: hoverEmail}} />
-                                            </div>
-                                        </CardText>
-                                    ) : (
-                                        <CardText>
-                                            <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
-                                                <Field className = "editEmail" name="email" component={renderInput} />
-                                                <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("email")} label="Cancel" />
-                                            </form>
-                                        </CardText>
-                                    )
-                                }
-                                {!this.state.formBirthday ? (
-                                        <CardText>
-                                            <div className="birthday"
-                                                 onMouseEnter={this.mouseEnterBirthday.bind(this)}
-                                                 onMouseLeave={this.mouseLeaveBirthday.bind(this)}
-                                                 onClick={this.handleBirthdayClick.bind(this)}
-                                            >
-                                                Birthday: {this.props.birthday}
-                                                <EditMode style={{display: hoverBirthday}} />
-                                            </div>
-                                        </CardText>
-                                    ) : (
-                                        <CardText>
-                                            <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
-                                                <Field className="editBirthday" name="birthday" component={renderInput} />
-                                                <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("birthday")} label="Cancel" />
-                                            </form>
-                                        </CardText>
-                                    )
-                                }
+                                <div className="profileTable">
+                                    <div className="profileBody">
+                                        <CardText className="joinContainer"><div className="joinTitle td">Join Date:</div><div className="join td">{this.props.joined}</div></CardText>
+                                        <CardText className="usernameContainer"><div className="usernameTitle td">Username:</div><div className="username td">{this.props.username}</div></CardText>
+                                    {!this.state.formName ? (
+                                            <CardText className="nameContainer">
+                                                <div className="nameTitle td">Name:</div>
+                                                <div className="name td"
+                                                     onMouseEnter={this.mouseEnterName.bind(this)}
+                                                     onMouseLeave={this.mouseLeaveName.bind(this)}
+                                                     onClick={this.handleNameClick.bind(this)}
+                                                >
+                                                     {this.props.name}
+                                                    <EditMode style={{display: hoverName}} />
+                                                </div>
+                                            </CardText>
+                                        ) : (
+                                                <form className="tr" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
+                                                    <div className="nameTitle td">Name:</div>
+                                                    <div className="nameFormContainer td">
+                                                        <Field className="editName" name="name" component={renderInput} />
+                                                        <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("name")} label="Cancel" labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0"/>
+                                                    </div>
+                                                </form>
+                                        )
+                                    }
+                                    {!this.state.formEmail ? (
+                                            <CardText className="emailContainer">
+                                                <div className="emailTitle td">Email: </div>
+                                                <div className="email td"
+                                                     onMouseEnter={this.mouseEnterEmail.bind(this)}
+                                                     onMouseLeave={this.mouseLeaveEmail.bind(this)}
+                                                     onClick={this.handleEmailClick.bind(this)}
+                                                >
+                                                    {this.props.email}
+                                                    <EditMode style={{display: hoverEmail}} />
+                                                </div>
+                                            </CardText>
+                                        ) : (
+                                                <form className="tr" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
+                                                    <div className="emailTitle td">Email:</div>
+                                                    <div className="emailFormContainer td">
+                                                        <Field className = "editEmail" name="email" component={renderInput} />
+                                                        <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("email")} label="Cancel" labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" />
+                                                    </div>
+                                                </form>
+                                        )
+                                    }
+                                    {!this.state.formBirthday ? (
+                                            <CardText className="birthdayContainer">
+                                                <div className="birthdayTitle td">Birthday: </div>
+                                                <div className="birthday td"
+                                                     onMouseEnter={this.mouseEnterBirthday.bind(this)}
+                                                     onMouseLeave={this.mouseLeaveBirthday.bind(this)}
+                                                     onClick={this.handleBirthdayClick.bind(this)}
+                                                >
+                                                    {this.props.birthday}
+                                                    <EditMode style={{display: hoverBirthday}} />
+                                                </div>
+                                            </CardText>
+                                        ) : (
+                                                <form className="tr" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
+                                                    <div className="birthdayTitle td">Birthday:</div>
+                                                    <div className="birthdayFormContainer td">
+                                                        <Field className="editBirthday" name="birthday" component={renderInput} />
+                                                        <RaisedButton onClick={(str) => this.handleFormCancel.bind(this)("birthday")} label="Cancel" labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" />
+                                                    </div>
+                                                </form>
+                                            )
+                                    }
+                                    </div>
+                                </div>
                             </div>
                         </Tab>
                         <Tab label="Change Password" value="changePassword">

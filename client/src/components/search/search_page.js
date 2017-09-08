@@ -22,6 +22,15 @@ class Search extends Component {
     componentWillMount(){
         document.body.style.backgroundColor="#f0f0f0";
         document.title="FlappCards - Search Page";
+        console.log("search will mount",this.props.location);
+        //search/?q=term
+        if(this.props.location.query){
+            console.log('term is true',this.props.location.query);
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        console.log('search receiveing next this',this.props);
+        console.log('searh will receive props',nextProps);
     }
     componentWillUnmount(){
         document.title="FlappCards";

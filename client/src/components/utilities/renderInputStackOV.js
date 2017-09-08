@@ -1,9 +1,10 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
-export default function renderInputReg({input, label, type, value, meta: {touched, dirty, active, error}}) {
+export default function renderInputReg({className, input, label, type, value, meta: {touched, dirty, active, error}}) {
     return (
         <TextField hintText={label}
+                   className={className}
                    floatingLabelText={label}
                    floatingLabelStyle={{color: "teal"}}
                    //errorText={touched && !active && dirty && error}

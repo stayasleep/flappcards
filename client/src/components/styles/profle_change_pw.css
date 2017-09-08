@@ -4,11 +4,15 @@
 }
 
 .profileBtnContainer {
-    margin: 1em;
+    margin: 1em auto;
+    width: 66%;
 }
 
 .passSubmitContainer, .passClearContainer {
     padding: 1em;
+}
+.passSubmit, .passClear{
+    margin: 1em 0;
 }
 .passwordReqs {
     display: flex;
@@ -16,10 +20,46 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    width: 85%;
+    margin:0 auto;
 }
 
 .reqOne, .reqTwo, .reqThree, .reqFour, .reqFive {
     margin: 8px;
     display: flex;
     align-items: center;
+}
+
+.birthdayTitle, .emailTitle, .joinTitle, .nameTitle, .usernameTitle {
+    font-weight: 800;
+    width: 25%;
+}
+.name, .email, .birthday,.join, .username{
+    width: 55%;
+}
+.birthdayFormContainer, .emailFormContainer, .nameFormContainer {
+    width: 55%;
+}
+
+.profileTable {
+    width: 80%;
+    margin: 0 auto;
+    display: table;
+    margin-bottom: 20px;
+}
+.profileBody {
+    display: table-row-group;
+}
+
+.joinContainer, .usernameContainer, .nameContainer,
+.emailContainer, .birthdayContainer {
+    display: table-row;
+}
+
+.td{
+    display: table-cell !important;
+    padding: 1em;
+}
+.tr{
+    display: table-row;
 }
