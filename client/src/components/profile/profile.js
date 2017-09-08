@@ -169,11 +169,13 @@ class Profile extends Component{
             <div>
                 <FlashCardsAppBar/>
 
-                <Card style={listStyle}>
+                <Card style={listStyle} className="profileCard">
                     <Tabs value={this.state.value} onChange={this.handleChange.bind(this)}>
                         <Tab label="General Info" value="general">
                             <div style={{textAlign:"center"}}>
-                                <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
+                                <div className="avatarContiner">
+                                    <Avatar style={profileImg} src={`data:image/jpeg;base64,${this.props.avatar}`} crossOrigin="Anonymous"/>
+                                </div>
                                 <div className="profileTable">
                                     <div className="profileBody">
                                         <CardText className="joinContainer"><div className="joinTitle td">Join Date:</div><div className="join td">{this.props.joined}</div></CardText>
