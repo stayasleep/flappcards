@@ -32,34 +32,100 @@
 
 .birthdayTitle, .emailTitle, .joinTitle, .nameTitle, .usernameTitle {
     font-weight: 800;
-    width: 25%;
+    width: 20%;
 }
 .name, .email, .birthday,.join, .username{
     width: 55%;
+    text-align: left;
 }
 .birthdayFormContainer, .emailFormContainer, .nameFormContainer {
-    width: 55%;
+    /*width: 60%;*/
 }
 
 .profileTable {
     width: 80%;
     margin: 0 auto;
-    display: table;
+    /*display: table;*/
     margin-bottom: 20px;
+    box-sizing: border-box;
 }
 .profileBody {
-    display: table-row-group;
+    /*display: table-row-group;*/
 }
-
+/*THESE ARE THE ROWS*/
 .joinContainer, .usernameContainer, .nameContainer,
 .emailContainer, .birthdayContainer {
-    display: table-row;
+    /*display: table-row;*/
+    margin-bottom: 10px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 30px;
+    padding: 0 !important;
 }
 
 .td{
-    display: table-cell !important;
-    padding: 1em;
+    /*display: table-cell !important;*/
+    /*padding: 1em;*/
 }
 .tr{
-    display: table-row;
+    /*display: table-row;*/
+}
+
+.nameForm, .emailForm, .birthdayForm {
+    width: 80%;
+    display: flex;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.editFormName, .editFormEmail,.editFormBirthday {
+    width: 50%;
+}
+.editFormButtons {
+    width: 50%;
+}
+
+.editbtn {
+    margin: 6px;
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+.btn-main{
+    /*font-weight: 700;*/
+
+    background-color: #2c2f34;
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+}
+.btn-secondary{
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+    background-color:#1bb76e
+}
+.btn-main:hover {
+    background-color: #484d56;
+}
+.btn-secondary:hover {
+    background-color: #1fd17e;
 }
