@@ -67,6 +67,7 @@ ReactDOM.render(
                 <Route path="privacy" component={PrivacyPolicy}/>
                 <Route path="reset/:token" component={Reset}/>
                 <Redirect from="signin" to="/login" />
+                <Redirect from="logout" to="/"/>
                 <Route path="*" component={Error404}/>
             </Route>
         </Router>

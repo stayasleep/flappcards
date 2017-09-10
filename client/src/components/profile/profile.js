@@ -12,6 +12,7 @@ import ChangePassword from './profile_change_pw';
 import { Tab, Tabs } from 'material-ui/Tabs';
 import DatePicker from 'material-ui/DatePicker';
 import Avatar from 'material-ui/Avatar';
+import DatePickerForm from './date_picker';
 
 class Profile extends Component{
     constructor(props){
@@ -70,13 +71,13 @@ class Profile extends Component{
     }
 
     handleNameClick(){
-        this.setState({formName: !this.state.formName});
+        this.setState({formName: !this.state.formName, hoverName: false});
     }
     handleEmailClick(){
-        this.setState({formEmail: !this.state.formEmail});
+        this.setState({formEmail: !this.state.formEmail, hoverEmail: false});
     }
     handleBirthdayClick(){
-        this.setState({formBirthday: !this.state.formBirthday});
+        this.setState({formBirthday: !this.state.formBirthday, hoverBirthday: false});
     }
     handleDateChange(event, date){
         console.log('an event',event);
@@ -120,7 +121,6 @@ class Profile extends Component{
 
     render(){
         console.log('profile is rendered',this.props);
-        console.log('state',this.state);
         let hoverName = "none";
         let hoverEmail = "none";
         let hoverBirthday = "none";
@@ -179,31 +179,29 @@ class Profile extends Component{
                                 <div className="profileTable">
                                     <div className="profileBody">
                                         <CardText className="joinContainer">
-                                            <div className="joinTitle td">Join Date:</div>
-                                            <div className="join td">{this.props.joined}</div>
+                                            <div className="joinTitle">Join Date:</div>
+                                            <div className="join">{this.props.joined}</div>
                                         </CardText>
                                         <CardText className="usernameContainer">
-                                            <div className="usernameTitle td">Username:</div>
-                                            <div className="username td">{this.props.username}</div>
+                                            <div className="usernameTitle">Username:</div>
+                                            <div className="username">{this.props.username}</div>
                                         </CardText>
                                     {!this.state.formName ? (
                                             <CardText className="nameContainer">
-                                                <div className="nameTitle td">Name:</div>
-                                                <div className="pls">
-                                                <div className="name td"
+                                                <div className="nameTitle">Name:</div>
+                                                <div className="name"
                                                      onMouseEnter={this.mouseEnterName.bind(this)}
                                                      onMouseLeave={this.mouseLeaveName.bind(this)}
                                                      onClick={this.handleNameClick.bind(this)}
                                                 >
                                                      {this.props.name}
+                                                </div>
                                                     <EditMode className="nameSVG" style={{display: hoverName}} />
-                                                </div>
-                                                </div>
                                             </CardText>
                                         ) : (
                                             <CardText className="nameContainer">
-                                                <div className="nameTitle td">Name:</div>
-                                                <form className="nameForm tr" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
+                                                <div className="nameTitle">Name:</div>
+                                                <form className="nameForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"name")})}>
                                                     <div className="editFormName">
                                                         <Field className="editName" name="name" component={renderInput} />
                                                     </div>
@@ -217,8 +215,8 @@ class Profile extends Component{
                                     }
                                     {!this.state.formEmail ? (
                                             <CardText className="emailContainer">
-                                                <div className="emailTitle td">Email: </div>
-                                                <div className="email td"
+                                                <div className="emailTitle">Email: </div>
+                                                <div className="email"
                                                      onMouseEnter={this.mouseEnterEmail.bind(this)}
                                                      onMouseLeave={this.mouseLeaveEmail.bind(this)}
                                                      onClick={this.handleEmailClick.bind(this)}
@@ -229,8 +227,8 @@ class Profile extends Component{
                                             </CardText>
                                         ) : (
                                             <CardText className="emailContainer">
-                                                <div className="emailTitle td">Email:</div>
-                                                <form className="emailForm tr" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
+                                                <div className="emailTitle">Email:</div>
+                                                <form className="emailForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
                                                     <div className="editFormEmail">
                                                         <Field className = "editEmail" name="email" component={renderInput} />
                                                     </div>
@@ -244,8 +242,8 @@ class Profile extends Component{
                                     }
                                     {!this.state.formBirthday ? (
                                             <CardText className="birthdayContainer">
-                                                <div className="birthdayTitle td">Birthday: </div>
-                                                <div className="birthday td"
+                                                <div className="birthdayTitle">Birthday: </div>
+                                                <div className="birthday"
                                                      onMouseEnter={this.mouseEnterBirthday.bind(this)}
                                                      onMouseLeave={this.mouseLeaveBirthday.bind(this)}
                                                      onClick={this.handleBirthdayClick.bind(this)}
@@ -256,8 +254,8 @@ class Profile extends Component{
                                             </CardText>
                                         ) : (
                                             <CardText className="birthdayContainer">
-                                                <div className="birthdayTitle td">Birthday:</div>
-                                                <form className="birthdayForm tr" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
+                                                <div className="birthdayTitle">Birthday:</div>
+                                                <form className="birthdayForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
                                                     <div className="editFormBirthday">
                                                         <Field className="editBirthday" name="birthday" component={renderInput} />
                                                     </div>

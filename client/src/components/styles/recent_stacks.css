@@ -1,0 +1,18 @@
+/*This Is The View For New Members/Users Without Stacks In Their Account*/
+.newUserWelcome {
+    padding: 1em;
+}
+.stepperContainer {
+    width: 80%;
+    margin: 0 auto;
+}
+.stepperContent {
+    margin: 0 1em 1em 1em;
+}
+.stepInfo {
+    margin: 12px 0;
+}
+
+.stepBtnContainer {
+    margin-top: 12px;
+}

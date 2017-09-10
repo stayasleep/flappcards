@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-import { Drawer, AppBar, MenuItem} from 'material-ui';
-import {logout} from '../../actions/index';
-import NavLink from './header_nav_links';
 import {connect} from 'react-redux'
+import { browserHistory, Link } from 'react-router';
+import { Drawer, AppBar, MenuItem} from 'material-ui';
 import Divider from 'material-ui/Divider';
-import {browserHistory} from 'react-router';
-import {Navstyle} from './../styles/appBar.css';
+import RaisedButton from 'material-ui/RaisedButton';
+import NavLink from './header_nav_links';
+import LoginModal from '../confirmActionModal/loginModal';
 import PopUp from '../login/popUpReminder';
+import {Navstyle} from './../styles/appBar.css';
+import {logout} from '../../actions/index';
+
 
 class FlashCardsAppBar extends Component {
 
@@ -39,6 +42,23 @@ class FlashCardsAppBar extends Component {
             "WebkitFlexFlow": "column",
         };
 
+        const rightButtons = (
+            this.props.authorized ? (
+                <div className="loginModalContainerDiv" style={{marginTop:"8px"}}>
+                    <RaisedButton
+                        label="Log Out"
+                        labelColor="rgb(0, 121, 107)"
+                        onTouchTap={() => this.props.logout()}
+                        containerElement={<Link to={`/logout`} name="logout"/>}
+                    />
+                </div>
+                ) : (
+                    <div className="loginModalContainerDiv">
+                        <LoginModal/>
+                    </div>
+                )
+        );
+
         return (
             <div className="appBar">
                 <Drawer
@@ -69,7 +89,7 @@ class FlashCardsAppBar extends Component {
                         <div>
                             <MenuItem style={style} primaryText="Profile" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/profile" name="Profile"/>}/>
                             <Divider />
-                            <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/" name="Logout"/>}/>
+                            <MenuItem style={style} primaryText="Logout" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/logout" name="Logout"/>}/>
                         </div>
                         ) : (
                         <div>
@@ -80,10 +100,10 @@ class FlashCardsAppBar extends Component {
                         )
                     }
                 </Drawer>
-
                 <AppBar
                     title={<span className="title">FlappCards</span>}
                     titleStyle = {titleStyleClass}
+                    iconElementRight={rightButtons}
                     onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
                 />

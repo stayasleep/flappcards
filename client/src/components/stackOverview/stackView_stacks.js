@@ -211,26 +211,27 @@ class StackViewStacks extends Component{
 
             subjMode =
                 !this.state.enableEditSubj ? (
-                    <div onMouseEnter={this.mouseEnterSubj.bind(this)} onMouseLeave={this.mouseLeaveSubj.bind(this)} onClick={this.handleEditSubj.bind(this)}>{`Subject: ${this.props.stackSubj}`}<EditMode style={{display: displayEditSubj}}/> </div>
+                    <div className="isOwnedSubject" onMouseEnter={this.mouseEnterSubj.bind(this)} onMouseLeave={this.mouseLeaveSubj.bind(this)} onClick={this.handleEditSubj.bind(this)}>{`Subject: ${this.props.stackSubj}`}<EditMode style={{display: displayEditSubj}}/> </div>
                 ) : (
                     <div>
                         <form onSubmit={handleSubmit((values) => {this.handleFormSubject(values)})}>
                             <Field className="editSubj" name="subject" component={renderInput} />
-                            <RaisedButton primary={true} type="submit" label="Submit" />
-                            <RaisedButton type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")} label="Cancel" />
+                            <button className="editbtn btn btn-main" type="submit">Save</button>
+                            <button className="editbtn btn btn-secondary" type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")}>Cancel</button>
                         </form>
                     </div>
                 );
 
+
             catMode =
                 !this.state.enableEditCat ? (
-                        <div onMouseEnter={this.mouseEnterCat.bind(this)} onMouseLeave={this.mouseLeaveCat.bind(this)} onClick={this.handleEditCat.bind(this)}>{`Category: ${this.props.stackCat}`}<EditMode style={{display: displayEditCat}} /></div>
+                        <div className="isOwnedCat" onMouseEnter={this.mouseEnterCat.bind(this)} onMouseLeave={this.mouseLeaveCat.bind(this)} onClick={this.handleEditCat.bind(this)}>{`Category: ${this.props.stackCat}`}<EditMode style={{display: displayEditCat}} /></div>
                     ) : (
                         <div>
                             <form onSubmit={handleSubmit((vals) => {this.handleFormCategory(vals)})} >
                                 <Field className="editCat" name="category" component={renderInput} />
-                                <RaisedButton primary={true} type="submit" label="Submit" />
-                                <RaisedButton type="button" onClick={(str)=>this.handleEditCancel.bind(this)("category")} label="Cancel"/>
+                                <button className="editbtn btn btn-main" type="submit">Save</button>
+                                <button className="editbtn btn btn-secondary" type="button" onClick={(str)=>this.handleEditCancel.bind(this)("category")}>Cancel</button>
                             </form>
                         </div>
                     )

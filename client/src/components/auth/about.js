@@ -45,7 +45,6 @@ class About extends Component{
 
     componentDidMount() {
         // if they do not have a token, initiate the non-member browsing procedures
-        console.log('about did mount',this.props);
         if(!(localStorage.getItem('token'))){
             this.props.initiateGuestBrowsing('/about');
         }
@@ -87,5 +86,6 @@ class About extends Component{
         )
     }
 }
+
 
 export default connect(null,{initiateGuestBrowsing})(About);

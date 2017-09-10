@@ -35,17 +35,14 @@
     width: 20%;
 }
 .name, .email, .birthday,.join, .username{
-    width: 55%;
+    /*width: 55%;*/
     text-align: left;
-}
-.birthdayFormContainer, .emailFormContainer, .nameFormContainer {
-    /*width: 60%;*/
+    cursor: pointer;
 }
 
 .profileTable {
     width: 80%;
     margin: 0 auto;
-    /*display: table;*/
     margin-bottom: 20px;
     box-sizing: border-box;
 }
@@ -55,7 +52,6 @@
 /*THESE ARE THE ROWS*/
 .joinContainer, .usernameContainer, .nameContainer,
 .emailContainer, .birthdayContainer {
-    /*display: table-row;*/
     margin-bottom: 10px;
     display: flex;
     -webkit-box-align: center;
@@ -64,13 +60,7 @@
     padding: 0 !important;
 }
 
-.td{
-    /*display: table-cell !important;*/
-    /*padding: 1em;*/
-}
-.tr{
-    /*display: table-row;*/
-}
+
 
 .nameForm, .emailForm, .birthdayForm {
     width: 80%;
