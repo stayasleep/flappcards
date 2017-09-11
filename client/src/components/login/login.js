@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-import Paper from 'material-ui/Paper';
-import PropTypes from 'prop-types';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+
+import Paper from 'material-ui/Paper';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {Link} from 'react-router';
@@ -65,9 +66,9 @@ class SignIn extends Component{
         return(
             <div>
                 <Toolbar className="navHeader">
-                    <ToolbarTitle text={<a  className="navTitleBar" href="https://flappcards.com">FlappCards</a>}/>
+                    <ToolbarTitle text={<Link className="navTitleBar" to="/">FlappCards</Link>}/>
                     <ToolbarGroup>
-                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
+                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <Paper className="paperBody loginComponentOnly" zDepth={2}>

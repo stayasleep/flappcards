@@ -39,10 +39,11 @@ export default ({ input, label, meta: { touched, error }, ...custom }) => {
     return (
         <DatePicker
             id="datePicker"
-            onChange={(e, val) => {return input.onChange(val)}}
+            onChange={(e, val) => {return input.val}}
             defaultDate={custom.defaultValue.min}
             errorText={touched && (error && <span className="errorMsg">{error}</span>)}
             onDismiss={()=> custom.onClose()}
+            okLabel="Save"
         />
     );
 }

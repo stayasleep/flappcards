@@ -252,7 +252,7 @@ class Profile extends Component{
                                                 <div className="birthdayTitle">Birthday:</div>
                                                 <form className="birthdayForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
                                                     <div className="editFormBirthday">
-                                                      <Field name="birthday" defaultValue={{min:num}} component={DatePickerForm} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
+                                                      <Field name="birthday" defaultValue={{min:num}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
                                                     </div>
                                                     <div className="editFormButtons">
                                                         <button className="editbtn btn btn-main" type="submit">Save</button>
@@ -299,9 +299,11 @@ function validate(values){
 
     if(!values.birthday){
         errors.birthday = "Required";
-    }else if(values.birthday){
+    }else if(values.birthday && typeof values.birthday === "object"){//when DatePicker is active it is an object, else bday is a string
+        console.log('get bday',typeof values.birthday);
         let today = new Date();
         let year = values.birthday.getFullYear();
+        console.log('years',year);
         let month = values.birthday.getMonth();
         let day = values.birthday.getDate();
         let bday = new Date((year + min_age), month, day);
