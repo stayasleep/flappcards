@@ -7,10 +7,8 @@ import {getUserData, updateUserData} from '../../actions/index'
 import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import EditMode from 'material-ui/svg-icons/editor/mode-edit';
-import RaisedButton from 'material-ui/RaisedButton';
 import ChangePassword from './profile_change_pw';
 import { Tab, Tabs } from 'material-ui/Tabs';
-import DatePicker from 'material-ui/DatePicker';
 import Avatar from 'material-ui/Avatar';
 import DatePickerForm from './date_picker';
 
@@ -26,7 +24,6 @@ class Profile extends Component{
             formBirthday: false,
             value: "general",
             resetPass: false,
-            // controlledDate: this.props.birthday,
         };
     }
     //For the Tab
@@ -79,11 +76,6 @@ class Profile extends Component{
     handleBirthdayClick(){
         this.setState({formBirthday: !this.state.formBirthday, hoverBirthday: false});
     }
-    handleDateChange(event, date){
-        console.log('an event',event);
-        console.log('an date',date);
-        this.setState({controlledDate: date})
-    }
 
     handleFormCancel(str){
         if(str === "name"){
@@ -98,18 +90,14 @@ class Profile extends Component{
     handleFormSubmit(values, str){
         console.log('vals',values);
         if(str === "name"){
-            //make axios
             this.props.updateUserData(values);
             this.setState({formName: !this.state.formName});
         }else if(str === "email"){
-            //axios
             this.props.updateUserData(values);
             this.setState({formEmail: !this.state.formEmail});
         }else{
             this.props.updateUserData(values);
             this.setState({formBirthday: !this.state.formBirthday});
-            //axios
-
         }
     }
 
@@ -164,6 +152,13 @@ class Profile extends Component{
         initialValues.name = this.props.name;
         initialValues.email = this.props.email;
         initialValues.birthday = this.props.birthday;
+
+        //format the birthday for DatePicker
+        let profileBDay = this.props.birthday.split("/");
+        let num = new Date();
+        num.setFullYear(profileBDay[0],profileBDay[1]-1,profileBDay[2]);
+        num.setHours(0,0,0,0);
+
 
         return (
             <div>
@@ -257,12 +252,11 @@ class Profile extends Component{
                                                 <div className="birthdayTitle">Birthday:</div>
                                                 <form className="birthdayForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
                                                     <div className="editFormBirthday">
-                                                        <Field className="editBirthday" name="birthday" component={renderInput} />
+                                                      <Field name="birthday" defaultValue={{min:num}} component={DatePickerForm} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
                                                     </div>
-
                                                     <div className="editFormButtons">
                                                         <button className="editbtn btn btn-main" type="submit">Save</button>
-                                                        <button className="editbtn btn btn-secondary" type="button" onClick={(str) => this.handleFormCancel.bind(this)("birthday")}>Cancel</button>
+
                                                     </div>
                                                 </form>
                                             </CardText>
@@ -285,6 +279,7 @@ class Profile extends Component{
 }
 
 function validate(values){
+    console.log('form',values);
     const min_age = 13;
     const errors = {};
 
@@ -305,33 +300,13 @@ function validate(values){
     if(!values.birthday){
         errors.birthday = "Required";
     }else if(values.birthday){
-        let birth = values.birthday.replace(/[^0-9]/g, "");
-        console.log('birthhhh',birth);
-        if(!/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
-            errors.birthday = "Date must follow YYYY-MM-DD format";
-        }
-        let year  = parseInt(birth.slice(0,4));
-        let month = parseInt(birth.slice(4,6));
-        let day = parseInt(birth.slice(6,8));
-        if(month > 12){
-            errors.birthday = "Month is not valid";
-        }else if(month < 10){
-            month = parseInt("0"+month);
-        }
-
-        if(day >31){
-            errors.birthday =" Day is not valid";
-        }else if(day < 10){
-            day = parseInt("0"+day);
-        }
-        if(!/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
-            errors.birthday = "Date must follow YYYY-MM-DD format";
-        }
-
-        let theirDate = new Date((year+min_age), month, day);
-        let today = new Date;
-        if((today.getTime() - theirDate.getTime()) < 0) {
-            errors.birthday = "You must be 13 years or older to use FlappCards.";
+        let today = new Date();
+        let year = values.birthday.getFullYear();
+        let month = values.birthday.getMonth();
+        let day = values.birthday.getDate();
+        let bday = new Date((year + min_age), month, day);
+        if(today.getTime() - bday.getTime() < 0){
+           errors.birthday = "Must be 13 years or older to use FlappCards!";
         }
     }
 
