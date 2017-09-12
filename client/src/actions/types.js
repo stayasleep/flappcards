@@ -20,6 +20,7 @@ export const FETCH_FEATURED_STACKS = 'fetch_featured_stacks';
 export const FETCH_FEATURED_ERR ='fetch_featured_err';
 export const CREATE_STACK = 'create_stack';
 export const SEARCH_STACKS = 'search_stacks';
+export const RESET_SEARCH = 'reset_search';
 export const COPY_STACK = 'copy_stack';
 export const AUTOCOMPLETE_SEARCH_STACKS = 'autocomplete_search_stacks';
 

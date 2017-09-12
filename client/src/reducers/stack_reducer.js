@@ -12,7 +12,9 @@ import {
     SEARCH_STACKS,
     AUTOCOMPLETE_SEARCH_STACKS,
     COPY_STACK,
-    DELETE_CARD
+    DELETE_CARD,
+    RESET_SEARCH
+
 } from '../actions/types';
 const default_state ={
     all: [],
@@ -22,6 +24,7 @@ const default_state ={
     number: "",
     single: [],
     stacks: [],
+    searched: null,
     card: 0
 };
 
@@ -65,7 +68,7 @@ export default function (state = default_state, action) {
         case (AUTOCOMPLETE_SEARCH_STACKS):
             return {...state, autoCompleteSuggestions: action.payload};
         case (SEARCH_STACKS):
-            return {...state, stacks: action.payload};
+            return {...state, searched: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
         case (FETCH_FEATURED_STACKS):
@@ -73,7 +76,9 @@ export default function (state = default_state, action) {
         case (FETCH_FEATURED_ERR):
             return {...state,featErr: action.payload};
         case (DELETE_CARD):
-            return {...state}
+            return {...state};
+        case RESET_SEARCH:
+            return {...state, searched: action.payload};
 
     }
     return state;

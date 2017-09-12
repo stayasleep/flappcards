@@ -18,6 +18,7 @@ import {
     SEARCH_STACKS,
     VALIDATE_ROUTE,
     RESET_PW,
+    RESET_SEARCH,
     RECOVER_PW,
     UPDATE_USER_META,
     UPDATE_USER_ERRORS,
@@ -426,6 +427,19 @@ export function searchStacks(search) {
 
                 error: err.response
             });
+        })
+    }
+}
+/**
+ * @name - unmountSearch
+ * @description upon unmount, function resets the search state to begin anew
+ * @returns {Function}
+ * **/
+export function unmountSearch(){
+    return function (dispatch){
+        dispatch({
+            type: RESET_SEARCH,
+            payload: null,
         })
     }
 }

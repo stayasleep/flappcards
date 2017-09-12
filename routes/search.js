@@ -80,6 +80,8 @@ router.post('/',(request,response,next)=>{
                 if (error) {
                     response.send({success: false, message:"There was a problem with your request"});
                 } else {
+                    console.log('res search', results);
+                    console.log('res length', results.length);
                     response.send(results);
                 }
             });
