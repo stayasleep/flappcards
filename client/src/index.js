@@ -13,8 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
-// console.log = function() {};
-console.log('before token check');
+console.log = function() {};
 if(token && JSON.parse(guest)){
     console.log('token is guest');
     store.dispatch({type: AUTH_USER,payload: false});
