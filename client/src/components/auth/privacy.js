@@ -3,6 +3,8 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {initiateGuestBrowsing} from '../../actions/index';
 import Paper from 'material-ui/Paper';
+import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
+
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -26,12 +28,7 @@ class PrivacyPolicy extends Component{
     render(){
         return(
             <div>
-                <Toolbar className="navHeader">
-                    <ToolbarTitle text={<a  className="navTitleBar" href="/">FlappCards</a>} />
-                    <ToolbarGroup>
-                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
-                    </ToolbarGroup>
-                </Toolbar>
+                <FlashCardsAppBar />
                 <Paper className="paperBody" zDepth={2}>
                     <div className="innerPaper">
                         <h1 className="titleUnderline">Privacy Policy</h1>

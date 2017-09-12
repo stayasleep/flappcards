@@ -1,0 +1,121 @@
+.changeContainer {
+    text-align: center;
+    /*height: 600px;*/
+}
+
+.profileBtnContainer {
+    margin: 1em auto;
+    width: 66%;
+}
+
+.passSubmitContainer, .passClearContainer {
+    padding: 1em;
+}
+.passSubmit, .passClear{
+    margin: 1em 0;
+}
+.passwordReqs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    margin:0 auto;
+}
+
+.reqOne, .reqTwo, .reqThree, .reqFour, .reqFive {
+    margin: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.birthdayTitle, .emailTitle, .joinTitle, .nameTitle, .usernameTitle {
+    font-weight: 800;
+    width: 20%;
+}
+.name, .email, .birthday,.join, .username{
+    /*width: 55%;*/
+    text-align: left;
+    cursor: pointer;
+}
+
+.profileTable {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+.profileBody {
+    /*display: table-row-group;*/
+}
+/*THESE ARE THE ROWS*/
+.joinContainer, .usernameContainer, .nameContainer,
+.emailContainer, .birthdayContainer {
+    margin-bottom: 10px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 30px;
+    padding: 0 !important;
+}
+
+
+
+.nameForm, .emailForm, .birthdayForm {
+    width: 80%;
+    display: flex;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.editFormName, .editFormEmail,.editFormBirthday {
+    width: 50%;
+}
+.editFormButtons {
+    width: 50%;
+}
+
+.editbtn {
+    margin: 6px;
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+.btn-main{
+    /*font-weight: 700;*/
+
+    background-color: #2c2f34;
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+}
+.btn-secondary{
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+    background-color:#1bb76e
+}
+.btn-main:hover {
+    background-color: #484d56;
+}
+.btn-secondary:hover {
+    background-color: #1fd17e;
+}

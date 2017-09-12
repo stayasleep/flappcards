@@ -33,9 +33,9 @@ class Register extends Component{
         return(
             <div>
                 <Toolbar className="navHeader">
-                    <ToolbarTitle text={<a  className="navTitleBar" href="https://flappcards.com">FlappCards</a>}/>
+                    <ToolbarTitle text={<Link className="navTitleBar" to="/">FlappCards</Link>}/>
                     <ToolbarGroup>
-                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/home"/>}/>
+                        <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <Registration/>

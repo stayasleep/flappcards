@@ -13,6 +13,9 @@ import './styles/signReg.css';
 import './styles/whyFlappsComp.css';
 import './styles/popUpComponent.css';
 import './styles/landing_page.css'; //for andres'
+import './styles/profle_change_pw.css';
+import './styles/recent_stacks.css';
+import './styles/community_stacks.css';
 import {
     teal700, teal500,
     indigo200,
@@ -37,7 +40,6 @@ const muiTheme = getMuiTheme({
         textColor: fullBlack,
         alternateTextColor: white,
         canvasColor: "#fff",
-        // canvasColor: "#f0f0f0",
         borderColor: grey300,
         disabledColor: fade(darkBlack, 0.3),
         pickerHeaderColor: teal700,

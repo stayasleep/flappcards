@@ -5,6 +5,7 @@ import {
     FETCH_FEATURED_STACKS,
     FETCH_FEATURED_ERR,
     FETCH_STACK_OVERVIEW,
+    FETCH_STACK_OVERVIEW_TITLES,
     FETCH_CARD,
     FETCH_USER_META,
     AUTH_ERROR,
@@ -17,7 +18,14 @@ import {
     SEARCH_STACKS,
     VALIDATE_ROUTE,
     RESET_PW,
+    RESET_SEARCH,
     RECOVER_PW,
+    UPDATE_USER_META,
+    UPDATE_USER_ERRORS,
+    UPDATE_USER_PASS,
+    UPDATE_USER_PASS_ERROR,
+    UPDATE_USER_PASS_CLEAR,
+
     INITIATE_GUEST_BROWSING
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
@@ -25,8 +33,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -89,6 +97,66 @@ export function getUserData() {
                 type: null,
                 error: err.response
             });
+        })
+    }
+}
+
+export function updateUserData(info){
+    console.log('axios orofile',info);
+    let token = localStorage.getItem("token");
+    info = {...info, "token":token};
+    console.log('after', info);
+    return function (dispatch){
+        axios.put(`${BASE_URL}/profile`,{"token": token, "name": info.name, "email": info.email, "birthday": info.birthday}).then((response) => {
+            console.log('res update profile', response);
+            if(response.data.success) {
+                dispatch({
+                    type: UPDATE_USER_META,
+                    payload: response.data.results,
+                })
+            }else{
+                dispatch({
+                    type: UPDATE_USER_ERRORS,
+                    payload: response.data.message,
+                })
+            }
+        }).catch( err => {
+            //handle errors
+        })
+    }
+}
+export function updateUserPassword(password){
+    let token = localStorage.getItem("token");
+    return function (dispatch){
+        axios.post(`${BASE_URL}/profile/change-password`,{"token": token, pass: password.password, confirm: password.passwordConfirm}).then((response) => {
+            console.log('return change pw', response);
+            if(response.data.success === false){
+                console.log('false pw',response);
+                dispatch({
+                    type: UPDATE_USER_PASS_ERROR,
+                    payload: response.data.message,
+                })
+            }else {
+                dispatch({
+                    type: UPDATE_USER_PASS,
+                    payload: true,
+                })
+            }
+        }).catch ( err => {
+            console.log('err',err);
+            dispatch({
+                type: UPDATE_USER_PASS_ERROR,
+                payload: false,
+            });
+            //handle errors
+        })
+    }
+}
+export function clearUserPasswordNotice(){
+    return function (dispatch){
+        dispatch({
+            type: UPDATE_USER_PASS_CLEAR,
+            payload: false,
         })
     }
 }
@@ -167,7 +235,7 @@ export function getStackOverview(stackID) {
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             console.log('inside the dispatch');
-            (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('stack OV DNW',err);
             dispatch({
@@ -362,6 +430,48 @@ export function searchStacks(search) {
         })
     }
 }
+/**
+ * @name - unmountSearch
+ * @description upon unmount, function resets the search state to begin anew
+ * @returns {Function}
+ * **/
+export function unmountSearch(){
+    return function (dispatch){
+        dispatch({
+            type: RESET_SEARCH,
+            payload: null,
+        })
+    }
+}
+/**
+ * @name - editStackHeaders
+ * @description - allows user to change the stack Subject and/or Category in the overview page
+ * @param {Object} headerObj - function takes in an object containing both the subject and category values
+ * @returns {Function}
+ * */
+export function editStackHeaders(headerObj){
+    return function (dispatch){
+        let token = localStorage.getItem("token");
+        let stackID = headerObj.stackID;
+        axios.put(`${BASE_URL}/stackOverview/${stackID}/headers`,{"token": token, "subject": headerObj.subject, "category":headerObj.category}).then((response) => {
+            console.log('header response', response.data.results[0]);
+            if(response.data.success){
+                dispatch({
+                    type: FETCH_STACK_OVERVIEW_TITLES,
+                    payload: response.data.results[0],
+                })
+            }else{
+                //handle success false here eventually
+                //maybe with a dialog saying task cannot be completed right now
+            }
+
+        }).catch( err => {
+            //handle error
+        })
+    }
+}
+
+
 
 /**
  * @name - addSingleCard

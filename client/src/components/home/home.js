@@ -12,12 +12,13 @@ class Home extends Component {
                 <div style={{textAlign: "center"}}>
                     <Recent/>
                 </div>
-                <div style={{textAlign: "center"}}>
+                <div style={{textAlign: "center",margin:"2em 0"}}>
                     <Community/>
                 </div>
             </div>
         )
     }
+
 }
 
 export default Home;

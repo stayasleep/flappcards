@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import AutoComplete from 'material-ui/AutoComplete';
 import {connect} from 'react-redux';
+import { browserHistory, Link } from 'react-router';
+import AutoComplete from 'material-ui/AutoComplete';
 import {searchStacks, populateAutoComplete} from './../../actions/index.js';
 import PropTypes from 'prop-types';
-
 import RaisedButton from 'material-ui/RaisedButton'
 
 class SearchAutoComplete extends Component {
@@ -17,7 +17,6 @@ class SearchAutoComplete extends Component {
 
     handleSearch(search){
         this.props.searchStacks(search);
-
     }
     componentWillMount() {
         this.props.populateAutoComplete();
@@ -28,7 +27,7 @@ class SearchAutoComplete extends Component {
         return(
             <div>
                 <AutoComplete
-                    hintText="Search categories or subject "
+                    hintText="Search By Category or Subject"
                     dataSource={this.props.autoCompleteSuggestions}
                     filter={AutoComplete.fuzzyFilter}
                     onNewRequest={(searchText) => this.handleSearch(searchText)}

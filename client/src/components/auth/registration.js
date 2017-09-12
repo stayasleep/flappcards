@@ -85,7 +85,7 @@ class Registration extends Component {
                     <div>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
                         <div style={passWordInfo}>
-                            Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
+                            Password must be at least 8 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
                         </div>
                     </div>
                     <div>
