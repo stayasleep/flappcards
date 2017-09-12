@@ -72,15 +72,16 @@ class Recent extends Component {
 
     render() {
         const { stepIndex } = this.state;
+        console.log('recen',this.props);
 
         if(this.props.authorized) {
             //Users who do not have any stacks in there account
-            if (!this.props.recentStacks || typeof this.props.recentStacks === "string" ) { //ugly, but it catches our promise which originally returns a string,this only worked before bc the dispatch in catch threw it back and saved us
+            if (typeof this.props.recentStacks === "string" ) { //ugly, but it catches our promise which originally returns a string,this only worked before bc the dispatch in catch threw it back and saved us
                 return (
                 <Paper className="newUserWelcome" zDepth={2}>
                     <h2>Welcome To FlappCards!</h2>
                     <p>Here are some helpful guidelines to make the most of what we have to offer.  Once your shelf
-                        has some flashcard stacks, we&apos;ll start displaying them here for your convenience.
+                        has some flashcard stacks, we&apos;ll start displaying your recent stacks here.
                     </p>
                     <div className="stepperContainer">
                     <Stepper linear={false} activeStep={stepIndex}>
@@ -121,15 +122,40 @@ class Recent extends Component {
                     </div>
                 </Paper>
                 )
-            } else if (this.props.recentStacks.success === false){//should not be what is used for server errors
+            } else if ( !this.props.recentStacks || this.props.recentStacks.success === false){//should not be what is used for server errors
                 return (
-                    <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif"}}>
-                        <CircularProgress size={80} thickness={6} />
-                    </div>
+                    <Paper className="userWelcome" zDepth={2}>
+                        <h2>Loading...</h2>
+                        <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif"}}>
+                            <CircularProgress size={80} thickness={6} />
+                        </div>
+                    </Paper>
                 )
-            } else if (this.props.recentStacks) {//Users who have flashcards
+            } else if(this.props.recentStacks) {//Users who have flashcards
                 return (
-                    <StackSummary cardStack={this.props.recentStacks} title={"Recent Stacks"} />
+                    <div>
+                        <Paper className="userWelcome" zDepth={2}>
+                            <h2>Welcome back</h2>
+                            <p>Here&apos;s your latest stack activity:</p>
+                            <StackSummary cardStack={this.props.recentStacks}  />
+                        </Paper>
+                        <div className="middleRecentContainer">
+                            <div className="middleRecentCreate">
+                                <h2>Create a study stack</h2>
+                                <p>Study smart! Create a study stack and get started today.</p>
+                                <div className="divButton">
+                                    <Link className="linkBtnGreen" to="/createCards" name="Create Stack">Create Stack</Link>
+                                </div>
+                            </div>
+                            <div className="middleRecentSearch">
+                                <h2>Learn something new today!</h2>
+                                <p>Take a look at some of the great stacks created by FlappCard members.</p>
+                                <div className="divButton">
+                                    <Link className="linkBtn" to="/search">Search Stacks</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 );
             }
         }else{

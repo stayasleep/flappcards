@@ -58,8 +58,6 @@ class Search extends Component {
     }
 
     render(){
-        console.log('search render',this.props);
-
         const tableHead = (
             <Table>
                 <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>

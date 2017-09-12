@@ -49,7 +49,7 @@ class FlashCardsAppBar extends Component {
                         label="Log Out"
                         labelColor="rgb(0, 121, 107)"
                         onTouchTap={() => this.props.logout()}
-                        containerElement={<Link to={`/logout`} name="logout"/>}
+                        containerElement={<Link to="/logout"/>}
                     />
                 </div>
                 ) : (

@@ -88,7 +88,7 @@ class Profile extends Component{
         this.props.reset("generalInfo");
     }
     handleFormSubmit(values, str){
-        console.log('vals',values);
+        console.log('handleFomrSubmit',values);
         if(str === "name"){
             this.props.updateUserData(values);
             this.setState({formName: !this.state.formName});
@@ -103,7 +103,6 @@ class Profile extends Component{
 
     componentWillMount(){
         this.props.getUserData();
-        document.body.style.backgroundColor = "#f0f0f0";
         document.title="FlappCards - Profile";
     }
 
@@ -256,7 +255,7 @@ class Profile extends Component{
                                                     </div>
                                                     <div className="editFormButtons">
                                                         <button className="editbtn btn btn-main" type="submit">Save</button>
-
+                                                        <button className="editbtn btn btn-secondary" type="button" onClick={(str) => this.handleFormCancel.bind(this)("birthday")}>Cancel</button>
                                                     </div>
                                                 </form>
                                             </CardText>
@@ -319,6 +318,8 @@ function validate(values){
 Profile = reduxForm({
     form: "generalInfo",
     initialValues:{"name":"", "email": "", "birthday": ""},
+    enableReinitialize: true,
+    overwriteOnInitialValuesChange: false,
     validate
 })(Profile);
 

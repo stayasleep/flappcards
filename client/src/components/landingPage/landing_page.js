@@ -21,7 +21,6 @@ class Landing extends Component {
 
     componentWillMount() {
         // if they do not have a token, initiate the non-member browsing procedures
-        console.log('landing did mount',this.props);
         !(localStorage.getItem('token')) ? (this.props.initiateGuestBrowsing('/')) : (browserHistory.push('/'));
     }
 
@@ -31,7 +30,6 @@ class Landing extends Component {
     }
 
     render () {
-        console.log('landing will render',this.props);
         const props = this.props;
         const {store} =this.context;
         const state= store.getState(); //this is a very round about way to accomplish this task
@@ -67,5 +65,11 @@ class Landing extends Component {
         }
     }
 }
-export default connect(null, {initiateGuestBrowsing})(Landing);
+function mapStateToProps(state){
+    return {
+        authorized: state.auth.authorized,
+    }
+}
+export default connect(mapStateToProps, {initiateGuestBrowsing})(Landing);
+// export default connect(null, {initiateGuestBrowsing})(Landing);
 

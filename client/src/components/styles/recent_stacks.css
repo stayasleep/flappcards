@@ -1,5 +1,5 @@
 /*This Is The View For New Members/Users Without Stacks In Their Account*/
-.newUserWelcome {
+.newUserWelcome, .userWelcome {
     padding: 1em;
 }
 .stepperContainer {
@@ -15,4 +15,49 @@
 
 .stepBtnContainer {
     margin-top: 12px;
+}
+.middleRecentContainer {
+    margin: 2em;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.middleRecentCreate, .middleRecentSearch {
+    width: 300px;
+    border: 4px dashed #2c2f34;
+    margin: 1em;
+    padding: 8px;
+    background: #FFFFFF;
+}
+.divButton {
+    display: inline-block;
+    padding: 1rem;
+}
+.linkBtnGreen {
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+    background-color:#1bb76e;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25em;
+    padding: 1rem 4rem;
+    display: inline-block;
+}
+
+.linkBtnGreen:hover {
+    background-color: #1fd17e;
+}
+.linkBtn {
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+    background-color: #3f434a;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25em;
+    padding: 1rem 4rem;
+    display: inline-block;
+}
+
+.linkBtn:hover {
+    background-color: #50545c;
 }
