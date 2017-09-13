@@ -16,7 +16,6 @@ import {labelPlaceholder} from './../styles/inputComponent.css';
 class CreateCards extends Component {
 
     componentWillMount(){
-        //set title
         document.title="FlappCards - Create A Study Stack!";
     }
 
@@ -65,6 +64,7 @@ class CreateCards extends Component {
     }
 
     handleCreate(stackObject) {
+        console.log('create form', stackObject);
         this.props.createStack(stackObject);
     }
 
