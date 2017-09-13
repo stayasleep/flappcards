@@ -20,18 +20,15 @@ import {searchStacks, populateAutoComplete, unmountSearch} from '../../actions/i
 class Search extends Component {
 
     componentWillMount(){
-        console.log('search will mount',this.props);
         document.title="FlappCards - Search Page";
         const {query} = this.props.location;
-        //const {search} = this.props.location;
-        //search/?q=term
+        //search?q=term
         if(Object.keys(query).length !== 0){
             if(Object.keys(query)[0] === "q" && query.q) {
                 const queried = query.q;
                 console.log('queried', queried);
                 this.props.searchStacks(queried);
             }else{
-                console.log('q missing val');
                 browserHistory.push('/search');
             }
         }
@@ -46,7 +43,7 @@ class Search extends Component {
     }
 
     componentWillUnmount(){
-        this.props.unmountSearch();
+        this.props.unmountSearch(); //resets Search so you can navigate back to a blank view
     }
 
     renderStacksList(){
@@ -70,7 +67,6 @@ class Search extends Component {
     }
 
     render(){
-        console.log('render seatch',this.props);
         const tableHead = (
             <Table>
                 <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>
