@@ -16,7 +16,8 @@ class SearchAutoComplete extends Component {
 
 
     handleSearch(search){
-        this.props.searchStacks(search);
+        //this.props.searchStacks(search);
+        browserHistory.push(`/search?q=${search}`);
     }
     componentWillMount() {
         this.props.populateAutoComplete();
@@ -24,6 +25,17 @@ class SearchAutoComplete extends Component {
 
 
     render() {
+        console.log('these are my auto suggests',this.props.autoCompleteSuggestions);
+        const {autoCompleteSuggestions} = this.props;
+        let autoLower = autoCompleteSuggestions.map((suggestion, index) => {
+            return suggestion.toLowerCase();
+        });
+        console.log('auto low',autoLower.sort());
+        autoLower = autoLower.sort();
+
+        let setAuto = [...new Set(autoLower)];
+        console.log('settttt',setAuto);
+
         return(
             <div>
                 <AutoComplete
