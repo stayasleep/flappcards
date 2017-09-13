@@ -113,7 +113,7 @@ export const cardToAddSubjectCategory = {
 
 export const cardToAdd = {
     position: "relative",
-    margin: "2em",
+    margin: "2em 0",
     padding: "1em",
     boxShadow: "rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
 };
@@ -127,7 +127,7 @@ export const singleCard = {
 export const cardToAddForm = {
     margin: "2em auto",
     padding: "1em",
-    width:"80vw",
+    width:"90vw",
     backgroundColor:"white",
 };
 
@@ -165,7 +165,7 @@ export const deleteIconButton = {
 
 export const addCardInputFields = {
     margin: "0.5em",
-    width: "148px"
+    // width: "148px", //for the create cards q and a field box
 };
 
 // Styling to prevent error text from re-/mis- aligning input fields
@@ -177,6 +177,6 @@ export const errorText  = {
 
 //button for createCards
 export const removeAll = {
-    boxShadow:"0 0 0 1pt rgb(0,121,107)",
+    // boxShadow:"0 0 0 1pt rgb(0,121,107)",
     marginLeft:"5%",
 };

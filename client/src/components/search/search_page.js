@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router';
+import { browserHistory, Link} from 'react-router';
 import Paper from 'material-ui/Paper';
 import {
     Table,
@@ -20,18 +20,30 @@ import {searchStacks, populateAutoComplete, unmountSearch} from '../../actions/i
 class Search extends Component {
 
     componentWillMount(){
-        document.body.style.backgroundColor="#f0f0f0";
+        console.log('search will mount',this.props);
         document.title="FlappCards - Search Page";
-        console.log("search will mount",this.props.location);
+        const {query} = this.props.location;
+        //const {search} = this.props.location;
         //search/?q=term
-        if(this.props.location.query){
-            console.log('term is true',this.props.location.query);
+        if(Object.keys(query).length !== 0){
+            if(Object.keys(query)[0] === "q" && query.q) {
+                const queried = query.q;
+                console.log('queried', queried);
+                this.props.searchStacks(queried);
+            }else{
+                console.log('q missing val');
+                browserHistory.push('/search');
+            }
         }
     }
-    // componentWillReceiveProps(nextProps){
-    //     console.log('search receiveing next this',this.props);
-    //     console.log('searh will receive props',nextProps);
-    // }
+    componentWillReceiveProps(nextProps){
+        if(this.props.location.search === "" ) {
+            if (this.props.location.search !== nextProps.location.search) {
+                const {query} = nextProps.location;
+                this.props.searchStacks(query.q);
+            }
+        }
+    }
 
     componentWillUnmount(){
         this.props.unmountSearch();
@@ -58,6 +70,7 @@ class Search extends Component {
     }
 
     render(){
+        console.log('render seatch',this.props);
         const tableHead = (
             <Table>
                 <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>

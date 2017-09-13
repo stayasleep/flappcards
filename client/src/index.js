@@ -13,7 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
-console.log = function() {};
+// console.log = function() {};
 if(token && JSON.parse(guest)){
     console.log('token is guest');
     store.dispatch({type: AUTH_USER,payload: false});
@@ -21,8 +21,6 @@ if(token && JSON.parse(guest)){
     console.log('token isnt guest');
     store.dispatch({type: AUTH_USER, payload: true});
 }
-console.log('after token check');
-
 
 import App from './components/app';
 import Home from './components/home/home';
@@ -44,6 +42,11 @@ import Register from './components/register/register';
 import Forgot from './components/login/forgot';
 import StacksNotFound from './components/stackOverview/stack_does_not_exist';
 
+const WrapperComponent = (props) => {
+    if(Object.keys(props.location.query).length === 0 ) {return <Search{...props}/>}
+    if(Object.keys(props.location.query)[0] === "q" && props.location.query.q) {return <Search {...props}/>}
+};
+
 
 ReactDOM.render(
     <Provider store={store}>
@@ -56,7 +59,8 @@ ReactDOM.render(
                 <Router path="register" component={Register}/>
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>
-                <Route path="Search" component={requireAuth(Search)}/>
+                <Route path="Search" component={requireAuth(Search)} />
+                {/*<Route path="Search" component={requireAuth(WrapperComponent)}/>*/}
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
                 <Route path="stackOverview/:sid/notfound" component={requireAuth(StacksNotFound)} />

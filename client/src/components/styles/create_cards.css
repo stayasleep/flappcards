@@ -1,0 +1,74 @@
+@media (max-width: 480px) {
+   .createCardPaper {
+       width: 100% !important; /*important bc JS styling takes precedence*/
+   }
+    .createCardsButtons {
+        margin: 2em 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.addBtn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+.btnAddCard{
+    color: #FFFFFF;
+    border-color: #e6e6e6;
+    background-color:#1bb76e
+}
+
+.btnAddCard:hover {
+    background-color: #1fd17e;
+}
+
+.formBtn{
+    color: #F2F2F2;
+    text-decoration: none;
+    outline: 0;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    font-family: 'Open Sans',sans-serif;
+    padding: 10px 25px;
+}
+
+.purpBtn {
+    background: #5c69ff;
+}
+
+.purpBtn:hover{
+    background: #636FFF;
+}
+
+.grayBtn {
+    background: #6C6C6C;
+    border-color: #6C6C6C;
+}
+
+.grayBtn:hover {
+    background-color: #3F434A;
+}

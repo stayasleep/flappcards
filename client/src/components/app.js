@@ -16,6 +16,7 @@ import './styles/landing_page.css'; //for andres'
 import './styles/profle_change_pw.css';
 import './styles/recent_stacks.css';
 import './styles/community_stacks.css';
+import './styles/create_cards.css';
 import {
     teal700, teal500,
     indigo200,
