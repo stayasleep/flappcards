@@ -21,7 +21,6 @@ router.get('/:sID',(request,response,next) => {
                     success: false,
                     message: "Problem Connecting to DB"
                 });
-                // return next(error);
             }
             connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;", [uid, sid], (error, result) => {
                 if (error) {
@@ -39,7 +38,7 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        if (results.length > 0) {
+                        if (results[2].length > 0) {
                             results[2][0].isOwned = true;
                             response.send(results[2]);
                         } else {
@@ -59,6 +58,7 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
+                        console.log('not owned', results);
                         response.send(results[2]);
                     });
                 }
