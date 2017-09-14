@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {submitResetPw} from '../../actions/index';
 import renderInputReg from '../utilities/renderInputReg';
 import {resetForm, header, passwordInfo} from './../styles/resetPasswordForm.css';
+import {Link} from 'react-router';
 
 class ResetForm extends Component {
 
@@ -45,7 +46,7 @@ class ResetForm extends Component {
         const resetContainer={
             backgroundColor:"white",
         };
-
+        console.log('reset form render',this.props);
         return (
             <div className="resetForm" style={resetContainer}>
                 <h1 className="header">Reset Password</h1>
@@ -62,6 +63,9 @@ class ResetForm extends Component {
                         <Field name="passwordConfirm" component={renderInputReg} label="Confirm New Password" type="password"/>
                     </div>
                     <div style={userError} id="resetFail">
+                        {this.props.errorResComp ? (
+                                <div style={{"color":"red"}}>{this.props.errorResComp} <Link to="/login/forgotpassword">Reset Password</Link></div>
+                            ): null}
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
@@ -103,24 +107,9 @@ function validate(values){
 
 }
 function mapStateToProps(state){
-    if(state.auth.authError === "This link has already expired.  Please try the password reset process again."){
-
-        function appendUserError(el,str){
-            var div = document.createElement('div');
-            div.innerHTML='';
-            el.innerHTML = '';
-            div.innerHTML = str;
-            el.appendChild(div.children[0]);
-        }
-        var userError = '<div style="color: red;">There was an error handling your request.  Please restart the reset password process</div>'; //this should be error from axios call bc token/databse arent the same or time expired
-        appendUserError(document.getElementById("resetFail"),userError);
-
-        state.auth.authError = null; //Reset the authError to null so the user can try resetting again?? Prob need to fix this .
-
-    }
     return{
         authenticated: state.auth.authenticated,
-        error: state.auth.authError
+        errorResComp: state.auth.authError
     };
 }
 

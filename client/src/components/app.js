@@ -3,13 +3,20 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import './styles/landingPage.css';
 import './styles/singleCard.css';
 import './styles/footer.css';
 import './styles/disclaimer.css';
 import './styles/log_in.css';
 import './styles/search.css'
 import './styles/appBar.css'
+import './styles/signReg.css';
+import './styles/whyFlappsComp.css';
+import './styles/popUpComponent.css';
+import './styles/landing_page.css'; //for andres'
+import './styles/profle_change_pw.css';
+import './styles/recent_stacks.css';
+import './styles/community_stacks.css';
+import './styles/create_cards.css';
 import {
     teal700, teal500,
     indigo200,
@@ -33,7 +40,7 @@ const muiTheme = getMuiTheme({
         accent3Color: grey500,
         textColor: fullBlack,
         alternateTextColor: white,
-        canvasColor: "#f0f0f0",
+        canvasColor: "#fff",
         borderColor: grey300,
         disabledColor: fade(darkBlack, 0.3),
         pickerHeaderColor: teal700,

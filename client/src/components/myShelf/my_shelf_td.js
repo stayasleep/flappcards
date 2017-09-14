@@ -48,7 +48,7 @@ class Stacks extends Component {
         const stacksList = this.props.stacks.map((item, index) => {
             return (
                 <div key={index} className="cards">
-                <Card style={{overflow: "hidden"}}>
+                <Card style={{overflow: "hidden",background:"white"}} zDepth={2}>
                     <CardHeader
                         title={`Subject: ${item.subject}`}
                         titleStyle={{
@@ -58,7 +58,7 @@ class Stacks extends Component {
                             overflow: "hidden"}}
                         subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar style={{float:"right"}}>{item.totalCards}</Avatar>}
+                        avatar={<Avatar style={{float:"right",color:"black",background:"#797979",boxShadow:"rgba(0, 0, 0, 0.75) 0px 1px 6px, rgb(0, 0, 0) 0px 1px 4px"}}>{item.totalCards}</Avatar>}
                         style={cardHeader}
                     />
                     <CardActions style={cardActions}>
@@ -68,7 +68,7 @@ class Stacks extends Component {
                         <DeleteStackConfirm stackID={this.props.stacks[index]}/>
                     </CardActions>
                     {/*<CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>*/}
-                    <CardText style={cardText}>{`Rating: ${item.stackRating}`}</CardText>
+                    <CardText style={cardText}>{`Total Views: ${item.stackRating}`}</CardText>
                 </Card>
                 </div>
             )

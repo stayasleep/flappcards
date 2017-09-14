@@ -12,7 +12,7 @@ const avatarDictionary = require('./avatar_dictionary');
 // Recent stacks query; This gets called for the home page.
 router.post('/', (request,response,next)=> {
     let un = request.decoded.UserName;
-    // Query the database for the user's recent stacks
+
     pool.getConnection((error, connection) => {
         if (error) {
             console.log("Error connecting to db", error);

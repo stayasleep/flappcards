@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import AutoComplete from 'material-ui/AutoComplete';
 import {connect} from 'react-redux';
+import { browserHistory, Link } from 'react-router';
+import AutoComplete from 'material-ui/AutoComplete';
 import {searchStacks, populateAutoComplete} from './../../actions/index.js';
 import PropTypes from 'prop-types';
-
 import RaisedButton from 'material-ui/RaisedButton'
 
 class SearchAutoComplete extends Component {
@@ -16,8 +16,8 @@ class SearchAutoComplete extends Component {
 
 
     handleSearch(search){
-        this.props.searchStacks(search);
-
+        //this.props.searchStacks(search);
+        browserHistory.push(`/search?q=${search}`);
     }
     componentWillMount() {
         this.props.populateAutoComplete();
@@ -25,11 +25,23 @@ class SearchAutoComplete extends Component {
 
 
     render() {
+        const {autoCompleteSuggestions} = this.props;
+        let autoLower = autoCompleteSuggestions.map((suggestion, index) => {
+            return suggestion.toLowerCase();
+        });
+        autoLower = autoLower.sort();
+        //some things in server already have white space, :doh:
+        let trimAutoArray = autoLower.map((searched) => {
+            return searched.trim();
+        });
+
+        let setAuto = [...new Set(trimAutoArray)]; //removes duplicates, ES6
+
         return(
             <div>
                 <AutoComplete
-                    hintText="Search categories or subject "
-                    dataSource={this.props.autoCompleteSuggestions}
+                    hintText="Search By Category or Subject"
+                    dataSource={setAuto}
                     filter={AutoComplete.fuzzyFilter}
                     onNewRequest={(searchText) => this.handleSearch(searchText)}
                     onUpdateInput={(searchText) => {this.setState({searchText: searchText})}}

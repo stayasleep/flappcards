@@ -1,0 +1,22 @@
+.fieldContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logResetContainer{
+    margin: 1em;
+}
+
+/*Apply for small devices
+* The Registration component on /register should beccome whole width of screen
+*/
+@media (max-width: 480px){
+    .paperContainer{
+        width: 100% !important;
+    }
+
+    .loginComponentOnly{
+        width: 100% !important;
+    }
+}

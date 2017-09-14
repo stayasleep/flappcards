@@ -16,11 +16,12 @@ import {labelPlaceholder} from './../styles/inputComponent.css';
 class CreateCards extends Component {
 
     componentWillMount(){
-        document.body.style.backgroundColor="#f0f0f0";
+        document.title="FlappCards - Create A Study Stack!";
     }
 
     componentWillUnmount(){
-        document.body.style.backgroundColor=null;
+        document.title="FlappCards";
+
     }
 
 
@@ -31,7 +32,7 @@ class CreateCards extends Component {
                     <Paper style={cardToAdd} key={index}>
                     <li>
                         <Close style={closeIconButton} label="Remove Card" onTouchTap={()=> fields.remove(index)} hoverColor={red500}/>
-                        <div style={addCardInputFields}>
+                        <div className="qAndA" style={addCardInputFields}>
                         <Field
                             name={`${stack}.question`}
                             type="text"
@@ -39,6 +40,7 @@ class CreateCards extends Component {
                             label="Question"
                             className="labelPlaceholder"
                             errorText={touched && error}
+                            fullWidth={true}
                         />
                         <Field
                             name={`${stack}.answer`}
@@ -46,13 +48,15 @@ class CreateCards extends Component {
                             component={renderInputCreateCard}
                             label="Answer"
                             errorText={touched && error}
+                            fullWidth={true}
+
                         />
                         </div>
                     </li>
                     </Paper>
                 ))}
                 <li style={{float: "right"}}>
-                    <RaisedButton type="button" onClick={() => fields.push({})}>Add Card</RaisedButton>
+                    <button className="btnAddCard addBtn" type="button" onClick={() => fields.push({})} >Add Card</button>
                     {(touched || submitFailed) && error && <span>{error}</span>}
                 </li>
             </ul>
@@ -60,6 +64,14 @@ class CreateCards extends Component {
     }
 
     handleCreate(stackObject) {
+        //trim white space from the obj and the stack array
+        stackObject.subject = stackObject.subject.trim();
+        stackObject.category = stackObject.category.trim();
+        stackObject.stack.forEach((card,index) => {
+            console.log('these are hte cards',card);
+            card.question = card.question.trim();
+            card.answer = card.answer.trim();
+        });
         this.props.createStack(stackObject);
     }
 
@@ -68,7 +80,7 @@ class CreateCards extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <Paper style={cardToAddForm}>
+                <Paper className="createCardPaper" style={cardToAddForm}>
                 <form onSubmit={handleSubmit((values) => {this.handleCreate(values)})}>
                     <div style={cardToAddSubjectCategory}>
                             <Field
@@ -77,6 +89,7 @@ class CreateCards extends Component {
                                 component={renderInputCreateCard}
                                 label="Subject"
                                 className="inputField"
+
                             />
                             <Field
                                 name="category"
@@ -86,9 +99,9 @@ class CreateCards extends Component {
                             />
                     </div>
                     <FieldArray name="stack" component={this.renderCards} />
-                    <div>
-                        <RaisedButton type="submit" primary={true} label="Submit" disabled={pristine || submitting}/>
-                        <RaisedButton type="button" style={removeAll} labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" label="Remove All" disabled={pristine || submitting} onClick={reset}/>
+                    <div className="createCardsButtons">
+                        <button type="submit" className="formBtn purpBtn" disabled={pristine || submitting}>Submit</button>
+                        <button style={removeAll} type="button" className="formBtn grayBtn " disabled={pristine || submitting} onClick={reset} >Remove All</button>
                     </div>
                 </form>
                 </Paper>

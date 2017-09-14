@@ -28,7 +28,9 @@ class ForgotPw extends Component{
         return (
             <div>
                 <div id="recoverForm">
-                    {/*Errors Will go here*/}
+                    {this.props.errForgotPw ? (
+                            <div style={{"color":"red"}}>{this.props.errForgotPw}</div>
+                        ) : null}
                 </div>
                 <form onSubmit={handleSubmit((values)=>{this.handleResetAuth(values)})}>
                     <div style={styles.center}>
@@ -59,23 +61,23 @@ function validate(values){
 }
 
 function mapStateToProps(state){
-    if(state.auth.authError === "Username/Email combination not found!"){
-        function appendUserError(el, str){
-            var div = document.createElement('div');
-            div.innerHTML = '';
-            el.innerHTML= '';
-            div.innerHTML = str;
-            el.appendChild(div.children[0]);
-        }
-        const recoverError='<div style="color: red; padding: 12px">Username/Email combination not found!</div>';
-        appendUserError(document.getElementById("recoverForm"), recoverError);//"body" has 2 more children - h1 and span
-
-        state.auth.authError = null;//reset the authError to null so the user can try recovery again
-
-    }
+    // if(state.auth.authError === "Username/Email combination not found!"){
+    //     function appendUserError(el, str){
+    //         var div = document.createElement('div');
+    //         div.innerHTML = '';
+    //         el.innerHTML= '';
+    //         div.innerHTML = str;
+    //         el.appendChild(div.children[0]);
+    //     }
+    //     const recoverError='<div style="color: red; padding: 12px">Username/Email combination not found!</div>';
+    //     appendUserError(document.getElementById("recoverForm"), recoverError);//"body" has 2 more children - h1 and span
+    //
+    //     state.auth.authError = null;//reset the authError to null so the user can try recovery again
+    //
+    // }
     return{
         authenticated: state.auth.authenticated,
-        error: state.auth.authError
+        errForgotPw: state.auth.authError,
     };
 }
 

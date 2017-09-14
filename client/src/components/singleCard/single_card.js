@@ -63,12 +63,16 @@ class SingleCard extends Component {
         this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
     }
     componentWillMount() {
+        console.log('single card will mount');
         const { sid } = this.props.params;
         const {cid} = this.props.params;
         this.props.getStackOverview(sid);
         //this.props.getCard(cid)
+        //set a generic title until i realize how to access individual card state
+        document.title="FlappCards - Study Mode!";
     }
     componentDidUpdate(){
+        console.log('single card did update');
         var flip = true;
         if(this.props.cards && this.props.cards[this.state.card].card_id !== parseInt(this.props.params.cid)){
             for(var i = 0; i < this.props.cards.length; i++){
@@ -90,6 +94,10 @@ class SingleCard extends Component {
                     flip = true
             }
         }
+    }
+    componentWillUnmount(){
+        //set the title back to default
+        document.title="FlappCards";
     }
 
     render() {
@@ -123,7 +131,7 @@ class SingleCard extends Component {
                     <div>click card to flip</div>
                     {/*<RaisedButton backgroundColor="#E53935" id="Wrong">WRONG</RaisedButton>*/}
                     <SkipPrevious id="previous" onClick={() => {this.prevCard()}}>PREVIOUS</SkipPrevious>
-                    <RaisedButton className="centered" id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
+                    <RaisedButton buttonStyle={{color:"white"}} primary={true} className="centered" id="return" containerElement={<Link to={`/stackOverview/${this.props.cards[this.state.card].stack_id}/`} name="back"/>}>Return</RaisedButton>
                     <SkipNext id="next" onClick={() => {this.nextCard()}}>NEXT</SkipNext>
                     {/*<RaisedButton backgroundColor="#33CC33" id="Right">RIGHT</RaisedButton>*/}
                 </div>

@@ -7,35 +7,36 @@ const bcrypt = require('bcryptjs');
 const config = require('../config/helena');
 const communications = require('../server/communications');
 const nodemailer = require('nodemailer');
+const template = require('../server/layout/resetTemplate');
+const templateText = require('../server/layout/resetTemplateText');
 
 router.use('/:token',(req,res,next)=>{
-    //we begin by checking that the link they clicked hasnt expired yet
-    //since this route has a shorter exp and a new secret, it will have sep middleware
     const token = req.headers['x-access-token'] || req.body.token;
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                // res.send({success:false, message:"no go into reset"});
-                //if this triggers, chances are token is invalid or fake...send em back
-                res.redirect('/pagenotfound');
+                //token is invalid or expired or fake
+                console.log('route is old');
+                return res.json({success:false});
+                // return res.redirect('/404');
             } else {
-                //token is good, it should show the new pw confirmation page
-                //render route or something?
+                console.log('reset route next');
                 req.decoded = decoded;
                 next();
                 // res.json({success:true, message:"Continue"});
-
             }
         })
     }else{
-        res.redirect('/404');
+        console.log('404');
+        return res.redirect('/404');
     }
 });
 //this should check that if you click the link, the token is valid and page renders
-//this ensures check occurs before clicking submit new PW
 router.get('/:token',(req,res)=>{
+    console.log('arrived at reset router get');
     res.json({success: true, message:"it worked!"});
 });
+
 //Page renders, new pw is entered and user hits submit
 router.post('/:token',(req,res,next)=>{
     //we should check to see if the token is still valid, on the chance that
@@ -102,19 +103,15 @@ router.post('/:token',(req,res,next)=>{
                                     });
                                     communications.mailOptions.to = uEmail;
                                     communications.mailOptions.subject = "Alert: Your Password Has Been Reset";
-                                    communications.mailOptions.html = "<h1>Hello "+un+",</h1>\n"+
-                                            "<p>This is a confirmation that the password for your account on "+req.headers.host+" has successfully changed.</p>\n"+
-                                            "<p>If you requested this action, great, it was successful.</p>\n"+
-                                                "<p>But if you didn&apos;t request this action, you should contact us immediately.</p>\n"+
-                                            "<em>Thanks,</em>\n"+
-                                                "<p>The FlappCards Team</p>";
+                                    communications.mailOptions.html = template(req);
+                                    communications.mailOptions.text = templateText(req);
+
                                     transporter.sendMail(communications.mailOptions,(err,info)=>{
                                         if(err){
                                             return res.json({success:false, message:"There was a problem with the delivery. Please try again later"});
                                         }
                                         console.log('log this mail',info);
                                     });
-                                    // res.redirect('/');
                                     res.json({success:true, message:'Congrats.  Password has been reset.  You will be redirected to the login page.'});
                                 }
                             }

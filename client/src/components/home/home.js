@@ -5,18 +5,6 @@ import Community from './community_stacks'
 
 class Home extends Component {
 
-    componentWillMount(){
-        document.body.style.backgroundColor = "#f0f0f0";
-    }
-
-    componentWillUnmount(){
-        document.body.style.backgroundColor = null;
-    }
-
-
-
-
-
     render(){
         return(
             <div>
@@ -24,12 +12,13 @@ class Home extends Component {
                 <div style={{textAlign: "center"}}>
                     <Recent/>
                 </div>
-                <div style={{textAlign: "center"}}>
+                <div style={{textAlign: "center",margin:"2em 0"}}>
                     <Community/>
                 </div>
             </div>
         )
     }
+
 }
 
 export default Home;

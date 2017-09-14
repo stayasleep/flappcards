@@ -7,9 +7,14 @@ const morgan = require('morgan');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const PORT = process.env.PORT || 1337;
+const jwt = require('jsonwebtoken');
+const config = require('./config/secret');
 
 //routes
 const api = require('./routes/index');
+
+//Express best practice for security; disable header
+app.disable('x-powered-by');
 
 //HTTP Request for Dev
 // app.use(morgan('dev'));
@@ -17,6 +22,7 @@ const api = require('./routes/index');
 //bodyParser Middleware
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(bodyParser.urlencoded({extended:true}));
+
 //cors middleware for all pages
 app.use(cors());
 

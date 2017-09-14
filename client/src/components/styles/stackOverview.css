@@ -17,7 +17,7 @@
         box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
         /*padding: 0;*/
     }
-    .stackActions {
+    .stackActions,.stackActionsGuest {
         display: -webkit-flex;
         display: flex;
         flex-flow: row wrap;
@@ -26,6 +26,10 @@
     }
     .stackActions > div {
         margin: 1em;
+    }
+    /*somewhere, adding the dialog with the copy svg made the studyButton look really weird..this is a patch to get it to normal*/
+    .stackActionsGuest>.studyButton,.stackActionsGuest>.chip{
+        margin: 2em !important;
     }
     .cardHeader {
         font-size: 1em;
@@ -140,6 +144,11 @@
         padding: 0.75em;
         height: 10rem;
     }
+    .isOwnedCat, .isOwnedSubject {
+        text-align: left;
+        width: 75%;
+        margin: 0 0 0 auto;
+    }
 }
 
 /* PORTRAIT MODE: NO KEYBOARD */
@@ -158,6 +167,10 @@
         margin: 1em;
         box-shadow: rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
         background-color: #E0F2F1;
+    }
+    .isOwnedSubject, .isOwnedCat {
+        width: 100%;
+        margin: 0 auto;
     }
 }
 
@@ -180,14 +193,17 @@
     }
 }
 
-.stackActions {
+.stackActions,.stackActionsGuest {
     display: -webkit-flex;
     display: flex;
-    flex-flow: row wrap;
-    -webkit-flex-flow: row wrap;
+    /*flex-flow: row wrap;*/ /*this just made the 3 buttons look weird on mobile.*/
+    /*-webkit-flex-flow: row wrap;*/
     justify-content: space-around;
 }
-
+/*somewhere, adding the dialog with the copy svg made the studyButton look really weird..this is a patch to get it to normal*/
+.stackActionsGuest>.studyButton,.stackActionsGuest>.chip{
+    margin: 2em !important;
+}
 .stackActions > div  {
     margin: 1em;
 }
@@ -235,4 +251,10 @@
     align-items: center;
 }
 
-
+/*Owned Headers*/
+.isOwnedSubject, .isOwnedCat {
+    width: auto;
+    text-align: left;
+    margin: 0 auto;
+    cursor: pointer;
+}

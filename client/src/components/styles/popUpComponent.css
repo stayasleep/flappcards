@@ -1,0 +1,22 @@
+/*
+Used for dialog components on menuItem clicks and copying stacks in
+the login folder
+*/
+
+.popUpTitle{
+    text-align: center  ;
+}
+.popUpBtnContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.miniLoginContent{
+    border:5px solid black;
+}
+
+.miniLoginOverlay,.popUpOverlay{
+    background: transparent !important;
+}

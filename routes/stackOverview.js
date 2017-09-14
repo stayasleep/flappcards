@@ -21,7 +21,6 @@ router.get('/:sID',(request,response,next) => {
                     success: false,
                     message: "Problem Connecting to DB"
                 });
-                // return next(error);
             }
             connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;", [uid, sid], (error, result) => {
                 if (error) {
@@ -29,29 +28,37 @@ router.get('/:sID',(request,response,next) => {
                 }
                 if (result.length > 0) {
                     //Stack is in your collection
-                    connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                    connection.query(
+                        "BEGIN;" +
+                        "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
+                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                        "WHERE `stacks`.`stack_id`=?;", [sid], (error, results) => {
+                        "WHERE `stacks`.`stack_id`=?;" +
+                        "COMMIT;", [sid, sid], (error, results) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        if (results.length > 0) {
-                            results[0].isOwned = true;
-                            response.send(results);
+                        if (results[2].length > 0) {
+                            results[2][0].isOwned = true;
+                            response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
-                            response.send(results);
+                            response.send(results[2]);
                         }
                     });
                 } else {
                     //If the stack is not initially in your collection
-                    connection.query("SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                    connection.query(
+                        "BEGIN;" +
+                        "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
+                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
                         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                        "WHERE `stacks`.`stack_id`=?;", [sid], (error, results) => {
+                        "WHERE `stacks`.`stack_id`=?;" +
+                        "COMMIT;", [sid, sid], (error, results) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        response.send(results);
+                        response.send(results[2]);
                     });
                 }
             });
@@ -62,6 +69,8 @@ router.get('/:sID',(request,response,next) => {
     }
 });
 //ADD CARD TO EXISTING STACK
+//...this might need Authentication check, but technically you only ever get this request is isOwned = true from above...which will always be false if your token = guest
+//and then the api/copy requires auth so it will already send a error response back if they arent validated
 router.post('/:sID',(request,response,next)=>{
     let un = request.decoded.UserName;
     let stackID = request.params.sID;
@@ -113,13 +122,14 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                 });
                 // return next(error);
             }
+            //result is an object where affectedRows is either true, false, or there is mysql error
             connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?", [uid, singleID], (error, result) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
-                } else if (result.length > 0) {
-                    response.send("Card deleted from your stack.")
+                } else if (result.affectedRows) {
+                    response.end();
                 } else {
-                    response.send("Cannot be deleted at this time.");
+                    response.end(); ///this is
                 }
             });
             connection.release();
@@ -160,4 +170,45 @@ router.put('/:cId',(request,response,next)=>{
         connection.release();
     })
 });
+
+router.put("/:stackID/headers", (req, res,next) => {
+    let stackID = req.params.stackID;
+    let userID = req.decoded.UserID;
+    let newSub = req.body.subject;
+    let newCat = req.body.category;
+
+    if(Object.keys(req.body).length === 0){
+        return res.json({success: false, message:"Subject and Category may not be blank"});
+    }
+
+    pool.getConnection((error, connection) =>{
+        if(error){
+            res.json({success: false, message: "Problem Connecting to DB"});
+        }
+        connection.query("UPDATE `stacks` SET `subject` = ?, `category` = ? WHERE `stack_id` = ? AND `user_id` = ?",[newSub, newCat, stackID, userID], (error, results) =>{
+            if(error){
+                return res.json({success: false, message:"There was a problem with your request"});
+            }
+
+            if(results.affectedRows === 1){
+
+                connection.query("SELECT `subject`, `category` FROM `stacks` WHERE `stack_id` = ?;", [stackID],(error, results) => {
+                    if(error){
+                        return res.json({success:false, message: "There was a problem with your request"});
+                    }
+                    if(results.length === 1){
+                        res.json({success:true, results: results});
+                    }else{
+                        res.json({success:false, message:"Cannot fetch stack headers"});
+                    }
+                });
+
+            } else {
+                res.json({success: false, message:"Stack does not exist!"});
+            }
+        });
+        connection.release();
+    })
+});
+
 module.exports = router;

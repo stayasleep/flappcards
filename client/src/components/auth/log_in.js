@@ -25,20 +25,20 @@ class LogIn extends Component {
     render (){
         const { handleSubmit, error } = this.props;
         return (
-            <div>
+            <div className="loginFormOuterDiv">
                 <div id="loginForm">
-                    {/*Errors will go here*/}
+                    {/*Errors will go here || THIS SHOULD BE JSX*/}
                 </div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
-                    <div style={styles.center}>
+                    <div style={styles.center} className="loginFormFieldsDiv">
                         <div style={styles.center}>
                             <Field className="chromeAuto" name="userName" component={renderInput} label="Username" />
                         </div>
                         <div style={styles.center}>
                             <Field className="chromeAuto" name="password" component={renderInput} label="Password" type="password"/>
                         </div>
-                        <RaisedButton primary={true} type="submit" label="Login"/>
                     </div>
+                        <RaisedButton style={{margin:"1em"}} primary={true} type="submit" fullWidth={false} className="loginButton" label="Login"/>
                 </form>
             </div>
         )
@@ -73,6 +73,7 @@ function mapStateToProps(state) {
 
     }
     return {
+        authorized: state.auth.authorized,
         authenticated: state.auth.authenticated,
         error: state.auth.authError
     };

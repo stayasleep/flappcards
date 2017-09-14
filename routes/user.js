@@ -45,7 +45,7 @@ router.post('/register',(request,response,next)=>{
                 message: "Problem Connecting to DB"
             });
             // return next(err);
-        };
+        }
         connection.query("SELECT EXISTS(SELECT 1 FROM users WHERE username=?) as 'taken'",[newUser.username],(err,result)=> {
             //if result = 1 UN already exits, if 0 then username does not exists
             if (err) {
@@ -64,7 +64,7 @@ router.post('/register',(request,response,next)=>{
                     connection.query("INSERT INTO `users` SET ?", newUser, (err, results) => {
                         // Use JSON Web Token to issue and sign the user a token
                         // Set token to expire in 1 week for persistent login
-                        let token = jwt.sign({UserName: newUser.username, UserID: results.insertId}, config.secret, {
+                        let token = jwt.sign({UserName: newUser.username, UserID: results.insertId, scope:1110 }, config.secret, {
                             expiresIn: 604800 //1 week in seconds
                         });
                         response.json({
@@ -97,7 +97,7 @@ router.post('/login',function(request,response,next){
                 success: false,
                 message: "Problem Connecting to DB"
             });
-        };
+        }
         connection.query("SELECT `username`,`user_id`, `user_pw` FROM `users` WHERE `username`=?",[usn],function(error,result) {
             if (error) {
                 response.json({success: false, msg: "Username/Password not found"});
@@ -109,7 +109,7 @@ router.post('/login',function(request,response,next){
                 bcrypt.compare(upw, hash, function (error, res) {
                     // If the user password matches, issue and sign the token
                     if (res){
-                        let token = jwt.sign({UserName: un,UserID: usersid },config.secret,{
+                        let token = jwt.sign({UserName: un,UserID: usersid, scope:1110 },config.secret,{
                             expiresIn: 604800 //1 week in seconds
                         });
                         response.json({
@@ -133,3 +133,5 @@ router.get('/avatars/:avatarImage', avatars); // for serving the url. Front end 
 
 
 module.exports = router;
+
+//the code here will be modified in the future ... right now we will hard code scope and then we will grab it from the db

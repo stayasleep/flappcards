@@ -1,0 +1,129 @@
+/* Used to style landing_page.js*/
+
+#mobileIntro{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .infoTextExtendedContainerDiv, #Intro{
+        display: none !important;
+    }
+    #mobileIntro{
+        display: flex;
+        font-size: 0.5em;
+        padding-top: 1em;
+        flex-direction: column;
+        margin: 1em;
+        width: 100%;
+    }
+    .landingPageContentContainerDiv {
+        flex: 1;
+        margin: 10px;
+        text-align: center;
+        display: flex;
+        display: -webkit-flex;
+        -webkit-flex-flow: column-reverse;
+    }
+}
+
+.title {
+    cursor: pointer;
+}
+
+.landingPageContentContainerDiv {
+    /*flex: 1;*/
+    /*margin: 10px;*/
+    text-align: center;
+    background-image: url('../imgs/home2.JPG');
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+}
+.infoTextExtendedContainerDiv{
+    margin: 2em 1em;
+    display: flex;
+}
+.infoTextExtendedDiv {
+    /*flex: 4;*/
+    /*margin: 10px;*/
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.infoText {
+    /*margin:5%;*/
+    color: black;
+    font-weight: 900;
+    font-size: 1.5em;
+    font-family: Roboto,sans-serif;
+    text-shadow:2px 0 2px rgba(255,255,255,0.7);
+}
+.noMarginTop{
+    margin-top: 0 !important;
+}
+.login{
+    width: 500px;
+    margin: 0px;
+}
+.registrationPaper{
+    width:100%;
+    text-align: center;
+    background: none !important;
+    display: flex;
+}
+.landingPageContainerDiv {
+    /*display: flex;*/
+    /*display: -webkit-flex;*/
+    /*flex-flow: row wrap;*/
+    /*-webkit-flex-flow: row wrap;*/
+    /*background-image: url('../imgs/home2.JPG');*/
+    /*position: relative;*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+    /*background-attachment: fixed;*/
+}
+.landingPageContentContainerDiv{
+    border-radius: 0 !important;
+}
+
+/* CSS to make the div containing the registration form look "right"*/
+/*div.landingPageContentContainerDiv > div {*/
+    /*box-shadow: rgb(136, 136, 136) 0px 5px 2.5px !important;*/
+
+/*}*/
+
+.infoText:last-child {
+    padding-bottom: 0.2em;
+}
+
+.paperContainer{
+    flex: 1 1 0;
+    /*margin: 1em;*/
+}
+
+
+/*Featured Stacks*/
+.flappFeaturedParent{
+    text-align: center;
+}
+
+.flappFeatPaper{
+    padding: 1em;
+}
+.featStackTitle{
+    border-bottom: 2px solid black;
+}
+
+.flappFeatContainer{
+    border: 1px dashed black;
+    width: 300px;
+    margin: 0 auto;
+    padding: 1em 0;
+}
+.containerText{
+    margin-bottom: 10px;
+}
