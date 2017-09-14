@@ -58,7 +58,6 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        console.log('not owned', results);
                         response.send(results[2]);
                     });
                 }
@@ -173,7 +172,6 @@ router.put('/:cId',(request,response,next)=>{
 });
 
 router.put("/:stackID/headers", (req, res,next) => {
-    console.log('req body',req.body);
     let stackID = req.params.stackID;
     let userID = req.decoded.UserID;
     let newSub = req.body.subject;
@@ -198,7 +196,6 @@ router.put("/:stackID/headers", (req, res,next) => {
                     if(error){
                         return res.json({success:false, message: "There was a problem with your request"});
                     }
-                    console.log('fetch results',results.length);
                     if(results.length === 1){
                         res.json({success:true, results: results});
                     }else{
