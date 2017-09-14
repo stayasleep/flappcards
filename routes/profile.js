@@ -69,7 +69,8 @@ router.post('/',(request,response, next)=>{
                 }else{
                     res.json({success: false, message: "Cannot update user's information"});
                 }
-            })
+            });
+            connection.release();
         })
 });
 
