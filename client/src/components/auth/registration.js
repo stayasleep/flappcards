@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {register} from '../../actions/index'
 import ReactDOM from 'react-dom';
 import renderInput from '../utilities/renderInputReg';
+import GenericDate from '../utilities/generic_date_picker';
 import Paper from 'material-ui/Paper';
 
 class Registration extends Component {
@@ -14,8 +15,17 @@ class Registration extends Component {
         router: PropTypes.object
     };
     handleSignup(vals){
-        this.props.register(vals);
+        //redux form issue, when clicking submit without values, you get errors
+        //if you clear errors with clear button, you can submit an empty form
+        if(Object.keys(vals).length !== 0) {
+            vals.name = vals.name.trim();
+            vals.userName = vals.userName.trim();
+            vals.email = vals.email.trim();
+            vals.birthday = `${vals.birthday.getFullYear()}/${vals.birthday.getMonth()+1}/${vals.birthday.getDate()}`;
+            this.props.register(vals);
+        }
     }
+
 
     componentDidUpdate(event){
         var dateField = ReactDOM.findDOMNode(this);
@@ -35,6 +45,7 @@ class Registration extends Component {
 
     render (){
         const {handleSubmit, reset} = this.props;
+        console.log('ths props',this.props);
         const regStyle = {
             float: "right",
             textAlign: "center",
@@ -97,7 +108,8 @@ class Registration extends Component {
                         <Field name="email" component={renderInput} label="Email"/>
                     </div>
                     <div style={fieldHeight}>
-                        <Field id="date" name="birthday" component={renderInput} label="Birthday(YYYY-MM-DD)"/>
+                        <Field id="date"  name="birthday" component={GenericDate} label="Birthday"/>
+
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
@@ -110,27 +122,35 @@ class Registration extends Component {
 }
 
 function validate(values) {
-    var min_age = 13;
+    console.log('func validate',values);
+    const min_age = 13;
     const errors = {};
-    var birth = '';
-    if(values.birthday) {
-        birth = values.birthday.replace(/[^0-9 ]/g, '');
-
+    // const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
+    // requiredFields.forEach(field => {
+    //     if (!values[ field ]) {
+    //         errors[ field ] = 'Required'
+    //     }
+    // });
+    if(!values.name){
+        errors.name="Required";
     }
-    const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Required'
-        }
-    });
+    if(!values.userName){
+        errors.userName = "Required";
+    }
     if(values.userName && !/^[a-zA-Z0-9]{6,20}/i.test(values.userName)){
         errors.userName = "Username must be 6 to 20 characters long"
     }
     if(values.userName && !/^\w+/i.test(values.userName)){
         errors.userName = "Please only use letters, numbers and _"
     }
+    if(!values.email){
+        errors.email="Required";
+    }
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i.test(values.email)) {
         errors.email = 'Invalid email address'
+    }
+    if(!values.password){
+        errors.password = "Required";
     }
     if (values.password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(values.password)) {
         errors.password = 'Must be between 8 and 15 characters long'
@@ -150,23 +170,20 @@ function validate(values) {
     if (values.password !== values.passwordConfirm) {
         errors.passwordConfirm = 'Passwords must match'
     }
-    if (values.birthday && !/([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))/i.test(birth)){
-        errors.birthday = 'Enter a Correct Date (YYYY-MM-DD)'
-    }
-    if(values.birthday) {
-        var year = parseInt(birth.slice(0, 4));
-        var month = parseInt(birth.slice(4, 6));
-        var day = parseInt(birth.slice(6, 8));
-    if(month < 10){
-        month = parseInt("0" + month)
-    }
-        if(day < 10){
-            day = parseInt("0" + day)
-        }
-        var theirDate = new Date((year + min_age), month, day);
-        var today = new Date;
-        if ((today.getTime() - theirDate.getTime()) < 0) {
-            errors.birthday = 'You must be over 13 to use'
+
+    if(!values.birthday){
+        errors.birthday="Required";
+    }else if(values.birthday){
+        console.log('vals',values.birthday);
+        console.log('type',typeof values.birthday);
+        let today = new Date();
+        let year = values.birthday.getFullYear();
+        console.log('years',year);
+        let month = values.birthday.getMonth();
+        let day = values.birthday.getDate();
+        let bday = new Date((year + min_age), month, day);
+        if(today.getTime() - bday.getTime() < 0){
+            errors.birthday = "Must be 13 years or older to use FlappCards!";
         }
     }
     return errors

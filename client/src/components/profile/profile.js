@@ -96,7 +96,7 @@ class Profile extends Component{
             this.props.updateUserData(values);
             this.setState({formEmail: !this.state.formEmail});
         }else{
-            // values.birthday = values.birthday.toJSON();
+            //mysql date format required
             values.birthday = `${values.birthday.getFullYear()}/${values.birthday.getMonth()+1}/${values.birthday.getDate()}`;
             this.props.updateUserData(values);
             this.setState({formBirthday: !this.state.formBirthday});
