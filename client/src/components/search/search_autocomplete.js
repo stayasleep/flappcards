@@ -25,22 +25,23 @@ class SearchAutoComplete extends Component {
 
 
     render() {
-        console.log('these are my auto suggests',this.props.autoCompleteSuggestions);
         const {autoCompleteSuggestions} = this.props;
         let autoLower = autoCompleteSuggestions.map((suggestion, index) => {
             return suggestion.toLowerCase();
         });
-        console.log('auto low',autoLower.sort());
         autoLower = autoLower.sort();
+        //some things in server already have white space, :doh:
+        let trimAutoArray = autoLower.map((searched) => {
+            return searched.trim();
+        });
 
-        let setAuto = [...new Set(autoLower)];
-        console.log('settttt',setAuto);
+        let setAuto = [...new Set(trimAutoArray)]; //removes duplicates, ES6
 
         return(
             <div>
                 <AutoComplete
                     hintText="Search By Category or Subject"
-                    dataSource={this.props.autoCompleteSuggestions}
+                    dataSource={setAuto}
                     filter={AutoComplete.fuzzyFilter}
                     onNewRequest={(searchText) => this.handleSearch(searchText)}
                     onUpdateInput={(searchText) => {this.setState({searchText: searchText})}}

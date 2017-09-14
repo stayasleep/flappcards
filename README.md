@@ -2,30 +2,32 @@
 
 ## Create your flashcard stack on [FlappCards](https://flappcards.com/about) 
 
-### The new, cool Flashcard App around!
+### The Modern Day Flashcard App!
 
 
 ## Technologies 
 ### Client/Front-End
--HTML  
--CSS  
--ReactJS  
--Material UI  
--Redux  
--Redux API  
+-Axios
+-CSS
 -ECMAScript 6
+-HTML  
+-JSX
+-Material UI
+-ReactJS    
+-Redux  
+-Redux Form  
 
-### Server/Back-End 
--MySQL  
--Node.js  
--Express.js  
--Bcryptjs  
+### Server/Back-End
+-Bcryptjs 
+-Express  
 -JSON Web Token
+-MySQL  
+-Node.js    
+-Nodemailer
 
 
 #### **Senior Devs**
 - Brian B
-- Jinwoo C
 - Andres G
 - Kevin C
 

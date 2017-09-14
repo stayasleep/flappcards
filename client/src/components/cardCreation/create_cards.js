@@ -64,7 +64,14 @@ class CreateCards extends Component {
     }
 
     handleCreate(stackObject) {
-        console.log('create form', stackObject);
+        //trim white space from the obj and the stack array
+        stackObject.subject = stackObject.subject.trim();
+        stackObject.category = stackObject.category.trim();
+        stackObject.stack.forEach((card,index) => {
+            console.log('these are hte cards',card);
+            card.question = card.question.trim();
+            card.answer = card.answer.trim();
+        });
         this.props.createStack(stackObject);
     }
 
