@@ -17,11 +17,19 @@ class Registration extends Component {
         //redux form issue, when clicking submit without values, you get errors
         //if you clear errors with clear button, you can submit an empty form
         if(Object.keys(vals).length !== 0) {
-            vals.name = vals.name.trim();
-            vals.userName = vals.userName.trim();
-            vals.email = vals.email.trim();
-            vals.birthday = `${vals.birthday.getFullYear()}/${vals.birthday.getMonth()+1}/${vals.birthday.getDate()}`;
-            this.props.register(vals);
+            if(typeof vals.birthday === "object") {
+                vals.name = vals.name.trim();
+                vals.userName = vals.userName.trim();
+                vals.email = vals.email.trim();
+                vals.birthday = `${vals.birthday.getFullYear()}/${vals.birthday.getMonth() + 1}/${vals.birthday.getDate()}`;
+                this.props.register(vals);
+            }else{//Birthday is a string when the form submit isnt successful on first attempt
+                vals.name = vals.name.trim();
+                vals.userName = vals.userName.trim();
+                vals.email = vals.email.trim();
+                this.props.register(vals);
+                console.log('birthday is string i think',typeof vals.birthday);
+            }
         }
     }
 
@@ -155,12 +163,11 @@ function validate(values) {
 
     if(!values.birthday){
         errors.birthday="Required";
-    }else if(values.birthday){
-        console.log('vals',values.birthday);
-        console.log('type',typeof values.birthday);
+    }else if(values.birthday && typeof values.birthday === "object"){
+        //only need to verify bday when it is an object, when it is a string and the user
+        //changes to a new birthday, it is rendered again as an obj. so string never occurs except during invalid form submission
         let today = new Date();
         let year = values.birthday.getFullYear();
-        console.log('years',year);
         let month = values.birthday.getMonth();
         let day = values.birthday.getDate();
         let bday = new Date((year + min_age), month, day);
