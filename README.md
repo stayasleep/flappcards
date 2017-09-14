@@ -14,9 +14,11 @@
 -HTML  
 -JSX
 -Material UI
--ReactJS    
+-React
+-React Router 
 -Redux  
 -Redux Form  
+-Redux Thunk
 
 ### Server/Back-End
 -Bcryptjs 
