@@ -19,7 +19,6 @@ router.post('/register',(request,response,next)=>{
         user_bday: request.body.birthday,
         avatar: Math.floor(Math.random()*10)
     };
-    console.log('register', newUser.user_bday);
     if(Object.keys(request.body).length===0){
         return response.json({success:false, error:"Invalid Submission"})
     }
@@ -46,7 +45,7 @@ router.post('/register',(request,response,next)=>{
                 message: "Problem Connecting to DB"
             });
             // return next(err);
-        };
+        }
         connection.query("SELECT EXISTS(SELECT 1 FROM users WHERE username=?) as 'taken'",[newUser.username],(err,result)=> {
             //if result = 1 UN already exits, if 0 then username does not exists
             if (err) {
