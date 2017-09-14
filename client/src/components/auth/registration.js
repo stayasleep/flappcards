@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types'; // Updated PropTypes import statement
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; // Updated PropTypes import statement
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {register} from '../../actions/index'
-import ReactDOM from 'react-dom';
 import renderInput from '../utilities/renderInputReg';
 import GenericDate from '../utilities/generic_date_picker';
-import Paper from 'material-ui/Paper';
+import ReactDOM from 'react-dom';
 
 class Registration extends Component {
-
     static contextTypes = {
         router: PropTypes.object
     };
@@ -26,22 +25,6 @@ class Registration extends Component {
         }
     }
 
-
-    componentDidUpdate(event){
-        var dateField = ReactDOM.findDOMNode(this);
-        if(dateField.children[1].children[6].children["0"].children.birthday) {
-            dateField.children[1].children[6].children["0"].children.birthday.onkeyup = bar;
-            function bar(evt) {
-                var v = this.value;
-                if (v.match(/^\d{4}$/) !== null) {
-                    this.value = v + '-';
-                } else if (v.match(/^\d{4}\-\d{2}$/) !== null) {
-                    this.value = v + '-';
-                }
-
-            }
-        }
-    }
 
     render (){
         const {handleSubmit, reset} = this.props;
@@ -91,7 +74,6 @@ class Registration extends Component {
                     <div style={fieldHeight}>
                         <div style={userError} id="takenUser"/>
                         <Field name="userName" component={renderInput} label="Username"/>
-                        {/*<div style={userError} id="takenUser"/>*/}
                     </div>
                     <div>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
@@ -183,7 +165,7 @@ function validate(values) {
         let day = values.birthday.getDate();
         let bday = new Date((year + min_age), month, day);
         if(today.getTime() - bday.getTime() < 0){
-            errors.birthday = "Must be 13 years or older to use FlappCards!";
+            errors.birthday = "Must be 13 years or older to use FlappCards.";
         }
     }
     return errors
