@@ -28,7 +28,6 @@ class Profile extends Component{
     }
     //For the Tab
     handleChange(value){
-        console.log('val',value);
         if(value === "changePassword"){
             this.setState({
                 hoverName: false,
@@ -89,6 +88,7 @@ class Profile extends Component{
     }
     handleFormSubmit(values, str){
         console.log('handleFomrSubmit',values);
+
         if(str === "name"){
             this.props.updateUserData(values);
             this.setState({formName: !this.state.formName});
@@ -96,6 +96,7 @@ class Profile extends Component{
             this.props.updateUserData(values);
             this.setState({formEmail: !this.state.formEmail});
         }else{
+            values.birthday = values.birthday.toJSON();
             this.props.updateUserData(values);
             this.setState({formBirthday: !this.state.formBirthday});
         }
@@ -121,7 +122,6 @@ class Profile extends Component{
         if(this.state.hoverBirthday){
             hoverBirthday = "inline-block";
         }
-
         const profileImg = {
             height: "15em",
             width: "15em",
