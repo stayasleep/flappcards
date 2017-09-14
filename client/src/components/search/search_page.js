@@ -26,26 +26,31 @@ class Search extends Component {
         if(Object.keys(query).length !== 0){
             if(Object.keys(query)[0] === "q" && query.q) {
                 const queried = query.q;
-                console.log('queried', queried);
                 this.props.searchStacks(queried);
             }else{
                 browserHistory.push('/search');
             }
         }
     }
+    //Receives props from the AutoSearch component when you submit one or multiple searches, and their
+    //edge cases to make sure the url changes and the axios still fires off.
     componentWillReceiveProps(nextProps){
-        if(this.props.location.search === "" ) {
+        if(!this.props.location.search) {
             if (this.props.location.search !== nextProps.location.search) {
+                const {query} = nextProps.location;
+                this.props.searchStacks(query.q);
+            }
+        }else if(Object.keys(this.props.location.query)[0] === "q" && this.props.location.query.q){
+            if(this.props.location.search !== nextProps.location.search){
                 const {query} = nextProps.location;
                 this.props.searchStacks(query.q);
             }
         }
     }
-
+    //resets Search so you can navigate back to a blank view
     componentWillUnmount(){
-        this.props.unmountSearch(); //resets Search so you can navigate back to a blank view
+        this.props.unmountSearch();
     }
-
     renderStacksList(){
         return this.props.searched.map((item, index) => {
             return (
@@ -135,7 +140,7 @@ class Search extends Component {
                             <SearchAutoComplete />
                             {tableHead}
                             <p>
-                                We&apos;re sorry, we found 0 stacks matching that search.
+                                We&apos;re sorry, we found 0 stacks matching <em className="noMatchFound">{this.props.location.query.q}</em>.
                             </p>
                         </Paper>
                     </div>
@@ -151,7 +156,6 @@ function mapStateToProps(state) {
         searched: state.stack.searched
     }
 }
-
 
 
 export default connect(mapStateToProps, {searchStacks, populateAutoComplete, unmountSearch})(Search);
