@@ -6,6 +6,7 @@
 
 
 ## Technologies 
+
 ### Client/Front-End
 -Axios
 -CSS
