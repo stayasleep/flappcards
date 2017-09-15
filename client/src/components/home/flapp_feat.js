@@ -32,7 +32,7 @@ class FlappFeatured extends Component{
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
                                 className="featuredButton"
                                 labelColor={"#ffffff"}
-                                backgroundColor={"#5c69ff"}
+                                backgroundColor={"#1bb76e"}
                             />
                         </div>
                     </Paper>
