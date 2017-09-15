@@ -27,7 +27,11 @@ class LogIn extends Component {
         return (
             <div className="loginFormOuterDiv">
                 <div id="loginForm">
-                    {/*Errors will go here || THIS SHOULD BE JSX*/}
+                    {this.props.authError ? (
+                        <div style={{"color":"red"}}>{this.props.authError}</div>
+                    ) :
+                        null
+                    }
                 </div>
                 <form onSubmit={handleSubmit((values) => {this.handleLogin(values)})}>
                     <div style={styles.center} className="loginFormFieldsDiv">
@@ -57,25 +61,25 @@ function validate(values) {
     return errors
 }
 function mapStateToProps(state) {
-    if(state.auth.authError === "Username/Password Incorrect"){
-
-        function appendUserError(el, str) {
-            var div = document.createElement('div');
-            div.innerHTML = '';
-            el.innerHTML = '';
-            div.innerHTML = str;
-            el.appendChild(div.children[0]);
-        }
-        var userError = '<div style="color: red; padding: 12px">Username/Password Incorrect</div>';
-        appendUserError(document.getElementById("loginForm"), userError); // "body" has two more children - h1 and span.
-
-        state.auth.authError = null; // Reset the authError to null so the user can try registering again.
-
-    }
+    // if(state.auth.authError === "Username/Password Incorrect"){
+    //
+    //     function appendUserError(el, str) {
+    //         var div = document.createElement('div');
+    //         div.innerHTML = '';
+    //         el.innerHTML = '';
+    //         div.innerHTML = str;
+    //         el.appendChild(div.children[0]);
+    //     }
+    //     var userError = '<div style="color: red; padding: 12px">Username/Password Incorrect</div>';
+    //     appendUserError(document.getElementById("loginForm"), userError); // "body" has two more children - h1 and span.
+    //
+    //     state.auth.authError = null; // Reset the authError to null so the user can try registering again.
+    //
+    // }
     return {
         authorized: state.auth.authorized,
         authenticated: state.auth.authenticated,
-        error: state.auth.authError
+        authError: state.auth.authError
     };
 }
 

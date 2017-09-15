@@ -8,7 +8,6 @@ import Registration from '../auth/registration';
 class Register extends Component{
 
     componentWillMount(){
-        //title
         document.title="FlappCards - Sign Up Today!";
     }
 

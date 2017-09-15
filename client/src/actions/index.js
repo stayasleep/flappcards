@@ -9,6 +9,7 @@ import {
     FETCH_CARD,
     FETCH_USER_META,
     AUTH_ERROR,
+    AUTH_REC_ERROR,
     AUTH_USER,
     UNAUTH_USER,
     DELETE_STACK,
@@ -60,6 +61,19 @@ export function userLogin(values) {
                 type: AUTH_ERROR,
                 error: err.response
             });
+        })
+    }
+}
+/**
+ * @name resetAuthError
+ * @description resets authError state and clears any displayed messages
+ * @returns { Function }
+ * */
+export function resetAuthError(){
+    return function(dispatch){
+        dispatch({
+            type: AUTH_ERROR,
+            payload: null,
         })
     }
 }
@@ -186,10 +200,10 @@ export function register({name, userName, password, email, birthday}) {
             // resp.data.success = false => the username was taken
             // Push the user back to the home page
             // if false -> !(false) -> true
-            if (!resp.data.success) {
-                browserHistory.push('/');
-
-            }
+            // if (!resp.data.success) {
+            //     browserHistory.push('/');
+            //
+            // }
 
         }).catch(err => {
             dispatch({
@@ -419,12 +433,10 @@ export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
-
             dispatch({type: SEARCH_STACKS, payload: response.data});
         }).catch(err => {
             dispatch({
                 type: SEARCH_STACKS,
-
                 error: err.response
             });
         })
@@ -433,7 +445,7 @@ export function searchStacks(search) {
 /**
  * @name - unmountSearch
  * @description upon unmount, function resets the search state to begin anew
- * @returns {Function}
+ * @returns { Function }
  * **/
 export function unmountSearch(){
     return function (dispatch){
@@ -472,12 +484,11 @@ export function editStackHeaders(headerObj){
 }
 
 
-
 /**
  * @name - addSingleCard
+ * @description - Used for adding a single card to a stack
  * @param cardObject {object}
  * @returns {Function}
- * @description - Used for adding a single card to a stack
  */
 export function addSingleCard(cardObject) {
     return function (dispatch) {
@@ -497,7 +508,6 @@ export function addSingleCard(cardObject) {
                 });
             })
         }).catch(err => {
-            console.log('card add err',err);
             dispatch({
                 type: CREATE_STACK,
                 error: err.response
@@ -507,9 +517,9 @@ export function addSingleCard(cardObject) {
 }
 /**
  * @name - stackCopy
+ * @description - Used for copying a stack not owned by a user
  * @param stackCopy {object}
  * @returns {Function}
- * @description - Used for copying a stack not owned by a user
  */
 export function stackCopy(stackCopy) {
     return function (dispatch){
@@ -531,8 +541,8 @@ export function stackCopy(stackCopy) {
 
 /**
  * @name - populateAutoComplete
- * @returns {Function}
  * @description - Populates the autocomplete suggestions from data returned by the server
+ * @returns {Function}
  */
 export function populateAutoComplete() {
     let token = localStorage.getItem('token');
@@ -550,8 +560,8 @@ export function populateAutoComplete() {
 }
 /**
  * @name - isRouteValid
- * @param {Object} token
  * @description - Verifies whether or not the reset link is still valid before the page loads and displays view accordingly
+ * @param {Object} token
  */
 export function isRouteValid(token){
     return function(dispatch){
@@ -615,16 +625,28 @@ export function recoverPw(userInfo){
             }
             if (response.data.noMatchFound){
                 dispatch({
-                    type: AUTH_ERROR,
+                    type: AUTH_REC_ERROR,
                     payload: "Username/Email combination not found!"
                 });
             }
         }).catch(err =>{
             dispatch({
-                type: AUTH_ERROR,
+                type: AUTH_REC_ERROR,
                 error: err.response.data.error
             })
         })
     }
 }
-// JSON is the default expected response type for axios calls
+/**
+ * @name resetAuthRecovery
+ * @description resets the auth recovery state and clears the error msg upon dialog closing
+ * @returns { Function }
+ * */
+export function resetAuthRecovery(){
+    return function(dispatch){
+        dispatch({
+            type: AUTH_REC_ERROR,
+            payload: null,
+        })
+    }
+}
