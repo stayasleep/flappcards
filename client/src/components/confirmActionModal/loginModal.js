@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Login from '../auth/log_in';
 import RecoverPw from './recoverPW';
-import {cancelBtn} from '../styles/log_in.css';
-
+import { cancelBtn } from '../styles/log_in.css';
+import Login from '../auth/log_in';
+import { resetAuthError } from '../../actions/index';
 
 // styles.loginDialogContent = {} uses Material UI's default values
 const styles = {
@@ -36,11 +37,11 @@ if (usableBrowserHeight < 600) {
     styles.cancelBtn = {
         width: "90%"
     };
-};
+}
 
 
-
-export default class LoginModal extends Component {
+class LoginModal extends Component{
+// export default class LoginModal extends Component {
     state = {
         loginModal: false,
     };
@@ -50,7 +51,9 @@ export default class LoginModal extends Component {
     };
 
     handleClose = () => {
+        //close login modal and reset (if) any authError notices back to null
         this.setState({loginModal: false});
+        this.props.resetAuthError();
     };
 
     render() {
@@ -88,3 +91,4 @@ export default class LoginModal extends Component {
         );
     }
 }
+export default connect(null,{resetAuthError})(LoginModal);

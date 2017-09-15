@@ -8,6 +8,7 @@ export const UPDATE_USER_PASS_ERROR = "update_user_pass_error";
 export const UPDATE_USER_PASS_CLEAR = "update_user_pass_clear";
 export const AUTH_USER = 'auth_user';
 export const AUTH_ERROR = 'auth_error';
+export const AUTH_REC_ERROR = 'auth_rec_error';
 export const UNAUTH_USER = 'unauth_user';
 export const FETCH_MY_STACK_OVERVIEW = 'fetch_my_stack_overview';
 export const FETCH_STACK_OVERVIEW = 'fetch_stack_overview';
