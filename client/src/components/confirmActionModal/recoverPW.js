@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import ForgotPw from '../auth/forgot_pw';
+import { resetAuthRecovery } from '../../actions/index';
 
 const styles = {
     center: {
@@ -20,7 +21,7 @@ const styles = {
     }
 };
 
-export default class RecoverPw extends React.Component{
+class RecoverPw extends React.Component{
     state = {
         loginModal: true,
         recoveryModal: false
@@ -33,9 +34,11 @@ export default class RecoverPw extends React.Component{
         });
     };
     handleClose = () =>{
+        //close the recovery form and reset recovery error
         this.setState({
             recoveryModal: false
         });
+        this.props.resetAuthRecovery();
     };
 
     render(){
@@ -50,7 +53,6 @@ export default class RecoverPw extends React.Component{
                     modal={true}
                     open={this.state.recoveryModal}
                     style={styles.center}
-                    //onRequestClose={this.handleClose}
                 >
                     <h3>Please enter the requested information.</h3>
                     <h4>After submission, an email will be sent to the specified email address.</h4>
@@ -66,3 +68,5 @@ export default class RecoverPw extends React.Component{
         )
     }
 }
+
+export default connect(null,{ resetAuthRecovery })(RecoverPw);

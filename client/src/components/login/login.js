@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {Link} from 'react-router';
 import renderInput from '../utilities/renderInput';
-import {userLogin} from '../../actions/index';
+import { resetAuthError, userLogin} from '../../actions/index';
 import RecoverPw from '../confirmActionModal/recoverPW';
 
 
@@ -23,8 +23,6 @@ class SignIn extends Component{
         this.props.userLogin(values);
     }
     componentWillMount(){
-        console.log('check auth',this.props);
-        console.log('check authorized',this.props.authorized);
         //if you logged on, closed tab, come back you already have a token so skip this page
         //for persistent login...the only problem i can think of is if you are authenticated as guest
         //and you head to login, youll always be pushed. so maybe think about it.
@@ -34,7 +32,7 @@ class SignIn extends Component{
         //set title after figuring auth
         document.title="FlappCards - Sign In";
     }
-    //Inquire as to whetehr or not componentWillUpdate(nextProps) is needed here
+    //Inquire as to whether or not componentWillUpdate(nextProps) is needed here
 
     componentDidMount(){
         //this page has less content so the footer is naturally high up until we manually change that
@@ -56,6 +54,7 @@ class SignIn extends Component{
         footer.style.right="";
         let paperBody = document.getElementsByClassName("paperBody")[0];
         paperBody.style.marginTop="";
+        this.props.resetAuthError();
         //necessary?
         document.title="FlappCards";
     }
@@ -75,9 +74,11 @@ class SignIn extends Component{
                     <div className="innerPaper">
                         <h1 className="titleUnderline">Log In</h1>
                         <div id="loginForm">
-                            { this.props.errLogInComp ? (
+                            { this.props.errLogInComp ?
+                                (
                                     <div style={{"color": "red"}}>{this.props.errLogInComp}</div>
-                                ) : null}
+                                ) : null
+                            }
                         </div>
                         <form onSubmit = {handleSubmit((values)=>{this.handleLogIn(values)})}>
                             <div className="fieldContainer">
@@ -121,5 +122,5 @@ SignIn = reduxForm({
     form:'login',
     validate
 })(SignIn);
-export default connect(mapStateToProps,{userLogin})(SignIn);
+export default connect(mapStateToProps,{resetAuthError, userLogin})(SignIn);
 

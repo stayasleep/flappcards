@@ -28,8 +28,8 @@ class ForgotPw extends Component{
         return (
             <div>
                 <div id="recoverForm">
-                    {this.props.errForgotPw ? (
-                            <div style={{"color":"red"}}>{this.props.errForgotPw}</div>
+                    {this.props.errRecovery ? (
+                            <div style={{"color":"red"}}>{this.props.errRecovery}</div>
                         ) : null}
                 </div>
                 <form onSubmit={handleSubmit((values)=>{this.handleResetAuth(values)})}>
@@ -78,6 +78,7 @@ function mapStateToProps(state){
     return{
         authenticated: state.auth.authenticated,
         errForgotPw: state.auth.authError,
+        errRecovery: state.auth.authRecError,
     };
 }
 
