@@ -41,7 +41,7 @@ class StackSummary extends Component {
                         titleStyle={cardHeader}
                         subtitleStyle={cardHeader}
                         subtitle={`Category: ${item.category}`}
-                        avatar={<Avatar style={rightAvatar} src={`data:image/jpeg;base64,${item.avatar}`} crossOrigin="Anonymous"/>}
+                        avatar={<Avatar style={rightAvatar} src={`data:image/jpeg;base64,${item.avatar}`} crossOrigin="Anonymous" alt={`user-avatar-${item.avatar}`}/>}
                         style={cardHeader}
 
                     />
@@ -58,7 +58,7 @@ class StackSummary extends Component {
                         Created On: {item.createdOn}
                         </div>
                         <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} className="viewEye">
-                            <IconButton iconStyle={mediumIcon} style= {medium} >
+                            <IconButton iconStyle={mediumIcon} name={"view-stack-icon"} style= {medium} >
                                 <RemoveRedEye hoverColor={green500} />
 
                             </IconButton>

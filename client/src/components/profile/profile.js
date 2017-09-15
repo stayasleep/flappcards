@@ -87,8 +87,6 @@ class Profile extends Component{
         this.props.reset("generalInfo");
     }
     handleFormSubmit(values, str){
-        console.log('handleFomrSubmit',values);
-
         if(str === "name"){
             this.props.updateUserData(values);
             this.setState({formName: !this.state.formName});
@@ -109,7 +107,6 @@ class Profile extends Component{
     }
 
     render(){
-        console.log('profile is rendered',this.props);
         let hoverName = "none";
         let hoverEmail = "none";
         let hoverBirthday = "none";
@@ -252,7 +249,7 @@ class Profile extends Component{
                                                 <div className="birthdayTitle">Birthday:</div>
                                                 <form className="birthdayForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
                                                     <div className="editFormBirthday">
-                                                      <Field name="birthday" defaultValue={{min:num}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
+                                                      <Field className="editField" name="birthday" defaultValue={{min:num}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
                                                     </div>
                                                     <div className="editFormButtons">
                                                         <button className="editbtn btn btn-main" type="submit">Save</button>
@@ -279,7 +276,6 @@ class Profile extends Component{
 }
 
 function validate(values){
-    console.log('form',values);
     const min_age = 13;
     const errors = {};
 
@@ -300,10 +296,8 @@ function validate(values){
     if(!values.birthday){
         errors.birthday = "Required";
     }else if(values.birthday && typeof values.birthday === "object"){//when DatePicker is active it is an object, else bday is a string
-        console.log('get bday',typeof values.birthday);
         let today = new Date();
         let year = values.birthday.getFullYear();
-        console.log('years',year);
         let month = values.birthday.getMonth();
         let day = values.birthday.getDate();
         let bday = new Date((year + min_age), month, day);

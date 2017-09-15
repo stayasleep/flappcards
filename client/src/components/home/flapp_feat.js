@@ -1,14 +1,13 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import {getFeaturedStackOverview} from '../../actions/index';
 import {List} from 'material-ui';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 import {subHeader} from '../utilities/stackSummaryStyle';
 import StackSummary from '../utilities/renderStackSummary';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-
+import {getFeaturedStackOverview} from '../../actions/index';
 
 class FlappFeatured extends Component{
     componentWillMount(){
@@ -17,7 +16,6 @@ class FlappFeatured extends Component{
 
     render(){
         if(this.props.featuredStacks){
-            console.log('stackSumm is true');
             return(
                 <div className="flappFeaturedParent">
                     <Paper className="flappFeatPaper">
@@ -32,7 +30,7 @@ class FlappFeatured extends Component{
                                 containerElement={<Link to={`/search`} className="featFlappSearch" name="search"/>}
                                 className="featuredButton"
                                 labelColor={"#ffffff"}
-                                backgroundColor={"#5c69ff"}
+                                backgroundColor={"#1bb76e"}
                             />
                         </div>
                     </Paper>

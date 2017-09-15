@@ -1,6 +1,5 @@
 .changeContainer {
     text-align: center;
-    /*height: 600px;*/
 }
 
 .profileBtnContainer {
@@ -35,8 +34,10 @@
     width: 20%;
 }
 .name, .email, .birthday,.join, .username{
-    /*width: 55%;*/
+
     text-align: left;
+}
+.birthday, .email, .name {
     cursor: pointer;
 }
 
@@ -46,9 +47,7 @@
     margin-bottom: 20px;
     box-sizing: border-box;
 }
-.profileBody {
-    /*display: table-row-group;*/
-}
+
 /*THESE ARE THE ROWS*/
 .joinContainer, .usernameContainer, .nameContainer,
 .emailContainer, .birthdayContainer {
@@ -63,17 +62,17 @@
 
 
 .nameForm, .emailForm, .birthdayForm {
-    width: 80%;
+    /*width: 80%;*/
     display: flex;
     margin-left: -10px;
     margin-right: -10px;
 }
 
 .editFormName, .editFormEmail,.editFormBirthday {
-    width: 50%;
+    /*width: 50%;*/
 }
 .editFormButtons {
-    width: 50%;
+    /*width: 50%;*/
 }
 
 .editbtn {
