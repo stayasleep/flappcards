@@ -252,7 +252,7 @@ class Profile extends Component{
                                                 <div className="birthdayTitle">Birthday:</div>
                                                 <form className="birthdayForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})}>
                                                     <div className="editFormBirthday">
-                                                      <Field name="birthday" defaultValue={{min:num}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
+                                                      <Field className="editField" name="birthday" defaultValue={{min:num}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
                                                     </div>
                                                     <div className="editFormButtons">
                                                         <button className="editbtn btn btn-main" type="submit">Save</button>
