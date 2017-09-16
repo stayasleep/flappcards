@@ -19,6 +19,8 @@ import {
     SEARCH_STACKS,
     VALIDATE_ROUTE,
     RESET_PW,
+    RESET_PW_ERROR,
+    CLEAR_RESET_PW,
     RESET_SEARCH,
     RECOVER_PW,
     UPDATE_USER_META,
@@ -34,8 +36,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -592,17 +594,19 @@ export function submitResetPw(data){
     return function(dispatch){
         let {token} = data;
         axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw, "passwordConfirm":data.vals.passwordConfirm}).then((response)=>{
+            console.log('axios response',response);
             if(response.data.success){
-                dispatch({type: RESET_PW});
-                browserHistory.push('/');
+                dispatch({type: RESET_PW, payload: true});
+                //browserHistory.push('/');
             }else{
                 //if error with link validation, let them know to try again
                 dispatch({
-                    type: AUTH_ERROR,
-                    payload:"This link has already expired.  Please try the password reset process again."
+                    type: RESET_PW_ERROR,
+                    payload:"This page has expired! Please try the password reset process again."
                 });
             }
         }).catch(err =>{
+            console.log('errr',err);
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response.data.error
@@ -610,7 +614,19 @@ export function submitResetPw(data){
         })
     }
 }
-
+/**
+ * @name clearResetPW
+ * @description - clears the password reset states upon component unmounting
+ * @returns { Function }
+ * **/
+export function clearResetPW(){
+    return function(dispatch){
+        dispatch({
+            type: CLEAR_RESET_PW,
+            payload: false,
+        })
+    }
+}
 /**
  * @name recoverPW
  * @description - success: match is found and user will be sent email, error: un/email not found
@@ -620,8 +636,8 @@ export function recoverPw(userInfo){
     return function(dispatch){
         axios.post(`${BASE_URL}/recovery`,{userName: userInfo.userName, userEmail: userInfo.userEmail}).then((response)=>{
             if(response.data.success){
-                dispatch({type: RECOVER_PW});
-                browserHistory.push('/home');
+                dispatch({type: RECOVER_PW, payload: true});
+                //browserHistory.push('/home');
             }
             if (response.data.noMatchFound){
                 dispatch({

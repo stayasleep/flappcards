@@ -24,6 +24,7 @@ class ForgotPw extends Component{
     }
 
     render (){
+        console.log('my prop',this.props);
         const {handleSubmit, error} = this.props;
         return (
             <div>
@@ -40,7 +41,7 @@ class ForgotPw extends Component{
                         <div style={styles.center}>
                             <Field name="userEmail" component={renderInput} label="Email" type="email"/>
                         </div>
-                        <RaisedButton primary={true} type="submit" label="Recover"/>
+                        <RaisedButton primary={true} type="submit" label="Recover" fullWidth={this.props.fullBar}/>
                     </div>
                 </form>
             </div>

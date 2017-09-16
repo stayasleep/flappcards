@@ -13,7 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
-console.log = function() {};
+// console.log = function() {};
 if(token && JSON.parse(guest)){
     console.log('token is guest');
     store.dispatch({type: AUTH_USER,payload: false});
@@ -39,7 +39,7 @@ import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
 import SignIn from './components/login/login';
 import Register from './components/register/register';
-import Forgot from './components/login/forgot';
+import Forgot from './components/recover_password/forgot';
 import StacksNotFound from './components/stackOverview/stack_does_not_exist';
 
 const WrapperComponent = (props) => {

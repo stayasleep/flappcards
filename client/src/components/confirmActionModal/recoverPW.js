@@ -45,8 +45,7 @@ class RecoverPw extends React.Component{
 
         return(
             <div style={styles.margin}>
-                <a style = {styles.button} href="" onClick={this.handleOpen}>Forgot Password?
-                </a>
+                <a style = {styles.button} href="" onClick={this.handleOpen}>Forgot Password?</a>
                 <Dialog
                     title="Reset Password"
                     autoScrollBodyContent={true}

@@ -27,6 +27,8 @@ export const AUTOCOMPLETE_SEARCH_STACKS = 'autocomplete_search_stacks';
 
 export const VALIDATE_ROUTE = 'validate_route';
 export const RESET_PW = 'reset_pw';
+export const RESET_PW_ERROR ='reset_pw_error';
+export const CLEAR_RESET_PW = 'clear_reset_pw';
 export const RECOVER_PW = 'recover_pw';
 
 export const INITIATE_GUEST_BROWSING = 'initiate_guest_browsing';
