@@ -22,7 +22,6 @@ class ChangePassword extends Component{
         }
     }
     componentWillReceiveProps(nextProps){
-        console.log('these enxt ptops bb',nextProps);
         if(nextProps.shouldReset){
             this.props.reset("changePassword");
             this.setState({upper:"red",lower:"red",num:"red",special:"red",len:"red"}); //wonder if this could be done with a HOF and see what state is green
@@ -49,7 +48,6 @@ class ChangePassword extends Component{
     }
 
     handleChange(event){
-        console.log('handle change',event.target.value);
         if(event.target.value.length >= 8 && event.target.value.length <= 15){
             this.setState({len:"green"});
         }else if(event.target.value.length < 8 || event.target.value.length > 15){
@@ -78,7 +76,8 @@ class ChangePassword extends Component{
     }
 
     render(){
-        const { handleSubmit, reset } = this.props;
+        console.log('prop ',this.props);
+        const { handleSubmit, reset, submitting } = this.props;
         return (
             <div className="changeContainer">
                 <h2>Remember, New Password Must Contain:</h2>
@@ -97,7 +96,7 @@ class ChangePassword extends Component{
                         <Field name="passwordConfirm" label="Confirm Password" type="password" component={renderInput} />
                     </div>
                     <div className="profileBtnContainer">
-                            <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={true} />
+                            <RaisedButton className="passSubmit" label="Submit" primary={true} type="submit" fullWidth={true} disabled={submitting} />
                             <RaisedButton className="passClear" label="Clear" type="button" labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" fullWidth={true} onClick={reset} />
                     </div>
                 </form>
@@ -105,7 +104,7 @@ class ChangePassword extends Component{
                     <div>
                         <Snackbar
                             open={this.props.updated}
-                            message={"New Password will take into effect the next time you log in"}
+                            message={"Use new password the next time you log in"}
                             autoHideDuration={5000}
                             onRequestClose={this.handleRequestClose.bind(this)}
                             action="Close"
@@ -134,7 +133,6 @@ class ChangePassword extends Component{
     }
 }
 function validate(values){
-    console.log('val',values);
     const errors ={};
 
     if(!values.password){

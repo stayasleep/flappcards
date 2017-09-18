@@ -97,11 +97,9 @@ class StackViewStacks extends Component{
         }
     }
     mouseEnterSubj(){
-        console.log('sub mouse');
         this.setState({editModeSubj: true});
     }
     mouseLeaveSubj(){
-        console.log('sub mouse leave');
         this.setState({editModeSubj: false});
     }
     mouseEnterCat(){
@@ -123,12 +121,16 @@ class StackViewStacks extends Component{
     //one form, two functions, but they both will send subj and category as an object
     //that way the user doesnt have to modify both at the same time, can be one or the other
     handleFormSubject(values){
+        values.subject = values.subject.trim();
+        values.category = values.category.trim();
         let headers = {...values, stackID: this.props.stackCards[0].stack_id};
         this.props.editStackHeaders(headers);
         //axios goes here
         this.setState({enableEditSubj: !this.state.enableEditSubj});
     }
     handleFormCategory(vals){
+        vals.subject =vals.subject.trim();
+        vals.category = vals.category.trim();
         let headers = {...vals, stackID: this.props.stackCards[0].stack_id};
         this.props.editStackHeaders(headers);
         //axios goes here
@@ -176,6 +178,7 @@ class StackViewStacks extends Component{
 
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
+                console.log('inside map,',item);
                 return (
 
                         <div key={index} style={singleCard}>
@@ -190,7 +193,7 @@ class StackViewStacks extends Component{
                                 </div>
                             </div>
                             <div>
-                                <EditCard cardID={this.props.stackCards[index]}/>
+                                <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
                                 <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
                             </div>
                         </div>
@@ -303,7 +306,6 @@ function validate(values){
 
 StackViewStacks = reduxForm({
     form: 'stackHeaders',
-    initialValues: {"subject":"", "category": ""},
     enableReinitialize: true,
     overwriteOnInitialValuesChange: false,
     validate

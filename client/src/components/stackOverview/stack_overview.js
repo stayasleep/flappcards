@@ -14,6 +14,10 @@ class Stacks extends Component {
     }
     componentWillReceiveProps(nextProps){
         console.log('stack_ov will receive nextprop',this.props);
+        console.log('nexo',nextProps);
+        if(this.props.stackSubj !== nextProps.stackSubj){
+            document.title=`FlappCards - Stack: ${nextProps.stackSubj}`;
+        }
     }
     componentWillUnmount(){
         document.title="FlappCards";
@@ -24,7 +28,7 @@ class Stacks extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <StackViewStacks authCopy={this.props.authorized} />
+                <StackViewStacks authCopy={this.props.authorized} initialValues={{subject: this.props.stackSubj, category: this.props.stackCat}} />
             </div>
         )
     }
@@ -36,7 +40,7 @@ function mapStateToProps(state) {
     return {
         stackCards: state.stack.stackCards,
         stackSubj: state.stack.subj,
-        stackCaat: state.stack.course,
+        stackCat: state.stack.course,
         newStackID: state.stack.newStackID,
         authorized: state.auth.authorized
     }

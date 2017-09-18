@@ -73,6 +73,8 @@ class Forgot extends Component{
     }
 
     render(){
+        let disableSubmit = false;
+        if (this.props.recoverPW) disableSubmit = true; // prevent user from submitting form twice before redirect
         return(
             <div>
                 <Toolbar className="navHeader">
@@ -93,7 +95,7 @@ class Forgot extends Component{
                                 </div>
                             ) : null
                         }
-                        <ForgotPW fullBar={this.state.fullBar}/>
+                        <ForgotPW fullBar={this.state.fullBar} disabled={disableSubmit}/>
                     </div>
                 </Paper>
             </div>

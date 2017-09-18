@@ -349,11 +349,10 @@ export function deleteCard(cardObj) {
 export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        let {stackID, cardID, question, answer} = cardObject; // cardObject.stack_id, cardObject.card_id, cardObject.question, cardObject.answer
-        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
+        let {stackID, cardID, editQ, editA} = cardObject; // cardObject.stack_id, cardObject.card_id, cardObject.question, cardObject.answer
+        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': editQ, 'cardAnswer': editA} ).then((response) => {
             dispatch({type: EDIT_CARD, payload: response.data});
             axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                console.log('inside the dispatch for del getstack');
                 dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
                 dispatch({

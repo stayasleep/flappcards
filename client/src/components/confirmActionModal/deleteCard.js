@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import {deleteCard, getStackOverview} from '../../actions/index';
+import {deleteCard} from '../../actions/index';
 import {connect} from 'react-redux';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import {red500} from 'material-ui/styles/colors';
@@ -64,4 +64,4 @@ class DeleteCardConfirm extends React.Component {
     }
 }
 
-export default connect(null, {deleteCard, getStackOverview})(DeleteCardConfirm);
+export default connect(null, {deleteCard})(DeleteCardConfirm);

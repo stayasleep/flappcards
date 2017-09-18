@@ -30,11 +30,6 @@ class AddCard extends Component {
         this.props.addSingleCard(cardObject);
         this.props.dispatch(reset('AddCard')); //clears the form
         this.setState({open: false});
-        // if(cardObject){
-        //     console.log('inside handleAdd cardOb',cardObject);
-        //     this.setState({open: false});
-        //     this.props.getStackOverview(cardObject.stack_id);
-        // }
     }
 
     handleOpen = () => {
@@ -42,6 +37,7 @@ class AddCard extends Component {
     };
 
     handleClose = () => {
+        this.props.reset('AddCard');
         this.setState({open: false});
     };
 
