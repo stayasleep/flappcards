@@ -68,7 +68,6 @@ class SingleCard extends Component {
         const {cid} = this.props.params;
         this.props.getStackOverview(sid);
         //this.props.getCard(cid)
-        //set a generic title until i realize how to access individual card state
         document.title="FlappCards - Study Mode!";
     }
     componentDidUpdate(){
