@@ -4,8 +4,6 @@ const router = express.Router();
 const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
-const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
-const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 const fs = require('fs');
 const avatarDictionary = require('./avatar_dictionary');
 //COMMUNITY
@@ -44,7 +42,6 @@ router.post('/', (request,response,next) => {
 
 //open for suggestions here
 router.post('/featured',(req,res,next)=>{
-    console.log('feat stack start');
     let uid = req.decoded.UserID;
     let un = "FlappCards";
     pool.getConnection((error,connection)=>{
@@ -63,7 +60,6 @@ router.post('/featured',(req,res,next)=>{
                     let userAvatar = path.resolve(avatarDictionary[userAvatarKey]);
                     results[i].avatar=fs.readFileSync(userAvatar,"base64");
                 }
-                console.log('feat stack being sent home');
                 res.send(results);
             }else{
                 res.json({

@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const config = require('../config/secret');
 
 router.post('/',(req,res,next)=>{
-    console.log('guest is making token');
     //this page will initiate a guest token on the home page if a token on the client side doesnt already exist
     //token has guest username, guest id, and guest privileges
     let token = jwt.sign({UserName:"guest", UserID:0, scope:1000 },config.secret,{
@@ -16,11 +15,6 @@ router.post('/',(req,res,next)=>{
         guestToken: true,
         token: token,
     });
-
-
-
-
-
 
 });
 

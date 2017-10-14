@@ -221,9 +221,7 @@ export function logout() {
 
 
 // Accessed by clicking on the 'My Shelf' link of the app drawer
-// stack_reducer.js
 export function getMyStackOverview() {
-    // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
@@ -252,7 +250,6 @@ export function getStackOverview(stackID) {
             }else{
                 dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
             }
-            //stack exists
 
         }).catch(err => {
             console.log('stack OV DNW',err);

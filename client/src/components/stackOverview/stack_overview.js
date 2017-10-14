@@ -20,8 +20,6 @@ class Stacks extends Component {
 
     componentWillMount() {
         const { sid } = this.props.params;
-        // !(localStorage.getItem('token')) ? browserHistory.push('/'): null;
-        console.log('am i autheticated',this.props.authenticated);
 
         document.title="FlappCards - Stack Overview";
         console.log('stack dad will mount',this.props);

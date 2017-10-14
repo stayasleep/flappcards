@@ -4,11 +4,8 @@ const router = express.Router();
 const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
-// const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
-// const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 
-//clicking myShelf and getting your overview,
 // Tied to the getMyStackOverview action creator
 router.post('/',(request,response,next)=> {
     let uid = request.decoded.UserID;
