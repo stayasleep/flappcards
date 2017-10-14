@@ -4,7 +4,7 @@ import {browserHistory, Link} from 'react-router';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackViewStacks from './stackView_stacks';
 import DoesNotExist from './stack_does_not_exist';
-import {getStackOverview} from '../../actions/index';
+import {getStackOverview,initiateGuestBrowsing} from '../../actions/index';
 import {connect} from 'react-redux';
 
 class Stacks extends Component {
@@ -20,22 +20,28 @@ class Stacks extends Component {
 
     componentWillMount() {
         const { sid } = this.props.params;
+        // !(localStorage.getItem('token')) ? browserHistory.push('/'): null;
+        console.log('am i autheticated',this.props.authenticated);
+
         document.title="FlappCards - Stack Overview";
         console.log('stack dad will mount',this.props);
-
-        //on app load, undefined
-        if(!this.props.stackCards){
-            console.log('will mount und');
-            this.props.getStackOverview(sid);
-        }else  if(this.props.stackCards[0].stack_id !== Number(this.props.params.sid)){
-            console.log('will mount else else');
-            //only make axios call for new mountings of diff stacks
-            //stackCards is defined in redux and the params is string, not a number
-            this.props.getStackOverview(sid);
-        }else{
-            //stackcards already exists, so it is a return visit of a prev mounted stack
-            let num = this.props.stackCards.length;
-            this.setState({cardView: Array(num).fill({showAnswer: false})});
+        if(!this.props.authenticated){
+            browserHistory.push('/');
+        }else {
+            //on app load, undefined
+            if (!this.props.stackCards) {
+                console.log('will mount und');
+                this.props.getStackOverview(sid);
+            } else if (this.props.stackCards[0].stack_id !== Number(this.props.params.sid)) {
+                console.log('will mount else else');
+                //only make axios call for new mountings of diff stacks
+                //stackCards is defined in redux and the params is string, not a number
+                this.props.getStackOverview(sid);
+            } else {
+                //stackcards already exists, so it is a return visit of a prev mounted stack
+                let num = this.props.stackCards.length;
+                this.setState({cardView: Array(num).fill({showAnswer: false})});
+            }
         }
 
 
@@ -118,6 +124,7 @@ class Stacks extends Component {
 
 function mapStateToProps(state) {
     return {
+        authenticated: state.auth.authenticated,
         unavailable: state.stack.unavailable,
         stackCards: state.stack.stackCards,
         stackSubj: state.stack.subj,
@@ -126,4 +133,4 @@ function mapStateToProps(state) {
         authorized: state.auth.authorized
     }
 }
-export default connect(mapStateToProps,{getStackOverview})(Stacks);
+export default connect(mapStateToProps,{getStackOverview,initiateGuestBrowsing})(Stacks);

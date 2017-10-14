@@ -38,6 +38,7 @@ router.use('/reset',reset);
 router.use((request, response, next)=> {
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
     if (token) {
+        console.log('mm yoken', token);
         // JWT verify method to check token information and secret
         jwt.verify(token, config.secret,(err, decoded)=> {
             if (err) {

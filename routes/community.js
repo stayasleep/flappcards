@@ -44,6 +44,7 @@ router.post('/', (request,response,next) => {
 
 //open for suggestions here
 router.post('/featured',(req,res,next)=>{
+    console.log('feat stack start');
     let uid = req.decoded.UserID;
     let un = "FlappCards";
     pool.getConnection((error,connection)=>{
@@ -62,6 +63,7 @@ router.post('/featured',(req,res,next)=>{
                     let userAvatar = path.resolve(avatarDictionary[userAvatarKey]);
                     results[i].avatar=fs.readFileSync(userAvatar,"base64");
                 }
+                console.log('feat stack being sent home');
                 res.send(results);
             }else{
                 res.json({

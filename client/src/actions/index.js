@@ -87,6 +87,7 @@ export function resetAuthError(){
  * */
 export function initiateGuestBrowsing(location) {
     return function(dispatch) {
+        console.log('about to initiate');
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
             console.log('axios guest',response);
@@ -199,14 +200,6 @@ export function register({name, userName, password, email, birthday}) {
                     payload: "userName"
                 });
             }
-
-            // resp.data.success = false => the username was taken
-            // Push the user back to the home page
-            // if false -> !(false) -> true
-            // if (!resp.data.success) {
-            //     browserHistory.push('/');
-            //
-            // }
 
         }).catch(err => {
             dispatch({
