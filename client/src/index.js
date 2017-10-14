@@ -42,10 +42,6 @@ import Register from './components/register/register';
 import Forgot from './components/recover_password/forgot';
 import StacksNotFound from './components/stackOverview/stack_does_not_exist';
 
-const WrapperComponent = (props) => {
-    if(Object.keys(props.location.query).length === 0 ) {return <Search{...props}/>}
-    if(Object.keys(props.location.query)[0] === "q" && props.location.query.q) {return <Search {...props}/>}
-};
 
 
 ReactDOM.render(

@@ -4,18 +4,13 @@ const router = express.Router();
 const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
-const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
-const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 // Associated Axios call: getStack;
-// Made after clicking on view button on table
 router.get('/:sID',(request,response,next) => {
-    console.log('the wtf url', request.params);
     let uid = request.decoded.UserID;
-    //if it exists and isnt empty
+
     if(request.params.sID) {
         let sid = request.params.sID;
-        console.log('my sid',sid);
         pool.getConnection((error, connection) => {
             if (error) {
                 console.log("Error connecting to db", error);
@@ -29,15 +24,12 @@ router.get('/:sID',(request,response,next) => {
                     response.send({success: false, message: "There was a problem with your request"});
                 }
 
-                console.log('first mysql',result);
                 if (result.length > 0) {
 
                     let owned = false;
                     if(result[0].user_id === uid){
                         owned = true;
                     }
-
-                    //Stack is in your collection
                     connection.query(
                         "BEGIN;" +
                         "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
@@ -48,19 +40,16 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        // console.log('first query',results[2]);
                         if (results[2].length > 0 && owned) {
-                            // console.log('this is the if in the first it');
                             results[2][0].isOwned = true;
                             response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
-                            console.log('this is the else in the first if');
+                            //the above does not make sense
                             response.send(results[2]);
                         }
                     });
                 } else {
-                    console.log('no good',result);
                     //stack doesnt exist at all, we want to render a component that says Does Not Exist
                     response.send({success: true, unavailable: true});
                 }
@@ -124,16 +113,7 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                     message: "Problem Connecting to DB"
                 });
             }
-            //result is an object where affectedRows is either true, false, or there is mysql error
-            // connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?", [uid, singleID], (error, result) => {
-            //     if (error) {
-            //         response.send({success: false, message: "There was a problem with your request"});
-            //     } else if (result.affectedRows) {
-            //         response.end();
-            //     } else {
-            //         response.end(); ///this is
-            //     }
-            // });
+
             connection.query(
                 "BEGIN;" +
                 "DELETE `cards` FROM `cards` JOIN `stacks` ON `cards`.`stack_id` = `stacks`.`stack_id` WHERE `stacks`.`user_id` = ? AND `cards`.`card_id` = ?;" +

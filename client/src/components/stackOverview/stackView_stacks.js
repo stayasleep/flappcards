@@ -87,18 +87,6 @@ class StackViewStacks extends Component{
         this.props.stackCopy(copy);
     };
 
-    handleExpansion(cardIndex) {
-        // if !(F) => if T
-        if (!this.state.expanded) {
-            this.setState({expanded: true});
-            // to target the one clicked
-            // document.getElementByClassName returns an array of matches
-            document.getElementsByClassName("expandable")[cardIndex].style.display = 'inline-block';
-        } else {
-            this.setState({expanded: false});
-            document.getElementsByClassName("expandable")[cardIndex].style.display = 'none';
-        }
-    }
     mouseEnterSubj(){
         this.setState({editModeSubj: true});
     }
@@ -114,7 +102,6 @@ class StackViewStacks extends Component{
     }
     //click to switch to redux form and edit stack subject
     handleEditSubj(){
-        console.log('click on div',this.props);
         this.setState({enableEditSubj: !this.state.enableEditSubj});
     }
     //click to switch to redux form and edit stack category
@@ -151,7 +138,6 @@ class StackViewStacks extends Component{
         }
     }
     handleTap(index){
-        console.log('touched by number',index);
         this.props.action(index);
 
     }
