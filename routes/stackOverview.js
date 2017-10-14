@@ -26,12 +26,14 @@ router.get('/:sID',(request,response,next) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 }
+                console.log('first mysql',result);
                 if (result.length > 0) {
+                    console.log('len is bigger than 0');
                     //Stack is in your collection
                     connection.query(
                         "BEGIN;" +
                         "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
-                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category`, `stacks`.`copied_stack` AS `origin` FROM `cards` " +
                         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
                         "WHERE `stacks`.`stack_id`=?;" +
                         "COMMIT;", [sid, sid], (error, results) => {
@@ -39,14 +41,19 @@ router.get('/:sID',(request,response,next) => {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
                         if (results[2].length > 0) {
+                            console.log('this is the if in the first it');
                             results[2][0].isOwned = true;
                             response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
+                            console.log('this is the else in the first if');
                             response.send(results[2]);
                         }
                     });
                 } else {
+                    //this might all be useless actually
+
+                    console.log('this is the result of random', result);
                     //If the stack is not initially in your collection
                     connection.query(
                         "BEGIN;" +
@@ -58,6 +65,8 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
+                        console.log('this second call',results);
+
                         response.send(results[2]);
                     });
                 }
@@ -120,18 +129,33 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                     success: false,
                     message: "Problem Connecting to DB"
                 });
-                // return next(error);
             }
             //result is an object where affectedRows is either true, false, or there is mysql error
-            connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?", [uid, singleID], (error, result) => {
-                if (error) {
-                    response.send({success: false, message: "There was a problem with your request"});
-                } else if (result.affectedRows) {
-                    response.end();
-                } else {
-                    response.end(); ///this is
+            // connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?", [uid, singleID], (error, result) => {
+            //     if (error) {
+            //         response.send({success: false, message: "There was a problem with your request"});
+            //     } else if (result.affectedRows) {
+            //         response.end();
+            //     } else {
+            //         response.end(); ///this is
+            //     }
+            // });
+            connection.query(
+                "BEGIN;" +
+                "DELETE `cards` FROM `cards` JOIN `stacks` ON `cards`.`stack_id` = `stacks`.`stack_id` WHERE `stacks`.`user_id` = ? AND `cards`.`card_id` = ?;" +
+                "SELECT COUNT(`cards`.`card_id`) AS `remaining` FROM `cards` WHERE `cards`.`stack_id` = ? ;" +
+                "COMMIT;",[uid, singleID, stackID], (error, result)=>{
+                    if (error) {
+                        response.send({success: false, message: "There was a problem with your request"});
+                    }
+                    const remaining = result[2][0].remaining;
+                    let option = false;
+                    if(remaining === 0){
+                        option = true;
+                    }
+                    response.json({success: true, redirect: option });
                 }
-            });
+            );
             connection.release();
         })
     }else{

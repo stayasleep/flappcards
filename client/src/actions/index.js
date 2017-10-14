@@ -250,7 +250,7 @@ export function getStackOverview(stackID) {
         let token = localStorage.getItem('token');
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-            console.log('inside the dispatch');
+            console.log('inside the dispatch', response);
             (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
         }).catch(err => {
             console.log('stack OV DNW',err);
@@ -320,16 +320,19 @@ export function deleteCard(cardObj) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: null});
-            //attempting to fix our shame from above
-            axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                console.log('inside the dispatch for del getstack',response);
-                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
-            }).catch(err => {
-                dispatch({
-                    type: FETCH_STACK_OVERVIEW,
-                    error: err.response
-                });
-            })
+            if(response.data.redirect){
+                //no more cards in the stack
+                browserHistory.push('/myShelf');
+            }else{
+                axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
+                    dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+                }).catch(err => {
+                    dispatch({
+                        type: FETCH_STACK_OVERVIEW,
+                        error: err.response
+                    });
+                })
+            }
         }).catch(err => {
             dispatch({
                 type: DELETE_CARD,
@@ -338,7 +341,6 @@ export function deleteCard(cardObj) {
         });
 
     }
-
 }
 
 /**
