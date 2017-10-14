@@ -4,14 +4,11 @@ const router = express.Router();
 const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
-const bcrypt = require('bcryptjs'); // bcrypt for Salt and Hash
-const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 
 // Associated Axios call: getStack;
-// Made after clicking on view button on table
 router.get('/:sID',(request,response,next) => {
     let uid = request.decoded.UserID;
-    //if it exists and isnt empty
+
     if(request.params.sID) {
         let sid = request.params.sID;
         pool.getConnection((error, connection) => {
@@ -22,44 +19,39 @@ router.get('/:sID',(request,response,next) => {
                     message: "Problem Connecting to DB"
                 });
             }
-            connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;", [uid, sid], (error, result) => {
+            connection.query("SELECT `stacks`.`stack_id`, `stacks`.`user_id` FROM `stacks` WHERE stacks.stack_id=?;", [sid], (error, result) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 }
+
                 if (result.length > 0) {
-                    //Stack is in your collection
+
+                    let owned = false;
+                    if(result[0].user_id === uid){
+                        owned = true;
+                    }
                     connection.query(
                         "BEGIN;" +
                         "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
-                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
+                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category`, `stacks`.`copied_stack` AS `origin` FROM `cards` " +
                         "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
                         "WHERE `stacks`.`stack_id`=?;" +
                         "COMMIT;", [sid, sid], (error, results) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        if (results[2].length > 0) {
+                        if (results[2].length > 0 && owned) {
                             results[2][0].isOwned = true;
                             response.send(results[2]);
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
+                            //the above does not make sense
                             response.send(results[2]);
                         }
                     });
                 } else {
-                    //If the stack is not initially in your collection
-                    connection.query(
-                        "BEGIN;" +
-                        "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
-                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-                        "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                        "WHERE `stacks`.`stack_id`=?;" +
-                        "COMMIT;", [sid, sid], (error, results) => {
-                        if (error) {
-                            response.send({success: false, message: "There was a problem with your request"});
-                        }
-                        response.send(results[2]);
-                    });
+                    //stack doesnt exist at all, we want to render a component that says Does Not Exist
+                    response.send({success: true, unavailable: true});
                 }
             });
             connection.release();
@@ -120,18 +112,24 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                     success: false,
                     message: "Problem Connecting to DB"
                 });
-                // return next(error);
             }
-            //result is an object where affectedRows is either true, false, or there is mysql error
-            connection.query("DELETE cards FROM cards JOIN stacks ON cards.stack_id = stacks.stack_id WHERE stacks.user_id = ? AND cards.card_id = ?", [uid, singleID], (error, result) => {
-                if (error) {
-                    response.send({success: false, message: "There was a problem with your request"});
-                } else if (result.affectedRows) {
-                    response.end();
-                } else {
-                    response.end(); ///this is
+
+            connection.query(
+                "BEGIN;" +
+                "DELETE `cards` FROM `cards` JOIN `stacks` ON `cards`.`stack_id` = `stacks`.`stack_id` WHERE `stacks`.`user_id` = ? AND `cards`.`card_id` = ?;" +
+                "SELECT COUNT(`cards`.`card_id`) AS `remaining` FROM `cards` WHERE `cards`.`stack_id` = ? ;" +
+                "COMMIT;",[uid, singleID, stackID], (error, result)=>{
+                    if (error) {
+                        response.send({success: false, message: "There was a problem with your request"});
+                    }
+                    const remaining = result[2][0].remaining;
+                    let option = false;
+                    if(remaining === 0){
+                        option = true;
+                    }
+                    response.json({success: true, redirect: option });
                 }
-            });
+            );
             connection.release();
         })
     }else{

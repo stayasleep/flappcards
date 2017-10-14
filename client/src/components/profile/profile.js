@@ -105,6 +105,11 @@ class Profile extends Component{
         this.props.getUserData();
         document.title="FlappCards - Profile";
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.username){
+            document.title = `${nextProps.username} on FlappCards`;
+        }
+    }
 
     render(){
         let hoverName = "none";
@@ -146,9 +151,6 @@ class Profile extends Component{
             )
         }
         const { handleSubmit, initialValues } = this.props;
-        initialValues.name = this.props.name;
-        initialValues.email = this.props.email;
-        initialValues.birthday = this.props.birthday;
 
         //format the birthday for DatePicker
         let profileBDay = this.props.birthday.split("/");
@@ -218,7 +220,7 @@ class Profile extends Component{
                                                     <EditMode style={{display: hoverEmail}} />
                                             </CardText>
                                         ) : (
-                                            <CardText className="emailContainer">
+                                            <CardText className="emailContainer" >
                                                 <div className="emailTitle">Email:</div>
                                                 <form className="emailForm" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"email")})}>
                                                     <div className="editFormEmail">
@@ -312,7 +314,6 @@ function validate(values){
 
 Profile = reduxForm({
     form: "generalInfo",
-    initialValues:{"name":"", "email": "", "birthday": ""},
     enableReinitialize: true,
     overwriteOnInitialValuesChange: false,
     validate
@@ -328,6 +329,8 @@ function mapStateToProps(state) {
         avatar: state.profile.avatar,
         update: state.profile.update,
         errorText: state.profile.errorText,
+        initialValues: {name: state.profile.name, email: state.profile.email, birthday: state.profile.birthday}
+
     }
 }
 

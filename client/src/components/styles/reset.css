@@ -1,0 +1,15 @@
+.invalidContainer {
+    margin: 2em;
+}
+.invalidPaper {
+    background: #FFFFFF;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    text-align: center;
+    text-align: -webkit-center;
+    color: black;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 12px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+    padding: 1em;
+}

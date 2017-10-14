@@ -19,8 +19,11 @@ import {
     SEARCH_STACKS,
     VALIDATE_ROUTE,
     RESET_PW,
+    RESET_PW_ERROR,
+    CLEAR_RESET_PW,
     RESET_SEARCH,
     RECOVER_PW,
+    STACK_UNAVAILABLE,
     UPDATE_USER_META,
     UPDATE_USER_ERRORS,
     UPDATE_USER_PASS,
@@ -34,8 +37,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -84,6 +87,7 @@ export function resetAuthError(){
  * */
 export function initiateGuestBrowsing(location) {
     return function(dispatch) {
+        console.log('about to initiate');
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
             console.log('axios guest',response);
@@ -197,14 +201,6 @@ export function register({name, userName, password, email, birthday}) {
                 });
             }
 
-            // resp.data.success = false => the username was taken
-            // Push the user back to the home page
-            // if false -> !(false) -> true
-            // if (!resp.data.success) {
-            //     browserHistory.push('/');
-            //
-            // }
-
         }).catch(err => {
             dispatch({
                 type: AUTH_ERROR,
@@ -225,9 +221,7 @@ export function logout() {
 
 
 // Accessed by clicking on the 'My Shelf' link of the app drawer
-// stack_reducer.js
 export function getMyStackOverview() {
-    // The queries revolve around knowing the userID, so we'll pass it into the axios call
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
@@ -248,8 +242,15 @@ export function getStackOverview(stackID) {
         let token = localStorage.getItem('token');
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-            console.log('inside the dispatch');
-            (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            console.log('inside the dispatch', response);
+            // (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            if(response.data.unavailable){
+                //stack does not exist
+                dispatch({type: STACK_UNAVAILABLE, payload: true});
+            }else{
+                dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            }
+
         }).catch(err => {
             console.log('stack OV DNW',err);
             dispatch({
@@ -318,16 +319,19 @@ export function deleteCard(cardObj) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: null});
-            //attempting to fix our shame from above
-            axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                console.log('inside the dispatch for del getstack',response);
-                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
-            }).catch(err => {
-                dispatch({
-                    type: FETCH_STACK_OVERVIEW,
-                    error: err.response
-                });
-            })
+            if(response.data.redirect){
+                //no more cards in the stack
+                browserHistory.push('/myShelf');
+            }else{
+                axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
+                    dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+                }).catch(err => {
+                    dispatch({
+                        type: FETCH_STACK_OVERVIEW,
+                        error: err.response
+                    });
+                })
+            }
         }).catch(err => {
             dispatch({
                 type: DELETE_CARD,
@@ -336,7 +340,6 @@ export function deleteCard(cardObj) {
         });
 
     }
-
 }
 
 /**
@@ -347,11 +350,10 @@ export function deleteCard(cardObj) {
 export function cardEditor(cardObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        let {stackID, cardID, question, answer} = cardObject; // cardObject.stack_id, cardObject.card_id, cardObject.question, cardObject.answer
-        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': question, 'cardAnswer':answer} ).then((response) => {
+        let {stackID, cardID, editQ, editA} = cardObject; // cardObject.stack_id, cardObject.card_id, cardObject.question, cardObject.answer
+        axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': editQ, 'cardAnswer': editA} ).then((response) => {
             dispatch({type: EDIT_CARD, payload: response.data});
             axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                console.log('inside the dispatch for del getstack');
                 dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
                 dispatch({
@@ -592,17 +594,19 @@ export function submitResetPw(data){
     return function(dispatch){
         let {token} = data;
         axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw, "passwordConfirm":data.vals.passwordConfirm}).then((response)=>{
+            console.log('axios response',response);
             if(response.data.success){
-                dispatch({type: RESET_PW});
-                browserHistory.push('/');
+                dispatch({type: RESET_PW, payload: true});
+                //browserHistory.push('/');
             }else{
                 //if error with link validation, let them know to try again
                 dispatch({
-                    type: AUTH_ERROR,
-                    payload:"This link has already expired.  Please try the password reset process again."
+                    type: RESET_PW_ERROR,
+                    payload:"This page has expired! Please try the password reset process again."
                 });
             }
         }).catch(err =>{
+            console.log('errr',err);
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response.data.error
@@ -610,7 +614,19 @@ export function submitResetPw(data){
         })
     }
 }
-
+/**
+ * @name clearResetPW
+ * @description - clears the password reset states upon component unmounting
+ * @returns { Function }
+ * **/
+export function clearResetPW(){
+    return function(dispatch){
+        dispatch({
+            type: CLEAR_RESET_PW,
+            payload: false,
+        })
+    }
+}
 /**
  * @name recoverPW
  * @description - success: match is found and user will be sent email, error: un/email not found
@@ -620,8 +636,8 @@ export function recoverPw(userInfo){
     return function(dispatch){
         axios.post(`${BASE_URL}/recovery`,{userName: userInfo.userName, userEmail: userInfo.userEmail}).then((response)=>{
             if(response.data.success){
-                dispatch({type: RECOVER_PW});
-                browserHistory.push('/home');
+                dispatch({type: RECOVER_PW, payload: true});
+                //browserHistory.push('/home');
             }
             if (response.data.noMatchFound){
                 dispatch({

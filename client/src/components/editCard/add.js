@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Field, reduxForm, reset } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
-import validate from './validate';
+// import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import renderInput from '../utilities/renderInput';
@@ -24,17 +24,12 @@ class AddCard extends Component {
 
     handleAdd(cardObject){
         console.log('before axios handleadd',this.props);
-        // Pass in the cardObject which contains the necessary information for the add
+        if(Object.keys(cardObject).length === 0) return; //really need to fix this blank reduxForm submissions
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
         cardObject.stack_id = this.props.stackCards[0].stack_id;
         this.props.addSingleCard(cardObject);
         this.props.dispatch(reset('AddCard')); //clears the form
         this.setState({open: false});
-        // if(cardObject){
-        //     console.log('inside handleAdd cardOb',cardObject);
-        //     this.setState({open: false});
-        //     this.props.getStackOverview(cardObject.stack_id);
-        // }
     }
 
     handleOpen = () => {
@@ -42,6 +37,7 @@ class AddCard extends Component {
     };
 
     handleClose = () => {
+        this.props.reset('AddCard');
         this.setState({open: false});
     };
 
@@ -55,11 +51,12 @@ class AddCard extends Component {
                     style={styler.center}
                     className="singleCardAddDialog"
                     title="Are you sure you want to add a card to this stack?"
-                    modal={true}
+                    modal={false}
                     open={this.state.open}
                     autoDetectWindowHeight={true}
                     autoScrollBodyContent={true}
                     bodyClassName="dialogBody"
+                    onRequestClose={()=> this.handleClose()}
                 >
 
                     {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleAdd function*/}
@@ -75,6 +72,25 @@ class AddCard extends Component {
             </div>
         )
     }
+}
+function validate(values){
+    console.log('add values',values);
+    const errors = {};
+    if(!values.question){
+        errors.question = "Required";
+    }
+    if(!values.answer){
+        errors.answer = "Required";
+    }
+    if(values.question && values.question.length > 400){
+        errors.question = "Question must be fewer than 400 characters";
+    }
+    if(values.answer && values.answer.length > 400){
+        errors.answer = "Answer must be fewer than 400 characters";
+    }
+
+    return errors;
+
 }
 
 AddCard = reduxForm({

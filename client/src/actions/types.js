@@ -24,9 +24,11 @@ export const SEARCH_STACKS = 'search_stacks';
 export const RESET_SEARCH = 'reset_search';
 export const COPY_STACK = 'copy_stack';
 export const AUTOCOMPLETE_SEARCH_STACKS = 'autocomplete_search_stacks';
-
+export const STACK_UNAVAILABLE = 'stack_unavailable';
 export const VALIDATE_ROUTE = 'validate_route';
 export const RESET_PW = 'reset_pw';
+export const RESET_PW_ERROR ='reset_pw_error';
+export const CLEAR_RESET_PW = 'clear_reset_pw';
 export const RECOVER_PW = 'recover_pw';
 
 export const INITIATE_GUEST_BROWSING = 'initiate_guest_browsing';
