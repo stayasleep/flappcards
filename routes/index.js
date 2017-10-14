@@ -55,16 +55,9 @@ router.use((request, response, next)=> {
 
 //set up token-based subroutes
 
-// router.use('/home',home);
 router.use('/community',community);
-// router.use('/myShelf',myshelf);
 router.use('/stackOverview',stackOverview);
-// router.use('/createCards',createCards);
 router.use('/search', searched);
-// router.use('/profile',profile);
-// router.use('/logout', logOut);
-// router.use('/copy', copy);
-
 
 //middleware for token based sub routes where authorization is needed
 router.use((request,response,next) =>{

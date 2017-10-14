@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import { Field, reduxForm, reset } from 'redux-form';
 import renderInput from '../utilities/renderInput';
 import RaisedButton from 'material-ui/RaisedButton';
-import validate from './validate';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
-import {cardEditor, getStackOverview} from '../../actions/index';
+import {cardEditor} from '../../actions/index';
 import {blue500} from 'material-ui/styles/colors';
 import {editIconButton} from '../utilities/stackSummaryStyle';
 
@@ -22,38 +21,27 @@ class EditCard extends Component {
         router: PropTypes.object
     };
 
-
-
     state = {
         open: false,
     };
     handleEdit(cardObject){
-        console.log('handle edit',this.props);
-        // Pass in the cardObject which contains the necessary information for the edit
-        // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
-        cardObject.cardID = this.props.cardID.card_id;
-        cardObject.stackID = this.props.cardID.stack_id;
-        this.props.cardEditor(cardObject);
-        this.props.dispatch(reset('EditCard')); //clears the form
+        cardObject.editA = cardObject.editA.trim();
+        cardObject.editQ = cardObject.editQ.trim();
+
+        let editObject = {...cardObject, cardID: this.props.cardID, stackID:this.props.stackID};
+        // Pull the card_id and stack_id for the(database)
+        this.props.cardEditor(editObject);
         this.setState({open:false});
-        // if(cardObject){
-        //     this.setState({open: false});
-        //     this.props.getStackOverview(this.props.cardID.stack_id);
-        // }
     }
 
     handleOpen = () => {
-        // When the component opens, set the initial values of the form to what the question and answer were
-        const {question, answer } = this.props.cardID; // pull off question and answer
-        this.props.initialValues.question = question;
-        this.props.initialValues.answer = answer;
         this.setState({
             open: true
         });
     };
 
     handleClose = () => {
-        this.props.reset(); // reset the form. "this" = EditCard form
+        this.props.reset('EditCards');
         this.setState({open: false});
     };
 
@@ -72,20 +60,17 @@ class EditCard extends Component {
                     autoDetectWindowHeight={true}
                     autoScrollBodyContent={true}
                 >
-
-                    {/*On submit, use built in handleSubmit to pull off question and answer values from the form and pass them into handleEdit function*/}
                     <form onSubmit={handleSubmit((values) => {this.handleEdit(values)})} >
                         <div>
-                            <Field name="question" component={renderInput} label="Question"/>
+                            <Field name="editQ" component={renderInput} label="Question"/>
                         </div>
                         <div>
-                            <Field name="answer" component={renderInput} label="Answer"/>
+                            <Field name="editA" component={renderInput} label="Answer"/>
                         </div>
                         <div>
-                            <p>Original question: {this.props.cardID.question}</p>
-                            <p>Original answer: {this.props.cardID.answer}</p>
+                            <p>Original Question: {this.props.initialValues.editQ}</p>
+                            <p>Original Answer: {this.props.initialValues.editA}</p>
                         </div>
-                        {/*<RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>*/}
                         <RaisedButton style={{"boxShadow":"0 0 0 1pt rgb(0,121,107)","margin":"2em"}} labelColor="rgb(0, 121, 107)" backgroundColor="#f0f0f0" type="button" label="Cancel" onTouchTap={this.handleClose}/>
                         <RaisedButton style={{"margin":"2em"}} label="Edit" primary={true} type="submit"/>
                     </form>
@@ -94,24 +79,36 @@ class EditCard extends Component {
         )
     }
 }
+function validate(values){
+    const errors = {};
+    if(!values.editQ){
+        errors.editQ = "Required";
+    }
+    if(!values.editA){
+        errors.editA = "Required";
+    }
+    if(values.editQ.length > 400){
+        errors.editQ = "Question must be less than 400 characters";
+    }
+    if(values.editA.length > 400){
+        errors.editA = "Answer must be less than 400 characters";
+    }
+    return errors;
+}
 
-
-// Form name = EditCard
-// Apply the validation function
 EditCard = reduxForm({
-    form: 'EditCard',
-    initialValues: {"question": '', "answer": ''},
+    form: 'EditCards',
+    enableReinitialize: true,
+    overwriteOnInitialValuesChange: false,
     validate
 })(EditCard);
 
-function mapStateToProps(state) {
+function mapStateToProps(state,ownProps) {
     return {
-        stackCards: state.stack.stackCards
-
+        form: `EditCards${ownProps.formKey}`,
     }
 }
 
-// Connecting the edit card form values
-export default connect(mapStateToProps,{cardEditor, getStackOverview})(EditCard);
+export default connect(mapStateToProps,{cardEditor})(EditCard);
 
 

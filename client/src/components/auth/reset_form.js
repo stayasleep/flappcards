@@ -14,7 +14,7 @@ class ResetForm extends Component {
         router: PropTypes.object
     };
     handleReset(vals){
-        const {p1,p2,p3}= this.props.token; //Pull from the url
+        const {p1,p2,p3}= this.props.token; //Pull from props passed in
         const token = `${p1}.${p2}.${p3}`;
         let data = {token: token, vals: vals};
         this.props.submitResetPw(data);
@@ -24,10 +24,6 @@ class ResetForm extends Component {
     render(){
         const {handleSubmit, reset} = this.props;
 
-        const passWordInfo = {
-            fontSize: 10,
-            marginTop: "1.3em"
-        };
 
         const userError = {
             height: "1em"
@@ -46,12 +42,17 @@ class ResetForm extends Component {
         const resetContainer={
             backgroundColor:"white",
         };
-        console.log('reset form render',this.props);
         return (
             <div className="resetForm" style={resetContainer}>
                 <h1 className="header">Reset Password</h1>
                 <h3 className="header">Enter a new password for your account</h3>
-                <h3 className="header">Afterwards, you will be redirected to the home page</h3>
+                <div className="header">
+                    {this.props.passwordReset ?
+                        (
+                            <h3>Password has successfully been reset!  You will be redirected to the login page in <span style={{fontWeight:700,fontSize:"1.5em",color:"red"}}>{this.props.count}</span></h3>
+                        ) : null
+                    }
+                </div>
                 <div className="passwordInfo">
                     <p>Passwords must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.</p>
                 </div>
@@ -63,9 +64,10 @@ class ResetForm extends Component {
                         <Field name="passwordConfirm" component={renderInputReg} label="Confirm New Password" type="password"/>
                     </div>
                     <div style={userError} id="resetFail">
-                        {this.props.errorResComp ? (
-                                <div style={{"color":"red"}}>{this.props.errorResComp} <Link to="/login/forgotpassword">Reset Password</Link></div>
-                            ): null}
+                        {this.props.isError ? (
+                                <div style={{"color":"red"}}>{this.props.isError} <Link to="/login/forgotpassword">Reset Password</Link></div>
+                            ): null
+                        }
                     </div>
                     <div style={buttons}>
                         <RaisedButton style={subBtn} primary={true} type="submit" label="Submit"/>
@@ -109,7 +111,6 @@ function validate(values){
 function mapStateToProps(state){
     return{
         authenticated: state.auth.authenticated,
-        errorResComp: state.auth.authError
     };
 }
 

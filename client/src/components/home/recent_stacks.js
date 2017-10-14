@@ -12,20 +12,36 @@ import {
     Step,
     Stepper,
     StepButton,
+    StepContent,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
+import VerticalStep from './vertical_step';
+import HorizontalStep from './horizontal_step';
 
 class Recent extends Component {
     constructor(props){
         super(props);
         this.state={
             stepIndex: 0,
+            orientation: "horizontal",
+            windowWidth: window.innerWidth,
         };
+        this.getStepContent = this.getStepContent.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        this.handleNext = this.handleNext.bind(this);
+        this.handlePrevious = this.handlePrevious.bind(this);
+
     }
     componentWillMount() {
         this.props.getMyRecentStacksOverview();
+    }
+    componentDidMount(){
+        window.addEventListener('resize',this.handleResize);
+    }
+    handleResize(event){
+        this.setState({windowWidth: window.innerWidth})
     }
     handleNext(){
         const { stepIndex } = this.state;
@@ -38,6 +54,9 @@ class Recent extends Component {
         if(stepIndex > 0 ){
             this.setState({stepIndex: stepIndex - 1});
         }
+    }
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.handleResize);
     }
 
     getStepContent(stepIndex){
@@ -54,7 +73,7 @@ class Recent extends Component {
             case 1:
                 return(
                     <div className="stepTwo">
-                        Okay... Maybe you&apo;re not ready!  Or your textbook hasn&apos;t arrived yet.{'  '}
+                        Okay... Maybe you&apos;re not ready!  Or your textbook hasn&apos;t arrived yet.{'  '}
                         Or, you know, something!  Whatever the reason, check out the great stacks created by {' '}
                         other members.   Head over to <Link to="/search">Search</Link> and discover something new and {' '}
                         exciting today!
@@ -72,55 +91,41 @@ class Recent extends Component {
 
     render() {
         const { stepIndex } = this.state;
-        console.log('recen',this.props);
 
         if(this.props.authorized) {
             //Users who do not have any stacks in there account
             if (typeof this.props.recentStacks === "string" ) { //ugly, but it catches our promise which originally returns a string,this only worked before bc the dispatch in catch threw it back and saved us
                 return (
-                <Paper className="newUserWelcome" zDepth={2}>
-                    <h2>Welcome To FlappCards!</h2>
-                    <p>Here are some helpful guidelines to make the most of what we have to offer.  Once your shelf
-                        has some flashcard stacks, we&apos;ll start displaying your recent stacks here.
-                    </p>
-                    <div className="stepperContainer">
-                    <Stepper linear={false} activeStep={stepIndex}>
-                        <Step>
-                            <StepButton onClick={()=> this.setState({stepIndex: 0})}>
-                                Create A Stack
-                            </StepButton>
-                        </Step>
-                        <Step>
-                            <StepButton onClick={() => this.setState({stepIndex: 1})}>
-                                Discover New Stacks
-                            </StepButton>
-                        </Step>
-                        <Step>
-                            <StepButton onClick={() => this.setState({stepIndex: 2})}>
-                                Now Get Studying!
-                            </StepButton>
-                        </Step>
-                    </Stepper>
-                    <div className="stepperContent">
-                        <div className="stepInfo">{this.getStepContent.bind(this)(stepIndex)}</div>
-                        <div className="stepBtnContainer">
-                            <FlatButton
-                                primary={true}
-                                label="Back"
-                                disabled={stepIndex === 0}
-                                onClick={this.handlePrevious.bind(this)}
-                                style={{marginRight: 12}}
-                            />
-                            <RaisedButton
-                                label="Next"
-                                disabled={stepIndex === 2}
-                                primary={true}
-                                onClick={this.handleNext.bind(this)}
-                            />
+                    <Paper className="newUserWelcome" zDepth={2}>
+                        <h2>Welcome To FlappCards!</h2>
+                        <p>Here are some helpful guidelines to make the most of what we have to offer.  Once your shelf
+                            has some flashcard stacks, we&apos;ll start displaying your recent stacks here.
+                        </p>
+                        <div className="stepperContainer">
+                            {this.state.windowWidth > 480 ? (
+                                    <HorizontalStep
+                                        stepIndex={stepIndex}
+                                        onClickOne={() => this.setState({stepIndex: 0})}
+                                        onClickTwo={() => this.setState({stepIndex: 1})}
+                                        onClickThree={() => this.setState({stepIndex: 2})}
+                                        handleNext={()=> this.handleNext}
+                                        handlePrevious={()=>this.handlePrevious}
+                                        getStepContent={() => this.getStepContent(stepIndex)}
+                                    />
+                                ) : (
+                                    <VerticalStep
+                                        stepIndex={stepIndex}
+                                        onClickOne={() => this.setState({stepIndex: 0})}
+                                        onClickTwo={() => this.setState({stepIndex: 1})}
+                                        onClickThree={() => this.setState({stepIndex: 2})}
+                                        handleNext={()=> this.handleNext}
+                                        handlePrevious={()=>this.handlePrevious}
+                                    />
+                                )
+                            }
+
                         </div>
-                    </div>
-                    </div>
-                </Paper>
+                    </Paper>
                 )
             } else if ( !this.props.recentStacks || this.props.recentStacks.success === false){//should not be what is used for server errors
                 return (
@@ -166,7 +171,7 @@ class Recent extends Component {
 }
 function mapStateToProps(state) {
     return {
-        authorized: state.auth.authorized, //ask andres: if authorized, render recent_stack o/w do not render
+        authorized: state.auth.authorized,
         recentStacks: state.stack.recentStacks
     }
 }

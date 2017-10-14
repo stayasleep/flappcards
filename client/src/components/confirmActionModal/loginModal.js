@@ -26,6 +26,7 @@ const styles = {
 };
 
 let usableBrowserHeight = window.innerHeight; // returns integer value (unit: pixels (px))
+console.log('use it b',usableBrowserHeight);
 
 // this if statement is the/my inline js version of a media query that's compatible with Material UI
 if (usableBrowserHeight < 600) {

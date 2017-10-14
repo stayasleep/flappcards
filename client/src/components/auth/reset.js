@@ -1,22 +1,20 @@
 import React,{Component} from 'react';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import ResetForm from './reset_form';
-import {Link} from 'react-router';
-import PropTypes from 'prop-types';
-import {Field, reduxForm} from 'redux-form';
+import {browserHistory, Link} from 'react-router';
 import {connect} from 'react-redux';
-import {isRouteValid} from '../../actions/index';
+import PropTypes from 'prop-types';
+
+import ResetForm from './reset_form';
+import {Field, reduxForm} from 'redux-form';
+import {clearResetPW, isRouteValid} from '../../actions/index';
 // import renderInput from '../utilities/renderInputReg';
-import Paper from 'material-ui/Paper';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+import Subheader from 'material-ui/Subheader';
 import RaisedButton from 'material-ui/RaisedButton';
+import {List} from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import {green500} from 'material-ui/styles/colors';
-import Subheader from 'material-ui/Subheader';
 import {subHeader} from '../utilities/stackSummaryStyle';
-import {List} from 'material-ui/List';
-
-
-
+import  '../styles/reset.css';
 
 
 const style={
@@ -30,31 +28,51 @@ const style={
     },
 };
 
-
 class Reset extends Component{
     static contextTypes = {
         router: PropTypes.object
     };
-    state={ token:"" };
+    constructor(props){
+        super(props);
+        this.state = {
+            token: "",
+            time: 3,
+        }
+    }
 
     componentWillMount(){
         const {p1,p2,p3}= this.props.location.query; //Pull from the url
         const token = `${p1}.${p2}.${p3}`;//assemble the token
-        this.setState=({ token: token});
-        console.log('reset comp will mount',this.props);
         this.props.isRouteValid(token);
-        // document.body.style.backgroundColor = "#f0f0f0";
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.resetPW){
+            this.interval = setInterval(() => this.sendHome(),1000);
+        }
     }
 
+    sendHome(){
+        if(this.state.time === 0){
+            setTimeout(() => {
+                browserHistory.push("/");
+            },500);
+        }else{
+            this.setState({time: this.state.time - 1});
+        }
+    }
+
+
     componentWillUnmount(){
-        document.body.style.backgroundColor = null;
+        clearInterval(this.interval);
+        this.props.clearResetPW();
+
     }
 
 
 
     render(){
         console.log('reset comp render',this.props);
-        //page loads, let it spin until axios is complete. then we can determine if link is dead or not
+        //let it spin until axios is complete. then we can determine if link is dead or not; links will work if under expiration date
         if(this.props.isValid===null){
             return (
                 <List>
@@ -69,30 +87,39 @@ class Reset extends Component{
         if(this.props.isValid) {
             return (
                 <div>
-                    <Toolbar style={style.header}>
-                        <ToolbarTitle text="FlappCards"/>
+                    <Toolbar className="navHeader">
+                        <ToolbarTitle text={<Link  className="navTitleBar" href="/">FlappCards</Link>}/>
                         <ToolbarGroup>
-                            <RaisedButton backgroundColor="#f0f0f0" labelColor="rgb(0, 121, 107)" label="Home"
-                                          containerElement={<Link to="/"/>}/>
+                            <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                         </ToolbarGroup>
                     </Toolbar>
                     <div style={style.resetContainer}>
-                        <ResetForm token={this.props.location.query}/>
+                        <ResetForm token={this.props.location.query} passwordReset={this.props.resetPW} count={this.state.time} isError={this.props.resetErr}/>
                     </div>
                 </div>
             )
         }else{
             return(
                 <div>
-                    <Toolbar style={style.header}>
-                        <ToolbarTitle text="FlappCards"/>
+                    <Toolbar className="navHeader">
+                        <ToolbarTitle text={<Link  className="navTitleBar" href="/">FlappCards</Link>}/>
                         <ToolbarGroup>
-                            <RaisedButton backgroundColor="#f0f0f0" labelColor="rgb(0, 121, 107)" label="Home"
-                                          containerElement={<Link to="/"/>}/>
+                            <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                         </ToolbarGroup>
                     </Toolbar>
-                    <div style={style.resetContainer}>
-                        <h3>Link is no longer valid. Please start the reset process over again, thank you.</h3>
+                    <div className="invalidContainer">
+                        <div className="invalidPaper">
+                            <h1 className="">Reset Password</h1>
+                            <h4>The password reset link has expired.  Please start the password recovery process over again, thank you.</h4>
+                            <div className="invalidOptions">
+                                <div className="divButton">
+                                    <Link to="/login/forgotpassword">Forgot Password?</Link>
+                                </div>
+                                <div>
+                                    <Link to="/">Back To Home</Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )
@@ -102,10 +129,9 @@ class Reset extends Component{
 function mapStateToProps(state){
     return{
         isValid: state.reset.isValid,
-        token: state.token,
+        resetPW: state.reset.resetPW,
+        resetErr: state.reset.resetErr,
     };
 }
-// export default connect(mapStateToProps,{isRouteValid, submitResetPw})(Reset);
 
-// export default Reset;
-export default connect(mapStateToProps,{isRouteValid})(Reset)
+export default connect(mapStateToProps,{clearResetPW, isRouteValid})(Reset)

@@ -258,3 +258,12 @@
     margin: 0 auto;
     cursor: pointer;
 }
+
+.isDisplayed {
+    cursor: pointer;
+    font-size: small;
+    color: #000000;
+    padding-bottom: 6px;
+    width: min-content;
+    margin: 0 0 0 auto;
+}

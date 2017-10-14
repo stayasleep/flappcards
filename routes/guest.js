@@ -16,11 +16,6 @@ router.post('/',(req,res,next)=>{
         token: token,
     });
 
-
-
-
-
-
 });
 
 module.exports = router;

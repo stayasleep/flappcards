@@ -15,10 +15,8 @@ const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
 console.log = function() {};
 if(token && JSON.parse(guest)){
-    console.log('token is guest');
     store.dispatch({type: AUTH_USER,payload: false});
 } else if(token ){
-    console.log('token isnt guest');
     store.dispatch({type: AUTH_USER, payload: true});
 }
 
@@ -39,13 +37,8 @@ import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
 import SignIn from './components/login/login';
 import Register from './components/register/register';
-import Forgot from './components/login/forgot';
-import StacksNotFound from './components/stackOverview/stack_does_not_exist';
+import Forgot from './components/recover_password/forgot';
 
-const WrapperComponent = (props) => {
-    if(Object.keys(props.location.query).length === 0 ) {return <Search{...props}/>}
-    if(Object.keys(props.location.query)[0] === "q" && props.location.query.q) {return <Search {...props}/>}
-};
 
 
 ReactDOM.render(
@@ -60,10 +53,8 @@ ReactDOM.render(
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>
                 <Route path="Search" component={requireAuth(Search)} />
-                {/*<Route path="Search" component={requireAuth(WrapperComponent)}/>*/}
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
-                <Route path="stackOverview/:sid/notfound" component={requireAuth(StacksNotFound)} />
                 <Route path="stackOverview/:sid/:cid" component={requireAuth(SingleCard)}/>
                 <Route path="about" component={About}/>
                 <Route path="disclaimer" component={Disclaimer}/>

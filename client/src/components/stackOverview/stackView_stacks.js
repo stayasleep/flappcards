@@ -1,24 +1,27 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
+import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
+import EditMode from 'material-ui/svg-icons/editor/mode-edit';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
+import CircularProgress from 'material-ui/CircularProgress';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
+import PropTypes from 'prop-types';
 import renderInput from '../utilities/renderInputStackOV';
-import {Link} from 'react-router'
 import { editStackHeaders, getStackOverview, stackCopy} from '../../actions/index'
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
 import EditCard from '../editCard/edit';
 import AddCard from '../editCard/add';
-import RaisedButton from 'material-ui/RaisedButton';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
-import Divider from 'material-ui/Divider';
+
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
-import Paper from 'material-ui/Paper';
 import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
-import CircularProgress from 'material-ui/CircularProgress';
-import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import PopDialog from '../login/popUpDialog';
+import DoesNotExist from './stack_does_not_exist';
+
 
 
 class StackViewStacks extends Component{
@@ -84,24 +87,10 @@ class StackViewStacks extends Component{
         this.props.stackCopy(copy);
     };
 
-    handleExpansion(cardIndex) {
-        // if !(F) => if T
-        if (!this.state.expanded) {
-            this.setState({expanded: true});
-            // to target the one clicked
-            // document.getElementByClassName returns an array of matches
-            document.getElementsByClassName("expandable")[cardIndex].style.display = 'inline-block';
-        } else {
-            this.setState({expanded: false});
-            document.getElementsByClassName("expandable")[cardIndex].style.display = 'none';
-        }
-    }
     mouseEnterSubj(){
-        console.log('sub mouse');
         this.setState({editModeSubj: true});
     }
     mouseLeaveSubj(){
-        console.log('sub mouse leave');
         this.setState({editModeSubj: false});
     }
     mouseEnterCat(){
@@ -113,7 +102,6 @@ class StackViewStacks extends Component{
     }
     //click to switch to redux form and edit stack subject
     handleEditSubj(){
-        console.log('click on div',this.props);
         this.setState({enableEditSubj: !this.state.enableEditSubj});
     }
     //click to switch to redux form and edit stack category
@@ -123,12 +111,16 @@ class StackViewStacks extends Component{
     //one form, two functions, but they both will send subj and category as an object
     //that way the user doesnt have to modify both at the same time, can be one or the other
     handleFormSubject(values){
+        values.subject = values.subject.trim();
+        values.category = values.category.trim();
         let headers = {...values, stackID: this.props.stackCards[0].stack_id};
         this.props.editStackHeaders(headers);
         //axios goes here
         this.setState({enableEditSubj: !this.state.enableEditSubj});
     }
     handleFormCategory(vals){
+        vals.subject =vals.subject.trim();
+        vals.category = vals.category.trim();
         let headers = {...vals, stackID: this.props.stackCards[0].stack_id};
         this.props.editStackHeaders(headers);
         //axios goes here
@@ -145,9 +137,14 @@ class StackViewStacks extends Component{
             this.props.reset("stackHeaders");
         }
     }
+    handleTap(index){
+        this.props.action(index);
+
+    }
 
     render() {
-        const { handleSubmit } = this.props;
+        console.log('baby stack props',this.props);
+        const { displayState, handleSubmit } = this.props;
         let displayEditSubj = "none";
         let displayEditCat = "none";
 
@@ -161,8 +158,17 @@ class StackViewStacks extends Component{
             this.props.initialValues.subject = this.props.stackSubj;
             this.props.initialValues.category = this.props.stackCat;
         }
-
-        if (!this.props.stackCards) {
+        //order matters, while the stack is unavailable, this means displayState is still null and !stackCards; so we
+        //place this component first to prevent the other things below...dont want continuous circle of doom
+        if(this.props.unavailable){
+            return(
+                <div>
+                    <DoesNotExist/>
+                </div>
+            )
+        }
+        //if the stack isnt loaded on the first visit, or on subsequent visits of displayState hasnt been set yet
+        if (!this.props.stackCards || !displayState) {
             return (
                 <div className = "loadingIcon" style={{fontFamily: "Roboto, sans-serif", padding: 12}}>
                     <CircularProgress size={80} thickness={6} />
@@ -173,27 +179,23 @@ class StackViewStacks extends Component{
         let stackView;
         let subjMode;
         let catMode;
-
+        const { origin } = this.props.stackCards[0];
+        if(!displayState) return null;
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
+                let cardView = !displayState[index].showAnswer ? "Answer" : "Question";
                 return (
-
-                        <div key={index} style={singleCard}>
-                            <div className="cardHeader" onClick={() => {this.handleExpansion(index)}}>
-                                {`Question: ${item.question}`}
-                            </div>
-                            <Divider style={cardDivider} />
-
-                            <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>
-                                <div style={answerText}>
-                                    {`Answer: ${item.answer}`}
-                                </div>
-                            </div>
-                            <div>
-                                <EditCard cardID={this.props.stackCards[index]}/>
-                                <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
-                            </div>
+                    <div key={index} style={singleCard}>
+                        <div className="cardHeader" >
+                            <div onClick={()=> this.handleTap.bind(this)(index)} className="isDisplayed">+{cardView}</div>
+                            {!displayState[index].showAnswer ? `Question: ${item.question}` : `Answer: ${item.answer}`}
                         </div>
+                        <Divider style={cardDivider} />
+                        <div>
+                            <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
+                            <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
+                        </div>
+                    </div>
                 )
             });
             // Bitten by a snake while struck by lightning on this part right here
@@ -238,20 +240,20 @@ class StackViewStacks extends Component{
         }
         //if the stack being observed doesnt belong to you..
         else if(this.props.stackCards){
-            //added handleExp back onto the className=cardHeader so now you can browse other pplz answers before you copy the stack eh?
             const cardStackList = this.props.stackCards.map((item, index) => {
+                let cardView = !displayState[index].showAnswer ? "Answer" : "Question";
                 return (
-                        <div key={index} style={singleCard}>
-                            <div className="cardHeader" onClick={() => {this.handleExpansion(index)}}>
-                                {`Question: ${item.question}`}
-                            </div>
-                            <Divider style={cardDivider} />
-                            <div className="expandable" style={{display:"none"}} onClick={() => {this.handleExpansion((index))}}>
-                                <div style={answerText}>
-                                    {`Answer: ${item.answer}`}
-                                </div>
-                            </div>
+                    <div key={index} style={singleCard}>
+                        <div className="cardHeader" >
+                            <div onClick={()=> this.handleTap.bind(this)(index)} className="isDisplayed">+{cardView}</div>
+                            {!displayState[index].showAnswer ? `Question: ${item.question}` : `Answer: ${item.answer}`}
                         </div>
+                        <Divider style={cardDivider} />
+                        <div>
+                            <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
+                            <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
+                        </div>
+                    </div>
                 )
             });
             stackView =
@@ -276,6 +278,10 @@ class StackViewStacks extends Component{
                     { subjMode }
                     { catMode }
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
+                    {origin !== 0 &&
+
+                    <div className="stack-origin">Original: <span onClick={()=>this.props.handleOriginClick(origin)}>{this.props.stackCards[0].origin}</span></div>
+                    }
                 </Paper>
                 {stackView}
             </div>
@@ -303,7 +309,6 @@ function validate(values){
 
 StackViewStacks = reduxForm({
     form: 'stackHeaders',
-    initialValues: {"subject":"", "category": ""},
     enableReinitialize: true,
     overwriteOnInitialValuesChange: false,
     validate
@@ -311,7 +316,7 @@ StackViewStacks = reduxForm({
 
 function mapStateToProps(state) {
     return {
-        stackCards: state.stack.stackCards,
+        //stackCards: state.stack.stackCards,
         newStackID: state.stack.newStackID,
         stackSubj: state.stack.subj,
         stackCat: state.stack.course,
