@@ -23,6 +23,7 @@ import {
     CLEAR_RESET_PW,
     RESET_SEARCH,
     RECOVER_PW,
+    STACK_UNAVAILABLE,
     UPDATE_USER_META,
     UPDATE_USER_ERRORS,
     UPDATE_USER_PASS,
@@ -251,7 +252,15 @@ export function getStackOverview(stackID) {
         // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             console.log('inside the dispatch', response);
-            (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            // (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            if(response.data.unavailable){
+                //stack does not exist
+                dispatch({type: STACK_UNAVAILABLE, payload: true});
+            }else{
+                dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+            }
+            //stack exists
+
         }).catch(err => {
             console.log('stack OV DNW',err);
             dispatch({

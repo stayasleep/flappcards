@@ -20,6 +20,8 @@ import AddCard from '../editCard/add';
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import {cardStackList, contentCopy, loadingIcon} from './../styles/stackOverview.css' // import CSS for styling
 import PopDialog from '../login/popUpDialog';
+import DoesNotExist from './stack_does_not_exist';
+
 
 
 class StackViewStacks extends Component{
@@ -170,6 +172,15 @@ class StackViewStacks extends Component{
             this.props.initialValues.subject = this.props.stackSubj;
             this.props.initialValues.category = this.props.stackCat;
         }
+        //order matters, while the stack is unavailable, this means displayState is still null and !stackCards; so we
+        //place this component first to prevent the other things below...dont want continuous circle of doom
+        if(this.props.unavailable){
+            return(
+                <div>
+                    <DoesNotExist/>
+                </div>
+            )
+        }
         //if the stack isnt loaded on the first visit, or on subsequent visits of displayState hasnt been set yet
         if (!this.props.stackCards || !displayState) {
             return (
@@ -178,9 +189,11 @@ class StackViewStacks extends Component{
                 </div>
             );
         }
+
         let stackView;
         let subjMode;
         let catMode;
+        const { origin } = this.props.stackCards[0];
         if(!displayState) return null;
         if(this.props.stackCards[0].isOwned) {
             const cardStackList = this.props.stackCards.map((item, index) => {
@@ -279,6 +292,10 @@ class StackViewStacks extends Component{
                     { subjMode }
                     { catMode }
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
+                    {origin !== 0 &&
+
+                    <div className="stack-origin">Original: <span onClick={()=>this.props.handleOriginClick(origin)}>{this.props.stackCards[0].origin}</span></div>
+                    }
                 </Paper>
                 {stackView}
             </div>

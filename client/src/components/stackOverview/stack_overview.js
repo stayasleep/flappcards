@@ -1,16 +1,21 @@
 import React, {Component} from 'react';
+import {browserHistory, Link} from 'react-router';
+
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackViewStacks from './stackView_stacks';
+import DoesNotExist from './stack_does_not_exist';
 import {getStackOverview} from '../../actions/index';
 import {connect} from 'react-redux';
 
 class Stacks extends Component {
+
     constructor(props){
         super(props);
         this.state = {
             cardView: null,
         };
         this.toggleCardDisplay = this.toggleCardDisplay.bind(this);
+        this.handleOriginClick = this.handleOriginClick.bind(this);
     }
 
     componentWillMount() {
@@ -55,6 +60,13 @@ class Stacks extends Component {
             }
             //if you update a card, set wont reset for the entire stack :)
         }
+        if(nextProps.unavailable !== this.props.unavailable){
+            const {sid} = this.props.params;
+            //:sid/:cid is already a path so we cant do something like, /:sid/not-available
+            //with this method
+            browserHistory.push(`/stackoverview/${sid}-not-found`);
+
+        }
     }
 
     toggleCardDisplay(index){
@@ -67,6 +79,11 @@ class Stacks extends Component {
         this.setState({cardView: toggle});
     }
 
+    handleOriginClick(origin){
+        console.log('am clickaroo',origin);
+        browserHistory.push(`/stackoverview/${origin}`);
+    }
+
     componentWillUnmount(){
         console.log('stack ov unmount');
         document.title="FlappCards";
@@ -77,7 +94,15 @@ class Stacks extends Component {
         return (
             <div>
                 <FlashCardsAppBar/>
-                <StackViewStacks authCopy={this.props.authorized} displayState={this.state.cardView} action={(index) => this.toggleCardDisplay(index)} initialValues={{subject: this.props.stackSubj, category: this.props.stackCat}} stackCards={this.props.stackCards} />
+                <StackViewStacks
+                    unavailable={this.props.unavailable}
+                    authCopy={this.props.authorized}
+                    displayState={this.state.cardView}
+                    action={(index) => this.toggleCardDisplay(index)}
+                    initialValues={{subject: this.props.stackSubj, category: this.props.stackCat}}
+                    stackCards={this.props.stackCards}
+                    handleOriginClick={this.handleOriginClick}
+                />
             </div>
         )
     }
@@ -85,6 +110,7 @@ class Stacks extends Component {
 
 function mapStateToProps(state) {
     return {
+        unavailable: state.stack.unavailable,
         stackCards: state.stack.stackCards,
         stackSubj: state.stack.subj,
         stackCat: state.stack.course,

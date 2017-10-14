@@ -10,10 +10,12 @@ const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 // Associated Axios call: getStack;
 // Made after clicking on view button on table
 router.get('/:sID',(request,response,next) => {
+    console.log('the wtf url', request.params);
     let uid = request.decoded.UserID;
     //if it exists and isnt empty
     if(request.params.sID) {
         let sid = request.params.sID;
+        console.log('my sid',sid);
         pool.getConnection((error, connection) => {
             if (error) {
                 console.log("Error connecting to db", error);
@@ -22,13 +24,19 @@ router.get('/:sID',(request,response,next) => {
                     message: "Problem Connecting to DB"
                 });
             }
-            connection.query("SELECT stacks.stack_id FROM stacks WHERE stacks.user_id=? AND stacks.stack_id=?;", [uid, sid], (error, result) => {
+            connection.query("SELECT `stacks`.`stack_id`, `stacks`.`user_id` FROM `stacks` WHERE stacks.stack_id=?;", [sid], (error, result) => {
                 if (error) {
                     response.send({success: false, message: "There was a problem with your request"});
                 }
+
                 console.log('first mysql',result);
                 if (result.length > 0) {
-                    console.log('len is bigger than 0');
+
+                    let owned = false;
+                    if(result[0].user_id === uid){
+                        owned = true;
+                    }
+
                     //Stack is in your collection
                     connection.query(
                         "BEGIN;" +
@@ -40,8 +48,9 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
-                        if (results[2].length > 0) {
-                            console.log('this is the if in the first it');
+                        // console.log('first query',results[2]);
+                        if (results[2].length > 0 && owned) {
+                            // console.log('this is the if in the first it');
                             results[2][0].isOwned = true;
                             response.send(results[2]);
                         } else {
@@ -51,24 +60,9 @@ router.get('/:sID',(request,response,next) => {
                         }
                     });
                 } else {
-                    //this might all be useless actually
-
-                    console.log('this is the result of random', result);
-                    //If the stack is not initially in your collection
-                    connection.query(
-                        "BEGIN;" +
-                        "UPDATE `stacks` SET `rating` = (`rating`  + 1) WHERE `stack_id` = ?;" +
-                        "SELECT `cards`.`card_id`, `cards`.`orig_source_stack` AS 'createdBy', `cards`.`question`,`cards`.`answer` , `stacks`.`stack_id`, `stacks`.`subject`, `stacks`.`category` FROM `cards` " +
-                        "JOIN `stacks` ON `stacks`.`stack_id`= `cards`.`stack_id` " +
-                        "WHERE `stacks`.`stack_id`=?;" +
-                        "COMMIT;", [sid, sid], (error, results) => {
-                        if (error) {
-                            response.send({success: false, message: "There was a problem with your request"});
-                        }
-                        console.log('this second call',results);
-
-                        response.send(results[2]);
-                    });
+                    console.log('no good',result);
+                    //stack doesnt exist at all, we want to render a component that says Does Not Exist
+                    response.send({success: true, unavailable: true});
                 }
             });
             connection.release();

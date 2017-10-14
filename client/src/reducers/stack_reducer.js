@@ -10,6 +10,7 @@ import {
     FETCH_FEATURED_ERR,
     CREATE_STACK,
     SEARCH_STACKS,
+    STACK_UNAVAILABLE,
     AUTOCOMPLETE_SEARCH_STACKS,
     COPY_STACK,
     DELETE_CARD,
@@ -25,7 +26,8 @@ const default_state ={
     single: [],
     stacks: [],
     searched: null,
-    card: 0
+    card: 0,
+    unavailable: false,
 };
 
 /**
@@ -59,7 +61,7 @@ export default function (state = default_state, action) {
                 communityStacks: action.payload};
         case FETCH_STACK_OVERVIEW:
             console.log('reducer for clicking eyeball on stack',action);
-            return {...state, stackCards: action.payload, subj:action.payload[0].subject, course: action.payload[0].category};
+            return {...state,unavailable: false, stackCards: action.payload, subj:action.payload[0].subject, course: action.payload[0].category};
         case FETCH_STACK_OVERVIEW_TITLES:
             return {...state, subj: action.payload.subject, course: action.payload.category};
         case CREATE_STACK:
@@ -69,6 +71,8 @@ export default function (state = default_state, action) {
             return {...state, autoCompleteSuggestions: action.payload};
         case (SEARCH_STACKS):
             return {...state, searched: action.payload};
+        case STACK_UNAVAILABLE:
+            return{...state, unavailable: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
         case (FETCH_FEATURED_STACKS):

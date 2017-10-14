@@ -60,10 +60,8 @@ ReactDOM.render(
                 <Route path="profile" component={requireAuth(Profile)}/>
                 <Route path="myShelf" component={requireAuth(MyShelf)}/>
                 <Route path="Search" component={requireAuth(Search)} />
-                {/*<Route path="Search" component={requireAuth(WrapperComponent)}/>*/}
                 <Route path="createCards" component={requireAuth(CreateCards)}/>
                 <Route path="stackOverview/:sid" component={requireAuth(Stacks)}/>
-                <Route path="stackOverview/:sid/notfound" component={requireAuth(StacksNotFound)} />
                 <Route path="stackOverview/:sid/:cid" component={requireAuth(SingleCard)}/>
                 <Route path="about" component={About}/>
                 <Route path="disclaimer" component={Disclaimer}/>
