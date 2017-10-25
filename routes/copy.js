@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken'); // JSON Web Token (jwt)
 router.post('/:sID',(request,response,next)=>{
     let uid = request.decoded.UserID;
     let sId = request.params.sID;
+    let whoMadeMe = request.decoded.UserName; // pull off user name from the token
 
     //check to see if the request body object is empty
     if(Object.keys(request.body).length===0){
@@ -36,10 +37,10 @@ router.post('/:sID',(request,response,next)=>{
         }
         connection.query(
             "BEGIN; " +
-            "INSERT INTO stacks(user_id, subject, category,copied_stack) VALUES (?,?,?,?); "+
+            "INSERT INTO stacks(user_id, subject, category, copied_stack) VALUES (?,?,?,?); "+
             "INSERT INTO `cards` (stack_id, question, answer, orig_source_stack) "+
-            "(SELECT LAST_INSERT_ID(), question, answer, orig_source_stack from `cards` WHERE  stack_id=?); "+
-            "COMMIT;",[uid,commSubj,commCat,sId,sId],(error,results)=>{
+            "(SELECT LAST_INSERT_ID(), question, answer, ? from `cards` WHERE  stack_id=?); "+
+            "COMMIT;",[uid,commSubj,commCat,sId, whoMadeMe, sId],(error,results)=>{
                 if (error){
                     response.send({success: false, message:"There was a problem with your query"});
                 }
