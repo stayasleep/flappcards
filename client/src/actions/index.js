@@ -37,8 +37,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
