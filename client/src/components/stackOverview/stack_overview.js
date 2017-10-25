@@ -70,6 +70,11 @@ class Stacks extends Component {
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
         }
+        if(nextProps.params.sid !== this.props.params.sid){
+            //when you click on stack origin source and then hit back/fwd arrows
+            console.log('nextpropSID !== thispropsSID');
+            this.props.getStackOverview(nextProps.params.sid);
+        }
 
         if(nextProps.unavailable !== this.props.unavailable && this.props.unavailable == false){
             const {sid} = this.props.params;
@@ -94,10 +99,8 @@ class Stacks extends Component {
     }
 
     handleOriginClick(origin){
-        console.log('just a click');
         //need url to change and need to do http req, is this the best way?
         browserHistory.push(`/stackoverview/${origin}`);
-        this.props.getStackOverview(origin);
 
     }
 
