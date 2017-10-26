@@ -24,6 +24,7 @@ import {
     RESET_SEARCH,
     RECOVER_PW,
     STACK_UNAVAILABLE,
+    STACK_UNAVAILABLE_RESET,
     UPDATE_USER_META,
     UPDATE_USER_ERRORS,
     UPDATE_USER_PASS,
@@ -37,8 +38,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -260,7 +261,14 @@ export function getStackOverview(stackID) {
         })
     }
 }
-
+export function getStackAvailable(){
+    return function (dispatch){
+        dispatch({
+            type: STACK_UNAVAILABLE_RESET,
+            payload: false,
+        })
+    }
+}
 
 /**
  * @name - getMyRecentStacksOverview

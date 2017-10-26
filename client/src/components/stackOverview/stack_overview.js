@@ -4,7 +4,7 @@ import {browserHistory, Link} from 'react-router';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackViewStacks from './stackView_stacks';
 import DoesNotExist from './stack_does_not_exist';
-import {getStackOverview,initiateGuestBrowsing} from '../../actions/index';
+import {getStackOverview,initiateGuestBrowsing, getStackAvailable} from '../../actions/index';
 import {connect} from 'react-redux';
 
 class Stacks extends Component {
@@ -35,6 +35,13 @@ class Stacks extends Component {
                 //only make axios call for new mountings of diff stacks
                 //stackCards is defined in redux and the params is string, not a number
                 this.props.getStackOverview(sid);
+            } else if(this.props.unavailable){
+                console.log('unaaaaaaaaaaa');
+                this.props.getStackAvailable();
+                let num = this.props.stackCards.length;
+
+                this.setState({cardView: Array(num).fill({showAnswer: false})});
+
             } else {
                 //stackcards already exists, so it is a return visit of a prev mounted stack
                 let num = this.props.stackCards.length;
@@ -63,24 +70,28 @@ class Stacks extends Component {
             let num = nextProps.stackCards.length;
             if(!this.state.cardView && this.props.stackCards[0].stack_id !== nextProps.stackCards[0].stack_id){
                 //if you went to stack X, go home, and then go to Stack Y
+                console.log('inside the if this state cardview');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
             else if(this.props.stackCards.length !== nextProps.stackCards.length){
                 //at this point, a stack has been added to/deleted to or a new stack has been click and needs proper state; ignore card update state reset
+                console.log('inside the else if lengths');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
         }
         if(nextProps.params.sid !== this.props.params.sid){
             //when you click on stack origin source and then hit back/fwd arrows
-            console.log('nextpropSID !== thispropsSID');
+            console.log('nextpropSID !== thispropsSID',nextProps.params.sid);
+
             this.props.getStackOverview(nextProps.params.sid);
         }
-
-        if(nextProps.unavailable !== this.props.unavailable && this.props.unavailable == false){
-            const {sid} = this.props.params;
-            //:sid/:cid is already a path so we cant do something like, /:sid/not-available with this method
-            browserHistory.push(`/stackoverview/${sid}-not-found`);
-        }
+        //
+        // if(nextProps.unavailable !== this.props.unavailable && this.props.unavailable == false){
+        //     const {sid} = this.props.params;
+        //     console.log('inside next prop browserHist');
+        //     //:sid/:cid is already a path so we cant do something like, /:sid/not-available with this method
+        //     browserHistory.push(`/stackoverview/${sid}-not-found`);
+        // }
     }
 
     componentWillUnmount(){
@@ -134,4 +145,4 @@ function mapStateToProps(state) {
         authorized: state.auth.authorized
     }
 }
-export default connect(mapStateToProps,{getStackOverview,initiateGuestBrowsing})(Stacks);
+export default connect(mapStateToProps,{getStackOverview,initiateGuestBrowsing, getStackAvailable})(Stacks);
