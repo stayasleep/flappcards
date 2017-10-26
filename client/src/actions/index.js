@@ -24,6 +24,7 @@ import {
     RESET_SEARCH,
     RECOVER_PW,
     STACK_UNAVAILABLE,
+    STACK_UNAVAILABLE_RESET,
     UPDATE_USER_META,
     UPDATE_USER_ERRORS,
     UPDATE_USER_PASS,
@@ -260,7 +261,14 @@ export function getStackOverview(stackID) {
         })
     }
 }
-
+export function getStackAvailable(){
+    return function (dispatch){
+        dispatch({
+            type: STACK_UNAVAILABLE_RESET,
+            payload: false,
+        })
+    }
+}
 
 /**
  * @name - getMyRecentStacksOverview

@@ -11,6 +11,7 @@ import {
     CREATE_STACK,
     SEARCH_STACKS,
     STACK_UNAVAILABLE,
+    STACK_UNAVAILABLE_RESET,
     AUTOCOMPLETE_SEARCH_STACKS,
     COPY_STACK,
     DELETE_CARD,
@@ -73,6 +74,8 @@ export default function (state = default_state, action) {
             return {...state, searched: action.payload};
         case STACK_UNAVAILABLE:
             return{...state, unavailable: action.payload};
+        case STACK_UNAVAILABLE_RESET:
+            return {...state, unavailable: action.payload};
         case (COPY_STACK):
             return {...state, newStackID: action.payload};
         case (FETCH_FEATURED_STACKS):
