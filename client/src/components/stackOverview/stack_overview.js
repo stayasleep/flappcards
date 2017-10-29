@@ -4,7 +4,7 @@ import {browserHistory, Link} from 'react-router';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
 import StackViewStacks from './stackView_stacks';
 import DoesNotExist from './stack_does_not_exist';
-import {getStackOverview,initiateGuestBrowsing, getStackAvailable} from '../../actions/index';
+import {getStackOverview,initiateGuestBrowsing, getStackAvailable, resetStackCards} from '../../actions/index';
 import {connect} from 'react-redux';
 
 class Stacks extends Component {
@@ -66,7 +66,7 @@ class Stacks extends Component {
                 let num = nextProps.stackCards.length;
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
-        }else {
+        }else if(nextProps.stackCards) {
             let num = nextProps.stackCards.length;
             if(!this.state.cardView && this.props.stackCards[0].stack_id !== nextProps.stackCards[0].stack_id){
                 //if you went to stack X, go home, and then go to Stack Y
@@ -81,6 +81,10 @@ class Stacks extends Component {
                 console.log('inside the false authorized true authenticated');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
+        }
+        if(nextProps.authorized && !this.props.authorized){
+            console.log('u were guest and now u logged on..set stack 2 null');
+            this.props.resetStackCards();
         }
         if(nextProps.params.sid !== this.props.params.sid){
             //when you click on stack origin source and then hit back/fwd arrows
@@ -98,8 +102,11 @@ class Stacks extends Component {
     }
 
     componentWillUnmount(){
-        console.log('stack ov unmount');
+        console.log('stack ov unmount',this.props);
         document.title="FlappCards";
+        if(!this.props.authorized){
+            this.props.resetStackCards();
+        }
         //this needs something to go to reducers and make stacks.unavailable reset again
     }
 
@@ -148,4 +155,4 @@ function mapStateToProps(state) {
         authorized: state.auth.authorized
     }
 }
-export default connect(mapStateToProps,{getStackOverview,initiateGuestBrowsing, getStackAvailable})(Stacks);
+export default connect(mapStateToProps,{getStackOverview,initiateGuestBrowsing, getStackAvailable,resetStackCards})(Stacks);

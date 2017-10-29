@@ -26,6 +26,7 @@ export const COPY_STACK = 'copy_stack';
 export const AUTOCOMPLETE_SEARCH_STACKS = 'autocomplete_search_stacks';
 export const STACK_UNAVAILABLE = 'stack_unavailable';
 export const STACK_UNAVAILABLE_RESET='stack_unavailable_reset';
+export const RESET_STACKCARDS = 'reset_stackcards';
 export const VALIDATE_ROUTE = 'validate_route';
 export const RESET_PW = 'reset_pw';
 export const RESET_PW_ERROR ='reset_pw_error';

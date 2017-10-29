@@ -23,6 +23,7 @@ import {
     CLEAR_RESET_PW,
     RESET_SEARCH,
     RECOVER_PW,
+    RESET_STACKCARDS,
     STACK_UNAVAILABLE,
     STACK_UNAVAILABLE_RESET,
     UPDATE_USER_META,
@@ -295,7 +296,14 @@ export function getStackAvailable(){
         })
     }
 }
-
+export function resetStackCards(){
+    return function (dispatch){
+        dispatch({
+            type: RESET_STACKCARDS,
+            payload: null,
+        })
+    }
+}
 /**
  * @name - getMyRecentStacksOverview
  * @returns {Function}
