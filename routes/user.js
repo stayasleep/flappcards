@@ -110,7 +110,8 @@ router.post('/login',function(request,response,next){
                     // If the user password matches, issue and sign the token
                     if (res){
                         let token = jwt.sign({UserName: un,UserID: usersid, scope:1110 },config.secret,{
-                            expiresIn: 604800 //1 week in seconds
+                            //expiresIn: 604800 //1 week in seconds
+                            expiresIn: 120//two min
                         });
                         response.json({
                             success: true,

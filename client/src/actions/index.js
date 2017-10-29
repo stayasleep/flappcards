@@ -38,8 +38,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -110,7 +110,18 @@ export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
         axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
-            dispatch({type: FETCH_USER_META, payload: response.data});
+            console.log('profile',response);
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else {
+                dispatch({type: FETCH_USER_META, payload: response.data});
+            }
         }).catch(err => {
             dispatch({
                 type: null,
@@ -226,7 +237,16 @@ export function getMyStackOverview() {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
-            dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
+            if(!response.data.success && response.data.expired){
+                console.log('myshelf it was expired');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else {
+                dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
+            }
         }).catch(err => {
             dispatch({
                 type: FETCH_MY_STACK_OVERVIEW,
@@ -241,11 +261,17 @@ export function getStackOverview(stackID) {
     console.log('getStackOV before axios');
     return function (dispatch) {
         let token = localStorage.getItem('token');
-        // ternary for response.data.length addresses "infinite load times" for empty stacks
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
             console.log('inside the dispatch', response);
-            // (response.data.length === 0) ? (browserHistory.push('/myShelf/')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
-            if(response.data.unavailable){
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('stackov response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else if(response.data.unavailable){
                 //stack does not exist
                 dispatch({type: STACK_UNAVAILABLE, payload: true});
             }else{
@@ -327,7 +353,15 @@ export function deleteCard(cardObj) {
         let token = localStorage.getItem('token');
         axios.delete(`${BASE_URL}/stackOverview/${cardObj.stackID}/${cardObj.cardID}`, {headers: {"x-access-token": token, "stackID":cardObj.stackID, "cardID": cardObj.cardID}}).then((response) => {
             dispatch({type: DELETE_CARD, payload: null});
-            if(response.data.redirect){
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else if(response.data.redirect){
                 //no more cards in the stack
                 browserHistory.push('/myShelf');
             }else{
@@ -361,14 +395,24 @@ export function cardEditor(cardObject) {
         let {stackID, cardID, editQ, editA} = cardObject; // cardObject.stack_id, cardObject.card_id, cardObject.question, cardObject.answer
         axios.put(`${BASE_URL}/stackOverview/${cardID}`, {'token': token, 'cardQuestion': editQ, 'cardAnswer': editA} ).then((response) => {
             dispatch({type: EDIT_CARD, payload: response.data});
-            axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
-            }).catch(err => {
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
                 dispatch({
-                    type: FETCH_STACK_OVERVIEW,
-                    error: err.response
-                });
-            })
+                    type:UNAUTH_USER
+                })
+            }else {
+                axios.get(`${BASE_URL}/stackOverview/${stackID}`, {headers: {"x-access-token": token}}).then((response) => {
+                    dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
+                }).catch(err => {
+                    dispatch({
+                        type: FETCH_STACK_OVERVIEW,
+                        error: err.response
+                    });
+                })
+            }
         }).catch(err => {
             dispatch({
                 type: EDIT_CARD,
@@ -423,9 +467,19 @@ export function createStack(stackObject) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
-            let stackID = response.data.stackID;
-            dispatch({type: CREATE_STACK, payload: response.data});
-            browserHistory.push(`stackOverview/${stackID}`);
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else {
+                let stackID = response.data.stackID;
+                dispatch({type: CREATE_STACK, payload: response.data});
+                browserHistory.push(`stackOverview/${stackID}`);
+            }
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,
@@ -477,7 +531,15 @@ export function editStackHeaders(headerObj){
         let stackID = headerObj.stackID;
         axios.put(`${BASE_URL}/stackOverview/${stackID}/headers`,{"token": token, "subject": headerObj.subject, "category":headerObj.category}).then((response) => {
             console.log('header response', response.data.results[0]);
-            if(response.data.success){
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else if(response.data.success){
                 dispatch({
                     type: FETCH_STACK_OVERVIEW_TITLES,
                     payload: response.data.results[0],
@@ -507,16 +569,28 @@ export function addSingleCard(cardObject) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
             console.log('added card axios disp',response);
-            // dispatch({type: CREATE_STACK, payload: response.data});
-            axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-                console.log('inside the dispatch');
-                (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({type: FETCH_STACK_OVERVIEW, payload: response.data});
-            }).catch(err => {
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
                 dispatch({
-                    type: FETCH_STACK_OVERVIEW,
-                    error: err.response
-                });
-            })
+                    type:UNAUTH_USER
+                })
+            }else {
+                axios.get(`${BASE_URL}/stackOverview/${stackID}`, {headers: {"x-access-token": token}}).then((response) => {
+                    console.log('inside the dispatch');
+                    (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({
+                            type: FETCH_STACK_OVERVIEW,
+                            payload: response.data
+                        });
+                }).catch(err => {
+                    dispatch({
+                        type: FETCH_STACK_OVERVIEW,
+                        error: err.response
+                    });
+                })
+            }
         }).catch(err => {
             dispatch({
                 type: CREATE_STACK,
@@ -536,10 +610,20 @@ export function stackCopy(stackCopy) {
         let stackID = stackCopy.stack_id;
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
-            let newStackID = response.data.stackID;
-            dispatch({type: COPY_STACK, payload: newStackID});
-            browserHistory.push(`/myShelf`); //one day we will figure this one out
-            browserHistory.push(`/stackOverview/${newStackID}`); //maybe in the respons we get ID of last insert, and do axios
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('profile response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:UNAUTH_USER
+                })
+            }else {
+                let newStackID = response.data.stackID;
+                dispatch({type: COPY_STACK, payload: newStackID});
+                browserHistory.push(`/myShelf`); //one day we will figure this one out
+                browserHistory.push(`/stackOverview/${newStackID}`); //maybe in the respons we get ID of last insert, and do axios
+            }
         }).catch(err => {
             dispatch({
                 type: COPY_STACK,

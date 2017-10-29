@@ -27,7 +27,7 @@ class Stacks extends Component {
             browserHistory.push('/');
         }else {
             //on app load, undefined
-            if (!this.props.stackCards) {
+            if (!this.props.stackCards || !this.props.authorized) {
                 console.log('will mount und');
                 this.props.getStackOverview(sid);
             } else if (this.props.stackCards[0].stack_id !== Number(this.props.params.sid)) {
@@ -76,6 +76,9 @@ class Stacks extends Component {
             else if(this.props.stackCards.length !== nextProps.stackCards.length){
                 //at this point, a stack has been added to/deleted to or a new stack has been click and needs proper state; ignore card update state reset
                 console.log('inside the else if lengths');
+                this.setState({cardView: Array(num).fill({showAnswer: false})});
+            }else if(!nextProps.authorized && nextProps.authenticated){
+                console.log('inside the false authorized true authenticated');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
         }
