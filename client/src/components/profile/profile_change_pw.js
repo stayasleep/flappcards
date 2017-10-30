@@ -104,7 +104,7 @@ class ChangePassword extends Component{
                     <div>
                         <Snackbar
                             open={this.props.updated}
-                            message={"Use new password the next time you log in"}
+                            message={"Use new password next time you log in"}
                             autoHideDuration={5000}
                             onRequestClose={this.handleRequestClose.bind(this)}
                             action="Close"

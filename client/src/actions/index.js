@@ -10,6 +10,8 @@ import {
     FETCH_USER_META,
     AUTH_ERROR,
     AUTH_REC_ERROR,
+    AUTH_SESSION_EXP,
+    AUTH_SESSION_RESET,
     AUTH_USER,
     UNAUTH_USER,
     DELETE_STACK,
@@ -118,7 +120,7 @@ export function getUserData() {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else {
                 dispatch({type: FETCH_USER_META, payload: response.data});
@@ -129,6 +131,14 @@ export function getUserData() {
                 error: err.response
             });
         })
+    }
+}
+export function resetAuthSession(){
+    console.log('am resetting the dispatch');
+    return function (dispatch){
+        dispatch({
+            type: AUTH_SESSION_RESET
+        });
     }
 }
 
@@ -243,7 +253,7 @@ export function getMyStackOverview() {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else {
                 dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
@@ -270,7 +280,7 @@ export function getStackOverview(stackID) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else if(response.data.unavailable){
                 //stack does not exist
@@ -314,7 +324,17 @@ export function getMyRecentStacksOverview() {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/home`,{'token':token}).then((response) => {
             console.log('new user home axios call',response);
-            dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                console.log('stackov response false');
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:AUTH_SESSION_EXP
+                })
+            }else {
+                dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
+            }
         }).catch(err => {
             console.log('catch for home axios',err);
             dispatch({
@@ -367,7 +387,7 @@ export function deleteCard(cardObj) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else if(response.data.redirect){
                 //no more cards in the stack
@@ -409,7 +429,7 @@ export function cardEditor(cardObject) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else {
                 axios.get(`${BASE_URL}/stackOverview/${stackID}`, {headers: {"x-access-token": token}}).then((response) => {
@@ -440,7 +460,9 @@ export function getCommunityStacksOverview() {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/community`,{'token':token}).then((response) => {
             console.log('comm axios resp',response);
-            dispatch({type: FETCH_MY_COMMUNITY_STACKS, payload: response.data});
+            if(response.data.success) {
+                dispatch({type: FETCH_MY_COMMUNITY_STACKS, payload: response.data.results});
+            }
         }).catch(err => {
             console.log('community catch',err.response);
             dispatch({
@@ -455,7 +477,9 @@ export function getFeaturedStackOverview(){
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/community/featured`,{"token":token}).then((response)=>{
             console.log('featured disp',response);
-            dispatch({type:FETCH_FEATURED_STACKS, payload: response.data});
+            if(response.data.success) {
+                dispatch({type: FETCH_FEATURED_STACKS, payload: response.data.results});
+            }
         }).catch(err =>{
             console.log('feat stack err',err);
             dispatch({
@@ -481,7 +505,7 @@ export function createStack(stackObject) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else {
                 let stackID = response.data.stackID;
@@ -545,7 +569,7 @@ export function editStackHeaders(headerObj){
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else if(response.data.success){
                 dispatch({
@@ -583,7 +607,7 @@ export function addSingleCard(cardObject) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else {
                 axios.get(`${BASE_URL}/stackOverview/${stackID}`, {headers: {"x-access-token": token}}).then((response) => {
@@ -624,7 +648,7 @@ export function stackCopy(stackCopy) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
-                    type:UNAUTH_USER
+                    type:AUTH_SESSION_EXP
                 })
             }else {
                 let newStackID = response.data.stackID;

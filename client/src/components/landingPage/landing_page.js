@@ -4,7 +4,8 @@ import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
-import {initiateGuestBrowsing} from '../../actions/index';
+import SnackBar from 'material-ui/Snackbar';
+import {initiateGuestBrowsing,resetAuthSession} from '../../actions/index';
 import Registration from '../auth/registration';
 import LoginModal from '../confirmActionModal/loginModal';
 import LandingPageInfoText from './landing_page_text';
@@ -29,11 +30,16 @@ class Landing extends Component {
         !(localStorage.getItem("token")) ? nextProps.initiateGuestBrowsing('/') : null;
     }
 
+    handleRequestClose(){
+        console.log('handling close request');
+        this.props.resetAuthSession();
+    }
+
     render () {
         const props = this.props;
         const {store} =this.context;
         const state= store.getState(); //this is a very round about way to accomplish this task
-
+        console.log('LANDING STTTTTTTTTTTATE',state);
         const rightButtons = (
             <div className="loginModalContainerDiv">
                 <LoginModal/>
@@ -60,6 +66,15 @@ class Landing extends Component {
                         ) : null
                     }
                     {/* Above Conditional rendering prevents the uncaught promise from occurring*/}
+                    {state.auth.sessionExp &&
+                        <SnackBar
+                            open={state.auth.sessionExp}
+                            message={"Your session has expired, please log on!"}
+                            autoHideDuration={6000}
+                            onRequestClose={this.handleRequestClose.bind(this)}
+                            action="Close"
+                        />
+                    }
                 </div>
             );
         }
@@ -68,8 +83,9 @@ class Landing extends Component {
 function mapStateToProps(state){
     return {
         authorized: state.auth.authorized,
+        sessionExp: state.auth.sessionExp
     }
 }
-export default connect(mapStateToProps, {initiateGuestBrowsing})(Landing);
+export default connect(mapStateToProps, {initiateGuestBrowsing, resetAuthSession})(Landing);
 // export default connect(null, {initiateGuestBrowsing})(Landing);
 
