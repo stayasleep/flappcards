@@ -39,7 +39,6 @@ class Landing extends Component {
         const props = this.props;
         const {store} =this.context;
         const state= store.getState(); //this is a very round about way to accomplish this task
-        console.log('LANDING STTTTTTTTTTTATE',state);
         const rightButtons = (
             <div className="loginModalContainerDiv">
                 <LoginModal/>
@@ -69,7 +68,7 @@ class Landing extends Component {
                     {state.auth.sessionExp &&
                         <SnackBar
                             open={state.auth.sessionExp}
-                            message={"Your session has expired, please log on!"}
+                            message={"Your session has expired, please log in!"}
                             autoHideDuration={6000}
                             onRequestClose={this.handleRequestClose.bind(this)}
                             action="Close"

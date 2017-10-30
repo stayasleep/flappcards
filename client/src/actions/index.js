@@ -116,7 +116,6 @@ export function getUserData() {
             console.log('profile',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -143,7 +142,6 @@ export function resetAuthSession(){
 }
 
 export function updateUserData(info){
-    console.log('axios orofile',info);
     let token = localStorage.getItem("token");
     info = {...info, "token":token};
     console.log('after', info);
@@ -249,7 +247,6 @@ export function getMyStackOverview() {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
             if(!response.data.success && response.data.expired){
-                console.log('myshelf it was expired');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -276,7 +273,6 @@ export function getStackOverview(stackID) {
             console.log('inside the dispatch', response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('stackov response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -326,7 +322,6 @@ export function getMyRecentStacksOverview() {
             console.log('new user home axios call',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('stackov response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -383,7 +378,6 @@ export function deleteCard(cardObj) {
             dispatch({type: DELETE_CARD, payload: null});
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -425,7 +419,6 @@ export function cardEditor(cardObject) {
             dispatch({type: EDIT_CARD, payload: response.data});
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -501,7 +494,6 @@ export function createStack(stackObject) {
         axios.post(`${BASE_URL}/createCards`, {'token': token, "stackObject": stackObject}).then((response) => {
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -565,7 +557,6 @@ export function editStackHeaders(headerObj){
             console.log('header response', response.data.results[0]);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -603,7 +594,6 @@ export function addSingleCard(cardObject) {
             console.log('added card axios disp',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
@@ -644,7 +634,6 @@ export function stackCopy(stackCopy) {
         axios.post(`${BASE_URL}/copy/${stackID}`, {"token": token, "stack": stackCopy}).then((response) => {
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
-                console.log('profile response false');
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
                 dispatch({
