@@ -88,7 +88,6 @@ router.post('/:sID',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            // return next(error);
         }
         connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(error,results)=>{
             if (error) {
@@ -156,7 +155,6 @@ router.put('/:cId',(request,response,next)=>{
                 success: false,
                 message: "Problem Connecting to DB"
             });
-            // return next(error);
         }
         connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(error,results)=>{
             // If error, notify client that card edit failed

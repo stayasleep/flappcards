@@ -38,13 +38,10 @@ router.use('/reset',reset);
 router.use((request, response, next)=> {
     const token = request.body.token || request.query.token || request.headers['x-access-token'];
     if (token) {
-        console.log('if token',token);
         // JWT verify method to check token information and secret
         jwt.verify(token, config.secret,(err, decoded)=> {
             if (err) {
-                console.log('token err',err.name);
                 if(err.name === "TokenExpiredError"){
-                    console.log('am expired');
                     return response.json({success: false, expired: true});
                 }else {
                     return response.json({success: false, message: 'Failed to authenticate.'});
