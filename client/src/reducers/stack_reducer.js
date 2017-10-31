@@ -15,7 +15,8 @@ import {
     AUTOCOMPLETE_SEARCH_STACKS,
     COPY_STACK,
     DELETE_CARD,
-    RESET_SEARCH
+    RESET_SEARCH,
+    RESET_STACKCARDS
 
 } from '../actions/types';
 const default_state ={
@@ -49,7 +50,7 @@ export default function (state = default_state, action) {
                 course: action.payload.category,
                 creator: action.payload.createdBy,
                 number: action.payload.totalCards};
-            console.log("fetch_stacks");
+            // console.log("fetch_stacks");
         case(FETCH_CARD):
             return{...state, single: action.payload.cards};
         case FETCH_MY_STACK_OVERVIEW:
@@ -86,6 +87,9 @@ export default function (state = default_state, action) {
             return {...state};
         case RESET_SEARCH:
             return {...state, searched: action.payload};
+        case RESET_STACKCARDS:
+            console.log('reducer for reset stackcards');
+            return {...state, stackCards: action.payload};
 
     }
     return state;
