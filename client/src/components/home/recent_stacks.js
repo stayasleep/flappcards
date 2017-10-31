@@ -66,7 +66,7 @@ class Recent extends Component {
                     <div className="stepOne">
                         It&apos;s easy to get started with FlappCards!  Click on {' '}
                         <Link to="/createCards">Create Stack</Link> and make your flashcards today!{'  '}
-                        Each stack ends up in your <Link to="/myshelf">account</Link> and can be updated (or deleted){' '}
+                        All of your stacks can be found in your <Link to="/myshelf">account</Link> and can be edited{' '}
                         at any moment.
                     </div>
                 );
@@ -81,7 +81,7 @@ class Recent extends Component {
                 );
             case 2:
                 return "Now that you know the basics, the rest is up to you!  Create a stack or copy a stack from those" +
-                    "already available...and once that's done, hit study mode and let the learning begin!";
+                    " already available...and once that's done, hit study mode and let the learning begin!";
             default:
                 return "Never fear, FlappCards is here!  Studying doesn't have to be boring, create your own flashcard stack" +
                     "whenever you're in need of some study time or browse the available stacks in the community.  If you see" +
