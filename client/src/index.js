@@ -13,7 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
-console.log = function() {};
+// console.log = function() {};
 if(token && JSON.parse(guest)){
     store.dispatch({type: AUTH_USER,payload: false});
 } else if(token ){
