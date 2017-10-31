@@ -249,10 +249,6 @@ class StackViewStacks extends Component{
                             {!displayState[index].showAnswer ? `Question: ${item.question}` : `Answer: ${item.answer}`}
                         </div>
                         <Divider style={cardDivider} />
-                        <div>
-                            <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
-                            <DeleteCardConfirm cardID={this.props.stackCards[index]}/>
-                        </div>
                     </div>
                 )
             });

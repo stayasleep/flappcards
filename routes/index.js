@@ -41,7 +41,11 @@ router.use((request, response, next)=> {
         // JWT verify method to check token information and secret
         jwt.verify(token, config.secret,(err, decoded)=> {
             if (err) {
-                return response.json({ success: false, message: 'Failed to authenticate.' });
+                if(err.name === "TokenExpiredError"){
+                    return response.json({success: false, expired: true});
+                }else {
+                    return response.json({success: false, message: 'Failed to authenticate.'});
+                }
             } else {
                 // if token signature was verified, decode the request and use next() to go to the next function
                 request.decoded = decoded;
