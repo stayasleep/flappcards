@@ -43,7 +43,7 @@ const VerticalStep = (props) => {
                         <div className="stepOne">
                             It&apos;s easy to get started with FlappCards!  Click on {' '}
                             <Link to="/createCards">Create Stack</Link> and make your flashcards today!{'  '}
-                            Each stack ends up in your <Link to="/myshelf">account</Link> and can be updated (or deleted){' '}
+                            All of your stacks can be found in your <Link to="/myshelf">account</Link> and can be edited{' '}
                             at any moment.
                         </div>
 

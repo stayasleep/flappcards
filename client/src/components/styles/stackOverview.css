@@ -267,3 +267,15 @@
     width: min-content;
     margin: 0 0 0 auto;
 }
+
+.stack-origin{
+    font-size: medium;
+    color: #5c69ff;
+}
+.origin-src{
+    /*color: #5c69ff;*/
+}
+.origin-src:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
