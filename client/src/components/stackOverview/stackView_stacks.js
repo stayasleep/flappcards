@@ -275,7 +275,7 @@ class StackViewStacks extends Component{
                     { catMode }
                     <span>{`Made by: ${this.props.stackCards[0].createdBy}`}</span>
                     {origin !== 0 &&
-                    <div className="stack-origin">Original: <span onClick={()=>this.props.handleOriginClick(origin)}>{this.props.stackCards[0].origin}</span></div>
+                    <div className="stack-origin">Original: <span className="origin-src" onClick={()=>this.props.handleOriginClick(origin)}>{this.props.stackCards[0].origin}</span></div>
 
                     //<div> Original: <Link to={`/stackoverview/${this.props.stackCards[0].origin}`}>{this.props.stackCards[0].origin}</Link> </div>
                     }
