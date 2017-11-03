@@ -474,10 +474,10 @@ export function getFeaturedStackOverview(){
                 dispatch({type: FETCH_FEATURED_STACKS, payload: response.data.results});
             }
         }).catch(err =>{
-            console.log('feat stack err',err);
+            console.log('feat stack err',err.message);
             dispatch({
                 type: FETCH_FEATURED_ERR,
-                error:err.response
+                error:err.message
             });
         })
     }

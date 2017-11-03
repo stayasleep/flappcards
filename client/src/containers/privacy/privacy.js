@@ -1,16 +1,9 @@
 import React,{Component} from 'react';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {initiateGuestBrowsing} from '../../actions/index';
 import Paper from 'material-ui/Paper';
-import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
+import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
 
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import RaisedButton from 'material-ui/RaisedButton';
-
-//Get that Year for bottom of page
-let d = new Date();
-d = d.getFullYear();
 
 class PrivacyPolicy extends Component{
 
@@ -26,6 +19,10 @@ class PrivacyPolicy extends Component{
     }
 
     render(){
+        //Get that Year for bottom of page
+        let d = new Date();
+        d = d.getFullYear();
+
         return(
             <div>
                 <FlashCardsAppBar />

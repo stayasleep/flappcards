@@ -11,7 +11,7 @@ import LoginModal from '../confirmActionModal/loginModal';
 import LandingPageInfoText from './landing_page_text';
 import {landingPageContentContainerDiv, landingPageContainerDiv, title} from '../styles/landing_page.css';
 
-import WhyFlappCards from '../home/whyFlapp';
+import WhyFlappCards from './whyFlapp';
 import FlappFeatured from '../home/flapp_feat';
 // import Home from '../home/home';
 import Home from '../../containers/home/home';

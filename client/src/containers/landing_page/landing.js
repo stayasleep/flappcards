@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
 import SnackBar from 'material-ui/Snackbar';
-import {getFeaturedStackOverview, initiateGuestBrowsing, resetAuthSession} from '../../actions/index';
+import PropTypes from 'prop-types';
 import Registration from '../../components/auth/registration';
 import LoginModal from '../../components/confirmActionModal/loginModal';
 import LandingPageInfoText from '../../components/landingPage/landing_page_text';
-import '../../components/styles/landing_page.css';
-import WhyFlappCards from '../../components/home/whyFlapp';
-// import FlappFeatured from '../../components/home/flapp_feat';
-import FlappFeatured from '../../components/home/flapp_featured';
+import WhyFlappCards from '../../components/landingPage/whyFlapp';
+import FlappFeatured from '../../components/landingPage/flapp_featured';
 import Home from '../home/home';
+import {getFeaturedStackOverview, initiateGuestBrowsing, resetAuthSession} from '../../actions/index';
+import '../../components/styles/landing_page.css';
+
 
 class Landing extends Component {
     static contextTypes = {
@@ -31,14 +31,14 @@ class Landing extends Component {
         //new users get token and then we can begin axios for featured stack since it wont return a fail
         //returning users will not meet the criteria below
         if(nextProps.authenticated !== this.props.authenticated){
-            if(nextProps.authenticated){
+            if(nextProps.authenticated && !nextProps.authorized){
                 this.props.getFeaturedStackOverview();
             }
         }
     }
     componentDidMount(){
         //consecutive visits youll have a token, so axios can happen asap, otherwise get token first
-        if(this.props.authenticated) {
+        if(this.props.authenticated && !this.props.authorized) {
             this.props.getFeaturedStackOverview();
         }
     }
@@ -49,6 +49,7 @@ class Landing extends Component {
     }
 
     render(){
+        console.log('landing rendered',this.props);
         const rightButtons = (
             <div className="loginModalContainerDiv">
                 <LoginModal/>
@@ -70,6 +71,7 @@ class Landing extends Component {
                         <Registration/>
                     </Paper>
                     <WhyFlappCards/>
+
                     {/*Initial Visit: Token wont be processed yet and FlappFeat still mounts, a conditional lets it mount on
                     token acquisition as to prevent unsuccessful axios calls without initial token
                     */}

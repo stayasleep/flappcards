@@ -1,15 +1,9 @@
 import React,{Component} from 'react';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
 import {initiateGuestBrowsing} from '../../actions/index';
-import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
+import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
 
-
-//set the year dynamically for the bottom of page
-let d = new Date();
-d = d.getFullYear();
 
 class Disclaimer extends Component{
 
@@ -24,6 +18,10 @@ class Disclaimer extends Component{
     }
 
     render(){
+        //set the year dynamically for the bottom of page
+        let d = new Date();
+        d = d.getFullYear();
+
         return(
             <div>
                <FlashCardsAppBar />

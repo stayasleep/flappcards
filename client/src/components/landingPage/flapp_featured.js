@@ -13,7 +13,7 @@ const FlappFeatured = (props) => {
         <div className="flappFeaturedParent">
             <Paper className="flappFeatPaper">
                 {/*on app load*/}
-                {!props.featured &&
+                {!props.featured && !props.featuredErr &&
                     <LoadingCircle name="Our Featured Stacks"/>
                 }
                 {/*server success*/}

@@ -81,8 +81,9 @@ export default function (state = default_state, action) {
             return {...state, newStackID: action.payload};
         case (FETCH_FEATURED_STACKS):
             return {...state,featStack:action.payload};
-        case (FETCH_FEATURED_ERR):
-            return {...state,featErr: action.payload};
+        case FETCH_FEATURED_ERR:
+            console.log('fetch feat err',action);
+            return {...state,featErr: action.error};
         case (DELETE_CARD):
             return {...state};
         case RESET_SEARCH:

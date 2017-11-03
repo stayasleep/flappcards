@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux'
 import Paper from 'material-ui/Paper';
-import about from '../imgs/about.JPG';
-import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
+import about from '../../components/imgs/about.JPG';
+import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
 import {initiateGuestBrowsing} from '../../actions/index';
 
 
