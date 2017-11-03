@@ -13,7 +13,8 @@ import {landingPageContentContainerDiv, landingPageContainerDiv, title} from '..
 
 import WhyFlappCards from '../home/whyFlapp';
 import FlappFeatured from '../home/flapp_feat';
-import Home from '../home/home';
+// import Home from '../home/home';
+import Home from '../../containers/home/home';
 
 class Landing extends Component {
     static contextTypes = {
@@ -29,7 +30,9 @@ class Landing extends Component {
         console.log('landing received',nextProps);
         !(localStorage.getItem("token")) ? nextProps.initiateGuestBrowsing('/') : null;
     }
-
+    componentDidMount(){
+        console.log('landing did',this.props);
+    }
     handleRequestClose(){
         console.log('handling close request');
         this.props.resetAuthSession();
@@ -81,6 +84,7 @@ class Landing extends Component {
 }
 function mapStateToProps(state){
     return {
+        authenticated: state.auth.authenticated,
         authorized: state.auth.authorized,
         sessionExp: state.auth.sessionExp
     }

@@ -13,7 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
-console.log = function() {};
+// console.log = function() {};
 if(token && JSON.parse(guest)){
     store.dispatch({type: AUTH_USER,payload: false});
 } else if(token ){
@@ -21,15 +21,17 @@ if(token && JSON.parse(guest)){
 }
 
 import App from './components/app';
-import Home from './components/home/home';
+// import Home from './components/home/home';
+import Home from './containers/home/home';
 import Profile from './components/profile/profile';
-import MyShelf from './components/myShelf/my_shelf';
+import MyShelf from './containers/myshelf/myshelf';
 import Search from './components/search/search_page';
 import CreateCards from './components/cardCreation/create_cards';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './components/stackOverview/stack_overview';
 import SingleCard from './components/singleCard/single_card';
-import Landing from './components/landingPage/landing_page';
+// import Landing from './components/landingPage/landing_page';
+import Landing from './containers/landing_page/landing';
 import About from './components/auth/about';
 import PrivacyPolicy from './components/auth/privacy';
 import Disclaimer from './components/auth/disclaimer';

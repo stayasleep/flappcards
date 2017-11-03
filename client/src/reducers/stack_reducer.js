@@ -26,7 +26,7 @@ const default_state ={
     creator: "",
     number: "",
     single: [],
-    stacks: [],
+    stacks: null,
     searched: null,
     card: 0,
     unavailable: false,

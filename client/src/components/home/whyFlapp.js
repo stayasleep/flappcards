@@ -7,28 +7,25 @@ import Index3SVG from '../imgs/flappcards_3a.svg';
 
 //css is disclaimer.css and is not done for making images fit within the parent parent div
 
-class WhyFlappCards extends Component{
-
-    render(){
-        return(
-            <Paper className="whyFlapp"  zDepth={2}>
-                <div className="innerWhyContainer">
-                    <h1 className="titleUnderline">Why Use FlappCards?</h1>
-                    <div className="svgContainer">
-                        <div className="svgBox sOne">
-                            {/*<img className="svgImg" src={IndexSVG} />*/}
-                        </div>
-                        <div className="svgBox sTwo">
-                            {/*<img className="svgImg" src={Index2SVG} />*/}
-                        </div>
-                        <div className="svgBox sThree">
-                            {/*<img className="svgImg" src={Index3SVG} />*/}
-                        </div>
+const WhyFlappCards = () => {
+    return(
+        <Paper className="whyFlapp"  zDepth={2}>
+            <div className="innerWhyContainer">
+                <h1 className="titleUnderline">Why Use FlappCards?</h1>
+                <div className="svgContainer">
+                    <div className="svgBox sOne">
+                        {/*<img className="svgImg" src={IndexSVG} />*/}
+                    </div>
+                    <div className="svgBox sTwo">
+                        {/*<img className="svgImg" src={Index2SVG} />*/}
+                    </div>
+                    <div className="svgBox sThree">
+                        {/*<img className="svgImg" src={Index3SVG} />*/}
                     </div>
                 </div>
-            </Paper>
-        )
-    }
-}
+            </div>
+        </Paper>
+    )
+};
 
 export default WhyFlappCards;

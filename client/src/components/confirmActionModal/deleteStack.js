@@ -20,7 +20,8 @@ class DeleteStackConfirm extends React.Component {
     };
 
     handleDelete(stackObject){
-        this.props.deleteStack(stackObject.stack_id);
+        // this.props.deleteStack(stackObject.stack_id);
+        this.props.deleteStack(stackObject);
         this.props.getMyStackOverview();
     }
 

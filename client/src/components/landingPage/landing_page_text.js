@@ -1,7 +1,6 @@
 import React from 'react';
-// import {infoText, infoTextExtendedContainerDiv, infoExtendedTextDiv, mobileIntro, paperRight, registrationPaper} from '../styles/landing_page.css';
 
-const LandingPageInfoText = function() {
+const LandingPageInfoText = () => {
     return(
         <div className="registrationPaper">
             <div id="mobileIntro" className="infoTextExtendedDivMobile">
