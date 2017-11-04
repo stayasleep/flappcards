@@ -313,7 +313,6 @@ StackViewStacks = reduxForm({
 
 function mapStateToProps(state) {
     return {
-        //stackCards: state.stack.stackCards,
         newStackID: state.stack.newStackID,
         stackSubj: state.stack.subj,
         stackCat: state.stack.course,

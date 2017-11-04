@@ -33,7 +33,8 @@ import {
     UPDATE_USER_PASS,
     UPDATE_USER_PASS_ERROR,
     UPDATE_USER_PASS_CLEAR,
-
+    RESET_RECENT_STACKS,
+    RESET_PROFILE,
     INITIATE_GUEST_BROWSING
 } from './types';
 import {FETCH_MY_RECENT_STACKS, COPY_STACK} from './types';
@@ -52,7 +53,7 @@ export function userLogin(values) {
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('guest',false);
-                dispatch({type: AUTH_USER, payload: true}); //added payload true..this can become obj resp from server if works
+                dispatch({type: AUTH_USER, payload: true});
                 browserHistory.push('/home')
             } else {
                 console.log('error in auth',response);
@@ -759,6 +760,8 @@ export function recoverPw(userInfo){
                 });
             }
         }).catch(err =>{
+            console.log('recoverpw err',err.name);
+            console.log('rec',err.message);
             dispatch({
                 type: AUTH_REC_ERROR,
                 error: err.response.data.error
@@ -768,7 +771,7 @@ export function recoverPw(userInfo){
 }
 /**
  * @name resetAuthRecovery
- * @description resets the auth recovery state and clears the error msg upon dialog closing
+ * @description resets authRecError & recoverPW state and clears the user message on success/errors
  * @returns { Function }
  * */
 export function resetAuthRecovery(){

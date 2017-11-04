@@ -29,6 +29,7 @@ class SignIn extends Component{
         //if you logged on, closed tab, come back you already have a token so skip this page
         //for persistent login
         if(this.props.authorized){
+            console.log('log in auth sending u home',this.props);
             this.context.router.push('/home');
         }
         document.title="FlappCards - Sign In";
@@ -36,6 +37,7 @@ class SignIn extends Component{
     //Inquire as to whether or not componentWillUpdate(nextProps) is needed here
 
     componentDidMount(){
+        console.log('did mount',this.props);
         //this page has less content so the footer is naturally high up until we manually change that
         let footer = document.getElementsByClassName("footer")[0];
         footer.style.position = "absolute";
@@ -50,13 +52,20 @@ class SignIn extends Component{
             this.setState({fullBar: !this.state.fullBar});
         }
     }
-
+    componentWillReceiveProps(nextProps){
+        console.log('login receive next',nextProps);
+        console.log('log in receive this props',this.props);
+    }
     handleLogIn(values){
         this.props.userLogin(values);
     }
 
     componentWillUnmount(){
-        this.props.resetAuthError();
+        //if any errors were set off, clear them
+        if(typeof this.props.errLogInComp === "string") {
+            this.props.resetAuthError();
+        }
+
         let footer = document.getElementsByClassName("footer")[0];
         footer.style.position="";
         footer.style.bottom="";
@@ -70,6 +79,7 @@ class SignIn extends Component{
 
 
     render(){
+        console.log('log in render',this.props);
         const {handleSubmit, error} = this.props;
         return(
             <div>
@@ -123,7 +133,9 @@ function mapStateToProps(state){
     return {
         authorized: state.auth.authorized,
         authenticated: state.auth.authenticated,
-        errLogInComp: state.auth.authError
+        errLogInComp: state.auth.authError,
+        recoverPW: state.auth.recoverPW,
+
     };
 }
 

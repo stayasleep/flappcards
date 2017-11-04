@@ -31,7 +31,7 @@ class FlashCardsAppBar extends Component {
             overflow: "visible"
         };
         function handleTouchTap() {
-            browserHistory.push("/home")
+            browserHistory.push("/")
         }
         const style = {
             textAlign: "center",

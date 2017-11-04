@@ -28,9 +28,10 @@ import MyShelf from './containers/myshelf/myshelf';
 import Search from './components/search/search_page';
 import CreateCards from './components/cardCreation/create_cards';
 import requireAuth from './components/auth/require_auth';
-import Stacks from './components/stackOverview/stack_overview';
+// import Stacks from './components/stackOverview/stack_overview';
+import Stacks from './containers/stackoverview/stackoverview';
+
 import SingleCard from './components/singleCard/single_card';
-// import Landing from './components/landingPage/landing_page';
 import Landing from './containers/landing_page/landing';
 import About from './containers/about/about';
 import PrivacyPolicy from './containers/privacy/privacy';

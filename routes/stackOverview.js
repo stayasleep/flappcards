@@ -40,9 +40,16 @@ router.get('/:sID',(request,response,next) => {
                         if (error) {
                             response.send({success: false, message: "There was a problem with your request"});
                         }
+                        console.log('get stack ov',results);
+                        console.log('get res2', results[2]);
                         if (results[2].length > 0 && owned) {
                             results[2][0].isOwned = true;
                             response.send(results[2]);
+                        } else if (results[2].length === 0){
+                            //this is a temp fix until query is fixed for when you delete all child rows, delete
+                            //the parent row. Otherwise an empty array is returned to client [] and it tries to render
+                            //with uncaught error
+                            response.send({success: true, unavailable: true});
                         } else {
                             //results is now undefined, it is an [] array so pass back a success empty msg
                             //the above does not make sense
@@ -121,6 +128,7 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                     if (error) {
                         response.send({success: false, message: "There was a problem with your request"});
                     }
+
                     const remaining = result[2][0].remaining;
                     let option = false;
                     if(remaining === 0){

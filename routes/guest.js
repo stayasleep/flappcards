@@ -8,6 +8,7 @@ router.post('/',(req,res,next)=>{
     //this page will initiate a guest token on the home page if a token on the client side doesnt already exist
     //token has guest username, guest id, and guest privileges
     let token = jwt.sign({UserName:"guest", UserID:0, scope:1000 },config.secret,{
+        // expiresIn: 90
         expiresIn: 172800 //guest token is only good for 2 days
     });
     res.json({

@@ -25,7 +25,7 @@ class ForgotPw extends Component{
 
     render (){
         console.log('my prop',this.props);
-        const {handleSubmit, error, submitSucceeded} = this.props;
+        const {handleSubmit, error, submitting, submitSucceeded} = this.props;
         return (
             <div>
                 <div id="recoverForm">
@@ -41,7 +41,7 @@ class ForgotPw extends Component{
                         <div style={styles.center}>
                             <Field name="userEmail" component={renderInput} label="Email" type="email"/>
                         </div>
-                        <RaisedButton primary={true} type="submit" label="Recover" disabled={this.props.disabled} fullWidth={this.props.fullBar}/>
+                        <RaisedButton primary={true} type="submit" label="Recover" disabled={this.props.disabled || submitting} fullWidth={this.props.fullBar}/>
                     </div>
                 </form>
             </div>
@@ -62,20 +62,6 @@ function validate(values){
 }
 
 function mapStateToProps(state){
-    // if(state.auth.authError === "Username/Email combination not found!"){
-    //     function appendUserError(el, str){
-    //         var div = document.createElement('div');
-    //         div.innerHTML = '';
-    //         el.innerHTML= '';
-    //         div.innerHTML = str;
-    //         el.appendChild(div.children[0]);
-    //     }
-    //     const recoverError='<div style="color: red; padding: 12px">Username/Email combination not found!</div>';
-    //     appendUserError(document.getElementById("recoverForm"), recoverError);//"body" has 2 more children - h1 and span
-    //
-    //     state.auth.authError = null;//reset the authError to null so the user can try recovery again
-    //
-    // }
     return{
         authenticated: state.auth.authenticated,
         errForgotPw: state.auth.authError,
