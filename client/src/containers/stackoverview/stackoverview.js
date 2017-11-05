@@ -6,7 +6,7 @@ import DoesNotExist from '../../components/stackOverview/stack_does_not_exist';
 import StackViewStacks from '../../components/stackOverview/stackoverview_stacks';
 import LoadingCircle from '../../components/common/index';
 
-import {getStackOverview, getStackAvailable, resetStackCards, stackCopy } from '../../actions/index';
+import {getStackOverview, resetStackUnavailable, resetStackCards, stackCopy } from '../../actions/index';
 
 
 class Stacks extends Component {
@@ -40,8 +40,11 @@ class Stacks extends Component {
         //stack unavailable doesnt get thru due to conditions on stackCards
         if(this.props.stackCards !== nextProps.stackCards){
             console.log('will receive not equal to next');
-            let num = nextProps.stackCards.length;
-            this.setState({cardView: Array(num).fill({showAnswer: false})});
+            if(nextProps.stackCards) {
+                //if guest views stack and then logs on, stackCards is undef and we dont want this to run
+                let num = nextProps.stackCards.length;
+                this.setState({cardView: Array(num).fill({showAnswer: false})});
+            }
         }else if(this.props.params.sid !== nextProps.params.sid){
             //if you click on the origin source the params update, but the mounted component
             //needs to repeat its axios call for the new stack and cause rerendering
@@ -77,7 +80,11 @@ class Stacks extends Component {
     }
     componentWillUnmount(){
         console.log('stack will unmount',this.props);
-        //if a stack is unavailable
+        //IFF stack unavailable, we reset the state so we dont see the unavailable msg during server load
+        //for the next unique stack
+        if(this.props.unavailable){
+            this.props.resetStackUnavailable();
+        }
 
 
     }
@@ -125,7 +132,7 @@ class Stacks extends Component {
 
                 {/*Stack Exists*/}
                 {/*On subsequent visits, stack is defined but local state isnt so we dont want this to render yet*/}
-                {this.props.stackCards && this.state.cardView &&
+                {this.props.stackCards && this.state.cardView && !this.props.unavailable &&
                     <StackViewStacks
                         auth2Copy={this.props.authorized}
                         displayState={this.state.cardView}
@@ -161,4 +168,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps,{getStackOverview, getStackAvailable, resetStackCards, stackCopy})(Stacks);
+export default connect(mapStateToProps,{getStackOverview, resetStackUnavailable, resetStackCards, stackCopy})(Stacks);

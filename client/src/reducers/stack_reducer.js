@@ -17,7 +17,7 @@ import {
     DELETE_CARD,
     RESET_SEARCH,
     RESET_STACKCARDS,
-    RESET_RECENT_STACKS,
+    RESET_DATA,
     AUTH_USER,
 
 } from '../actions/types';
@@ -93,6 +93,9 @@ export default function (state = default_state, action) {
         case RESET_STACKCARDS:
             console.log('reducer for reset stackcards');
             return {...state, stackCards: action.payload};
+        case RESET_DATA:
+            console.log('reset dataaaaaaaa');
+            return default_state;
     }
     return state;
 }

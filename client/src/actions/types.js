@@ -38,6 +38,6 @@ export const RECOVER_PW = 'recover_pw';
 export const INITIATE_GUEST_BROWSING = 'initiate_guest_browsing';
 export const FETCH_STACK_OVERVIEW_TITLES = "fetch_stack_overview_titles";
 export const FETCH_STACK_OVERVIEW_TITLES_ERRORS = "fetch_stack_overview_titles_errors";
-export const RESET_RECENT_STACKS='reset_recent_stacks';
+export const RESET_DATA='reset_data';
 export const RESET_PROFILE='reset_profile';
 // This file mainly exists to avoid typing errors.

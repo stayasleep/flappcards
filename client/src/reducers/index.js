@@ -13,5 +13,20 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     reset: resetRouteValid
 });
+// const appReducer = combineReducers({
+//     form: formReducer,
+//     auth: authReducer,
+//     stack: stackReducer,
+//     profile: profileReducer,
+//     reset: resetRouteValid
+// });
+//
+// const rootReducer = (state,action) =>{
+//     if(action.type === "UNAUTH_USER"){
+//         console.log('apppp reducerrrrrrrr');
+//         state = undefined;
+//     }
+//     return appReducer(state,action);
+// };
 
 export default rootReducer;

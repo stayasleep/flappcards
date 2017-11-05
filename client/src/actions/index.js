@@ -33,7 +33,7 @@ import {
     UPDATE_USER_PASS,
     UPDATE_USER_PASS_ERROR,
     UPDATE_USER_PASS_CLEAR,
-    RESET_RECENT_STACKS,
+    RESET_DATA,
     RESET_PROFILE,
     INITIATE_GUEST_BROWSING
 } from './types';
@@ -54,6 +54,7 @@ export function userLogin(values) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('guest',false);
                 dispatch({type: AUTH_USER, payload: true});
+                dispatch({type: RESET_DATA});
                 browserHistory.push('/home')
             } else {
                 console.log('error in auth',response);
@@ -237,6 +238,7 @@ export function logout() {
     localStorage.removeItem('guest');
 
     return{
+
         type: UNAUTH_USER
     }
 }
@@ -295,7 +297,7 @@ export function getStackOverview(stackID) {
         })
     }
 }
-export function getStackAvailable(){
+export function resetStackUnavailable(){
     return function (dispatch){
         dispatch({
             type: STACK_UNAVAILABLE_RESET,

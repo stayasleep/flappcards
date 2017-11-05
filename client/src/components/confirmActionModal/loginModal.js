@@ -5,8 +5,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import RecoverPw from './recoverPW';
 import { cancelBtn } from '../styles/log_in.css';
-import Login from '../auth/log_in';
 import { resetAuthError } from '../../actions/index';
+import Login from '../../containers/forms/login_form';
 
 // styles.loginDialogContent = {} uses Material UI's default values
 const styles = {
@@ -55,9 +55,12 @@ class LoginModal extends Component{
         this.setState({loginModal: false});
         this.props.resetAuthError();
     };
+    componentWillUnmount(){
+        console.log('BYYYYYYYYYYYYYYYYYYYYYYYYE');
+    }
 
     render() {
-
+        console.log('u hit the home login dialog');
         return (
             <div className="loginModalOuterDiv">
                 <RaisedButton style={styles.button} label="Login" labelColor="rgb(0, 121, 107)" onTouchTap={this.handleOpen} />
@@ -85,6 +88,7 @@ class LoginModal extends Component{
                         fullWidth={false}
                         onTouchTap={this.handleClose}
                     />
+
                     <RecoverPw/>
                 </Dialog>
             </div>

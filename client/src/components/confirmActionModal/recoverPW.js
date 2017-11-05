@@ -4,6 +4,7 @@ import {browserHistory} from 'react-router';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import ForgotPw from '../auth/forgot_pw';
+import ForgotForm from '../../containers/forms/forgot_form';
 import { resetAuthRecovery } from '../../actions/index';
 
 const styles = {
@@ -99,12 +100,13 @@ class RecoverPw extends React.Component{
                     {this.props.recoverPW ? (
                         <div>
                             <p>
-                                An email has been sent!  You will be redirected to the log in page in <span className="timer" style={{fontWeight:700, fontSize:"1.5em",color:"red"}}>{this.state.time}</span> seconds...
+                                An email has been sent!  You will be redirected to the login page in <span className="timer" style={{fontWeight:700, fontSize:"1.5em",color:"red"}}>{this.state.time}</span> seconds...
                             </p>
                         </div>
                         ): null
                     }
-                    <ForgotPw disabled={disableSubmit}/>
+                    {/*<ForgotPw disabled={disableSubmit}/>*/}
+                    <ForgotForm/>
                     <FlatButton
                         style={styles.cancelBtn}
                         label="Cancel"

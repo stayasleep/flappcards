@@ -61,7 +61,7 @@ class Forgot extends Component{
     //this sets the footer back to norm so it isnt weird on the next page that renders
     componentWillUnmount(){
         clearInterval(this.interval);
-        this.props.resetAuthRecovery();
+        //this.props.resetAuthRecovery();
         let footer = document.getElementsByClassName("footer")[0];
         footer.style.position="";
         footer.style.bottom="";
@@ -73,12 +73,13 @@ class Forgot extends Component{
     }
 
     render(){
+        console.log('render render render',this.props);
         let disableSubmit = false;
         if (this.props.recoverPW) disableSubmit = true; // prevent user from submitting form twice before redirect
         return(
             <div>
                 <Toolbar className="navHeader">
-                    <ToolbarTitle text={<Link  className="navTitleBar" href="/">FlappCards</Link>}/>
+                    <ToolbarTitle text={<Link  className="navTitleBar" to="/">FlappCards</Link>}/>
                     <ToolbarGroup>
                         <RaisedButton labelColor="rgb(0, 121, 107)" label="Home" containerElement={<Link to="/"/>}/>
                     </ToolbarGroup>

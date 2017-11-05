@@ -26,6 +26,7 @@ export default function (state = default_state, action) {
             return {...state, recoverPW: action.payload, authRecError: null};
 
         case UNAUTH_USER:
+            console.log('LOOOOOOOOGGGGGGGGGGGOUTTTT');
             return default_state;
     }
     return state;

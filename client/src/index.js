@@ -21,14 +21,12 @@ if(token && JSON.parse(guest)){
 }
 
 import App from './components/app';
-// import Home from './components/home/home';
 import Home from './containers/home/home';
 import Profile from './components/profile/profile';
 import MyShelf from './containers/myshelf/myshelf';
 import Search from './components/search/search_page';
 import CreateCards from './components/cardCreation/create_cards';
 import requireAuth from './components/auth/require_auth';
-// import Stacks from './components/stackOverview/stack_overview';
 import Stacks from './containers/stackoverview/stackoverview';
 
 import SingleCard from './components/singleCard/single_card';
@@ -38,9 +36,11 @@ import PrivacyPolicy from './containers/privacy/privacy';
 import Disclaimer from './containers/disclaimer/disclaimer';
 import Error404 from './components/errors/404';
 import Reset from './components/auth/reset';
-import SignIn from './components/login/login';
+// import SignIn from './components/login/login';
+import Login from './containers/login_page/login';
 import Register from './components/register/register';
-import Forgot from './components/recover_password/forgot';
+// import Forgot from './components/recover_password/forgot';
+import Forgot from './containers/forgot_pw_page/forgot_pw';
 
 
 
@@ -50,7 +50,7 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <IndexRoute component={Landing}/>
                 <Route path="home" component={requireAuth(Home)}/>
-                <Route path="login" component={SignIn}/>
+                <Route path="login" component={Login}/>
                 <Route path="login/forgotpassword" component={Forgot} />
                 <Router path="register" component={Register}/>
                 <Route path="profile" component={requireAuth(Profile)}/>

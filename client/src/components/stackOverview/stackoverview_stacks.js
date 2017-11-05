@@ -8,6 +8,7 @@ import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import PopDialog from '../login/popUpDialog';
+import StackHeaders from '../../containers/forms/edit_stack_headers';
 import AddCard from '../editCard/add';
 import EditCard from '../editCard/edit';
 import DeleteCardConfirm from '../confirmActionModal/deleteCard'
@@ -28,10 +29,10 @@ const StackViewStacks = (props) => {
                         <div>{`Category: ${props.category}`}</div>
                     </div>
                     ) : (
-                    <div>owned</div>
+                    <StackHeaders stackCat={props.category} stackSubj={props.subject} initialValues={{subject:props.subject, category: props.category}} stackID={props.stackCards[0].stack_id}/>
                     )
                 }
-                <span>{`User: ${props.stackCards[0].createdBy}`}</span>
+                <span>{`by ${props.stackCards[0].createdBy}`}</span>
                 {props.stackOrigin !== 0 &&
                     <div className="stack-origin">Source: <span className="origin-src" onClick={() => props.onOriginClick(props.stackOrigin)}>{props.stackOrigin}</span></div>
                 }
