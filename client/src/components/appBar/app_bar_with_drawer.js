@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import NavLink from './header_nav_links';
 import LoginModal from '../confirmActionModal/loginModal';
-import PopUp from '../login/popUpReminder';
+import PopDialog from '../common/popUpDialog';
 import {Navstyle} from './../styles/appBar.css';
 import {logout} from '../../actions/index';
 
@@ -15,9 +15,17 @@ class FlashCardsAppBar extends Component {
 
     constructor(props){
         super(props);
-        this.state = {open:false};
+        this.state = {open:false, popUpOpen: false};
+        this.popUpClose = this.popUpClose.bind(this);
+        this.popUpOpen = this.popUpOpen.bind(this);
     }
 
+    popUpClose(){
+        this.setState({popUpOpen: false});
+    }
+    popUpOpen(){
+        this.setState({popUpOpen: true});
+    }
     handleToggle() {
         this.setState({open: !this.state.open});
     }
@@ -72,13 +80,14 @@ class FlashCardsAppBar extends Component {
                         <div>
                             <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
                             <Divider />
-                            <MenuItem style={style} primaryText="Create Cards" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                            <MenuItem style={style} primaryText="Create Stack" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
                         </div>
                         ) : (
                         <div>
-                            <PopUp style={style} menuTitle="My Shelf" onTouchTap={this.handleClose.bind(this)}/>
+
+                            <MenuItem style={style} primaryText="My Shelf" onClick={this.popUpOpen} />
                             <Divider />
-                            <PopUp style={style} menuTitle="Create Cards" onTouchTap={this.handleClose.bind(this)}/>
+                            <MenuItem style={style} primaryText="Create Stack" onClick={this.popUpOpen} />
                         </div>
                         )
                     }
@@ -93,7 +102,7 @@ class FlashCardsAppBar extends Component {
                         </div>
                         ) : (
                         <div>
-                            <PopUp style={style} menuTitle="Profile" onTouchTap={this.handleClose.bind(this)} />
+                            <MenuItem style={style} primaryText="Profile" onClick={this.popUpOpen} />
                             <Divider />
                             <MenuItem style={style} primaryText="Log In" onClick={this.props.logout} onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/login" name="Log In"/>}/>
                         </div>
@@ -106,6 +115,13 @@ class FlashCardsAppBar extends Component {
                     iconElementRight={rightButtons}
                     onTitleTouchTap={handleTouchTap}
                     onLeftIconButtonTouchTap={this.handleToggle.bind(this)}
+                />
+                {/*When Guests perform an unauthorized action*/}
+                <PopDialog
+                    stateIs={this.state.popUpOpen}
+                    onClick={this.popUpClose}
+                    contentClass="popUpContent"
+                    overlayClass="popUpOverlay"
                 />
             </div>
         );

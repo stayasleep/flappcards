@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import AutoComplete from 'material-ui/AutoComplete';
-import {searchStacks, populateAutoComplete} from './../../actions/index.js';
+import {populateAutoComplete} from './../../actions/index.js';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -16,7 +16,6 @@ class SearchAutoComplete extends Component {
 
 
     handleSearch(search){
-        //this.props.searchStacks(search);
         browserHistory.push(`/search?q=${search}`);
     }
     componentWillMount() {
@@ -67,7 +66,6 @@ SearchAutoComplete.propTypes = {
 function mapStateToProps(state) {
     return {
         autoCompleteSuggestions: state.stack.autoCompleteSuggestions, // state.reducerName.keyThatAppearsInReducer
-        stacks: state.stack.stacks
     }
 }
-export default connect(mapStateToProps, {populateAutoComplete, searchStacks})(SearchAutoComplete);
+export default connect(mapStateToProps, {populateAutoComplete})(SearchAutoComplete);

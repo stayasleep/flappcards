@@ -7,7 +7,7 @@ import Divider from 'material-ui/Divider';
 import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import PopDialog from '../login/popUpDialog';
+import PopDialog from '../common/popUpDialog';
 import StackHeaders from '../../containers/forms/edit_stack_headers';
 import AddCard from '../editCard/add';
 import EditCard from '../editCard/edit';
@@ -47,7 +47,7 @@ const StackViewStacks = (props) => {
                 {!props.isOwned && !props.auth2Copy &&
                 <div className="copyDialogBox">
                     <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>props.onCopyProhibited()} />
-                    <PopDialog stateIs={props.popUpOpen} onClick={()=>props.onDialogClose()}/>
+                    <PopDialog contentClass="miniLoginContent" overlayClass="miniLoginOverlay" stateIs={props.popUpOpen} onClick={()=>props.onDialogClose()}/>
                 </div>
                 }
                 <RaisedButton style={{fontWeight: "700"}} className="studyButton" containerElement={<Link to={`/stackoverview/${props.stackCards[0].stack_id}/${props.stackCards[0].card_id}`} name="SingleCard" />}>Study</RaisedButton>
