@@ -5,7 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
 import SnackBar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
-import Registration from '../../components/auth/registration';
+import RegisterForm from '../forms/register_form';
 import LoginModal from '../../components/confirmActionModal/loginModal';
 import LandingPageInfoText from '../../components/landingPage/landing_page_text';
 import WhyFlappCards from '../../components/landingPage/whyFlapp';
@@ -37,14 +37,13 @@ class Landing extends Component {
         }
     }
     componentDidMount(){
-        //consecutive visits youll have a token, so axios can happen asap, otherwise get token first
+        //consecutive visits youll have a token, so axios can happen asap, otherwise get token first and then do the call in above lifecycle
         if(this.props.authenticated && !this.props.authorized) {
             this.props.getFeaturedStackOverview();
         }
     }
 
     handleRequestClose(){
-        console.log('handling close request');
         this.props.resetAuthSession();
     }
 
@@ -60,15 +59,19 @@ class Landing extends Component {
         if(this.props.authorized){
             return <Home/>;
         }else {
-            //guest or new user
+            //guest or expired token directs to here
             return (
                 <div className="landing-container">
                     <AppBar className="" title={<span className="title">FlappCards</span>} showMenuIconButton={false}
                             iconElementRight={rightButtons}
                     />
                     <Paper className="landingPageContentContainerDiv" zDepth={2}>
+                        {/*User Greeting to the left*/}
                         <LandingPageInfoText/>
-                        <Registration/>
+                        {/*Reuseable registration form that needs some styling to be used here*/}
+                        <div style={{backgroundColor: "rgba(255,255,255,0.9",padding:"1em",flex:"1 1 0",boxShadow: "5px 5px 2.5px #888888"}}>
+                            <RegisterForm/>
+                        </div>
                     </Paper>
                     <WhyFlappCards/>
 
@@ -76,10 +79,10 @@ class Landing extends Component {
                     token acquisition as to prevent unsuccessful axios calls without initial token
                     */}
                     {this.props.authenticated &&
-                        <FlappFeatured
-                            featured={this.props.featured}
-                            featuredErr={this.props.featuredErr}
-                        />
+                    <FlappFeatured
+                        featured={this.props.featured}
+                        featuredErr={this.props.featuredErr}
+                    />
                     }
 
 

@@ -115,7 +115,7 @@ export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
         axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
-            console.log('profile',response);
+            console.log('profile axios return',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
@@ -124,9 +124,11 @@ export function getUserData() {
                     type:AUTH_SESSION_EXP
                 })
             }else {
+                console.log('payload from profile being sent');
                 dispatch({type: FETCH_USER_META, payload: response.data});
             }
         }).catch(err => {
+            console.log('err from user ddata',err);
             dispatch({
                 type: null,
                 error: err.response
@@ -184,12 +186,11 @@ export function updateUserPassword(password){
                 })
             }
         }).catch ( err => {
-            console.log('err',err);
+            console.log('err',err.name, err.message);
             dispatch({
                 type: UPDATE_USER_PASS_ERROR,
-                payload: false,
+                payload: `${err.name} - ${err.message}`,
             });
-            //handle errors
         })
     }
 }
@@ -692,10 +693,10 @@ export function isRouteValid(token){
                 dispatch({type: VALIDATE_ROUTE,payload: false});
             }
         }).catch(err =>{
-            console.log('route error',err);
+            console.log('route error',err.message);
             dispatch({
                 type: VALIDATE_ROUTE,
-                error: err.response
+                payload: err.message
             });
         })
     }
@@ -709,7 +710,7 @@ export function isRouteValid(token){
 export function submitResetPw(data){
     return function(dispatch){
         let {token} = data;
-        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.vals.resetPw, "passwordConfirm":data.vals.passwordConfirm}).then((response)=>{
+        axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.values.resetPw, "passwordConfirm":data.values.passwordConfirm}).then((response)=>{
             console.log('axios response',response);
             if(response.data.success){
                 dispatch({type: RESET_PW, payload: true});

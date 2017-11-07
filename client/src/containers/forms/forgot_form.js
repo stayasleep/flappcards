@@ -27,7 +27,9 @@ class ForgotForm extends Component {
     }
     componentWillUnmount(){
         clearInterval(this.interval);
+        console.log('will i be first or second');
         if(this.props.recoverPW || this.props.recoverErr){
+            console.log('forgot form is unmonting and doing axios');
             this.props.resetAuthRecovery();
         }
     }
@@ -41,7 +43,7 @@ class ForgotForm extends Component {
     sendMeHome(){
         if(this.state.time === 0){
             setTimeout(()=>{
-                browserHistory.push("/");
+                browserHistory.push("/login");
             }, 500);
         }else{
             this.setState({time: this.state.time -1});

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {browserHistory} from 'react-router';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import ForgotPw from '../auth/forgot_pw';
 import ForgotForm from '../../containers/forms/forgot_form';
 import { resetAuthRecovery } from '../../actions/index';
 
@@ -25,19 +24,17 @@ const styles = {
 
 class RecoverPw extends React.Component{
     state = {
-        loginModal: true,
+        //loginModal: true,
         recoveryModal: false,
-        time: 3
     };
-    componentWillMount(){
-        console.log('recoverPW dialog will mount',this.props);
-    }
+
     componentWillReceiveProps(nextProps){
         console.log('recoverPW dialog this prop',this.props);
         console.log('recoverPW receiving props',nextProps);
         if(nextProps.recoverPW !== this.props.recoverPW) {
             if (nextProps.recoverPW) {
-                this.interval = setInterval(() => this.sendMeHome(), 1000);
+
+                // this.interval = setInterval(() => this.sendMeHome(), 1000);
             }
         }
     }
@@ -50,20 +47,20 @@ class RecoverPw extends React.Component{
         }
     }
     //this works when we are on the landing page
-    sendMeHome(){
-        if(this.state.time === 0){
-            setTimeout(() => {
-                browserHistory.push("/login");
-                // this.setState({recoveryModal: false});
-            },500);
-            console.log('batman');
-            this.setState({recoveryModal: false});
-            clearInterval(this.interval);
-            this.props.resetAuthRecovery();
-        }else{
-            this.setState({time: this.state.time - 1});
-        }
-    }
+    // sendMeHome(){
+    //     if(this.state.time === 0){
+    //         setTimeout(() => {
+    //             browserHistory.push("/login");
+    //             // this.setState({recoveryModal: false});
+    //         },500);
+    //         console.log('batman');
+    //         this.setState({recoveryModal: false});
+    //         clearInterval(this.interval);
+    //         this.props.resetAuthRecovery();
+    //     }else{
+    //         this.setState({time: this.state.time - 1});
+    //     }
+    // }
 
 
     handleOpen = (e) =>{
@@ -77,13 +74,12 @@ class RecoverPw extends React.Component{
         this.setState({
             recoveryModal: false
         });
+        console.log('happens first')
         this.props.resetAuthRecovery();
     };
 
     render(){
         console.log('render for recoverPW dialog',this.props);
-        let disableSubmit = false;
-        if (this.props.recoverPW) disableSubmit = true; // prevent user from submitting form twice before redirect
 
         return(
             <div style={styles.margin}>
@@ -97,15 +93,7 @@ class RecoverPw extends React.Component{
                 >
                     <h3>Please enter the requested information.</h3>
                     <h4>After submission, an email will be sent to the specified email address.</h4>
-                    {this.props.recoverPW ? (
-                        <div>
-                            <p>
-                                An email has been sent!  You will be redirected to the login page in <span className="timer" style={{fontWeight:700, fontSize:"1.5em",color:"red"}}>{this.state.time}</span> seconds...
-                            </p>
-                        </div>
-                        ): null
-                    }
-                    {/*<ForgotPw disabled={disableSubmit}/>*/}
+
                     <ForgotForm/>
                     <FlatButton
                         style={styles.cancelBtn}

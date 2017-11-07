@@ -1,9 +1,8 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import {addCardInputFields, errorText} from './stackSummaryStyle';
-// Set the default text value to label if none were provided, else populate the fields with the old text
 
-//this is used for createCards, it will be repurposed for text boxes with rows instead of this input tag
+//this is used for createStack header fields...need to figure out why the css included helps to prevent the ErrMsg from being crazy without it
 export default function renderInput({input, label, type, meta: {active, dirty, touched, error}}) {
     return (
         <TextField
