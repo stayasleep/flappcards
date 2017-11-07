@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import {deleteStack, getMyStackOverview} from '../../actions/index';
+import {deleteStack} from '../../actions/index';
 import {connect} from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
@@ -21,7 +21,6 @@ class DeleteStackConfirm extends React.Component {
 
     handleDelete(stackObject){
         this.props.deleteStack(stackObject);
-        //this.props.getMyStackOverview();
     }
 
     handleOpen = () => {
@@ -66,4 +65,4 @@ class DeleteStackConfirm extends React.Component {
     }
 }
 
-export default connect(null, {deleteStack, getMyStackOverview})(DeleteStackConfirm);
+export default connect(null, {deleteStack})(DeleteStackConfirm);

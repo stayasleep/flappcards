@@ -16,7 +16,22 @@ class SearchAutoComplete extends Component {
 
 
     handleSearch(search){
-        browserHistory.push(`/search?q=${search}`);
+        console.log('search',search.length);
+        //prevent blank and white space submissions?
+        switch(true) {
+            case search.length === 0:
+                console.log('whore');
+                break;
+
+            case /^\s+$/.test(search):
+                console.log('defult');
+                break;
+            default:
+                console.log('winner');
+                browserHistory.push(`/search?q=${search}`);
+        }
+
+        // browserHistory.push(`/search?q=${search}`);
     }
     componentWillMount() {
         this.props.populateAutoComplete();
@@ -37,7 +52,7 @@ class SearchAutoComplete extends Component {
         let setAuto = [...new Set(trimAutoArray)]; //removes duplicates, ES6
 
         return(
-            <div>
+            <div style={{textAlign:"center"}}>
                 <AutoComplete
                     hintText="Search By Category or Subject"
                     dataSource={setAuto}

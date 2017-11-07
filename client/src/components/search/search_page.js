@@ -119,7 +119,7 @@ class Search extends Component {
                 return (
                     <div>
                         <FlashCardsAppBar/>
-                        <Paper style={{"textAlign": "center" ,"padding": "1em", "margin":"2em","backgroundColor":"white"}}>
+                        <Paper style={{"padding": "1em", "margin":"2em"}}>
                             <SearchAutoComplete />
 
 
@@ -133,7 +133,7 @@ class Search extends Component {
                                         <TableHeaderColumn style={{textAlign:"center"}}>See More</TableHeaderColumn>
                                     </TableRow>
                                 </TableHeader>
-                                <TableBody style={{backgroundColor:"white"}} displayRowCheckbox={false}>
+                                <TableBody displayRowCheckbox={false}>
                                     {this.renderStacksList.bind(this)()}
                                 </TableBody>
                             </Table>

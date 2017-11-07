@@ -78,9 +78,9 @@ class FlashCardsAppBar extends Component {
                     <Divider />
                     {this.props.authorized ? (
                         <div>
-                            <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myShelf" name="My Shelf"/>}/>
+                            <MenuItem style={style} primaryText="My Shelf" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/myshelf" name="My Shelf"/>}/>
                             <Divider />
-                            <MenuItem style={style} primaryText="Create Stack" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Cards"/>}/>
+                            <MenuItem style={style} primaryText="Create Stack" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/createCards" name="Create Stack"/>}/>
                         </div>
                         ) : (
                         <div>
@@ -92,7 +92,7 @@ class FlashCardsAppBar extends Component {
                         )
                     }
                     <Divider />
-                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/Search" name="Search"/>}/>
+                    <MenuItem style={style} primaryText="Search" onTouchTap={this.handleClose.bind(this)} containerElement={<NavLink to="/search" name="Search"/>}/>
                     <Divider />
                     {this.props.authorized ? (
                         <div>
