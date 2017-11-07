@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory, Link } from 'react-router';
+import { browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
-import IconButton from 'material-ui/IconButton';
-import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import {green500} from 'material-ui/styles/colors';
 import SearchAutoComplete from '../../components/search/search_autocomplete';
 import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
 import SearchTable from '../../components/search/search_table';
@@ -21,6 +11,9 @@ import NoResults from '../../components/search/empty_search';
 import {initiateGuestBrowsing,searchStacks, populateAutoComplete, unmountSearch} from '../../actions/index'
 
 class Search extends Component {
+    static contextTypes ={
+        router: PropTypes.object,
+    };
     constructor(props){
         super(props);
         //this.renderStackList = this.renderStackList.bind(this);
@@ -45,13 +38,14 @@ class Search extends Component {
                 console.log('querrry',query);
                 //this conditional is in case you click on the app drawer, location.query is empty and it fires off an axios call
                 //and changes the url...we dont want that. this is an ugly but temp fix
-                // if(nextProps.location.query.hasOwnProperty('q')) {
+                if(query.q) {
                 // if(Object.prototype.hasOwnProperty.call(query, 'q')){
                     this.props.searchStacks(query.q);
-                // }else{
-                //     console.log('browser pushhhh');
-                //     browserHistory.push(`/search${this.props.location.search}`);
-                // }
+                }else{
+                    //click on app drawer and redirected to /shelf...so we take the previous props and push you back to
+                    //mimic the same view as if nothing had to reload again
+                    this.context.router.push(`/search${this.props.location.search}`);
+                }
             }
         }
     }
@@ -59,19 +53,21 @@ class Search extends Component {
         document.title="FlappCards - Search Page";
         console.log('will mount search',this.props);
         //this page requires authentication, aka any token to succeed
-        console.log('inside the will mount search else');
         const {query} = this.props.location;
         //search?q=term
-        if (Object.keys(query).length !== 0) {
-            if (Object.keys(query)[0] === "q" && query.q) {
-                const queried = query.q;
-                this.props.searchStacks(queried);
-            } else {
-                //in case client does search?jas=hello, we redirect them to search
-                browserHistory.push('/search');
+        if(this.props.authenticated) {
+            if (Object.keys(query).length !== 0) {
+                if (Object.keys(query)[0] === "q" && query.q) {
+                    const queried = query.q;
+                    this.props.searchStacks(queried);
+                } else {
+                    //in case client does search?jas=hello, we redirect them to /search
+                    browserHistory.push('/search');
+                }
             }
         }
     }
+    //reset the search term to allow for default view again
     componentWillUnmount(){
         this.props.unmountSearch();
     }
@@ -89,7 +85,7 @@ class Search extends Component {
                 <Paper style={{padding:"1em", margin:"2em"}}>
 
                     {/*autocomplete button goes here*/}
-                    <SearchAutoComplete/>
+                    <SearchAutoComplete term={this.props.location.query}/>
                     <SearchTable>
                         {/*Server returns successful search results*/}
                         {this.props.searched && this.props.searched.length > 0 &&
@@ -119,6 +115,7 @@ class Search extends Component {
 
 function mapStateToProps(state){
     return {
+        authenticated: state.auth.authenticated,
         searched: state.stack.searched,
     }
 }

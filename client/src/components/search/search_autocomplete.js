@@ -30,15 +30,15 @@ class SearchAutoComplete extends Component {
                 console.log('winner');
                 browserHistory.push(`/search?q=${search}`);
         }
-
-        // browserHistory.push(`/search?q=${search}`);
     }
+
     componentWillMount() {
         this.props.populateAutoComplete();
     }
 
 
     render() {
+
         const {autoCompleteSuggestions} = this.props;
         let autoLower = autoCompleteSuggestions.map((suggestion, index) => {
             return suggestion.toLowerCase();
@@ -54,6 +54,7 @@ class SearchAutoComplete extends Component {
         return(
             <div style={{textAlign:"center"}}>
                 <AutoComplete
+                    searchText={this.state.searchText === "" ? this.props.term.q : this.state.searchText} //if you search a stack, view it, and hit back button...input field is blank with results. this poulates the input field again
                     hintText="Search By Category or Subject"
                     dataSource={setAuto}
                     filter={AutoComplete.fuzzyFilter}
