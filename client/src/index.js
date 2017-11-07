@@ -24,7 +24,6 @@ import App from './components/app';
 import Home from './containers/home/home';
 import Profile from './containers/profile/profile';
 import MyShelf from './containers/myshelf/myshelf';
-// import Search from './components/search/search_page';
 import Search from './containers/search/search';
 import CreateStack from './containers/create_card/create';
 import requireAuth from './components/auth/require_auth';

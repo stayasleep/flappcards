@@ -22,20 +22,17 @@ class Search extends Component {
     componentWillMount(){
         document.title = "FlappCards - Search Page";
     }
+    //Receives props from the AutoSearch component when you submit one or multiple searches, and their
+    //edge cases to make sure the url changes and the axios still fires off.
     componentWillReceiveProps(nextProps){
-        console.log('search this',this.props);
-        console.log('search next', nextProps);
         if(!this.props.location.search) {
             if (this.props.location.search !== nextProps.location.search) {
-                console.log('will rec props first');
                 const {query} = nextProps.location;
                 this.props.searchStacks(query.q);
             }
         }else if(Object.keys(this.props.location.query)[0] === "q" && this.props.location.query.q){
             if(this.props.location.search !== nextProps.location.search){
-                console.log('will rec props second');
                 const {query} = nextProps.location;
-                console.log('querrry',query);
                 //this conditional is in case you click on the app drawer, location.query is empty and it fires off an axios call
                 //and changes the url...we dont want that. this is an ugly but temp fix
                 if(query.q) {

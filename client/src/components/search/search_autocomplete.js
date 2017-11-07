@@ -20,11 +20,9 @@ class SearchAutoComplete extends Component {
         //prevent blank and white space submissions?
         switch(true) {
             case search.length === 0:
-                console.log('whore');
                 break;
 
             case /^\s+$/.test(search):
-                console.log('defult');
                 break;
             default:
                 console.log('winner');
