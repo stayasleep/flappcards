@@ -250,6 +250,7 @@ export function getMyStackOverview() {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
+            console.log('response get stack ov',response);
             if(!response.data.success && response.data.expired){
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
@@ -526,8 +527,19 @@ export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
-            dispatch({type: SEARCH_STACKS, payload: response.data});
+            console.log('axios search',response);
+            if(!response.data.success && response.data.expired){
+                //remove old tokens so they can be redirected to root page and initiateguestbrowsing
+                localStorage.removeItem('token');
+                localStorage.removeItem('guest');
+                dispatch({
+                    type:AUTH_SESSION_EXP
+                })
+            }else {
+                dispatch({type: SEARCH_STACKS, payload: response.data});
+            }
         }).catch(err => {
+            console.log('err serch',err);
             dispatch({
                 type: SEARCH_STACKS,
                 error: err.response
@@ -668,9 +680,14 @@ export function populateAutoComplete() {
     let token = localStorage.getItem('token');
     return function(dispatch) {
         axios.post(`${BASE_URL}/search/autocomplete`, {"token": token}).then((response) => {
-            // response.data = an array of strings
-            dispatch({type: AUTOCOMPLETE_SEARCH_STACKS, payload: response.data});
+            // response.data.suggestions = an array of strings
+            if(response.data.success) {
+                //if there is no token, or token expires; we ensure only succcess updates the state
+                //otherwise we rely on the default already set
+                dispatch({type: AUTOCOMPLETE_SEARCH_STACKS, payload: response.data.suggestions});
+            }
         }).catch(err => {
+            //this is set up incorrectly
             dispatch({
                 type: AUTOCOMPLETE_SEARCH_STACKS,
                 payload: [{"Issue": "There was a problem populating suggestions"}]

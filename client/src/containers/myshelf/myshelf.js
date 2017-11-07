@@ -12,7 +12,11 @@ class MyShelf extends Component {
         document.title="FlappCards - My Shelf";
     }
     componentDidMount(){
-        this.props.getMyStackOverview();
+        console.log('mouting shelf',this.props);
+        //on route load without token, prevent this from going off
+        if(this.props.authorized) {
+            this.props.getMyStackOverview();
+        }
     }
     componentWillUnmount(){
         document.title="FlappCards";
@@ -54,6 +58,7 @@ class MyShelf extends Component {
 
 function mapStateToProps(state){
     return{
+        authorized: state.auth.authorized,
         stacks: state.stack.stacks
     }
 }

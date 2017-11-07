@@ -15,26 +15,33 @@ import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
 import SearchAutoComplete from './search_autocomplete';
 import FlashCardsAppBar from '../appBar/app_bar_with_drawer';
-import {searchStacks, populateAutoComplete, unmountSearch} from '../../actions/index'
+import {initiateGuestBrowsing,searchStacks, populateAutoComplete, unmountSearch} from '../../actions/index'
 
 class Search extends Component {
 
     componentWillMount(){
         document.title="FlappCards - Search Page";
-        const {query} = this.props.location;
-        //search?q=term
-        if(Object.keys(query).length !== 0){
-            if(Object.keys(query)[0] === "q" && query.q) {
-                const queried = query.q;
-                this.props.searchStacks(queried);
-            }else{
-                browserHistory.push('/search');
+        console.log('will mount search',this.props);
+        //this page requires authentication, aka any token to succeed
+            console.log('inside the will mount search else');
+            const {query} = this.props.location;
+            //search?q=term
+            if (Object.keys(query).length !== 0) {
+                if (Object.keys(query)[0] === "q" && query.q) {
+                    const queried = query.q;
+                    this.props.searchStacks(queried);
+                } else {
+                    //in case client does search?jas=hello, we redirect them to search
+                    browserHistory.push('/search');
+                }
             }
-        }
+
     }
     //Receives props from the AutoSearch component when you submit one or multiple searches, and their
     //edge cases to make sure the url changes and the axios still fires off.
     componentWillReceiveProps(nextProps){
+        console.log('search this',this.props);
+        console.log('search next', nextProps);
         if(!this.props.location.search) {
             if (this.props.location.search !== nextProps.location.search) {
                 const {query} = nextProps.location;
@@ -72,6 +79,7 @@ class Search extends Component {
     }
 
     render(){
+        console.log('rendering seatch',this.props);
         const tableHead = (
             <Table>
                 <TableHeader displaySelectAll={false}  adjustForCheckbox={false}>
@@ -158,4 +166,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, {searchStacks, populateAutoComplete, unmountSearch})(Search);
+export default connect(mapStateToProps, {initiateGuestBrowsing,searchStacks, populateAutoComplete, unmountSearch})(Search);
