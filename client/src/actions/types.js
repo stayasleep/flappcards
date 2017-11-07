@@ -34,7 +34,6 @@ export const RESET_PW = 'reset_pw';
 export const RESET_PW_ERROR ='reset_pw_error';
 export const CLEAR_RESET_PW = 'clear_reset_pw';
 export const RECOVER_PW = 'recover_pw';
-
 export const INITIATE_GUEST_BROWSING = 'initiate_guest_browsing';
 export const FETCH_STACK_OVERVIEW_TITLES = "fetch_stack_overview_titles";
 export const FETCH_STACK_OVERVIEW_TITLES_ERRORS = "fetch_stack_overview_titles_errors";

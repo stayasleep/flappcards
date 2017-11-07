@@ -388,7 +388,8 @@ export function deleteCard(cardObj) {
                     type:AUTH_SESSION_EXP
                 })
             }else if(response.data.redirect){
-                //no more cards in the stack
+                //no more cards in the stack, so we reset the stackCard state to prevent errors when hitting back button
+                dispatch({type: RESET_STACKCARDS, payload: null});
                 browserHistory.push('/myShelf');
             }else{
                 axios.get(`${BASE_URL}/stackOverview/${cardObj.stackID}`,{headers:{"x-access-token":token}}).then((response) => {
