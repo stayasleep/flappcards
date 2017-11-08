@@ -11,7 +11,8 @@ import PopDialog from '../common/popUpDialog';
 import StackHeaders from '../../containers/forms/edit_stack_headers';
 import AddCard from '../editCard/add';
 import EditCard from '../editCard/edit';
-import DeleteCardConfirm from '../confirmActionModal/deleteCard'
+import DeleteCardConfirm from '../confirmActionModal/deleteCard';
+import DeleteDialog from '../confirmActionModal/deleteDialog';
 
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
 import  './../styles/stackOverview.css' // import CSS for styling

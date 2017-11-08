@@ -2,12 +2,22 @@ import React, { Component } from 'react';
 import {Link} from 'react-router';
 import { connect } from 'react-redux';
 import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
-import {getMyStackOverview, getStackOverview} from '../../actions/index';
+import {deleteStack,getMyStackOverview, getStackOverview} from '../../actions/index';
 import LoadingCircle from '../../components/common/index';
 import StackList from '../../components/myShelf/stackList';
 import Shelf from '../../components/myShelf/myshelf';
+import DeleteDialog from '../../components/confirmActionModal/deleteDialog';
 
 class MyShelf extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            deleteDialog:false,
+            jStack: null,
+        };
+        this.toggleDeleteHandler = this.toggleDeleteHandler.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
     componentWillMount(){
         document.title="FlappCards - My Shelf";
     }
@@ -21,6 +31,29 @@ class MyShelf extends Component {
     componentWillUnmount(){
         document.title="FlappCards";
     }
+
+
+    //Dialog action buttons can share between setting and nullifying state
+    toggleDeleteHandler(num){
+        if(num){
+            console.log('num exists',num);
+            this.setState({deleteDialog: !this.state.deleteDialog, jStack:num });
+        }else{
+            console.log('no nummies',num);
+            this.setState({deleteDialog: !this.state.deleteDialog, jStack: null });
+        }
+    }
+    //Dialog action handler:local state has stack id, only proceed if id is passed with component,
+    //Dialog can be triggered with react tools and then axios may go off without conditional as safeguard
+    handleDelete(num){
+        console.log('hand del',this.state.jStack);
+        if(num){
+            console.log('delete is rela', num);
+            this.props.deleteStack(num);
+        }
+        this.setState({deleteDialog: !this.state.deleteDialog, jStack: null});
+    }
+
 
     render(){
         console.log('shelf prop',this.props);
@@ -46,8 +79,15 @@ class MyShelf extends Component {
                 {this.props.stacks && this.props.stacks.length>0  &&
                 <Shelf>
                     {this.props.stacks.map((item, index)=>{
-                        return (<StackList item={item} key={index}/>);
+                        return (<StackList item={item} key={index} onToggleDelete={this.toggleDeleteHandler}/>);
                     })}
+                    <DeleteDialog
+                        open={this.state.deleteDialog}
+                        title="Are you sure you want to delete this stack?"
+                        confirmTitle="Delete Stack"
+                        handleClose={()=>this.toggleDeleteHandler()}
+                        handleDelete={()=>this.handleDelete(this.state.jStack)}
+                    />
                 </Shelf>
                 }
 
@@ -63,4 +103,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, {getMyStackOverview, getStackOverview})(MyShelf);
+export default connect(mapStateToProps, {deleteStack,getMyStackOverview, getStackOverview})(MyShelf);
