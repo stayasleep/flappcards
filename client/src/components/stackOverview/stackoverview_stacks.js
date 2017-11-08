@@ -6,12 +6,14 @@ import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 import Divider from 'material-ui/Divider';
 import EditMode from 'material-ui/svg-icons/editor/mode-edit';
 import Paper from 'material-ui/Paper';
+import {red500} from 'material-ui/styles/colors';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import PopDialog from '../common/popUpDialog';
 import StackHeaders from '../../containers/forms/edit_stack_headers';
 import AddCard from '../editCard/add';
 import EditCard from '../editCard/edit';
-import DeleteCardConfirm from '../confirmActionModal/deleteCard';
 import DeleteDialog from '../confirmActionModal/deleteDialog';
 
 import {cardHeader, cardDivider, singleCard, cardText, questionText, stackOverviewCardActions, answerText, chip, mediumIcon, medium, header } from '../utilities/stackSummaryStyle';
@@ -68,7 +70,9 @@ const StackViewStacks = (props) => {
                                 {props.isOwned &&
                                 <div className="stack-actions">
                                     <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
-                                    <DeleteCardConfirm cardID={item}/>
+                                    <IconButton label="Delete" onTouchTap={()=>props.onToggleDelete({stack:item.stack_id, card: item.card_id})} >
+                                        <ActionDelete hoverColor={red500}/>
+                                    </IconButton>
                                 </div>
                                 }
                             </div>

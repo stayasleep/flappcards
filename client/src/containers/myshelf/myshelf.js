@@ -36,19 +36,15 @@ class MyShelf extends Component {
     //Dialog action buttons can share between setting and nullifying state
     toggleDeleteHandler(num){
         if(num){
-            console.log('num exists',num);
             this.setState({deleteDialog: !this.state.deleteDialog, jStack:num });
         }else{
-            console.log('no nummies',num);
             this.setState({deleteDialog: !this.state.deleteDialog, jStack: null });
         }
     }
     //Dialog action handler:local state has stack id, only proceed if id is passed with component,
     //Dialog can be triggered with react tools and then axios may go off without conditional as safeguard
     handleDelete(num){
-        console.log('hand del',this.state.jStack);
         if(num){
-            console.log('delete is rela', num);
             this.props.deleteStack(num);
         }
         this.setState({deleteDialog: !this.state.deleteDialog, jStack: null});

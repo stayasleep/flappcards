@@ -28,24 +28,6 @@ class RecoverPw extends React.Component{
         recoveryModal: false,
     };
 
-    // componentWillReceiveProps(nextProps){
-    //     console.log('recoverPW dialog this prop',this.props);
-    //     console.log('recoverPW receiving props',nextProps);
-    //     if(nextProps.recoverPW !== this.props.recoverPW) {
-    //         if (nextProps.recoverPW) {
-    //
-    //             // this.interval = setInterval(() => this.sendMeHome(), 1000);
-    //         }
-    //     }
-    // }
-    // componentWillUnmount(){
-    //     console.log('recoverPW unmount');
-    //     clearInterval(this.interval);
-    //     if(this.props.recoverPW){
-    //         // this.props.resetAuthRecovery();
-    //
-    //     }
-    // }
 
     handleOpen = (e) =>{
         e.preventDefault();
