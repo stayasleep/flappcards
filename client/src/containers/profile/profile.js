@@ -66,6 +66,7 @@ class Profile extends Component {
     }
     //For the general info, cancel form edit
     handleInfoCancel(str){
+        console.log('profile bday',str);
         switch(str){
             case "name":
                 return this.setState({formName: !this.state.formName, hoverName: false});

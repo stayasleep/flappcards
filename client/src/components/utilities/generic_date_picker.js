@@ -6,12 +6,13 @@ console.log('reg picker',custom);
     return (
         <DatePicker
             id="birth-date"
-            floatingLabelStyle={{color: "teal"}}
-            floatingLabelText={label}
-
             onChange={(e, val) => {return console.log('vals eh',input.onChange(val))}}
             errorText={touched && (error && <span className="errorMsg">{error}</span>)}
             okLabel="Select"
+
+            floatingLabelStyle={{color: "teal"}}
+            floatingLabelText={label}
+
             {...custom}
         />
     );

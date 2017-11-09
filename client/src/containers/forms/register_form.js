@@ -3,6 +3,7 @@ import { change ,Field, reduxForm, Fields } from 'redux-form';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import GenericDate from '../../components/utilities/generic_date_picker';
+import DatePickerForm from '../../components/common/date_picker';
 // import renderInput from '../../components/utilities/renderInputStackOV'; //using this, on field reset...the error sets off. has to do with the conditional inside func
 import renderInput from '../../components/utilities/renderInputReg';
 import {register, resetAuthError} from '../../actions/index';
@@ -64,7 +65,8 @@ class RegisterForm extends Component {
                         </div>
                         <Field name="passwordConfirm" component={renderInput} label="Confirm Password" type="password"/>
                         <Field name="email" component={renderInput} label="Email"/>
-                        <Field id="date"  name="birthday" component={GenericDate} label="Birthday"/>
+                        <Field id="date" name="birthday" component={DatePickerForm} label="Birthday" floatingLabelStyle={{color: "teal"}} floatingLabelText={"Birthday"} />
+                        {/*<Field id="date"  name="birthday" component={GenericDate} label="Birthday"/>*/}
                     </div>
                     <div className="logResetContainer" style={{margin:"2em auto", width:"50%"}}>
                         <RaisedButton style={{margin:"1em 0"}} primary={true} type="submit" label="Submit" disabled={submitting} fullWidth={true} />

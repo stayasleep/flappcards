@@ -42,40 +42,42 @@ const StackViewStacks = (props) => {
             </Paper>
 
             <div className="stackview-stack">
-                {/*If stack isnt yours and youre authorized*/}
-                {!props.isOwned && props.auth2Copy &&
-                <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>props.onCopy(props.stackCards[0])} />
-                }
-                {/*If stack isnt yours and youre not logged in*/}
-                {!props.isOwned && !props.auth2Copy &&
-                <div className="copyDialogBox">
-                    <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>props.onCopyProhibited()} />
-                    <PopDialog contentClass="miniLoginContent" overlayClass="miniLoginOverlay" stateIs={props.popUpOpen} onClick={()=>props.onDialogClose()}/>
+                <div className="stack-options" style={{display: "flex",justifyContent:"space-around", alignItems: "center", flexWrap:"wrap"}}>
+                    {/*If stack isnt yours and youre authorized*/}
+                    {!props.isOwned && props.auth2Copy &&
+                    <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>props.onCopy(props.stackCards[0])} />
+                    }
+                    {/*If stack isnt yours and youre not logged in*/}
+                    {!props.isOwned && !props.auth2Copy &&
+                    <div className="copyDialogBox">
+                        <ContentContentCopy className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>props.onCopyProhibited()} />
+                        <PopDialog contentClass="miniLoginContent" overlayClass="miniLoginOverlay" stateIs={props.popUpOpen} onClick={()=>props.onDialogClose()}/>
+                    </div>
+                    }
+                    <RaisedButton style={{fontWeight: "700"}} className="studyButton" containerElement={<Link to={`/stackoverview/${props.stackCards[0].stack_id}/${props.stackCards[0].card_id}`} name="SingleCard" />}>Study</RaisedButton>
+                    {props.isOwned &&
+                    <AddCard/>
+                    }
+                    <Chip className="chip" style={chip}><Avatar style={{boxShadow:"rgba(0, 0, 0, 0.75) 0px 1px 6px"}} size={32}>{props.stackCards.length}</Avatar>Cards</Chip>
                 </div>
-                }
-                <RaisedButton style={{fontWeight: "700"}} className="studyButton" containerElement={<Link to={`/stackoverview/${props.stackCards[0].stack_id}/${props.stackCards[0].card_id}`} name="SingleCard" />}>Study</RaisedButton>
-                {props.isOwned &&
-                <AddCard/>
-                }
-                <Chip className="chip" style={chip}><Avatar style={{boxShadow:"rgba(0, 0, 0, 0.75) 0px 1px 6px"}} size={32}>{props.stackCards.length}</Avatar>Cards</Chip>
                 <div className="cardStackList">
-                    {props.stackCards.map((item, index)=> {
-                        return (
-                            <div key={index} style={singleCard}>
-                                <div className="cardHeader">
-                                    <div onClick={()=>props.onCardToggle(index)} className="isDisplayed">+{!props.displayState[index].showAnswer ? "Answer" : "Question"}</div>
-                                    {!props.displayState[index].showAnswer ? `Question: ${item.question}` : `Answer: ${item.answer}`}
-                                </div>
-                                <Divider style={cardDivider} />
-                                {props.isOwned &&
-                                <div className="stack-actions">
-                                    <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
-                                    <IconButton label="Delete" onTouchTap={()=>props.onToggleDelete({stack:item.stack_id, card: item.card_id})} >
-                                        <ActionDelete hoverColor={red500}/>
-                                    </IconButton>
-                                </div>
-                                }
+                {props.stackCards.map((item, index)=> {
+                    return (
+                        <div key={index} style={singleCard}>
+                            <div className="cardHeader">
+                                <div onClick={()=>props.onCardToggle(index)} className="isDisplayed">+{!props.displayState[index].showAnswer ? "Answer" : "Question"}</div>
+                                {!props.displayState[index].showAnswer ? `Question: ${item.question}` : `Answer: ${item.answer}`}
                             </div>
+                            <Divider style={cardDivider} />
+                            {props.isOwned &&
+                            <div className="stack-actions">
+                                <EditCard key={index} cardID={item.card_id} stackID={item.stack_id} formKey={index.toString()} initialValues={{editQ: item.question, editA: item.answer}}/>
+                                <IconButton label="Delete" onTouchTap={()=>props.onToggleDelete({stack:item.stack_id, card: item.card_id})} >
+                                    <ActionDelete hoverColor={red500}/>
+                                </IconButton>
+                            </div>
+                            }
+                        </div>
                         )
                     })}
                 </div>
