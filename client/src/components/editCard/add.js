@@ -5,8 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import renderInput from '../utilities/renderInput';
-import {addSingleCard, getStackOverview} from '../../actions/index';
+import {addSingleCard} from '../../actions/index';
 import {singleCardForm, singleCardAdd, singleCardAddDialog} from './../styles/add_single_card.css';
+
 const styler = {
     center: {
         textAlign: "center"
@@ -105,4 +106,4 @@ function mapStateToProps(state) {
 }
 
 // Connecting the add card form values
-export default connect(mapStateToProps,{addSingleCard, getStackOverview})(AddCard);
+export default connect(mapStateToProps,{addSingleCard})(AddCard);

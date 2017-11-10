@@ -26,7 +26,7 @@ router.post('/',(request,response,next)=> {
             if (error) {
                 response.send({success: false, message:"There was a problem with your request"});
             } else {
-                console.log('is this printing 2x');
+                console.log('is this printing 2x', results);
                 response.send(results);
             }
         });

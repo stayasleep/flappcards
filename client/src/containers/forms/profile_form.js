@@ -123,7 +123,8 @@ class ProfileInfo extends Component {
                                     <div className="birthdayTitle">Birthday:</div>
                                     <form className="birthdayForm" onSubmit={handleSubmit((values) => {this.props.handleFormSubmit(values,"birthday")})}>
                                         <div className="editFormBirthday">
-                                            <Field className="editField" name="birthday" defaultValue={{min:formatBday}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />
+                                            <Field className="editField" name="birthday" defaultDate={formatBday} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} />
+                                            {/*<Field className="editField" name="birthday" defaultValue={{min:formatBday}} component={DatePickerForm} onSubmit={handleSubmit((values) => {this.handleFormSubmit(values,"birthday")})} onClose={(str) => this.handleFormCancel.bind(this)("birthday")} />*/}
                                         </div>
                                         <div className="editFormButtons">
                                             <button className="editbtn btn btn-main" type="submit">Save</button>

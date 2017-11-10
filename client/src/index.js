@@ -13,7 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
-// console.log = function() {};
+console.log = function() {};
 if(token && JSON.parse(guest)){
     store.dispatch({type: AUTH_USER,payload: false});
 } else if(token ){
@@ -24,8 +24,7 @@ import App from './components/app';
 import Home from './containers/home/home';
 import Profile from './containers/profile/profile';
 import MyShelf from './containers/myshelf/myshelf';
-import Search from './components/search/search_page';
-// import CreateCards from './components/cardCreation/create_cards';
+import Search from './containers/search/search';
 import CreateStack from './containers/create_card/create';
 import requireAuth from './components/auth/require_auth';
 import Stacks from './containers/stackoverview/stackoverview';

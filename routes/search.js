@@ -40,7 +40,7 @@ router.post('/autocomplete', (request, response, next)=> {
                     }
                 }
                 result.map(convertToArrayOfStrings); // ["JavaScript", "String Methods", ...]
-                response.send(suggestions); // Sends an array of objects; ex.: [{"category":"JavaScript", "subject": "String Methods"}, ... ]
+                response.send({success:true, suggestions:suggestions}); // Sends an array of objects; ex.: [{"category":"JavaScript", "subject": "String Methods"}, ... ]
             }
         });
         connection.release(); // Release the connection

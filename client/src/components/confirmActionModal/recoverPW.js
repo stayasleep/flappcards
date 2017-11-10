@@ -28,40 +28,6 @@ class RecoverPw extends React.Component{
         recoveryModal: false,
     };
 
-    componentWillReceiveProps(nextProps){
-        console.log('recoverPW dialog this prop',this.props);
-        console.log('recoverPW receiving props',nextProps);
-        if(nextProps.recoverPW !== this.props.recoverPW) {
-            if (nextProps.recoverPW) {
-
-                // this.interval = setInterval(() => this.sendMeHome(), 1000);
-            }
-        }
-    }
-    componentWillUnmount(){
-        console.log('recoverPW unmount');
-        clearInterval(this.interval);
-        if(this.props.recoverPW){
-            // this.props.resetAuthRecovery();
-
-        }
-    }
-    //this works when we are on the landing page
-    // sendMeHome(){
-    //     if(this.state.time === 0){
-    //         setTimeout(() => {
-    //             browserHistory.push("/login");
-    //             // this.setState({recoveryModal: false});
-    //         },500);
-    //         console.log('batman');
-    //         this.setState({recoveryModal: false});
-    //         clearInterval(this.interval);
-    //         this.props.resetAuthRecovery();
-    //     }else{
-    //         this.setState({time: this.state.time - 1});
-    //     }
-    // }
-
 
     handleOpen = (e) =>{
         e.preventDefault();
@@ -74,7 +40,7 @@ class RecoverPw extends React.Component{
         this.setState({
             recoveryModal: false
         });
-        console.log('happens first')
+        console.log('happens first');
         this.props.resetAuthRecovery();
     };
 
