@@ -76,12 +76,12 @@ class StackHeaders extends Component {
 
 
         return(
-            <div className="edit-headers-container">
+            <div className="edit-headers-container" style={{textAlign:"center", margin:"0 auto"}}>
                 {!this.state.enableEditSubj ? (
                 <div className="isOwnedSubject" onMouseEnter={this.mouseEnterSubj} onMouseLeave={this.mouseLeaveSubj} onClick={this.handleEnableEdit.bind(this,"subject")}>{`Subject: ${this.props.stackSubj}`}<EditMode style={{display: displayEditSubj}}/></div>
                 ) : (
                 <div className="form-box">
-                    <form onSubmit={handleSubmit((values)=> this.handleFormSubmit(values))}>
+                    <form className="header-form" onSubmit={handleSubmit((values)=> this.handleFormSubmit(values))}>
                         <Field className="editSubj" name="subject" component={renderInput}/>
                         <button className="editbtn btn btn-main" type="submit">Save</button>
                         <button className="editbtn btn btn-secondary" type="button" onClick={(str) => this.handleEditCancel.bind(this)("subject")}>Cancel</button>
@@ -93,7 +93,7 @@ class StackHeaders extends Component {
                 <div className="isOwnedCat" onMouseEnter={this.mouseEnterCat} onMouseLeave={this.mouseLeaveCat} onClick={this.handleEnableEdit.bind(this,"category")}>{`Category: ${this.props.stackCat}`}<EditMode style={{display: displayEditCat}} /></div>
                 ) : (
                 <div className="form-box">
-                    <form onSubmit={handleSubmit((values) => {this.handleFormSubmit(values)})} >
+                    <form className="header-form" onSubmit={handleSubmit((values) => {this.handleFormSubmit(values)})} >
                         <Field className="editCat" name="category" component={renderInput} />
                         <button className="editbtn btn btn-main" type="submit">Save</button>
                         <button className="editbtn btn btn-secondary" type="button" onClick={(str)=>this.handleEditCancel.bind(this)("category")}>Cancel</button>

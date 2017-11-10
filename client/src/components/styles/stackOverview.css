@@ -27,10 +27,7 @@
     .stackActions > div {
         margin: 1em;
     }
-    /*somewhere, adding the dialog with the copy svg made the studyButton look really weird..this is a patch to get it to normal*/
-    .stackActionsGuest>.studyButton,.stackActionsGuest>.chip{
-        margin: 2em !important;
-    }
+
     .cardHeader {
         font-size: 1em;
         font-weight: bold;
@@ -193,54 +190,29 @@
     }
 }
 
-.stackActions,.stackActionsGuest {
-    display: -webkit-flex;
-    display: flex;
-    /*flex-flow: row wrap;*/ /*this just made the 3 buttons look weird on mobile.*/
-    /*-webkit-flex-flow: row wrap;*/
-    justify-content: space-around;
-}
-/*somewhere, adding the dialog with the copy svg made the studyButton look really weird..this is a patch to get it to normal*/
-.stackActionsGuest>.studyButton,.stackActionsGuest>.chip{
-    margin: 2em !important;
-}
-.stackActions > div  {
-    margin: 1em;
-}
 
-.studyButton > a {
-    background-color: #ffb499 !important;
-    color: #26A69A !important;
-}
+
 .stackActionsAdd > button {
     background-color: #26A69A !important;
 }
-.contentCopy {
-    color: #26A69A !important;
-}
+
 
 .stackHeader {
     text-align: center;
-    font-family: Roboto, sans-serif;
     font-size: 2em;
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
     background-color: #26A69A !important;
-    box-shadow: none !important;
-    -webkit-box-shadow: none !important;
 }
-
-.stackHeader > span {
-    margin: 0.2em;
-    color: white;
+.header-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
-
-.chip {
-    background-color: white !important;
-}
-.chip > div {
-    background-color: #ffb499 !important;
+.form-box {
+    margin-bottom: 16px;
 }
 
 .loadingIcon {

@@ -7,7 +7,7 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
 import {red500} from 'material-ui/styles/colors';
-import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from '../utilities/stackSummaryStyle';
+import {cardHeader, cardActions, cardText, stackSummaryDisplay} from '../utilities/stackSummaryStyle';
 import {loadingIcon} from './../styles/myshelf.css';
 
 
