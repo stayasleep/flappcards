@@ -26,7 +26,6 @@ router.post('/',(request,response,next)=> {
             if (error) {
                 response.send({success: false, message:"There was a problem with your request"});
             } else {
-                console.log('is this printing 2x', results);
                 response.send(results);
             }
         });
@@ -48,7 +47,7 @@ router.delete('/:sID',(request,response,next)=>{
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
-            response.json({
+            return response.json({
                 success: false,
                 message: "Problem Connecting to DB"
             });

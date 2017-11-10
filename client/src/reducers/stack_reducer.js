@@ -61,8 +61,7 @@ export default function (state = default_state, action) {
         case (FETCH_MY_RECENT_STACKS):
             return {...state, recentStacks: action.payload};
         case (FETCH_MY_COMMUNITY_STACKS):
-            return {...state,
-                communityStacks: action.payload};
+            return {...state, communityStacks: action.payload};
         case FETCH_STACK_OVERVIEW:
             console.log('reducer for clicking eyeball on stack',action);
             return {...state,unavailable: false, stackCards: action.payload, subj:action.payload[0].subject, course: action.payload[0].category};
@@ -99,5 +98,3 @@ export default function (state = default_state, action) {
     }
     return state;
 }
-
-// Added recentStacks to the props of the React app

@@ -21,7 +21,7 @@ router.get('/:sID',(request,response,next) => {
             }
             connection.query("SELECT `stacks`.`stack_id`, `stacks`.`user_id` FROM `stacks` WHERE stacks.stack_id=?;", [sid], (error, result) => {
                 if (error) {
-                    response.send({success: false, message: "There was a problem with your request"});
+                    return response.send({success: false, message: "There was a problem with your request"});
                 }
 
                 if (result.length > 0) {
@@ -38,10 +38,9 @@ router.get('/:sID',(request,response,next) => {
                         "WHERE `stacks`.`stack_id`=?;" +
                         "COMMIT;", [sid, sid], (error, results) => {
                         if (error) {
-                            response.send({success: false, message: "There was a problem with your request"});
+                            return response.send({success: false, message: "There was a problem with your request"});
                         }
-                        console.log('get stack ov',results);
-                        console.log('get res2', results[2]);
+                        // console.log('get res2', results[2]);
                         if (results[2].length > 0 && owned) {
                             results[2][0].isOwned = true;
                             response.send(results[2]);
@@ -91,14 +90,14 @@ router.post('/:sID',(request,response,next)=>{
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
-            response.json({
+            return response.json({
                 success: false,
                 message: "Problem Connecting to DB"
             });
         }
         connection.query("INSERT INTO `cards`(`stack_id`, `question`, `answer`, `orig_source_stack`) VALUES (?,?,?,?)",[stackID,addQ,addA,un],(error,results)=>{
             if (error) {
-                response.send({success: false, message:"There was a problem with your request"});
+                return response.send({success: false, message:"There was a problem with your request"});
             }
             response.send("Added card to Stack");
         });
@@ -126,7 +125,7 @@ router.delete('/:sID/:cID',(request,response,next)=>{
                 "SELECT COUNT(`cards`.`card_id`) AS `remaining` FROM `cards` WHERE `cards`.`stack_id` = ? ;" +
                 "COMMIT;",[uid, singleID, stackID], (error, result)=>{
                     if (error) {
-                        response.send({success: false, message: "There was a problem with your request"});
+                        return response.send({success: false, message: "There was a problem with your request"});
                     }
 
                     const remaining = result[2][0].remaining;
@@ -167,7 +166,7 @@ router.put('/:cId',(request,response,next)=>{
         connection.query("UPDATE `cards` SET `question`=? , `answer`=? WHERE `card_id`=?",[newQ, newA, singleID],(error,results)=>{
             // If error, notify client that card edit failed
             if (error) {
-                response.send({success: false, message:"There was a problem with your request"});
+                return response.send({success: false, message:"There was a problem with your request"});
             }
             response.json({success:true, msg: "Single Card Updated"});
         });
@@ -187,7 +186,7 @@ router.put("/:stackID/headers", (req, res,next) => {
 
     pool.getConnection((error, connection) =>{
         if(error){
-            res.json({success: false, message: "Problem Connecting to DB"});
+            return res.json({success: false, message: "Problem Connecting to DB"});
         }
         connection.query("UPDATE `stacks` SET `subject` = ?, `category` = ? WHERE `stack_id` = ? AND `user_id` = ?",[newSub, newCat, stackID, userID], (error, results) =>{
             if(error){

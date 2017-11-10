@@ -618,12 +618,13 @@ export function addSingleCard(cardObject) {
                 })
             }else {
                 axios.get(`${BASE_URL}/stackOverview/${stackID}`, {headers: {"x-access-token": token}}).then((response) => {
-                    console.log('inside the dispatch');
+                    console.log('inside the add single ax', response);
                     (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({
                             type: FETCH_STACK_OVERVIEW,
                             payload: response.data
                         });
                 }).catch(err => {
+                    console.log('inside add single err',err);
                     dispatch({
                         type: FETCH_STACK_OVERVIEW,
                         error: err.response
@@ -631,6 +632,7 @@ export function addSingleCard(cardObject) {
                 })
             }
         }).catch(err => {
+            console.log('inside second catch add single',err);
             dispatch({
                 type: CREATE_STACK,
                 error: err.response
