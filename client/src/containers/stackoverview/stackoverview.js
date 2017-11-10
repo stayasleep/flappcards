@@ -5,8 +5,8 @@ import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
 import DoesNotExist from '../../components/stackOverview/stack_does_not_exist';
 import StackViewStacks from '../../components/stackOverview/stackoverview_stacks';
 import LoadingCircle from '../../components/common/index';
-
-import {getStackOverview, resetStackUnavailable, resetStackCards, stackCopy } from '../../actions/index';
+import DeleteDialog from '../../components/confirmActionModal/deleteDialog';
+import {deleteCard,getStackOverview, resetStackUnavailable, resetStackCards, stackCopy } from '../../actions/index';
 
 
 class Stacks extends Component {
@@ -15,12 +15,16 @@ class Stacks extends Component {
         this.state={
             cardView: null,
             popUpOpen: false,
+            deleteDialog: false,
+            card: {}
         };
         this.handleCopy = this.handleCopy.bind(this);
         this.handleCopyProhibited = this.handleCopyProhibited.bind(this);
         this.handleDialogClose = this.handleDialogClose.bind(this);
         this.handleOriginClick = this.handleOriginClick.bind(this);
         this.handleCardToggle = this.handleCardToggle.bind(this);
+        this.toggleDelete = this.toggleDelete.bind(this);
+        this.handleDeleteAction = this.handleDeleteAction.bind(this);
     }
 
     componentWillMount(){
@@ -79,7 +83,6 @@ class Stacks extends Component {
         }
     }
     componentWillUnmount(){
-        console.log('stack will unmount',this.props);
         //IFF stack unavailable, we reset the state so we dont see the unavailable msg during server load
         //for the next unique stack
         if(this.props.unavailable){
@@ -97,15 +100,12 @@ class Stacks extends Component {
     }
 
     handleCopy(stackID){
-        console.log('test');
         this.props.stackCopy(stackID);
     }
     handleCopyProhibited(){
-        console.log('activated pop up');
         this.setState({popUpOpen: !this.state.popUpOpen});
     }
     handleDialogClose(){
-        console.log('closing pop up');
         this.setState({popUpOpen: !this.state.popUpOpen});
     }
 
@@ -113,8 +113,37 @@ class Stacks extends Component {
         browserHistory.push(`/stackoverview/${source}`);
     }
 
+    //Delete Card dialog toggle switch
+    toggleDelete(card){
+        console.log('id being toggled',card);
+        this.setState({deleteDialog: !this.state.deleteDialog, card: card})
+    }
+
+    //render delete dialog, would be neat if card_id could be passed as param directly and not set via state
+    //less prone to user tomfoolery that way
+    handleMakeDialog(card){
+        console.log('mystate ahndled',this.state);
+        console.log('handling you boo', card);
+        return (
+            <DeleteDialog
+                title="Are you sure you want to delete this card from your stack?"
+                confirmTitle="Delete Card"
+                open={this.state.deleteDialog}
+                handleClose={()=> this.setState({deleteDialog: !this.state.deleteDialog, card:{}})}
+                handleDelete={() => this.handleDeleteAction(this.state.card)}
+            />
+        )
+    }
+
+    handleDeleteAction(flash){
+        this.props.deleteCard({"stackID":flash.stack, "cardID":flash.card});
+        this.setState({deleteDialog: !this.state.deleteDialog, card: {}});
+
+    }
+
     render(){
-        console.log('stack render', this.props, this.state);
+        console.log('stack render', this.props);
+        console.log('my render state',this.state);
         return(
             <div className="stackoverview-container">
                 <FlashCardsAppBar />
@@ -133,6 +162,7 @@ class Stacks extends Component {
                 {/*Stack Exists*/}
                 {/*On subsequent visits, stack is defined but local state isnt so we dont want this to render yet*/}
                 {this.props.stackCards && this.state.cardView && !this.props.unavailable &&
+                    <div>
                     <StackViewStacks
                         auth2Copy={this.props.authorized}
                         displayState={this.state.cardView}
@@ -147,7 +177,10 @@ class Stacks extends Component {
                         category={this.props.stackCat}
                         stackOrigin={this.props.stackCards[0].origin}
                         popUpOpen={this.state.popUpOpen}
+                        onToggleDelete={this.toggleDelete}
                     />
+                    {this.state.deleteDialog && this.handleMakeDialog.bind(this)()}
+                    </div>
                 }
 
 
@@ -168,4 +201,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps,{getStackOverview, resetStackUnavailable, resetStackCards, stackCopy})(Stacks);
+export default connect(mapStateToProps,{deleteCard,getStackOverview, resetStackUnavailable, resetStackCards, stackCopy})(Stacks);

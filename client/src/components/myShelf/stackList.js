@@ -3,10 +3,11 @@ import {Link} from 'react-router';
 import Avatar from 'material-ui/Avatar';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
-import DeleteStackConfirm from '../confirmActionModal/deleteStack'
-import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from '../utilities/stackSummaryStyle';
+import {red500} from 'material-ui/styles/colors';
+import {cardHeader, cardActions, cardText, stackSummaryDisplay} from '../utilities/stackSummaryStyle';
 import {loadingIcon} from './../styles/myshelf.css';
 
 
@@ -30,7 +31,9 @@ const StackList = (props) =>{
                     <IconButton containerElement={<Link to={`/stackOverview/${props.item.stack_id}`} name="stackOverview"/>}>
                         <RemoveRedEye hoverColor={green500}/>
                     </IconButton>
-                    <DeleteStackConfirm stackID={props.item.stack_id}/>
+                    <IconButton label="Delete" onTouchTap={()=>props.onToggleDelete(props.item.stack_id)} >
+                        <ActionDelete hoverColor={red500}/>
+                    </IconButton>
                 </CardActions>
                 <CardText style={cardText}>{`Total Views: ${props.item.stackRating}`}</CardText>
             </Card>

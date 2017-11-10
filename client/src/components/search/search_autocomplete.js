@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import AutoComplete from 'material-ui/AutoComplete';
-import {searchStacks, populateAutoComplete} from './../../actions/index.js';
+import {populateAutoComplete} from './../../actions/index.js';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -16,15 +16,27 @@ class SearchAutoComplete extends Component {
 
 
     handleSearch(search){
-        //this.props.searchStacks(search);
-        browserHistory.push(`/search?q=${search}`);
+        console.log('search',search.length);
+        //prevent blank and white space submissions?
+        switch(true) {
+            case search.length === 0:
+                break;
+
+            case /^\s+$/.test(search):
+                break;
+            default:
+                console.log('winner');
+                browserHistory.push(`/search?q=${search}`);
+        }
     }
+
     componentWillMount() {
         this.props.populateAutoComplete();
     }
 
 
     render() {
+
         const {autoCompleteSuggestions} = this.props;
         let autoLower = autoCompleteSuggestions.map((suggestion, index) => {
             return suggestion.toLowerCase();
@@ -38,8 +50,9 @@ class SearchAutoComplete extends Component {
         let setAuto = [...new Set(trimAutoArray)]; //removes duplicates, ES6
 
         return(
-            <div>
+            <div style={{textAlign:"center"}}>
                 <AutoComplete
+                    searchText={this.state.searchText === "" ? this.props.term.q : this.state.searchText} //if you search a stack, view it, and hit back button...input field is blank with results. this poulates the input field again
                     hintText="Search By Category or Subject"
                     dataSource={setAuto}
                     filter={AutoComplete.fuzzyFilter}
@@ -67,7 +80,6 @@ SearchAutoComplete.propTypes = {
 function mapStateToProps(state) {
     return {
         autoCompleteSuggestions: state.stack.autoCompleteSuggestions, // state.reducerName.keyThatAppearsInReducer
-        stacks: state.stack.stacks
     }
 }
-export default connect(mapStateToProps, {populateAutoComplete, searchStacks})(SearchAutoComplete);
+export default connect(mapStateToProps, {populateAutoComplete})(SearchAutoComplete);
