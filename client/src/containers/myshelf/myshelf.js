@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router';
 import { connect } from 'react-redux';
 import FlashCardsAppBar from '../../components/appBar/app_bar_with_drawer';
-import {deleteStack,getMyStackOverview, getStackOverview} from '../../actions/index';
+import {deleteStack,getMyStackOverview, getStackOverview,resetStackCards} from '../../actions/index';
 import LoadingCircle from '../../components/common/index';
 import StackList from '../../components/myShelf/stackList';
 import Shelf from '../../components/myShelf/myshelf';
@@ -45,6 +45,11 @@ class MyShelf extends Component {
     //Dialog can be triggered with react tools and then axios may go off without conditional as safeguard
     handleDelete(num){
         if(num){
+            //check to see if stack deleted is the one still in stackCards reducer
+            //ensures if it is, travelling backwards will render the unavailable component
+            if(this.props.overviewID && this.props.overviewID[0].stack_id === num){
+                this.props.resetStackCards();
+            }
             this.props.deleteStack(num);
         }
         this.setState({deleteDialog: !this.state.deleteDialog, jStack: null});
@@ -95,8 +100,9 @@ class MyShelf extends Component {
 function mapStateToProps(state){
     return{
         authorized: state.auth.authorized,
-        stacks: state.stack.stacks
+        stacks: state.stack.stacks,
+        overviewID: state.stack.stackCards
     }
 }
 
-export default connect(mapStateToProps, {deleteStack,getMyStackOverview, getStackOverview})(MyShelf);
+export default connect(mapStateToProps, {deleteStack,getMyStackOverview, getStackOverview,resetStackCards})(MyShelf);
