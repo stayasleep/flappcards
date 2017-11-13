@@ -83,6 +83,12 @@ function validate(values){
     if(!values.answer){
         errors.answer = "Required";
     }
+    if(values.question && /^\s+$/.test(values.question)){
+        errors.question = "Question must have a value";
+    }
+    if(values.answer && /^\s+$/.test(values.answer)){
+        errors.answer = "Answer must have a value";
+    }
     if(values.question && values.question.length > 400){
         errors.question = "Question must be fewer than 400 characters";
     }
