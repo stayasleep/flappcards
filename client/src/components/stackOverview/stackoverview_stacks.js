@@ -45,7 +45,7 @@ const StackViewStacks = (props) => {
                 <div className="stack-options" style={{display: "flex",justifyContent:"space-around", alignItems: "center", flexWrap:"wrap"}}>
                     {/*If stack isnt yours and youre authorized*/}
                     {!props.isOwned && props.auth2Copy &&
-                    <ContentContentCopy color="#26A69A" className="contentCopy" style={{cursor:"pointer",height:"3em", width:"3em", margin: "1em"}} onTouchTap={()=>props.onCopy(props.stackCards[0])} />
+                    <ContentContentCopy color="#26A69A" className="contentCopy" style={{cursor:"pointer",height:"3em",width:"3em",margin:"1em"}} onTouchTap={()=>props.onCopy(props.stackCards[0])} />
                     }
                     {/*If stack isnt yours and youre not logged in*/}
                     {!props.isOwned && !props.auth2Copy &&

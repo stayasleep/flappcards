@@ -58,9 +58,8 @@ class StackSummary extends Component {
                         Created On: {item.createdOn}
                         </div>
                         <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} className="viewEye">
-                            <IconButton iconStyle={mediumIcon} name={"view-stack-icon"} style= {medium} >
+                            <IconButton iconStyle={mediumIcon} name={"view-stack-icon"} style= {medium} touch={true} tooltip="View" tooltipPosition="bottom-center" >
                                 <RemoveRedEye hoverColor={green500} />
-
                             </IconButton>
                             {item.stackRating}
                         </div>

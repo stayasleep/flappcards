@@ -118,7 +118,7 @@ export const cardToAdd = {
     boxShadow: "rgba(0, 0, 0, 0.50) 0px 2px 12px, rgba(0, 0, 0, 0.12) 0px 1px 4px"
 };
 export const singleCard = {
-    position: "relative",
+    //position: "relative",
     margin: "2em",
     fontFamily: "Roboto, sans-serif"
 

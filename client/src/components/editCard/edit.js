@@ -87,7 +87,7 @@ function validate(values){
     if(!values.editA){
         errors.editA = "Required";
     }
-    
+
     if(values.editQ && /^\s+$/.test(values.editQ)){
         errors.editQ = "Question must have a value";
     }
