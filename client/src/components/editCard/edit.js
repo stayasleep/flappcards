@@ -87,6 +87,13 @@ function validate(values){
     if(!values.editA){
         errors.editA = "Required";
     }
+
+    if(values.editQ && /^\s+$/.test(values.editQ)){
+        errors.editQ = "Question must have a value";
+    }
+    if(values.editA && /^\s+$/.test(values.editA)){
+        errors.editA = "Question must have a value";
+    }
     if(values.editQ.length > 400){
         errors.editQ = "Question must be less than 400 characters";
     }

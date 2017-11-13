@@ -7,8 +7,7 @@ import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import {green500} from 'material-ui/styles/colors';
-import {subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from './stackSummaryStyle';
-import {medium, mediumIcon, rightAvatar} from '../utilities/stackSummaryStyle';
+import {medium, mediumIcon, rightAvatar,subHeader, cardHeader, cardActions, cardText, stackSummaryDisplay} from './stackSummaryStyle';
 
 
 // When using the component, you'll pass in the name of the cardStack that is in this.props
@@ -16,6 +15,7 @@ class StackSummary extends Component {
 
     render() {
         const {cardStack, title} = this.props;
+        console.log('my card stacky',cardStack);
         const stackSummary = cardStack.map((item, index) => {
 
             function handleClick(){
@@ -58,9 +58,8 @@ class StackSummary extends Component {
                         Created On: {item.createdOn}
                         </div>
                         <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} className="viewEye">
-                            <IconButton iconStyle={mediumIcon} name={"view-stack-icon"} style= {medium} >
+                            <IconButton iconStyle={mediumIcon} name={"view-stack-icon"} style= {medium} touch={true} tooltip="View" tooltipPosition="bottom-center" >
                                 <RemoveRedEye hoverColor={green500} />
-
                             </IconButton>
                             {item.stackRating}
                         </div>

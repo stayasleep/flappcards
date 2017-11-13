@@ -4,7 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import RecoverPw from './recoverPW';
-import { cancelBtn } from '../styles/log_in.css';
+import '../styles/log_in.css';
 import { resetAuthError } from '../../actions/index';
 import Login from '../../containers/forms/login_form';
 

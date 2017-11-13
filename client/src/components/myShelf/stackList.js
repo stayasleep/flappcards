@@ -28,10 +28,10 @@ const StackList = (props) =>{
                     style={cardHeader}
                 />
                 <CardActions style={cardActions}>
-                    <IconButton containerElement={<Link to={`/stackOverview/${props.item.stack_id}`} name="stackOverview"/>}>
+                    <IconButton containerElement={<Link to={`/stackOverview/${props.item.stack_id}`} name="stackOverview"/>} tooltip="View" tooltipPosition="top-center" touch={true}>
                         <RemoveRedEye hoverColor={green500}/>
                     </IconButton>
-                    <IconButton label="Delete" onTouchTap={()=>props.onToggleDelete(props.item.stack_id)} >
+                    <IconButton label="Delete" onTouchTap={()=>props.onToggleDelete(props.item.stack_id)} tooltip="Delete" tooltipPosition="top-center" touch={true}>
                         <ActionDelete hoverColor={red500}/>
                     </IconButton>
                 </CardActions>
