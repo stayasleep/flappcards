@@ -44,6 +44,10 @@ class RecoverPw extends React.Component{
         this.props.resetAuthRecovery();
     };
 
+    handleRecoverModalClose(isResetting){
+        console.log('recovery email sent, closing modal');
+        this.setState({recoveryModal: false});
+    }
     render(){
         console.log('render for recoverPW dialog',this.props);
 
@@ -60,7 +64,7 @@ class RecoverPw extends React.Component{
                     <h3>Please enter the requested information.</h3>
                     <h4>After submission, an email will be sent to the specified email address.</h4>
 
-                    <ForgotForm/>
+                    <ForgotForm dialog={true} handleRecoverModalClose={this.handleRecoverModalClose.bind(this)}/>
                     <FlatButton
                         style={styles.cancelBtn}
                         label="Cancel"

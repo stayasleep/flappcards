@@ -13,11 +13,15 @@ import FlappFeatured from '../../components/landingPage/flapp_featured';
 import Home from '../home/home';
 import {getFeaturedStackOverview, initiateGuestBrowsing, resetAuthSession} from '../../actions/index';
 import '../../components/styles/landing_page.css';
+import requireAuth from '../../components/auth/require_auth';
+
 
 
 class Landing extends Component {
     static contextTypes = {
-        store: PropTypes.object
+        store: PropTypes.object,
+        router:PropTypes.object
+
     };
     componentWillMount() {
         // if they do not have a token, initiate the non-member browsing procedures
@@ -26,6 +30,13 @@ class Landing extends Component {
 
     componentWillReceiveProps(nextProps){
         console.log('landing received',nextProps);
+        // if(nextProps.authorized !== this.props.authorized){
+        //     if(nextProps.authorized){
+        //         console.log('landing sending you home');
+        //         this.context.router.push('/home');
+        //
+        //     }
+        // }
         //log out, you need a guest token now
         !(localStorage.getItem("token")) ? nextProps.initiateGuestBrowsing('/') : null;
         //new users get token and then we can begin axios for featured stack since it wont return a fail
@@ -36,11 +47,16 @@ class Landing extends Component {
             }
         }
     }
+
     componentDidMount(){
         //consecutive visits youll have a token, so axios can happen asap, otherwise get token first and then do the call in above lifecycle
         if(this.props.authenticated && !this.props.authorized) {
             this.props.getFeaturedStackOverview();
         }
+        if(this.props.authorized){
+            this.context.router.push('/home');
+        }
+
     }
 
     handleRequestClose(){
@@ -54,11 +70,12 @@ class Landing extends Component {
                 <LoginModal/>
             </div>
         );
+        // const GetHome = requireAuth(Home);
 
         //returning user
-        if(this.props.authorized){
-            return <Home/>;
-        }else {
+        // if(this.props.authorized){
+        //     return <Home/>;
+        // }else {
             //guest or expired token directs to here
             return (
                 <div className="landing-container">
@@ -97,8 +114,8 @@ class Landing extends Component {
                     />
                     }
                 </div>
-            )
-        }
+            );
+        // }
     }
 }
 
