@@ -51,7 +51,6 @@ class Login extends Component {
 
 
     render(){
-        console.log('login page render',this.props);
         const {windowWidth} = this.state;
 
         return(

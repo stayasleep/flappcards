@@ -45,6 +45,9 @@ class ForgotForm extends Component {
             setTimeout(()=>{
                 browserHistory.push("/login");
             }, 500);
+            if(this.props.dialog) {
+                this.props.handleRecoverModalClose(true);
+            }
         }else{
             this.setState({time: this.state.time -1});
         }

@@ -60,7 +60,6 @@ class LoginModal extends Component{
     }
 
     render() {
-        console.log('u hit the home login dialog');
         return (
             <div className="loginModalOuterDiv">
                 <RaisedButton style={styles.button} label="Login" labelColor="rgb(0, 121, 107)" onTouchTap={this.handleOpen} />

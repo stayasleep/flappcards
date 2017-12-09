@@ -48,16 +48,14 @@ const BASE_URL = '/api'; // Uncomment for live version
 export function userLogin(values) {
     return function (dispatch) {
         axios.post(`${BASE_URL}/login`, values).then((response) => {
-            // I set response.data to true for the test
-            // response.data.success is set to send true if successful
             if (response.data.success) {
+                dispatch({type: RESET_DATA});
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('guest',false);
                 dispatch({type: AUTH_USER, payload: true});
-                dispatch({type: RESET_DATA});
-                browserHistory.push('/home')
+                // dispatch({type: RESET_DATA});
+                browserHistory.push('/home');
             } else {
-                console.log('error in auth',response);
                 dispatch({
                     type: AUTH_ERROR,
                     payload: "Username/Password Incorrect"
@@ -324,7 +322,6 @@ export function getMyRecentStacksOverview() {
     return function(dispatch) {
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/home`,{'token':token}).then((response) => {
-            console.log('new user home axios call',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');

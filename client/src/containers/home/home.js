@@ -27,6 +27,7 @@ class Home extends Component {
     componentWillMount(){
         document.title="FlappCards - Home";
     }
+
     componentWillReceiveProps(nextProps){
         //Set Username for for Title if stack exists
         console.log('this damn props',this.props);
@@ -49,7 +50,6 @@ class Home extends Component {
     }
 
     componentWillUnmount(){
-        console.log('ok byeeeeeeeeeeeeeee');
         window.removeEventListener('resize',this.handleResize);
         document.title = "FlappCards";
     }
@@ -102,7 +102,6 @@ class Home extends Component {
     }
 
     render(){
-        console.log('home container',this.props);
         return (
             <div className="home-container">
                 <FlashCardsAppBar/>
@@ -146,7 +145,7 @@ class Home extends Component {
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
     return {
         authorized: state.auth.authorized,
         recentStacks: state.stack.recentStacks,

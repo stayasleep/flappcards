@@ -50,7 +50,7 @@ class Forgot extends Component {
                 <Paper  className="paperBody loginComponentOnly" zDepth={2}>
                     <div className="innerPaper">
                         <h1 className="titleUnderline">Recover Password</h1>
-                        <ForgotForm/>
+                        <ForgotForm dialog={false}/>
                     </div>
                 </Paper>
             </div>
