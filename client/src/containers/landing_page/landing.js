@@ -64,7 +64,6 @@ class Landing extends Component {
     }
 
     render(){
-        console.log('landing rendered',this.props);
         const rightButtons = (
             <div className="loginModalContainerDiv">
                 <LoginModal/>

@@ -44,7 +44,7 @@ class RecoverPw extends React.Component{
         this.props.resetAuthRecovery();
     };
 
-    handleRecoverModalClose(isResetting){
+    handleRecoverModalClose(){
         console.log('recovery email sent, closing modal');
         this.setState({recoveryModal: false});
     }
