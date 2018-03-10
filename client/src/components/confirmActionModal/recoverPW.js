@@ -40,17 +40,13 @@ class RecoverPw extends React.Component{
         this.setState({
             recoveryModal: false
         });
-        console.log('happens first');
         this.props.resetAuthRecovery();
     };
 
     handleRecoverModalClose(){
-        console.log('recovery email sent, closing modal');
         this.setState({recoveryModal: false});
     }
     render(){
-        console.log('render for recoverPW dialog',this.props);
-
         return(
             <div style={styles.margin}>
                 <a style = {styles.button} href="" onClick={this.handleOpen}>Forgot Password?</a>

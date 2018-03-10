@@ -15,7 +15,6 @@ class StackSummary extends Component {
 
     render() {
         const {cardStack, title} = this.props;
-        console.log('my card stacky',cardStack);
         const stackSummary = cardStack.map((item, index) => {
 
             function handleClick(){

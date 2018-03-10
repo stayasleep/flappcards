@@ -22,21 +22,17 @@ class Stacks extends Component {
         const { sid } = this.props.params;
 
         document.title="FlappCards - Stack Overview";
-        console.log('stack dad will mount',this.props);
         if(!this.props.authenticated){
             browserHistory.push('/');
         }else {
             //on app load, undefined
             if (!this.props.stackCards || !this.props.authorized) {
-                console.log('will mount und');
                 this.props.getStackOverview(sid);
             } else if (this.props.stackCards[0].stack_id !== Number(this.props.params.sid)) {
-                console.log('will mount else else');
                 //only make axios call for new mountings of diff stacks
                 //stackCards is defined in redux and the params is string, not a number
                 this.props.getStackOverview(sid);
             } else if(this.props.unavailable){
-                console.log('unaaaaaaaaaaa');
                 this.props.getStackAvailable();
                 let num = this.props.stackCards.length;
 
@@ -53,8 +49,6 @@ class Stacks extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('nexo',nextProps);
-        console.log('is this tho',this.props);
         if(this.props.stackSubj !== nextProps.stackSubj){
             document.title=`FlappCards - Stack: ${nextProps.stackSubj}`;
         }
@@ -62,7 +56,6 @@ class Stacks extends Component {
         //initial load, stackCards undefined
         if(!this.props.stackCards){
             if(this.props.stackCards !== nextProps.stackCards){
-                console.log('inside the if if');
                 let num = nextProps.stackCards.length;
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
@@ -70,26 +63,20 @@ class Stacks extends Component {
             let num = nextProps.stackCards.length;
             if(!this.state.cardView && this.props.stackCards[0].stack_id !== nextProps.stackCards[0].stack_id){
                 //if you went to stack X, go home, and then go to Stack Y
-                console.log('inside the if this state cardview');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
             else if(this.props.stackCards.length !== nextProps.stackCards.length){
                 //at this point, a stack has been added to/deleted to or a new stack has been click and needs proper state; ignore card update state reset
-                console.log('inside the else if lengths');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }else if(!nextProps.authorized && nextProps.authenticated){
-                console.log('inside the false authorized true authenticated');
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
             }
         }
         if(nextProps.authorized && !this.props.authorized){
-            console.log('u were guest and now u logged on..set stack 2 null');
             this.props.resetStackCards();
         }
         if(nextProps.params.sid !== this.props.params.sid){
             //when you click on stack origin source and then hit back/fwd arrows
-            console.log('nextpropSID !== thispropsSID',nextProps.params.sid);
-
             this.props.getStackOverview(nextProps.params.sid);
         }
         //
@@ -102,7 +89,6 @@ class Stacks extends Component {
     }
 
     componentWillUnmount(){
-        console.log('stack ov unmount',this.props);
         document.title="FlappCards";
         if(!this.props.authorized){
             this.props.resetStackCards();

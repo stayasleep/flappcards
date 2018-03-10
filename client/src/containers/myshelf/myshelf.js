@@ -22,7 +22,6 @@ class MyShelf extends Component {
         document.title="FlappCards - My Shelf";
     }
     componentDidMount(){
-        console.log('mouting shelf',this.props);
         //on route load without token, prevent this from going off
         if(this.props.authorized) {
             this.props.getMyStackOverview();
@@ -57,7 +56,6 @@ class MyShelf extends Component {
 
 
     render(){
-        console.log('shelf prop',this.props);
         return(
             <div className="myshelf-container">
                 <FlashCardsAppBar/>

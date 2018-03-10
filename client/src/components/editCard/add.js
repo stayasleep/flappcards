@@ -24,7 +24,6 @@ class AddCard extends Component {
     };
 
     handleAdd(cardObject){
-        console.log('before axios handleadd',this.props);
         if(Object.keys(cardObject).length === 0) return; //really need to fix this blank reduxForm submissions
         // Pull the card_id (database) from this.props.cardID and assign key of cardID with value of card ID to the cardObject
         cardObject.stack_id = this.props.stackCards[0].stack_id;
@@ -43,7 +42,6 @@ class AddCard extends Component {
     };
 
     render() {
-        console.log('render add card');
         const { handleSubmit} = this.props;
         return (
             <div className="singleCardAdd">
@@ -75,7 +73,6 @@ class AddCard extends Component {
     }
 }
 function validate(values){
-    console.log('add values',values);
     const errors = {};
     if(!values.question){
         errors.question = "Required";

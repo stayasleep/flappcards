@@ -48,7 +48,6 @@ class Search extends Component {
     }
     componentDidMount(){
         document.title="FlappCards - Search Page";
-        console.log('will mount search',this.props);
         //this page requires authentication, aka any token to succeed
         const {query} = this.props.location;
         //search?q=term

@@ -11,7 +11,7 @@ import {register, resetAuthError} from '../../actions/index';
 class RegisterForm extends Component {
 
     componentWillReceiveProps(nextProps){
-        // this.props.form['registration']['userName'].onChange('newValue'); how to achieve this?
+        // this.props.form['registration']['username'].onChange('newValue'); how to achieve this?
         //if error occurs during reg, reset password fields to null
         if(this.props.authError !== nextProps.authError) {
             this.props.dispatch(change('registration','password', null));
@@ -31,7 +31,7 @@ class RegisterForm extends Component {
             let j={
                 ...values,
                 name: values.name.trim(),
-                userName: values.userName.trim(),
+                username: values.username.trim(),
                 email: values.email.trim(),
             };
             if(typeof values.birthday === "object"){
@@ -45,20 +45,19 @@ class RegisterForm extends Component {
 
 
     render(){
-        console.log('register form props',this.props);
         const {handleSubmit, pristine, submitting, reset} = this.props;
 
         return(
             <div className="register-form">
                 <h1 className="titleUnderline">Join FlappCards Today!</h1>
-                {this.props.authError && this.props.authError === "userName" &&
+                {this.props.authError && this.props.authError === "username" &&
                 <div className="authError" style={{color:"red",fontWeight:"700"}}>Username is taken!</div>
                 }
                 <form onSubmit={handleSubmit((values) => this.handleRegistration(values))}>
                     <div className="fieldContainer">
                         <Field name="name" component={renderInput} label="First and Last Name"/>
 
-                        <Field name="userName" component={renderInput} label="Username"/>
+                        <Field name="username" component={renderInput} label="Username"/>
                         <Field name="password" component={renderInput} label="Password" type="password"/>
                         <div style={{fontSize: 10, marginTop:"1.1em"}}>
                             Password must be at least 8 characters and contain at least 1 lowercase, 1 uppercase, 1 number and 1 special character.
@@ -79,10 +78,9 @@ class RegisterForm extends Component {
 }
 
 function validate(values){
-    console.log('func validate',values);
     const min_age = 13;
     const errors = {};
-    // const requiredFields = [ 'name', 'userName', 'password', 'passwordConfirm', 'email', 'birthday' ];
+    // const requiredFields = [ 'name', 'username', 'password', 'passwordConfirm', 'email', 'birthday' ];
     // requiredFields.forEach(field => {
     //     if (!values[ field ]) {
     //         errors[ field ] = 'Required'
@@ -96,14 +94,14 @@ function validate(values){
         errors.name="Name must contain fewer than 40 characters";
     }
 
-    if(!values.userName){
-        errors.userName = "Required";
+    if(!values.username){
+        errors.username = "Required";
     }
-    if(values.userName && !/^[a-zA-Z0-9]{6,20}/i.test(values.userName)){
-        errors.userName = "Username must be 6 to 20 characters long"
+    if(values.username && !/^[a-zA-Z0-9]{6,20}/i.test(values.username)){
+        errors.username = "Username must be 6 to 20 characters long"
     }
-    if(values.userName && !/^\w+/i.test(values.userName)){
-        errors.userName = "Please only use letters, numbers and _"
+    if(values.username && !/^\w+/i.test(values.username)){
+        errors.username = "Please only use letters, numbers and _"
     }
 
     if(!values.email){

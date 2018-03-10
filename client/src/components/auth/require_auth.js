@@ -11,7 +11,6 @@ export default function(ComposedComponent) {
         // if this.props.authenticated is false, !(this.props.authenticated) = true
         // So if they're not authenticated they'll get pushed to the index route (?)
         componentWillMount() {
-            console.log('reqauth will mount',this.props);
             if(!this.props.authenticated){
                 this.context.router.push('/');
             }
@@ -24,7 +23,6 @@ export default function(ComposedComponent) {
         }
 
         componentWillUpdate(nextProps) {
-            console.log('reqauth next props',nextProps);
             if(!nextProps.authenticated){
                 this.context.router.push('/');
             }

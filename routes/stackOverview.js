@@ -5,7 +5,6 @@ const path = require('path');
 const pool = require('../config/config'); // connection credentials for database
 const config = require('../config/secret'); // config for signature
 
-// Associated Axios call: getStack;
 router.get('/:sID',(request,response,next) => {
     let uid = request.decoded.UserID;
 

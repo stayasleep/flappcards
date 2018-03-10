@@ -45,7 +45,6 @@ class Reset extends Component {
     }
 
     handlePasswordReset(values){
-        console.log('these damn values coming back from props',values);
         //build token again, in case the form has been open too long and has now exp
         const { p1, p2, p3 } = this.props.location.query;
         const token = `${p1}.${p2}.${p3}`;
@@ -69,7 +68,6 @@ class Reset extends Component {
     }
 
     render(){
-        console.log('valid link render',this.props);
         const {resetErr, resetPW, validLink} = this.props;
         return (
             <div className="reset-container">

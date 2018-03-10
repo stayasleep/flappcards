@@ -1,9 +1,6 @@
-# C2.17_flash_cards
-
 ## Create your flashcard stack on [FlappCards](https://flappcards.com/about) 
 
 ### The Modern Day Flashcard App!
-
 
 ## Technologies 
 
@@ -28,27 +25,8 @@
 -Node.js    
 -Nodemailer
 
+### TODO
+-Release FlappCards Android App, Summer 2018.
+-Async/Await
 
-#### **Senior Devs**
-- Brian B
-- Andres G
-- Kevin C
-
-#### Junior Devs
-- Jammy Y
-- Vincent T
-- John M
-- John L
-- Regis J
-
-
-
-## Installation Download the package.json npm install npm start
-
-#### Producer
-- Daniel P
-
-#### Project Manager
-- Scott B
-#### Assistant Project Manager
-- Andy O
+##### This repo will be migrating over to bitbucket for long term maintenance

@@ -27,15 +27,13 @@ class ForgotForm extends Component {
     }
     componentWillUnmount(){
         clearInterval(this.interval);
-        console.log('will i be first or second');
         if(this.props.recoverPW || this.props.recoverErr){
-            console.log('forgot form is unmonting and doing axios');
             this.props.resetAuthRecovery();
         }
     }
 
     handleRecoverPw(values){
-        let credentials = {userName: values.userName.trim(), userEmail: values.userEmail.trim()};
+        let credentials = {username: values.username.trim(), email: values.userEmail.trim()};
 
         this.props.recoverPw(credentials);
     }
@@ -71,7 +69,7 @@ class ForgotForm extends Component {
                 }
                 <form onSubmit={handleSubmit((values)=> this.handleRecoverPw(values))}>
                     <div className="fieldContainer">
-                        <Field type="text" name="userName" label="Username" component={renderInput}/>
+                        <Field type="text" name="username" label="Username" component={renderInput}/>
                         <Field type="email" name="userEmail" label="your@email.com" component={renderInput} />
                     </div>
                     <div className="logResetContainer">
@@ -84,9 +82,8 @@ class ForgotForm extends Component {
 }
 function validate(values){
     const errors = {};
-    console.log('rforgot vals',values);
 
-    const requiredFields = ['userName','userEmail'];
+    const requiredFields = ['username','userEmail'];
 
     requiredFields.forEach(field => {
         if(!values[field]) {

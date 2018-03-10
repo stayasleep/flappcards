@@ -52,23 +52,19 @@ export default function (state = default_state, action) {
                 course: action.payload.category,
                 creator: action.payload.createdBy,
                 number: action.payload.totalCards};
-            // console.log("fetch_stacks");
         case(FETCH_CARD):
             return{...state, single: action.payload.cards};
         case FETCH_MY_STACK_OVERVIEW:
-            console.log('fetch stack ov',action);
             return{...state, stacks: action.payload};
         case (FETCH_MY_RECENT_STACKS):
             return {...state, recentStacks: action.payload};
         case (FETCH_MY_COMMUNITY_STACKS):
             return {...state, communityStacks: action.payload};
         case FETCH_STACK_OVERVIEW:
-            console.log('reducer for clicking eyeball on stack',action);
             return {...state,unavailable: false, stackCards: action.payload, subj:action.payload[0].subject, course: action.payload[0].category};
         case FETCH_STACK_OVERVIEW_TITLES:
             return {...state, subj: action.payload.subject, course: action.payload.category};
         case CREATE_STACK:
-            console.log('create stack',action);
             return {...state};
         case (AUTOCOMPLETE_SEARCH_STACKS):
             return {...state, autoCompleteSuggestions: action.payload};
@@ -83,17 +79,14 @@ export default function (state = default_state, action) {
         case (FETCH_FEATURED_STACKS):
             return {...state,featStack:action.payload};
         case FETCH_FEATURED_ERR:
-            console.log('fetch feat err',action);
             return {...state,featErr: action.error};
         case (DELETE_CARD):
             return {...state};
         case RESET_SEARCH:
             return {...state, searched: action.payload};
         case RESET_STACKCARDS:
-            console.log('reducer for reset stackcards');
             return {...state, stackCards: action.payload};
         case RESET_DATA:
-            console.log('reset dataaaaaaaa');
             return default_state;
     }
     return state;

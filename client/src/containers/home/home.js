@@ -30,8 +30,6 @@ class Home extends Component {
 
     componentWillReceiveProps(nextProps){
         //Set Username for for Title if stack exists
-        console.log('this damn props',this.props);
-        console.log('receiving some damn props',nextProps);
         if(nextProps.recentStacks !== this.props.recentStacks){
             if(typeof nextProps.recentStacks === "object"){
                 const name = nextProps.recentStacks[0].createdBy;

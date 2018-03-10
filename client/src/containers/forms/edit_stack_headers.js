@@ -31,12 +31,10 @@ class StackHeaders extends Component {
 
     handleEditCancel(str){
         if(str === "subject"){
-            console.log('cancel subj edit');
             this.setState({enableEditSubj: !this.state.enableEditSubj});
         }else{
             this.setState({enableEditCat: !this.state.enableEditCat});
         }
-        console.log('resetting stack headers invalues');
         this.props.reset("stackHeaders"); //if both are being edited and you close one...you lose info on other.
     }
 
@@ -44,7 +42,6 @@ class StackHeaders extends Component {
         values.subject = values.subject.trim();
         values.category = values.category.trim();
         let headers = {...values, stackID:this.props.stackID};
-        console.log('these damn header vals',headers);
         this.props.editStackHeaders(headers);
         this.setState({enableEditSubj: false, enableEditCat: false});
 
@@ -107,7 +104,6 @@ class StackHeaders extends Component {
 
 function validate(values){
     const errors ={};
-    console.log('validate vals',values);
 
     const requiredFields = [ 'subject', 'category'];
     requiredFields.forEach((field) => {

@@ -1,6 +1,5 @@
 const validate = values => {
     const errors = {};
-    console.log('creating values',values);
 
     const requiredFields = [ 'subject', 'category'];
     requiredFields.forEach(field => {

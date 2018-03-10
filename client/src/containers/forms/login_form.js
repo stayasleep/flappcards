@@ -24,17 +24,14 @@ class LoginForm extends Component {
         if(this.props.loginErr){
             this.props.resetAuthError();
         }
-        console.log('unmounting from login form child');
     }
 
     handleLogin(values){
-        let credentials = {...values, userName: values.userName.trim()};
-        console.log('login form values',credentials);
+        let credentials = {...values, username: values.username.trim()};
         this.props.userLogin(credentials);
     }
 
     render(){
-        console.log('login page render',this.props);
         const {windowWidth} = this.state;
         const {handleSubmit, submitting} = this.props;
 
@@ -48,7 +45,7 @@ class LoginForm extends Component {
                 <div className="login-form">
                     <form onSubmit={handleSubmit((values)=> {this.handleLogin(values)})}>
                         <div className="fieldContainer">
-                            <Field name="userName" className="login-field1 chromeAuto" component={renderInput} label="Username"/>
+                            <Field name="username" className="login-field1 chromeAuto" component={renderInput} label="Username"/>
                             <Field name="password" className="login-field2 chromeAuto" component={renderInput} label="Password" type="password"/>
                         </div>
                         <div className="logResetContainer">
@@ -65,11 +62,11 @@ class LoginForm extends Component {
 function validate(values){
     const errors = {};
 
-    const requiredFields = ['userName','password'];
+    const requiredFields = ['username','password'];
     requiredFields.forEach(field=>{
         if (!values[field]){
             errors[field] = `Required`
-        }else if(field === 'userName' && /^\s+$/.test(values[field])){
+        }else if(field === 'username' && /^\s+$/.test(values[field])){
             errors[field] = 'Username must contain a value';
         }
     });

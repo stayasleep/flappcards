@@ -56,7 +56,6 @@ class LoginModal extends Component{
         this.props.resetAuthError();
     };
     componentWillUnmount(){
-        console.log('BYYYYYYYYYYYYYYYYYYYYYYYYE');
     }
 
     render() {
