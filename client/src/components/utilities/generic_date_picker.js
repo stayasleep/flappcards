@@ -5,7 +5,7 @@ export default ({ input, label, meta: { touched, error }, ...custom }) => {
     return (
         <DatePicker
             id="birth-date"
-            onChange={(e, val) => {return console.log('vals eh',input.onChange(val))}}
+            onChange={(e, val) => {}}
             errorText={touched && (error && <span className="errorMsg">{error}</span>)}
             okLabel="Select"
 
