@@ -13,7 +13,7 @@ const avatars = require('./avatars');
 router.post('/register',(request,response,next)=>{
     let newUser = {
         fullname: request.body.name,
-        username: request.body.userName,
+        username: request.body.username,
         user_pw: request.body.password,
         user_email:request.body.email,
         user_bday: request.body.birthday,
@@ -22,7 +22,7 @@ router.post('/register',(request,response,next)=>{
     if(Object.keys(request.body).length===0){
         return response.json({success:false, error:"Invalid Submission"})
     }
-    if(newUser.userName && !/^[a-zA-Z0-9]{6,20}/i.test(newUser.userName)){
+    if(newUser.username && !/^[a-zA-Z0-9]{6,20}/i.test(newUser.username)){
         return response.json({success: false, error: "Registration failed"})
     }
     if(newUser.userName && !/^\w+/i.test(newUser.userName)){
@@ -55,7 +55,7 @@ router.post('/register',(request,response,next)=>{
             if (result[0].taken === 1) { //UN exists
                 // use return statement to jump out of the function to avoid setting headers after they've been sent
                 // If the username is taken, send back userNameTaken: true; Now, would be a good time to consider status codes.
-                return response.json({success: false, userNameTaken: true});
+                return response.json({success: false, usernameTaken: true});
             }
             // Use bcrypt to salt and hash the password.
             bcrypt.genSalt(10, function (err, salt) {
@@ -84,10 +84,10 @@ router.post('/login',function(request,response,next){
     if(Object.keys(request.body).length===0){
         return response.json({success:false, msg: "Invalid Submission"})
     }
-    if(!request.body.userName || !request.body.password){
+    if(!request.body.username || !request.body.password){
         return response.json({success:false, msg:"invalid Submission Type"})
     }
-    let usn = request.body.userName;
+    let usn = request.body.username;
     let upw = request.body.password;
     //Query database to see if user exists in database
     pool.getConnection((error,connection)=>{

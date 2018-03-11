@@ -21,7 +21,6 @@ import  './../styles/stackOverview.css' // import CSS for styling
 
 
 const StackViewStacks = (props) => {
-    console.log('stack view props', props);
     return (
         <div className="stackview-child">
             <Paper className="stackHeader">

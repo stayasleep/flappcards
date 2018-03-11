@@ -8,18 +8,18 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const special = require('../config/helena');
 const communications = require('../server/communications');
-const email = require('../server/layout/emailTemplate');
+const emailer = require('../server/layout/emailTemplate');
 const textMail = require('../server/layout/emailTemplateText');
 
 router.post('/',(req,res,next)=>{
-    let un = req.body.userName;
-    let uemail = req.body.userEmail;
+    let username = req.body.username;
+    let email = req.body.email;
     pool.getConnection((err,connection)=>{
         if(err){
             console.log("Error connecting to db: ",err);
             return res.json({success:false, message:"There was a problem connecting to the db"});
         }
-        connection.query("SELECT `username`,`user_email` FROM `users` WHERE `username`=? AND `user_email`=? ;",[un,uemail],(err,results)=>{
+        connection.query("SELECT `username`,`user_email` FROM `users` WHERE `username`=? AND `user_email`=? ;",[username,email],(err,results)=>{
             if(err){
                 return res.json({success:false, message:'There was a problem with your request'});
             }else{
@@ -67,7 +67,7 @@ router.post('/',(req,res,next)=>{
                             //token acquired, finish composing email
                             communications.mailOptions.to = recoveryEmail;
                             communications.mailOptions.subject = "Password Reset - Account Recovery";
-                            communications.mailOptions.html=email(req,recoveryToken);
+                            communications.mailOptions.html=emailer(req,recoveryToken);
                             communications.mailOptions.text = textMail(req,recoveryToken);
                             transporter.sendMail(communications.mailOptions,(err,info)=>{
                                 if(err){

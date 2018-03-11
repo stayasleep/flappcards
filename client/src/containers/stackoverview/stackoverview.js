@@ -32,8 +32,7 @@ class Stacks extends Component {
 
     }
     componentWillReceiveProps(nextProps){
-        console.log('stack will receive this',this.props);
-        console.log('stack willr eceive next',nextProps);
+
         //set titles on successive changes
 
         if(this.props.stackSubj !== nextProps.stackSubj){
@@ -43,7 +42,7 @@ class Stacks extends Component {
         //also works for deleting and adding cards and edits
         //stack unavailable doesnt get thru due to conditions on stackCards
         if(this.props.stackCards !== nextProps.stackCards){
-            console.log('will receive not equal to next');
+
             if(nextProps.stackCards) {
                 //if guest views stack and then logs on, stackCards is undef and we dont want this to run
                 let num = nextProps.stackCards.length;
@@ -62,15 +61,12 @@ class Stacks extends Component {
             const { sid } = this.props.params;
             //initial load, stack undefined so we make a call
             if(!this.props.stackCards){
-                console.log('stack did mount undefined',this.props);
                 this.props.getStackOverview(sid);
             }else if (this.props.stackCards[0].stack_id !== Number(sid)){
                 //stackCards is now defined, if not the same visit of prev stack,
                 // we call axios for new stack
-                console.log('stack did mount different IDS', this.props);
                 this.props.getStackOverview(sid);
             }else{
-                console.log ('stack did mount else',this.props);
                 //stackCards is defined in redux, and the param matches the stackCards in redux store,
                 //we could compare stackIDs of the two in conditional or keep this else statement
                 //since it already exists, lets set our cardView state
@@ -115,15 +111,12 @@ class Stacks extends Component {
 
     //Delete Card dialog toggle switch
     toggleDelete(card){
-        console.log('id being toggled',card);
         this.setState({deleteDialog: !this.state.deleteDialog, card: card})
     }
 
     //render delete dialog, would be neat if card_id could be passed as param directly and not set via state
     //less prone to user tomfoolery that way
     handleMakeDialog(card){
-        console.log('mystate ahndled',this.state);
-        console.log('handling you boo', card);
         return (
             <DeleteDialog
                 title="Are you sure you want to delete this card from your stack?"
@@ -142,8 +135,6 @@ class Stacks extends Component {
     }
 
     render(){
-        console.log('stack render', this.props);
-        console.log('my render state',this.state);
         return(
             <div className="stackoverview-container">
                 <FlashCardsAppBar />

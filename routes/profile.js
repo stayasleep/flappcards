@@ -78,7 +78,7 @@ router.post("/change-password",(req,res,next) => {
     if(Object.keys(req.body).length === 0){
         return res.json({success: false, message: "Password field must be filled out before submitting"});
     }
-    let newPW = req.body.pass;
+    let newPW = req.body.password;
     let confirmPW =req.body.confirm;
 
     if (newPW && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,15})/i.test(newPW)) {

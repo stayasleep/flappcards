@@ -46,7 +46,6 @@ class Profile extends Component {
 
     //For the general info
     handleInfoChange(values, str){
-        console.log('sending back info vals',values, str);
         if(str === "name"){
             values.name = values.name.trim();
             this.props.updateUserData(values);
@@ -66,7 +65,6 @@ class Profile extends Component {
     }
     //For the general info, cancel form edit
     handleInfoCancel(str){
-        console.log('profile bday',str);
         switch(str){
             case "name":
                 return this.setState({formName: !this.state.formName, hoverName: false});
@@ -225,7 +223,7 @@ function mapStateToProps(state) {
         email: state.profile.email,
         joined: state.profile.joinDate,
         name: state.profile.name,
-        username: state.profile.userName,
+        username: state.profile.username,
         update: state.profile.update,
         errorText: state.profile.errorText,
     }

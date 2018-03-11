@@ -16,7 +16,6 @@ class SearchAutoComplete extends Component {
 
 
     handleSearch(search){
-        console.log('search',search.length);
         //prevent blank and white space submissions?
         switch(true) {
             case search.length === 0:
@@ -25,7 +24,6 @@ class SearchAutoComplete extends Component {
             case /^\s+$/.test(search):
                 break;
             default:
-                console.log('winner');
                 browserHistory.push(`/search?q=${search}`);
         }
     }

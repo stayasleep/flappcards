@@ -9,7 +9,7 @@ import {
 } from '../actions/types';
 
 const default_state ={
-    userName: "",
+    username: "",
     email: "",
     birthday: "",
     name: '',
@@ -24,7 +24,7 @@ export default function (state = default_state, action) {
         case(FETCH_USER_META):
             return {
                 ...state,
-                userName: action.payload[0].username,
+                username: action.payload[0].username,
                 email: action.payload[0].user_email,
                 birthday: action.payload[0].user_bday,
                 name: action.payload[0].fullname,

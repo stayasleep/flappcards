@@ -35,17 +35,14 @@ class Login extends Component {
         if(this.props.loginErr){
             this.props.resetAuthError();
         }
-        console.log('unmounting from login container');
     }
 
     handleLogin(values){
         let credentials = {...values, userName: values.userName.trim()};
-        console.log('login form values',credentials);
         this.props.userLogin(credentials);
     }
 
     render(){
-        console.log('login page render',this.props);
         const {windowWidth} = this.state;
         const {handleSubmit, submitting} = this.props;
         return(

@@ -29,7 +29,6 @@ class Landing extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('landing received',nextProps);
         // if(nextProps.authorized !== this.props.authorized){
         //     if(nextProps.authorized){
         //         console.log('landing sending you home');

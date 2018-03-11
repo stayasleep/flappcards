@@ -42,8 +42,8 @@ import {CREATE_STACK} from './types';
 
 import {browserHistory} from 'react-router';
 
-// const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
-const BASE_URL = '/api'; // Uncomment for live version
+const BASE_URL = 'http://localhost:1337/api'; // Uncomment for local testing
+// const BASE_URL = '/api'; // Uncomment for live version
 
 export function userLogin(values) {
     return function (dispatch) {
@@ -63,7 +63,6 @@ export function userLogin(values) {
 
             }
         }).catch(err => {
-            console.log('log err',err);
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response
@@ -91,10 +90,8 @@ export function resetAuthError(){
  * */
 export function initiateGuestBrowsing(location) {
     return function(dispatch) {
-        console.log('about to initiate');
         // hit some back end endpoint for generating guest tokens
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
-            console.log('axios guest',response);
             localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
             localStorage.setItem('guest',true);
             dispatch({type: AUTH_USER, payload: false}); //added payload false, this can become obj response from server
@@ -113,7 +110,6 @@ export function getUserData() {
     let token = localStorage.getItem('token');
     return function (dispatch) {
         axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
-            console.log('profile axios return',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
@@ -122,11 +118,9 @@ export function getUserData() {
                     type:AUTH_SESSION_EXP
                 })
             }else {
-                console.log('payload from profile being sent');
                 dispatch({type: FETCH_USER_META, payload: response.data});
             }
         }).catch(err => {
-            console.log('err from user ddata',err);
             dispatch({
                 type: null,
                 error: err.response
@@ -135,7 +129,6 @@ export function getUserData() {
     }
 }
 export function resetAuthSession(){
-    console.log('am resetting the dispatch');
     return function (dispatch){
         dispatch({
             type: AUTH_SESSION_RESET
@@ -146,10 +139,8 @@ export function resetAuthSession(){
 export function updateUserData(info){
     let token = localStorage.getItem("token");
     info = {...info, "token":token};
-    console.log('after', info);
     return function (dispatch){
         axios.put(`${BASE_URL}/profile`,{"token": token, "name": info.name, "email": info.email, "birthday": info.birthday}).then((response) => {
-            console.log('res update profile', response);
             if(response.data.success) {
                 dispatch({
                     type: UPDATE_USER_META,
@@ -169,10 +160,8 @@ export function updateUserData(info){
 export function updateUserPassword(password){
     let token = localStorage.getItem("token");
     return function (dispatch){
-        axios.post(`${BASE_URL}/profile/change-password`,{"token": token, pass: password.password, confirm: password.passwordConfirm}).then((response) => {
-            console.log('return change pw', response);
+        axios.post(`${BASE_URL}/profile/change-password`,{"token": token, password: password.password, confirm: password.passwordConfirm}).then((response) => {
             if(response.data.success === false){
-                console.log('false pw',response);
                 dispatch({
                     type: UPDATE_USER_PASS_ERROR,
                     payload: response.data.message,
@@ -184,7 +173,6 @@ export function updateUserPassword(password){
                 })
             }
         }).catch ( err => {
-            console.log('err',err.name, err.message);
             dispatch({
                 type: UPDATE_USER_PASS_ERROR,
                 payload: `${err.name} - ${err.message}`,
@@ -201,9 +189,9 @@ export function clearUserPasswordNotice(){
     }
 }
 
-export function register({name, userName, password, email, birthday}) {
+export function register({name, username, password, email, birthday}) {
     return function (dispatch) {
-        axios.post(`${BASE_URL}/register`, {name, userName, password, email, birthday}).then((resp) => {
+        axios.post(`${BASE_URL}/register`, {name, username, password, email, birthday}).then((resp) => {
 
             // resp.data.success = true, register the user
             if (resp.data.success) {
@@ -213,13 +201,13 @@ export function register({name, userName, password, email, birthday}) {
                 browserHistory.push('/home')
             }
 
-            // added a boolean for userNameTaken
+            // added a boolean for usernameTaken
             // Will dispatch an auth error to trigger that the username is taken
             // dispatch a type of AUTH_ERROR, and make the error = to the string of "username"
-            if (resp.data.userNameTaken) {
+            if (resp.data.usernameTaken) {
                 dispatch({
                     type: AUTH_ERROR,
-                    payload: "userName"
+                    payload: "username"
                 });
             }
 
@@ -248,7 +236,6 @@ export function getMyStackOverview() {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
-            console.log('response get stack ov',response);
             if(!response.data.success && response.data.expired){
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
@@ -269,11 +256,9 @@ export function getMyStackOverview() {
 // Triggered after hitting view button on list
 // Meant to return the cards available after clicking view
 export function getStackOverview(stackID) {
-    console.log('getStackOV before axios');
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.get(`${BASE_URL}/stackOverview/${stackID}`,{headers:{"x-access-token":token}}).then((response) => {
-            console.log('inside the dispatch', response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
@@ -289,7 +274,6 @@ export function getStackOverview(stackID) {
             }
 
         }).catch(err => {
-            console.log('stack OV DNW',err);
             dispatch({
                 type: FETCH_STACK_OVERVIEW,
                 error: err.response
@@ -333,7 +317,6 @@ export function getMyRecentStacksOverview() {
                 dispatch({type: FETCH_MY_RECENT_STACKS, payload: response.data});
             }
         }).catch(err => {
-            console.log('catch for home axios',err);
             dispatch({
                 type: FETCH_MY_RECENT_STACKS,
                 error: err.response
@@ -452,15 +435,12 @@ export function cardEditor(cardObject) {
  */
 export function getCommunityStacksOverview() {
     return function(dispatch) {
-        console.log('community axios start');
         let token = localStorage.getItem('token'); // Format the token as an object for the axios post request
         axios.post(`${BASE_URL}/community`,{'token':token}).then((response) => {
-            console.log('comm axios resp',response);
             if(response.data.success) {
                 dispatch({type: FETCH_MY_COMMUNITY_STACKS, payload: response.data.results});
             }
         }).catch(err => {
-            console.log('community catch',err.response);
             dispatch({
                 type: FETCH_MY_COMMUNITY_STACKS,
                 error: err.response
@@ -472,12 +452,10 @@ export function getFeaturedStackOverview(){
     return function(dispatch){
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/community/featured`,{"token":token}).then((response)=>{
-            console.log('featured disp',response);
             if(response.data.success) {
                 dispatch({type: FETCH_FEATURED_STACKS, payload: response.data.results});
             }
         }).catch(err =>{
-            console.log('feat stack err',err.message);
             dispatch({
                 type: FETCH_FEATURED_ERR,
                 error:err.message
@@ -524,7 +502,6 @@ export function searchStacks(search) {
     return function (dispatch) {
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/search`,{'token':token,'query': search}).then((response) => {
-            console.log('axios search',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
@@ -536,7 +513,6 @@ export function searchStacks(search) {
                 dispatch({type: SEARCH_STACKS, payload: response.data});
             }
         }).catch(err => {
-            console.log('err serch',err);
             dispatch({
                 type: SEARCH_STACKS,
                 error: err.response
@@ -568,7 +544,6 @@ export function editStackHeaders(headerObj){
         let token = localStorage.getItem("token");
         let stackID = headerObj.stackID;
         axios.put(`${BASE_URL}/stackOverview/${stackID}/headers`,{"token": token, "subject": headerObj.subject, "category":headerObj.category}).then((response) => {
-            console.log('header response', response.data.results[0]);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
@@ -605,7 +580,6 @@ export function addSingleCard(cardObject) {
         let stackID = cardObject.stack_id; // So the database knows which card stack to associate this card with
         let token = localStorage.getItem('token');
         axios.post(`${BASE_URL}/stackOverview/${stackID}`, {"token": token, "cardObject": cardObject}).then((response) => {
-            console.log('added card axios disp',response);
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
@@ -615,13 +589,11 @@ export function addSingleCard(cardObject) {
                 })
             }else {
                 axios.get(`${BASE_URL}/stackOverview/${stackID}`, {headers: {"x-access-token": token}}).then((response) => {
-                    console.log('inside the add single ax', response);
                     (response.data.length === 0) ? (browserHistory.push('/myShelf')) : dispatch({
                             type: FETCH_STACK_OVERVIEW,
                             payload: response.data
                         });
                 }).catch(err => {
-                    console.log('inside add single err',err);
                     dispatch({
                         type: FETCH_STACK_OVERVIEW,
                         error: err.response
@@ -629,7 +601,6 @@ export function addSingleCard(cardObject) {
                 })
             }
         }).catch(err => {
-            console.log('inside second catch add single',err);
             dispatch({
                 type: CREATE_STACK,
                 error: err.response
@@ -701,16 +672,13 @@ export function populateAutoComplete() {
  */
 export function isRouteValid(token){
     return function(dispatch){
-        console.log('reset isroutevalid axios');
         axios.get(`${BASE_URL}/reset/${token}`,{headers: {"x-access-token": token}}).then((response)=>{
-            console.log('route valid resp',response);
             if(response.data.success) {
                 dispatch({type: VALIDATE_ROUTE, payload: true});
             }else{
                 dispatch({type: VALIDATE_ROUTE,payload: false});
             }
         }).catch(err =>{
-            console.log('route error',err.message);
             dispatch({
                 type: VALIDATE_ROUTE,
                 payload: err.message
@@ -728,7 +696,6 @@ export function submitResetPw(data){
     return function(dispatch){
         let {token} = data;
         axios.post(`${BASE_URL}/reset/${token}`,{"token":token,"resetPw": data.values.resetPw, "passwordConfirm":data.values.passwordConfirm}).then((response)=>{
-            console.log('axios response',response);
             if(response.data.success){
                 dispatch({type: RESET_PW, payload: true});
                 //browserHistory.push('/');
@@ -740,7 +707,6 @@ export function submitResetPw(data){
                 });
             }
         }).catch(err =>{
-            console.log('errr',err);
             dispatch({
                 type: AUTH_ERROR,
                 error: err.response.data.error
@@ -768,7 +734,7 @@ export function clearResetPW(){
  */
 export function recoverPw(userInfo){
     return function(dispatch){
-        axios.post(`${BASE_URL}/recovery`,{userName: userInfo.userName, userEmail: userInfo.userEmail}).then((response)=>{
+        axios.post(`${BASE_URL}/recovery`,{username: userInfo.username, email: userInfo.email}).then((response)=>{
             if(response.data.success){
                 dispatch({type: RECOVER_PW, payload: true});
                 //browserHistory.push('/home');
@@ -780,8 +746,6 @@ export function recoverPw(userInfo){
                 });
             }
         }).catch(err =>{
-            console.log('recoverpw err',err.name);
-            console.log('rec',err.message);
             dispatch({
                 type: AUTH_REC_ERROR,
                 error: err.response.data.error

@@ -63,18 +63,15 @@ class SingleCard extends Component {
         this.context.router.push(`/stackOverview/${this.props.cards[0].stack_id}/${this.props.cards[card].card_id}`);
     }
     componentWillMount() {
-        console.log('single card will mount',this.props);
         const { sid } = this.props.params;
         const {cid} = this.props.params;
         if(this.props.authenticated) {
-            console.log('single is authenticated');
             this.props.getStackOverview(sid);
             //this.props.getCard(cid)
         }
         document.title="FlappCards - Study Mode!";
     }
     componentDidUpdate(){
-        console.log('single card did update');
         var flip = true;
         if(this.props.cards && this.props.cards[this.state.card].card_id !== parseInt(this.props.params.cid)){
             for(var i = 0; i < this.props.cards.length; i++){
@@ -103,7 +100,6 @@ class SingleCard extends Component {
     }
 
     render() {
-        console.log('single card render',this.props);
         // this.state.card is the index for the next and previous
         let card;
         if(this.props.cards){

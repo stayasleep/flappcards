@@ -2,7 +2,6 @@ import React from 'react';
 import DatePicker from 'material-ui/DatePicker';
 
 export default ({ input, label, meta: { touched, error }, ...custom }) => {
-    console.log('these extra propos',custom);
     return (
         <DatePicker
             id="datePicker"
