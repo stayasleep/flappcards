@@ -8,8 +8,7 @@ export default function(ComposedComponent) {
             router: PropTypes.object
         };
 
-        // if this.props.authenticated is false, !(this.props.authenticated) = true
-        // So if they're not authenticated they'll get pushed to the index route (?)
+        //unauth means they dont have a guest token and w/o that they cant view search/stackoverview
         componentWillMount() {
             if(!this.props.authenticated){
                 this.context.router.push('/');
@@ -29,6 +28,7 @@ export default function(ComposedComponent) {
         }
 
         render() {
+            if(!this.props.authorized && !this.props.authenticated) return <div></div>;
             return <ComposedComponent {...this.props}/>
         }
     }

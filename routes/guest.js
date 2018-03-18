@@ -15,6 +15,7 @@ router.post('/',(req,res,next)=>{
         success: true,
         guestToken: true,
         token: token,
+        id: 0
     });
 
 });

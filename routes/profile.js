@@ -13,9 +13,13 @@ const avatarDictionary = require('./avatar_dictionary');
 
 
 //Profile retrieve some user information
-router.post('/',(request,response, next)=>{
-    let un = request.decoded.UserID;
+router.post('/:id',(request,response, next)=>{
+    let id = request.params.id;
+    let userId = request.decoded.UserID;
 
+    if( id != userId ){
+        return response.send({success: false, message: "There was a problem with your request"})
+    }
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
@@ -25,7 +29,7 @@ router.post('/',(request,response, next)=>{
             });
             // return next(error);
         }
-        connection.query("SELECT users.fullname, users.username, users.avatar, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[un],(error,result)=>{
+        connection.query("SELECT users.fullname, users.username, users.avatar, DATE_FORMAT(users.user_bday, '%Y/%m/%d') as 'user_bday', users.user_email, DATE_FORMAT(users.user_join, '%Y/%m/%d') as 'user_join' FROM users WHERE users.user_id =?",[userId],(error,result)=>{
             if (error) {
                 response.send({success: false, message:"There was a problem with your request"});
             } else {
@@ -38,9 +42,13 @@ router.post('/',(request,response, next)=>{
         connection.release();
     })
 })
-    .put("/", (req, res, next) => {
+    .put("/:id", (req, res, next) => {
+        let id = req.params.id;
         let userID = req.decoded.UserID;
         let userName= req.decoded.UserName;
+        if(id != userID){
+            return res.json({success: false, message: "There was a problem with your request"});
+        }
 
         let name = req.body.name;
         let email = req.body.email;
@@ -71,13 +79,18 @@ router.post('/',(request,response, next)=>{
         })
 });
 
-router.post("/change-password",(req,res,next) => {
+router.post("/:id/change-password",(req,res,next) => {
+    let id = req.params.id;
     let userID = req.decoded.UserID;
     let userName = req.decoded.UserName;
 
+    if(id != userID){
+        return res.json({success: false, message: "There was a problem with your original request"});
+    }
     if(Object.keys(req.body).length === 0){
         return res.json({success: false, message: "Password field must be filled out before submitting"});
     }
+
     let newPW = req.body.password;
     let confirmPW =req.body.confirm;
 

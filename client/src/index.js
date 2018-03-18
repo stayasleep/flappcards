@@ -15,9 +15,11 @@ const token = localStorage.getItem("token");
 const guest = localStorage.getItem("guest");
 // console.log = function() {};
 if(token && JSON.parse(guest)){
-    store.dispatch({type: AUTH_USER,payload: false});
+    store.dispatch({type: AUTH_USER,payload: {success: false, id:0}});
 } else if(token ){
-    store.dispatch({type: AUTH_USER, payload: true});
+    let user = localStorage.getItem("user");
+    user = JSON.parse(user);
+    store.dispatch({type: AUTH_USER, payload: {success: true, id: user}});
 }
 
 import App from './components/app';

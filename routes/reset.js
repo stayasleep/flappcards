@@ -16,11 +16,9 @@ router.use('/:token',(req,res,next)=>{
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
                 //token is invalid or expired or fake
-                console.log('route is old');
                 return res.json({success:false});
                 // return res.redirect('/404');
             } else {
-                console.log('reset route next');
                 req.decoded = decoded;
                 next();
                 // res.json({success:true, message:"Continue"});
@@ -33,7 +31,6 @@ router.use('/:token',(req,res,next)=>{
 });
 //this should check that if you click the link, the token is valid and page renders
 router.get('/:token',(req,res)=>{
-    console.log('arrived at reset router get');
     res.json({success: true, message:"it worked!"});
 });
 

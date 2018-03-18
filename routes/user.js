@@ -70,7 +70,8 @@ router.post('/register',(request,response,next)=>{
                         response.json({
                             success: true,
                             message: "User registered",
-                            token: token
+                            token: token,
+                            id: results.insertId
                         });
                     })
                 });
@@ -103,18 +104,19 @@ router.post('/login',function(request,response,next){
                 response.json({success: false, msg: "Username/Password not found"});
             }
             else if (result.length > 0) {
-                let un = result[0].username;
+                let username = result[0].username;
                 let hash = result[0].user_pw;
-                let usersid = result[0].user_id;
+                let userId = result[0].user_id;
                 bcrypt.compare(upw, hash, function (error, res) {
                     // If the user password matches, issue and sign the token
                     if (res){
-                        let token = jwt.sign({UserName: un,UserID: usersid, scope:1110 },config.secret,{
+                        let token = jwt.sign({UserName: username,UserID: userId, scope:1110 },config.secret,{
                             expiresIn: 604800 //1 week in seconds
                         });
                         response.json({
                             success: true,
-                            token: token
+                            token: token,
+                            id: userId
                         });
                     } else {
                         response.json({success: false, msg: "Username/Password does not match"});

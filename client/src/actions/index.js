@@ -52,7 +52,8 @@ export function userLogin(values) {
                 dispatch({type: RESET_DATA});
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('guest',false);
-                dispatch({type: AUTH_USER, payload: true});
+                localStorage.setItem('user', response.data.id);
+                dispatch({type: AUTH_USER, payload: {success: true, id: response.data.id}});
                 // dispatch({type: RESET_DATA});
                 browserHistory.push('/home');
             } else {
@@ -94,7 +95,7 @@ export function initiateGuestBrowsing(location) {
         axios.post(`${BASE_URL}/guest`, {'guestToken':true}).then((response) => {
             localStorage.setItem('token',response.data.token); //token is coming from server upon hitting the landing page
             localStorage.setItem('guest',true);
-            dispatch({type: AUTH_USER, payload: false}); //added payload false, this can become obj response from server
+            dispatch({type: AUTH_USER, payload: {success: false, id: response.data.id}}); //added payload false, this can become obj response from server
             browserHistory.push(location); // May not actually need to push them anywhere, but just as a placeholder/rough draft
 
         }).catch(err =>{
@@ -108,12 +109,14 @@ export function initiateGuestBrowsing(location) {
 
 export function getUserData() {
     let token = localStorage.getItem('token');
-    return function (dispatch) {
-        axios.post(`${BASE_URL}/profile`, {'token':token}).then((response) => {
+    return function (dispatch, getState) {
+        let id = getState().auth.id;
+        axios.post(`${BASE_URL}/profile/${id}`, {'token':token}).then((response) => {
             if(!response.data.success && response.data.expired){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -139,8 +142,9 @@ export function resetAuthSession(){
 export function updateUserData(info){
     let token = localStorage.getItem("token");
     info = {...info, "token":token};
-    return function (dispatch){
-        axios.put(`${BASE_URL}/profile`,{"token": token, "name": info.name, "email": info.email, "birthday": info.birthday}).then((response) => {
+    return function (dispatch,getState){
+        let id = getState().auth.id;
+        axios.put(`${BASE_URL}/profile/${id}`,{"token": token, "name": info.name, "email": info.email, "birthday": info.birthday}).then((response) => {
             if(response.data.success) {
                 dispatch({
                     type: UPDATE_USER_META,
@@ -159,8 +163,9 @@ export function updateUserData(info){
 }
 export function updateUserPassword(password){
     let token = localStorage.getItem("token");
-    return function (dispatch){
-        axios.post(`${BASE_URL}/profile/change-password`,{"token": token, password: password.password, confirm: password.passwordConfirm}).then((response) => {
+    return function (dispatch,getState){
+        let id = getState().auth.id;
+        axios.post(`${BASE_URL}/profile/${id}/change-password`,{"token": token, password: password.password, confirm: password.passwordConfirm}).then((response) => {
             if(response.data.success === false){
                 dispatch({
                     type: UPDATE_USER_PASS_ERROR,
@@ -197,10 +202,10 @@ export function register({name, username, password, email, birthday}) {
             if (resp.data.success) {
                 localStorage.setItem('token', resp.data.token);
                 localStorage.setItem('guest',false);
-                dispatch({type: AUTH_USER, payload: true}); //added this for guest testing
+                localStorage.setItem('user',resp.data.id);
+                dispatch({type: AUTH_USER, payload: {success: true, id: resp.data.id}});
                 browserHistory.push('/home')
             }
-
             // added a boolean for usernameTaken
             // Will dispatch an auth error to trigger that the username is taken
             // dispatch a type of AUTH_ERROR, and make the error = to the string of "username"
@@ -223,9 +228,8 @@ export function register({name, username, password, email, birthday}) {
 export function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('guest');
-
+    localStorage.removeItem('user');
     return{
-
         type: UNAUTH_USER
     }
 }
@@ -233,12 +237,14 @@ export function logout() {
 
 // Accessed by clicking on the 'My Shelf' link of the app drawer
 export function getMyStackOverview() {
-    return function (dispatch) {
+    return function (dispatch,getState) {
+        let id = getState().auth.id;
         let token = localStorage.getItem('token');
-        axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
+        axios.post(`${BASE_URL}/myShelf/${id}`,{'token':token}).then((response) => {
             if(!response.data.success && response.data.expired){
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -263,6 +269,7 @@ export function getStackOverview(stackID) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -310,6 +317,7 @@ export function getMyRecentStacksOverview() {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -332,10 +340,11 @@ export function getMyRecentStacksOverview() {
  * @description - Fired from myShelf
  */
 export function deleteStack(stackID) {
-    return function(dispatch) {
+    return function(dispatch,getState) {
+        let id = getState().auth.id;
         let token = localStorage.getItem('token');
-        axios.delete(`${BASE_URL}/myShelf/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
-            axios.post(`${BASE_URL}/myShelf/`,{'token':token}).then((response) => {
+        axios.delete(`${BASE_URL}/myShelf/${id}/${stackID}`,{headers: {"x-access-token": token, "stackID": stackID}}).then((response) => {
+            axios.post(`${BASE_URL}/myShelf/${id}`,{'token':token}).then((response) => {
                 dispatch({type: FETCH_MY_STACK_OVERVIEW, payload: response.data});
             }).catch(err => {
                 dispatch({
@@ -365,6 +374,7 @@ export function deleteCard(cardObj) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -407,6 +417,7 @@ export function cardEditor(cardObject) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -477,6 +488,7 @@ export function createStack(stackObject) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -506,6 +518,7 @@ export function searchStacks(search) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -548,6 +561,7 @@ export function editStackHeaders(headerObj){
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -584,6 +598,7 @@ export function addSingleCard(cardObject) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })
@@ -623,6 +638,7 @@ export function stackCopy(stackCopy) {
                 //remove old tokens so they can be redirected to root page and initiateguestbrowsing
                 localStorage.removeItem('token');
                 localStorage.removeItem('guest');
+                localStorage.removeItem('user');
                 dispatch({
                     type:AUTH_SESSION_EXP
                 })

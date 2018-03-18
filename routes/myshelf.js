@@ -7,8 +7,13 @@ const config = require('../config/secret'); // config for signature
 
 
 // Tied to the getMyStackOverview action creator
-router.post('/',(request,response,next)=> {
+router.post('/:id',(request,response,next)=> {
+    let id = request.params.id;
     let uid = request.decoded.UserID;
+
+    if(id != uid){
+        return response.send({success: false, message: "There was a problem with your request"});
+    }
     pool.getConnection((error,connection)=>{
         if(error){
             console.log("Error connecting to db",error);
@@ -33,8 +38,12 @@ router.post('/',(request,response,next)=> {
     })
 });
 //clicking myShelf and deleting a whole stack, requires stack id from the front end
-router.delete('/:sID',(request,response,next)=>{
+router.delete('/:id/:sID',(request,response,next)=>{
+    let id = request.params.id;
     let uid = request.decoded.UserID;
+    if(id != uid){
+        return response.json({success:false, message: "There was a problem with your request"});
+    }
     //check to see if the body is empty and if the value exists
     if(Object.keys(request.params).length === 0){
         return response.json({success:false, message:"Invalid Submission"});

@@ -32,9 +32,7 @@ class Stacks extends Component {
 
     }
     componentWillReceiveProps(nextProps){
-
         //set titles on successive changes
-
         if(this.props.stackSubj !== nextProps.stackSubj){
             document.title=`FlappCards - ${nextProps.stackSubj} Overview`;
         }
@@ -54,8 +52,8 @@ class Stacks extends Component {
             //and then cardView is set from above
             this.props.getStackOverview(nextProps.params.sid);
         }
-
     }
+
     componentDidMount(){
         if(this.props.authenticated){
             const { sid } = this.props.params;
@@ -74,19 +72,17 @@ class Stacks extends Component {
                 this.setState({cardView: Array(num).fill({showAnswer: false})});
                 //this wont trigger willReceiveProps
             }
-
-
         }
     }
+
     componentWillUnmount(){
         //IFF stack unavailable, we reset the state so we dont see the unavailable msg during server load
         //for the next unique stack
         if(this.props.unavailable){
             this.props.resetStackUnavailable();
         }
-
-
     }
+    
     handleCardToggle(index){
         const toggle = this.state.cardView.slice();
         //mutate the index position of the affected card and set the array state
